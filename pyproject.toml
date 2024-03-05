@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nmbrs_soap_api"
+version = "0.0.5"
+authors = [
+  { name="Lars Kluijtmans", email="info@lk-software.com" },
+]
+maintainers = [
+  { name="Lars Kluijtmans", email="info@lk-software.com" },
+]
+description = "Python SDK for the Visma Nmbrs SOAP API. Simplifying integration and enhancing developer productivity."
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+keywords = ["nmbrs", "soap"]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "xmltodict",
+    "zeep"
+]
+
+[project.urls]
+Homepage = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK"
+Issues = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nmbrs_soap_api"]
