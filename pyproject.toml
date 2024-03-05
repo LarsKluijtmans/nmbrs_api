@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nmbrs_soap_api"
-version = "0.0.105"
+version = "0.0.107"
 authors = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]

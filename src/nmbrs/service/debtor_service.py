@@ -4,6 +4,7 @@ from zeep.helpers import serialize_object
 
 from nmbrs.data_classes.debtor.absence_verzuim import AbsenceVerzuim
 from nmbrs.service.service import Service
+from nmbrs.data_classes.debtor.debtor import Debtor
 
 
 class DebtorService(Service):
@@ -61,3 +62,19 @@ class DebtorService(Service):
         )
         absences = [AbsenceVerzuim(absence) for absence in serialize_object(absences)]
         return absences
+
+    def get_all(self):
+        """
+        Retrieve all debtors.
+
+        Calls the SOAP operation 'AbsenceXML_Get' from the debtor service with the provided authentication header.
+        Converts the retrieved debtors into Debtor objects.
+
+        For more information, refer to the official documentation:
+        [Soap call AbsenceXML_Get](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=List_GetAll)
+
+        :return: A list of Debtor objects representing all debtors.
+        """
+        debtors = self.debtor_service.service.List_GetAll(_soapheaders=self.auth_header)
+        debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
+        return debtors
