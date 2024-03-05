@@ -1,7 +1,7 @@
-from nmbrs_soap_api.services.auth_service import AuthService
-from nmbrs_soap_api.services.company_service import CompanyService
-from nmbrs_soap_api.services.debtor_service import DebtorService
-from nmbrs_soap_api.services.employee_service import EmployeeService
+from nmbrs.service.auth_service import AuthService
+from nmbrs.service.company_service import CompanyService
+from nmbrs.service.debtor_service import DebtorService
+from nmbrs.service.employee_service import EmployeeService
 
 
 class NmbrsSoapAPI:

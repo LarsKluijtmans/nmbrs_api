@@ -1,6 +1,6 @@
 import xmltodict
 
-from nmbrs_soap_api.data_classes.data_class import DataClass
+from nmbrs.data_classes.data_class import DataClass
 
 
 class AbsenceVerzuim(DataClass):

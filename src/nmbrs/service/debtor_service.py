@@ -1,15 +1,9 @@
 from datetime import datetime
-
-from nmbrs_soap_api.data_classes.debtor.absence_verzuim import AbsenceVerzuim
-from nmbrs_soap_api.services.service import Service
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from nmbrs_soap_api.global_variables import (
-    nmbrs_base_uri,
-    nmbrs_sandbox_base_uri,
-    debtor_uri,
-)
+from nmbrs.data_classes.debtor.absence_verzuim import AbsenceVerzuim
+from nmbrs.service.service import Service
 
 
 class DebtorService(Service):
@@ -26,14 +20,15 @@ class DebtorService(Service):
         :param auth_header: A dictionary containing authentication details.
         :param sandbox: A boolean indicating whether to use the sandbox environment.
         """
+        super().__init__()
         self.auth_header = auth_header
         self.sandbox = sandbox
 
         # Initialize nmbrs services
-        base_uri = nmbrs_base_uri
+        base_uri = self.nmbrs_base_uri
         if sandbox:
-            base_uri = nmbrs_sandbox_base_uri
-        self.debtor_service = Client(f"{base_uri}{debtor_uri}")
+            base_uri = self.nmbrs_sandbox_base_uri
+        self.debtor_service = Client(f"{base_uri}{self.debtor_uri}")
 
     def set_auth_header(self, auth_header: dict) -> None:
         """

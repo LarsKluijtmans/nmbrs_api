@@ -1,11 +1,6 @@
-from nmbrs_soap_api.services.service import Service
 from zeep import Client
 
-from nmbrs_soap_api.global_variables import (
-    employee_uri,
-    nmbrs_sandbox_base_uri,
-    nmbrs_base_uri,
-)
+from nmbrs.service.service import Service
 
 
 class EmployeeService(Service):
@@ -22,14 +17,15 @@ class EmployeeService(Service):
         :param auth_header: A dictionary containing authentication details.
         :param sandbox: A boolean indicating whether to use the sandbox environment.
         """
+        super().__init__()
         self.auth_header = auth_header
         self.sandbox = sandbox
 
         # Initialize nmbrs services
-        base_uri = nmbrs_base_uri
+        base_uri = self.nmbrs_base_uri
         if sandbox:
-            base_uri = nmbrs_sandbox_base_uri
-        self.employee_service = Client(f"{base_uri}{employee_uri}")
+            base_uri = self.nmbrs_sandbox_base_uri
+        self.employee_service = Client(f"{base_uri}{self.employee_uri}")
 
     def set_auth_header(self, auth_header: dict) -> None:
         """

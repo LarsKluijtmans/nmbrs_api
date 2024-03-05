@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nmbrs_soap_api"
-version = "0.0.1"
+version = "0.0.105"
 authors = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]
@@ -31,4 +31,4 @@ Homepage = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK"
 Issues = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/nmbrs_soap_api"]
+packages = ["src/nmbrs"]
