@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "nmbrs_soap_api"
-version = "0.0.113"
+version = "0.0.116"
 authors = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]
