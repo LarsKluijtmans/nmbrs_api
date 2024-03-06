@@ -5,8 +5,6 @@ from nmbrs.data_classes.utils.xml import parse_xml_to_dict
 class AbsenceVerzuim(DataClass):
     """
     A class representing Absence Verzuim data.
-
-    Inherits from DataClass.
     """
 
     def __init__(self, obj: dict) -> None:
@@ -15,7 +13,8 @@ class AbsenceVerzuim(DataClass):
 
         Initializes instance variables with default values from the provided dictionary.
 
-        :param obj: A dictionary containing Absence Verzuim data.
+        Args:
+            obj (dict): A dictionary containing Absence Verzuim data.
         """
         self.debtor_id: int | None = obj.get("DebtorID", None)
         self.company_id: int | None = obj.get("CompanyID", None)

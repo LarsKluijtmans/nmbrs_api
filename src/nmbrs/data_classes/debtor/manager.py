@@ -12,7 +12,8 @@ class Manager(DataClass):
 
         Initializes manager instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing manager data.
+        Args:
+            obj (dict): A dictionary containing manager data.
         """
         self.number: int | None = obj.get("Number", None)
         self.first_name: str | None = obj.get("FirstName", None)

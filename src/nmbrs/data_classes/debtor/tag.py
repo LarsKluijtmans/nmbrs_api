@@ -12,7 +12,8 @@ class Tag(DataClass):
 
         Initializes debtor tag instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing debtor tag data.
+        Args:
+            obj (dict): A dictionary containing debtor tag data.
         """
         self.number: int | None = obj.get("Number", None)
         self.hex_color: str | None = obj.get("HexColor", None)

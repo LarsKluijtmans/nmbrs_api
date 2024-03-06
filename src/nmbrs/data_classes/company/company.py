@@ -12,7 +12,8 @@ class Company(DataClass):
 
         Initializes company instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing company data.
+        Args:
+            obj (dict): A dictionary containing company data.
         """
         self.id: int | None = obj.get("ID", None)
         self.number: int | None = obj.get("Number", None)

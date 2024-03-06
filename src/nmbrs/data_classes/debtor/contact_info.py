@@ -12,7 +12,8 @@ class ContactInfo(DataClass):
 
         Initializes contact Info instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing contact Info data.
+        Args:
+            obj (dict): A dictionary containing contact Info data.
         """
         self.email: str | None = obj.get("Email", None)
         self.name: str | None = obj.get("Name", None)

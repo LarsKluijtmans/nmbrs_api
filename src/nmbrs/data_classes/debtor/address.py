@@ -3,7 +3,7 @@ from nmbrs.data_classes.data_class import DataClass
 
 class Address(DataClass):
     """
-    A class representing a address.
+    A class representing an address.
     """
 
     def __init__(self, obj: dict) -> None:
@@ -12,7 +12,8 @@ class Address(DataClass):
 
         Initializes address instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing address data.
+        Args:
+            obj (dict): A dictionary containing address data.
         """
         self.id: int | None = obj.get("Id", None)
         self.default: bool | None = obj.get("Default", None)

@@ -11,8 +11,7 @@ class Service(ABC):
         """
         Constructor method for Service.
 
-        :param auth_header: Authentication dictionary.
-        :param sandbox: Boolean indicating if sandbox environment is used.
+        Initializes common attributes for service classes.
         """
         self.nmbrs_base_uri = "https://api.nmbrs.nl/soap/v3/"
         self.nmbrs_sandbox_base_uri = "https://api-sandbox.nmbrs.nl/soap/v3/"
@@ -28,6 +27,7 @@ class Service(ABC):
         """
         Method to set the authentication header.
 
-        :param auth_header: New authentication dictionary.
+        Args:
+            auth_header (dict): New authentication dictionary.
         """
         pass  # Implementation to be provided in subclasses

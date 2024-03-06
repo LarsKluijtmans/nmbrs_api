@@ -12,7 +12,8 @@ class BankAccount(DataClass):
 
         Initializes bank account instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing bank account data.
+        Args:
+            obj (dict): A dictionary containing bank account data.
         """
         self.id: int | None = obj.get("Id", None)
         self.number: str | None = obj.get("Number", None)

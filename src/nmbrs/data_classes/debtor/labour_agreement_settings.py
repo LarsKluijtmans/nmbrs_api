@@ -12,7 +12,8 @@ class LabourAgreementSettings(DataClass):
 
         Initializes labour agreement settings instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing labour agreement settings data.
+        Args:
+            obj (dict): A dictionary containing labour agreement settings data.
         """
         self.id: int | None = obj.get("Id", None)
         self.guid: str | None = obj.get("Guid", None)

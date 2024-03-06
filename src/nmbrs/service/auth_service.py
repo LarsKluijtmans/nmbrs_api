@@ -1,7 +1,5 @@
 from zeep import Client
-
 from nmbrs.service.service import Service
-
 from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -16,7 +14,8 @@ class AuthService(Service):
 
         Initializes AuthService instance with authentication details and settings.
 
-        :param sandbox: A boolean indicating whether to use the sandbox environment.
+        Args:
+            sandbox (bool): A boolean indicating whether to use the sandbox environment.
         """
         super().__init__()
         self.sandbox = sandbox
@@ -33,7 +32,8 @@ class AuthService(Service):
         """
         Method to set the authentication header.
 
-        :param auth_header: A dictionary containing authentication details.
+        Args:
+            auth_header (dict): A dictionary containing authentication details.
         """
         self.auth_header = auth_header
 
@@ -42,9 +42,15 @@ class AuthService(Service):
         """
         Generate authentication header for standard token-based authentication.
 
-        :param username: A string representing the username for authentication.
-        :param token: A string representing the token for authentication.
-        :return: Authentication header with domain information.
+        For more information, refer to the official documentation:
+            [Soap call WebhookSettings_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get)
+
+        Args:
+            username (str): A string representing the username for authentication.
+            token (str): A string representing the token for authentication.
+
+        Returns:
+            dict: Authentication header with domain information.
         """
         env = self.debtor_service.service.Environment_Get(
             _soapheaders={"AuthHeader": {"Username": username, "Token": token}}

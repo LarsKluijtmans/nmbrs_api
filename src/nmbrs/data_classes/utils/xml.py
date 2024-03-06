@@ -6,7 +6,9 @@ def parse_xml_to_dict(xml: str) -> dict | str:
     Try to parse the XML string into a dictionary.
     If parsing fails, return the original XML string.
 
-    :param xml: A string that contains an XML document.
+    Args:
+        xml (str): A string that contains an XML document.
+
     :return: A dictionary representation of the XML or the original XML string.
     """
     try:
@@ -18,6 +20,9 @@ def parse_xml_to_dict(xml: str) -> dict | str:
 def get_xml(xml: str) -> dict | None:
     """
     Method to retrieve XML data as a dictionary.
+
+    Args:
+        xml (str): A string that contains an XML document.
 
     :return: A dictionary representation of the XML data, or None if parsing fails.
     """

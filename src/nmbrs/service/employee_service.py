@@ -1,5 +1,4 @@
 from zeep import Client
-
 from nmbrs.service.service import Service
 
 
@@ -14,8 +13,9 @@ class EmployeeService(Service):
 
         Initializes EmployeeService instance with authentication and sandbox settings.
 
-        :param auth_header: A dictionary containing authentication details.
-        :param sandbox: A boolean indicating whether to use the sandbox environment.
+        Args:
+            auth_header (dict): A dictionary containing authentication details.
+            sandbox (bool): A boolean indicating whether to use the sandbox environment.
         """
         super().__init__()
         self.auth_header = auth_header
@@ -31,6 +31,7 @@ class EmployeeService(Service):
         """
         Method to set the authentication.
 
-        :param auth_header: A dictionary containing authentication details.
+        Args:
+            auth_header (dict): A dictionary containing authentication details.
         """
         self.auth_header = auth_header

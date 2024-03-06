@@ -12,7 +12,8 @@ class Event(DataClass):
 
         Initializes event instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing event data.
+        Args:
+            obj (dict): A dictionary containing event data.
         """
         self.event_id: int | None = obj.get("EventId", None)
         self.event_name: str | None = obj.get("EventName", None)
@@ -53,7 +54,8 @@ class WebhookSetting(DataClass):
 
         Initializes webhook setting instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing webhook setting data.
+        Args:
+            obj (dict): A dictionary containing webhook setting data.
         """
         self.webhook_setting_id: int | None = obj.get("WebhookSettingId", None)
         self.name: str | None = obj.get("Name", None)

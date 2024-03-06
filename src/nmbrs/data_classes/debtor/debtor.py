@@ -12,7 +12,8 @@ class Debtor(DataClass):
 
         Initializes Debtor instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing debtor data.
+        Args:
+            obj (dict): A dictionary containing debtor data.
         """
         self.id: int | None = obj.get("Id", None)
         self.number: str | None = obj.get("Number", None)

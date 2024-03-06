@@ -11,7 +11,8 @@ class DataClass(ABC):
         """
         Constructor method for DataClass.
 
-        :param obj: A dictionary containing data for initialization.
+        Args:
+            obj (dict): A dictionary containing data for initialization.
         """
         self.obj = obj
         pass  # Abstract method, implementation expected in derived classes

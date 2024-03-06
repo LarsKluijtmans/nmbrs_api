@@ -14,7 +14,8 @@ class WageTax(DataClass):
 
         Initializes wage tax instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing wage tax data.
+        Args:
+            obj (dict): A dictionary containing wage tax data.
         """
         self.loonaangifte_id: int | None = obj.get("LoonaangifteID", None)
         self.serial_number: int | None = obj.get("SerialNumber", None)

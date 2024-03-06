@@ -12,7 +12,8 @@ class Department(DataClass):
 
         Initializes department instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing department data.
+        Args:
+            obj (dict): A dictionary containing department data.
         """
         self.id: int | None = obj.get("Id", None)
         self.code: int | None = obj.get("Code", None)

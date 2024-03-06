@@ -14,7 +14,8 @@ class ServiceLevel(DataClass):
 
         Initializes service level instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing service level data.
+        Args:
+            obj (dict):  A dictionary containing service level data.
         """
         self.start_period: int | None = obj.get("StartPeriod", None)
         self.start_year: int | None = obj.get("StartYear", None)

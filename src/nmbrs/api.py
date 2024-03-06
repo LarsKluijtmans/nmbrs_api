@@ -17,9 +17,10 @@ class NmbrsSoapAPI:
 
         Initializes NmbrsSoapAPI instance with authentication details and settings.
 
-        :param sandbox: A boolean indicating whether to use the sandbox environment (default: True).
-        :param username: A string representing the username for authentication.
-        :param token: A string representing the token for authentication.
+        Args:
+            sandbox (bool): A boolean indicating whether to use the sandbox environment (default: True).
+            username (str): A string representing the username for authentication.
+            token (str): A string representing the token for authentication.
         """
         self.sandbox = sandbox
 
@@ -36,8 +37,9 @@ class NmbrsSoapAPI:
         """
         Perform standard authentication and initialize related services.
 
-        :param username: A string representing the username for authentication.
-        :param token: A string representing the token for authentication.
+        Args:
+            username (str): A string representing the username for authentication.
+            token (str): A string representing the token for authentication.
         """
         # Setup auth
         self.auth_header = self.auth_service.authenticate_using_standard_token(

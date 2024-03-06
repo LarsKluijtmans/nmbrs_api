@@ -13,7 +13,8 @@ class WageTaxXML(DataClass):
 
         Initializes wage tax xml instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing wage tax xml data.
+        Args:
+            obj (dict): A dictionary containing wage tax xml data.
         """
         self.xml: str | None = obj
 

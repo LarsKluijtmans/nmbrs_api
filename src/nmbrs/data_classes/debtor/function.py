@@ -12,7 +12,8 @@ class Function(DataClass):
 
         Initializes function instance with data from the provided dictionary.
 
-        :param obj: A dictionary containing function data.
+        Args:
+            obj (dict): A dictionary containing function data.
         """
         self.id: int | None = obj.get("Id", None)
         self.code: int | None = obj.get("Code", None)
