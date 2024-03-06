@@ -10,12 +10,19 @@ def return_list(func):
     """
 
     def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
+        try:
+            result = func(*args, **kwargs)
 
-        if result is None:
-            return []
-        if not isinstance(result, list):
-            return [result]
-        return result
+            if result is None:
+                return []
+            if not isinstance(result, list):
+                return [result]
+            return result
+        except Exception as e:
+            # Check if error is due to 'NoneType' object not iterable
+            if str(e) == "TypeError: 'NoneType' object is not iterable":
+                # Return an empty list
+                return []
+            raise e
 
     return wrapper

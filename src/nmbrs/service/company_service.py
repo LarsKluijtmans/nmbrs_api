@@ -1,3 +1,5 @@
+from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from nmbrs.utils.return_list import return_list
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -41,6 +43,7 @@ class CompanyService(Service):
         """
         self.auth_header = auth_header
 
+    @nmbrs_exception_handler
     def get_all(self) -> list[Company]:
         companies = self.company_service.service.List_GetAll(
             _soapheaders=self.auth_header
@@ -48,17 +51,17 @@ class CompanyService(Service):
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
+    @nmbrs_exception_handler
+    @return_list
     def get_all_wagetax(self, company_id: int, year: int) -> list[WageTax]:
         data = {"CompanyId": company_id, "intYear": year}
         wage_taxes = self.company_service.service.WageTax_GetList(
             **data, _soapheaders=self.auth_header
         )
-
-        if wage_taxes is None:
-            return []
         wage_taxes = [WageTax(wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
 
+    @nmbrs_exception_handler
     def get_wagetax_details(self, company_id: int, loonaangifte_id) -> WageTaxXML:
         data = {"CompanyId": company_id, "LoonaangifteID": loonaangifte_id}
         wage_tax_details = self.company_service.service.WageTax_GetXML(
