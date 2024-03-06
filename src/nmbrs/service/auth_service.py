@@ -37,7 +37,7 @@ class AuthService(Service):
         """
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler
+    @nmbrs_exception_handler(["DebtorService:Environment_Get"])
     def authenticate_using_standard_token(self, username: str, token: str) -> dict:
         """
         Generate authentication header for standard token-based authentication.

@@ -1,21 +1,30 @@
 import zeep.exceptions
 
 from nmbrs.exceptions.InvalidAuthentication import InvalidAuthentication
+from nmbrs.exceptions.UnauthorizedAccessError import UnauthorizedAccessError
 
 
-def nmbrs_exception_handler(func):
+def nmbrs_exception_handler(resources: list[str] = None):
     """
     Decorator
 
-    :param func: The function to be decorated.
-    :return: The decorated function.
+    :param resources: List of resources being used.
+    :return: The decorator function.
     """
 
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except zeep.exceptions.Fault as e:
-            if "---> 1001:" in str(e):
-                raise InvalidAuthentication(str(e))
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except zeep.exceptions.Fault as e:
+                error_message = str(e)
+                if "---> 1001: " in error_message:
+                    raise InvalidAuthentication()
+                elif "---> 1002: " in error_message:
+                    raise UnauthorizedAccessError(resources=resources)
+                elif "---> 1003: Unauthorized access" in error_message:
+                    raise UnauthorizedAccessError(resources=resources)
 
-    return wrapper
+        return wrapper
+
+    return decorator
