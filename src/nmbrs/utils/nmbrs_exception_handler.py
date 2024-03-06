@@ -1,6 +1,6 @@
 import zeep.exceptions
 from nmbrs.exceptions.InvalidAuthentication import InvalidAuthentication
-from nmbrs.exceptions.UnauthorizedAccessError import UnauthorizedAccessError
+from nmbrs.exceptions.UnauthorizedAccess import UnauthorizedAccess
 
 
 def nmbrs_exception_handler(resources: list[str] = None):
@@ -23,9 +23,9 @@ def nmbrs_exception_handler(resources: list[str] = None):
                 if "---> 1001: " in error_message:
                     raise InvalidAuthentication()
                 elif "---> 1002: " in error_message:
-                    raise UnauthorizedAccessError(resources=resources)
+                    raise UnauthorizedAccess(resources=resources)
                 elif "---> 1003: Unauthorized access" in error_message:
-                    raise UnauthorizedAccessError(resources=resources)
+                    raise UnauthorizedAccess(resources=resources)
 
         return wrapper
 

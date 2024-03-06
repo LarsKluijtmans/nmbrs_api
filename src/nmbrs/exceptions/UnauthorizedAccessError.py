@@ -1,4 +1,4 @@
-class UnauthorizedAccessError(Exception):
+class UnauthorizedAccess(Exception):
     """
     Exception raised when unauthorized access occurs.
 
@@ -11,7 +11,7 @@ class UnauthorizedAccessError(Exception):
         resources: list[str] = None,
     ) -> None:
         """
-        Constructor for UnauthorizedAccessError class.
+        Constructor for UnauthorizedAccess class.
 
         Args:
             message (str): Explanation of the error.

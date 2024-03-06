@@ -115,10 +115,10 @@ class DebtorService(Service):
         )
         if debtor is None:
             return None
-        return Debtor(debtor)
+        return Debtor(serialize_object(debtor))
 
     @nmbrs_exception_handler(["DebtorService:Debtor_Insert"])
-    def insert(self, debtor_id: int, number: str, name: str) -> int | None:
+    def insert(self, debtor_id: int, number: str, name: str) -> int:
         """
         Insert a new debtor.
 
@@ -131,7 +131,7 @@ class DebtorService(Service):
             name (str): The name of the debtor.
 
         Returns:
-            int | None: The ID of the inserted debtor if successful, otherwise None.
+            int: The ID of the inserted debtor if successful.
         """
         data = {"Debtor": {"Id": debtor_id, "Number": number, "Name": name}}
         inserted = self.debtor_service.service.Debtor_Insert(
@@ -221,7 +221,7 @@ class DebtorService(Service):
         )
         if address is None:
             return None
-        return Address(address)
+        return Address(serialize_object(address))
 
     @nmbrs_exception_handler(["DebtorService:BankAccount_Get"])
     def get_bank_account(self, debtor_id: int) -> BankAccount | None:
@@ -243,7 +243,7 @@ class DebtorService(Service):
         )
         if bank_account is None:
             return None
-        return BankAccount(bank_account)
+        return BankAccount(serialize_object(bank_account))
 
     @nmbrs_exception_handler(["DebtorService:ContactPerson_Get"])
     def get_contact_person(self, debtor_id: int) -> ContactInfo | None:
@@ -265,10 +265,10 @@ class DebtorService(Service):
         )
         if contact_person is None:
             return None
-        return ContactInfo(contact_person)
+        return ContactInfo(serialize_object(contact_person))
 
     @nmbrs_exception_handler(["DebtorService:Debtor_IsOwner"])
-    def is_owner(self) -> bool | None:
+    def is_owner(self) -> bool:
         """
         Check if the current user is the owner of the debtor.
 
@@ -276,7 +276,7 @@ class DebtorService(Service):
             [Soap call Debtor_IsOwner](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Debtor_IsOwner)
 
         Returns:
-            bool | None: True if the current user is the owner of the debtor, False otherwise.
+            bool: True if the current user is the owner of the debtor, otherwise False.
         """
         is_owner = self.debtor_service.service.Debtor_IsOwner(
             _soapheaders=self.auth_header
@@ -327,7 +327,7 @@ class DebtorService(Service):
     @nmbrs_exception_handler(["DebtorService:Department_Insert"])
     def insert_department(
         self, debtor_id: int, department_id: int, code: int, description: str
-    ) -> int | None:
+    ) -> int:
         """
         Insert a new department for a debtor.
 
@@ -341,7 +341,7 @@ class DebtorService(Service):
             description (str): The description of the department.
 
         Returns:
-            int | None: The ID of the inserted department if successful, otherwise None.
+            int: The ID of the inserted department if successful.
         """
         data = {
             "DebtorId": debtor_id,
@@ -427,7 +427,7 @@ class DebtorService(Service):
     @nmbrs_exception_handler(["DebtorService:Function_Insert"])
     def insert_function(
         self, debtor_id: int, function_id: int, code: int, description: str
-    ) -> int | None:
+    ) -> int:
         """
         Insert a new function for a debtor.
 
@@ -441,7 +441,7 @@ class DebtorService(Service):
             description (str): The description of the function.
 
         Returns:
-            int | None: The ID of the inserted function if successful, otherwise None.
+            int: The ID of the inserted function if successful.
         """
         data = {
             "DebtorId": debtor_id,
@@ -547,7 +547,7 @@ class DebtorService(Service):
         )
         if service_level is None:
             return None
-        return ServiceLevel(service_level)
+        return ServiceLevel(serialize_object(service_level))
 
     @return_list
     @nmbrs_exception_handler(["DebtorService:Tags_Get"])

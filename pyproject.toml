@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nmbrs_soap_api"
-version = "0.0.201"
+version = "0.0.206"
 authors = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]
 maintainers = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]
-description = "Python SDK for the Visma Nmbrs SOAP API. Simplifying integration and enhancing developer productivity."
+description = "Python SDK for the Visma Nmbrs SOAP API."
 readme = "README.md"
 license = {file = "LICENSE.txt"}
 keywords = ["nmbrs", "soap"]
