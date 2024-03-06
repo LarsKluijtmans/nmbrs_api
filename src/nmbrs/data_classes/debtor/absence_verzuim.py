@@ -1,6 +1,5 @@
-import xmltodict
-
 from nmbrs.data_classes.data_class import DataClass
+from nmbrs.data_classes.utils.xml import parse_xml_to_dict
 
 
 class AbsenceVerzuim(DataClass):
@@ -33,30 +32,5 @@ class AbsenceVerzuim(DataClass):
             "debtor_id": self.debtor_id,
             "company_id": self.company_id,
             "employee_id": self.employee_id,
-            "xml": self._parse_xml_to_dict(self.xml),
+            "xml": parse_xml_to_dict(self.xml),
         }
-
-    @staticmethod
-    def _parse_xml_to_dict(xml: str) -> dict | str:
-        """
-        Try to parse the XML string into a dictionary.
-        If parsing fails, return the original XML string.
-
-        :param xml: A string that contains an XML document.
-        :return: A dictionary representation of the XML or the original XML string.
-        """
-        try:
-            return xmltodict.parse(xml)
-        except Exception:
-            return xml
-
-    def get_xml(self) -> dict | None:
-        """
-        Method to retrieve XML data as a dictionary.
-
-        :return: A dictionary representation of the XML data, or None if parsing fails.
-        """
-        xml = self._parse_xml_to_dict(self.xml)
-        if type(xml) is not dict:
-            return None
-        return xml
