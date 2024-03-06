@@ -2,25 +2,25 @@ from zeep import Client
 
 from nmbrs.service.service import Service
 
+from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+
 
 class AuthService(Service):
     """
     A class responsible for handling authentication for Nmbrs services.
     """
 
-    def __init__(self, auth: dict, auth_type: str, sandbox: bool) -> None:
+    def __init__(self, sandbox: bool) -> None:
         """
         Constructor method for AuthService class.
 
         Initializes AuthService instance with authentication details and settings.
 
-        :param auth: A dictionary containing authentication details.
-        :param auth_type: A string representing the type of authentication (e.g., "token").
         :param sandbox: A boolean indicating whether to use the sandbox environment.
         """
         super().__init__()
-        self.auth_type = auth_type
         self.sandbox = sandbox
+        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
         base_uri = self.nmbrs_base_uri
@@ -29,29 +29,23 @@ class AuthService(Service):
         self.debtor_service = Client(f"{base_uri}{self.debtor_uri}")
         self.sso_service = Client(f"{base_uri}{self.sso_uri}")
 
-        if auth_type == "token":
-            self.auth_header = self.auth_standard_token(auth)
-        else:
-            self.auth_header = None
-
     def set_auth_header(self, auth_header: dict) -> None:
         """
-        Method to set the authentication.
+        Method to set the authentication header.
 
         :param auth_header: A dictionary containing authentication details.
         """
         self.auth_header = auth_header
 
-    def auth_standard_token(self, auth: dict):
+    @nmbrs_exception_handler
+    def authenticate_using_standard_token(self, username: str, token: str) -> dict:
         """
         Generate authentication header for standard token-based authentication.
 
-        :param auth: A dictionary containing authentication details.
+        :param username: A string representing the username for authentication.
+        :param token: A string representing the token for authentication.
         :return: Authentication header with domain information.
         """
-        username = auth.get("Username", None)
-        token = auth.get("Token", None)
-
         env = self.debtor_service.service.Environment_Get(
             _soapheaders={"AuthHeader": {"Username": username, "Token": token}}
         )
