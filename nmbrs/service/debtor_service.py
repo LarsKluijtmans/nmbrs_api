@@ -477,7 +477,9 @@ class DebtorService(Service):
         )
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:LabourAgreementSettings_GetList"])
+    @nmbrs_exception_handler(
+        resources=["DebtorService:LabourAgreementSettings_GetList"]
+    )
     def get_all_labour_agreements(
         self, debtor_id: int, year: int, period: int
     ) -> list[LabourAgreementSettings]:
