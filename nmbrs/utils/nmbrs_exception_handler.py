@@ -1,17 +1,14 @@
 import zeep.exceptions
-from nmbrs.exceptions.InvalidAuthentication import InvalidAuthentication
-from nmbrs.exceptions.UnauthorizedAccess import UnauthorizedAccess
+from ..exceptions.InvalidAuthentication import InvalidAuthentication
+from ..exceptions.UnauthorizedAccess import UnauthorizedAccess
 
 
-def nmbrs_exception_handler(resources: list[str] = None):
+def nmbrs_exception_handler(resources: list[str]):
     """
     Decorator to handle exceptions raised by Nmbrs SOAP API.
 
     Args:
         resources (list[str]): List of resources being used.
-
-    Returns:
-        decorator: The decorator function.
     """
 
     def decorator(func):

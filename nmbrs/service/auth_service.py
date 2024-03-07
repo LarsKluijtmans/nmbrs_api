@@ -1,5 +1,6 @@
 from zeep import Client
-from nmbrs.service.service import Service
+
+from service import Service
 from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -37,7 +38,7 @@ class AuthService(Service):
         """
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(["DebtorService:Environment_Get"])
+    @nmbrs_exception_handler(resources=["DebtorService:Environment_Get"])
     def authenticate_using_standard_token(self, username: str, token: str) -> dict:
         """
         Generate authentication header for standard token-based authentication.

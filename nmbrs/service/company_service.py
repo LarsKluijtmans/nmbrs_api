@@ -1,9 +1,9 @@
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
-from nmbrs.utils.return_list import return_list
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from nmbrs.service.service import Service
+from service import Service
+from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from nmbrs.utils.return_list import return_list
 from nmbrs.data_classes.company.company import Company
 from nmbrs.data_classes.company.wage_tax import WageTax
 from nmbrs.data_classes.company.wage_tax_xml import WageTaxXML
@@ -43,7 +43,7 @@ class CompanyService(Service):
         """
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(["CompanyService:List_GetAll"])
+    @nmbrs_exception_handler(resources=["CompanyService:List_GetAll"])
     def get_all(self) -> list[Company]:
         """
         Retrieve all companies.
@@ -61,7 +61,7 @@ class CompanyService(Service):
         return companies
 
     @return_list
-    @nmbrs_exception_handler(["CompanyService:WageTax_GetList"])
+    @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetList"])
     def get_all_wagetax(self, company_id: int, year: int) -> list[WageTax]:
         """
         Retrieve all wage taxes for a specific company and year.
@@ -83,7 +83,7 @@ class CompanyService(Service):
         wage_taxes = [WageTax(wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
 
-    @nmbrs_exception_handler(["CompanyService:WageTax_GetXML"])
+    @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetXML"])
     def get_wagetax_details(self, company_id: int, loonaangifte_id) -> WageTaxXML:
         """
         Retrieve wage tax details for a specific company and loonaangifte ID.

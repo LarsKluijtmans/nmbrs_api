@@ -1,5 +1,5 @@
 from zeep import Client
-from nmbrs.service.service import Service
+from service import Service
 
 
 class EmployeeService(Service):

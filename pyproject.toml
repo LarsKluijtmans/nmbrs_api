@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nmbrs_soap_api"
-version = "0.0.206"
+version = "0.0.207"
 authors = [
   { name="Lars Kluijtmans", email="info@lk-software.com" },
 ]
@@ -31,4 +31,4 @@ Homepage = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK"
 Issues = "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/nmbrs"]
+packages = ["nmbrs"]
