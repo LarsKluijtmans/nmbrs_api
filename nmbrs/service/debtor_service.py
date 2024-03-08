@@ -2,7 +2,7 @@ from datetime import datetime
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from service import Service
+from .service import Service
 from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 from nmbrs.utils.return_list import return_list
 from nmbrs.data_classes.debtor.absence_verzuim import AbsenceVerzuim
@@ -28,19 +28,18 @@ class DebtorService(Service):
         [Environment_Get](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get)
     """
 
-    def __init__(self, auth_header: dict, sandbox: bool) -> None:
+    def __init__(self, sandbox: bool) -> None:
         """
         Constructor method for DebtorService class.
 
         Initializes DebtorService instance with authentication and sandbox settings.
 
         Args:
-            auth_header (dict): A dictionary containing authentication details.
             sandbox (bool): A boolean indicating whether to use the sandbox environment.
         """
         super().__init__()
-        self.auth_header = auth_header
         self.sandbox = sandbox
+        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
         base_uri = self.nmbrs_base_uri

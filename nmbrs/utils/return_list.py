@@ -19,8 +19,8 @@ def return_list(func):
             if not isinstance(result, list):
                 return [result]
             return result
-        except Exception as e:
-            if str(e) == "TypeError: 'NoneType' object is not iterable":
+        except TypeError as e:
+            if str(e) == "'NoneType' object is not iterable":
                 return []
             raise e
 

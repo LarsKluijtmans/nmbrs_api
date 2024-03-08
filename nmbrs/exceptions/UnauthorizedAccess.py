@@ -19,5 +19,5 @@ class UnauthorizedAccess(Exception):
         """
         if resources is None:
             resources = []
-        self.message = f"{message} {', '.join(resources)}"
+        self.message = f"{message}{', '.join(resources)}"
         super().__init__(self.message)

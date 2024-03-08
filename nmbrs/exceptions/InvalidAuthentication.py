@@ -2,7 +2,7 @@ class InvalidAuthentication(Exception):
     """
     Exception raised for invalid authentication.
 
-    [Nmbrs exceptions details](https://support.nmbrs.com/hc/en-us/articles/360013526891-Nmbrs-API-error-codes)
+    [Nmbrs exceptions details](https://support.nmbrs.com/hc/en-us/articles/360015628919-API-error-1001-Invalid-Authentication)
     """
 
     def __init__(
