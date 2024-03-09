@@ -1,11 +1,11 @@
 import zeep.exceptions
 
-from nmbrs.exceptions.DefaultLoginFailure import DefaultLoginFailure
-from nmbrs.exceptions.InvalidAuthentication import InvalidAuthentication
-from nmbrs.exceptions.InvalidDomain import InvalidDomain
-from nmbrs.exceptions.InvalidEmailPassword import InvalidEmailPassword
-from nmbrs.exceptions.MultipleEnvironments import MultipleEnvironments
-from nmbrs.exceptions.UnauthorizedAccess import UnauthorizedAccess
+from ..exceptions.DefaultLoginFailure import DefaultLoginFailure
+from ..exceptions.InvalidAuthentication import InvalidAuthentication
+from ..exceptions.InvalidDomain import InvalidDomain
+from ..exceptions.InvalidEmailPassword import InvalidEmailPassword
+from ..exceptions.MultipleEnvironments import MultipleEnvironments
+from ..exceptions.UnauthorizedAccess import UnauthorizedAccess
 
 
 def nmbrs_exception_handler(resources: list[str]):

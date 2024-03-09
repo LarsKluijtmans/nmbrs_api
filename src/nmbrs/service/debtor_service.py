@@ -3,20 +3,20 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from .service import Service
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
-from nmbrs.utils.return_list import return_list
-from nmbrs.data_classes.debtor.absence_verzuim import AbsenceVerzuim
-from nmbrs.data_classes.debtor.contact_info import ContactInfo
-from nmbrs.data_classes.debtor.address import Address
-from nmbrs.data_classes.debtor.bank_account import BankAccount
-from nmbrs.data_classes.debtor.department import Department
-from nmbrs.data_classes.debtor.function import Function
-from nmbrs.data_classes.debtor.labour_agreement_settings import LabourAgreementSettings
-from nmbrs.data_classes.debtor.manager import Manager
-from nmbrs.data_classes.debtor.service_level import ServiceLevel
-from nmbrs.data_classes.debtor.tag import Tag
-from nmbrs.data_classes.debtor.webhook import WebhookSetting, Event
-from nmbrs.data_classes.debtor.debtor import Debtor
+from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..utils.return_list import return_list
+from ..data_classes.debtor.absence_verzuim import AbsenceVerzuim
+from ..data_classes.debtor.contact_info import ContactInfo
+from ..data_classes.debtor.address import Address
+from ..data_classes.debtor.bank_account import BankAccount
+from ..data_classes.debtor.department import Department
+from ..data_classes.debtor.function import Function
+from ..data_classes.debtor.labour_agreement_settings import LabourAgreementSettings
+from ..data_classes.debtor.manager import Manager
+from ..data_classes.debtor.service_level import ServiceLevel
+from ..data_classes.debtor.tag import Tag
+from ..data_classes.debtor.webhook import WebhookSetting, Event
+from ..data_classes.debtor.debtor import Debtor
 
 
 class DebtorService(Service):

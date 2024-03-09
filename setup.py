@@ -8,7 +8,7 @@ requires = [
 
 about = {}
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, "nmbrs", "__version__.py"), "r") as f:
+with open(os.path.join(here, "src", "nmbrs", "__version__.py"), "r") as f:
     exec(f.read(), about)
 
 with open("README.md", "r") as f:
@@ -29,7 +29,7 @@ setup(
     python_requires=">=3.11",
     install_requires=requires,
     package_data={"": ["LICENSE", "NOTICE"]},
-    package_dir={"": "nmbrs"},
+    package_dir={"": "src"},
     include_package_data=True,
     project_urls={
         "Homepage": "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK",

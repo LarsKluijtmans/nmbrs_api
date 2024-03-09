@@ -1,9 +1,9 @@
-from nmbrs.exceptions.MissingParams import MissingParams
-from nmbrs.service.company_service import CompanyService
-from nmbrs.service.debtor_service import DebtorService
-from nmbrs.service.employee_service import EmployeeService
-from nmbrs.service.sso_service import SingleSingOnService
-from nmbrs.utils.find_empty_params import find_empty_params
+from .exceptions.MissingParams import MissingParams
+from .service.company_service import CompanyService
+from .service.debtor_service import DebtorService
+from .service.employee_service import EmployeeService
+from .service.sso_service import SingleSingOnService
+from .utils.find_empty_params import find_empty_params
 
 
 class Nmbrs:

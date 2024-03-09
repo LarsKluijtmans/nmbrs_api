@@ -1,7 +1,7 @@
 from zeep import Client
 
 from .service import Service
-from nmbrs.utils.nmbrs_exception_handler import (
+from ..utils.nmbrs_exception_handler import (
     nmbrs_exception_handler,
     nmbrs_sso_exception_handler,
 )

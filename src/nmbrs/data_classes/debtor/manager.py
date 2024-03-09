@@ -1,4 +1,4 @@
-from nmbrs.data_classes.data_class import DataClass
+from ...data_classes.data_class import DataClass
 
 
 class Manager(DataClass):

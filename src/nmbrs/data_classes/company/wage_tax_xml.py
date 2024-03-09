@@ -1,5 +1,5 @@
-from nmbrs.data_classes.data_class import DataClass
-from nmbrs.data_classes.utils.xml import parse_xml_to_dict
+from ...data_classes.data_class import DataClass
+from ...data_classes.utils.xml import parse_xml_to_dict
 
 
 class WageTaxXML(DataClass):
