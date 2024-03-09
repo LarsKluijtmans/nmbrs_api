@@ -1,17 +1,15 @@
-class UnauthorizedAccess(Exception):
+class InvalidDomain(Exception):
     """
-    Exception raised when unauthorized access occurs.
-
-    [Nmbrs exceptions details](https://support.nmbrs.com/hc/en-us/articles/360013526891-Nmbrs-API-error-codes)
+    Exception raised when the specified domain (Nmbrs environment subdomain) does not exist.
     """
 
     def __init__(
         self,
-        message: str = "Unauthorized access: You do not have the rights for the needed resources. Resources: ",
+        message: str = "Invalid domain: The specified domain does not exist. Resources: ",
         resources: list[str] = None,
     ) -> None:
         """
-        Constructor for UnauthorizedAccess class.
+        Constructor for InvalidDomain class.
 
         Args:
             message (str): Explanation of the error.

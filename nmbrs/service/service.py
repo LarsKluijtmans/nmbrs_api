@@ -7,14 +7,24 @@ class Service(ABC):
     """
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self, sandbox: bool = True) -> None:
         """
         Constructor method for Service.
 
         Initializes common attributes for service classes.
+
+        Args:
+            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
+        self.sandbox = sandbox
         self.nmbrs_base_uri = "https://api.nmbrs.nl/soap/v3/"
         self.nmbrs_sandbox_base_uri = "https://api-sandbox.nmbrs.nl/soap/v3/"
+
+        self.sso_url = ".nmbrs.nl"
+        self.base_uri = self.nmbrs_base_uri
+        if self.sandbox:
+            self.sso_url = ".nmbrs-sandbox.nl"
+            self.base_uri = self.nmbrs_sandbox_base_uri
 
         self.sso_uri = "SingleSignOn.asmx?WSDL"
         self.employee_uri = "EmployeeService.asmx?WSDL"
