@@ -51,7 +51,10 @@ def nmbrs_sso_exception_handler(resources: list[str]):
                 error_message = str(e)
                 if "---> 1006: Generic Login Security Failure" in error_message:
                     raise DefaultLoginFailure(resources=resources)
-                elif "---> 2042: This username belongs to multiple environments" in error_message:
+                elif (
+                    "---> 2042: This username belongs to multiple environments"
+                    in error_message
+                ):
                     raise MultipleEnvironments()
                 elif " ---> 2043: Invalid Domain" in error_message:
                     raise InvalidDomain(resources=resources)
