@@ -2,7 +2,7 @@ from datetime import datetime
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from service import Service
+from .service import Service
 from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 from nmbrs.utils.return_list import return_list
 from nmbrs.data_classes.debtor.absence_verzuim import AbsenceVerzuim
@@ -25,28 +25,20 @@ class DebtorService(Service):
 
     Not implemented calls:
         [Converter_GetDebtors_IntToGuid](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Converter_GetDebtors_IntToGuid)
-        [Environment_Get](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get)
     """
 
-    def __init__(self, auth_header: dict, sandbox: bool) -> None:
+    def __init__(self, sandbox: bool = True) -> None:
         """
         Constructor method for DebtorService class.
 
-        Initializes DebtorService instance with authentication and sandbox settings.
-
         Args:
-            auth_header (dict): A dictionary containing authentication details.
-            sandbox (bool): A boolean indicating whether to use the sandbox environment.
+            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
-        super().__init__()
-        self.auth_header = auth_header
-        self.sandbox = sandbox
+        super().__init__(sandbox)
+        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
-        base_uri = self.nmbrs_base_uri
-        if sandbox:
-            base_uri = self.nmbrs_sandbox_base_uri
-        self.debtor_service = Client(f"{base_uri}{self.debtor_uri}")
+        self.debtor_service = Client(f"{self.base_uri}{self.debtor_uri}")
 
     def set_auth_header(self, auth_header: dict) -> None:
         """
@@ -56,6 +48,26 @@ class DebtorService(Service):
             auth_header (dict): A dictionary containing authentication details.
         """
         self.auth_header = auth_header
+
+    @nmbrs_exception_handler(resources=["DebtorService:Environment_Get"])
+    def get_domain(self, username: str, token: str) -> str:
+        """
+        Generate authentication header for standard token-based authentication.
+
+        For more information, refer to the official documentation:
+            [Soap call WebhookSettings_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get)
+
+        Args:
+            username (str): A string representing the username for authentication.
+            token (str): A string representing the token for authentication.
+
+        Returns:
+            str: The domain associated with the token.
+        """
+        env = self.debtor_service.service.Environment_Get(
+            _soapheaders={"AuthHeader": {"Username": username, "Token": token}}
+        )
+        return env.SubDomain
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:List_GetAll"])

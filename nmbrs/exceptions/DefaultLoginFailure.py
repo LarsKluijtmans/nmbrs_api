@@ -1,13 +1,11 @@
-class UnauthorizedAccess(Exception):
+class DefaultLoginFailure(Exception):
     """
-    Exception raised when unauthorized access occurs.
-
-    [Nmbrs exceptions details](https://support.nmbrs.com/hc/en-us/articles/360013526891-Nmbrs-API-error-codes)
+    Exception raised when nmbrs raises the exception: "1006: Generic Login Security Failure".
     """
 
     def __init__(
         self,
-        message: str = "Unauthorized access: You do not have the rights for the needed resources. Resources: ",
+        message: str = "Login failure: Login failed. Resources: ",
         resources: list[str] = None,
     ) -> None:
         """
