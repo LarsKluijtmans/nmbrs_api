@@ -4,7 +4,7 @@ Unit tests for the Nmbrs class.
 import unittest
 
 from src.nmbrs import Nmbrs
-from src.nmbrs.exceptions.MissingParams import MissingParams
+from src.nmbrs.exceptions.custom_exceptions import ParameterMissingError
 
 
 class TestNmbrs(unittest.TestCase):
@@ -27,6 +27,6 @@ class TestNmbrs(unittest.TestCase):
         """
         Test standard authentication with missing parameters.
         """
-        with self.assertRaises(MissingParams):
+        with self.assertRaises(ParameterMissingError):
             # Missing token parameter should raise MissingParams
             Nmbrs(username="test_user", auth_type="token")

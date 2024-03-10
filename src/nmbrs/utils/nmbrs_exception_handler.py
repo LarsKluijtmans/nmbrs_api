@@ -19,12 +19,8 @@ Note:
 """
 import zeep.exceptions
 
-from ..exceptions.DefaultLoginFailure import DefaultLoginFailure
-from ..exceptions.InvalidAuthentication import InvalidAuthentication
-from ..exceptions.InvalidDomain import InvalidDomain
-from ..exceptions.InvalidEmailPassword import InvalidEmailPassword
-from ..exceptions.MultipleEnvironments import MultipleEnvironments
-from ..exceptions.UnauthorizedAccess import UnauthorizedAccess
+from ..exceptions.sso_exceptions import DefaultLoginFailure, MultipleEnvironments, InvalidDomain, InvalidEmailPassword
+from ..exceptions.nmbrs_exceptions import InvalidAuthentication, UnauthorizedAccess
 
 
 def nmbrs_exception_handler(resources: list[str]):

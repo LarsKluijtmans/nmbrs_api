@@ -198,18 +198,22 @@ class DebtorService(Service):
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:AccountantContact_GetList"])
-    def get_all_accountant_contact_info(self) -> list[ContactInfo]:
+    def get_all_accountant_contact_info(self, debtor_id: int) -> list[ContactInfo]:
         """
         Retrieve all accountant contact information.
 
         For more information, refer to the official documentation:
             [Soap call AccountantContact_GetList](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=AccountantContact_GetList)
 
+        Args:
+            debtor_id (int): The ID of the debtor.
+
         Returns:
             list[ContactInfo]: A list of ContactInfo objects representing the accountant contact information.
         """
+        data = {"DebtorId": debtor_id}
         accountants = self.debtor_service.service.AccountantContact_GetList(
-            _soapheaders=self.auth_header
+            **data, _soapheaders=self.auth_header
         )
         accountants = [
             ContactInfo(accountant) for accountant in serialize_object(accountants)
