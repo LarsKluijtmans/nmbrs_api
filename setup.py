@@ -1,7 +1,6 @@
 """
 Setup document defining all needed info for creating the package and deploying to pypi.
 """
-import ast
 import os
 from setuptools import setup
 
@@ -10,11 +9,11 @@ requires = [
     "zeep==4.2.1",
 ]
 
+about = {}
 here = os.path.abspath(os.path.dirname(__file__))
 version_file = os.path.join(here, "src", "nmbrs", "__version__.py")
 with open(version_file, "r", encoding="utf-8") as f:
-    version_data = f.read()
-    about = ast.literal_eval(version_data)
+    exec(f.read(), about)
 
 with open("README.md", "r", encoding="utf-8") as f:
     readme = f.read()
