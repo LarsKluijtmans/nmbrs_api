@@ -1,3 +1,6 @@
+"""
+This module provides access to various services and utilities related to Nmbrs.
+"""
 from .api import Nmbrs
 from .__version__ import (
     __version__,

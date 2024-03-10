@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing debtor tag information.
+
+Classes:
+    Tag (DataClass): A class representing debtor tag information.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

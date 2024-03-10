@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing a debtor.
+
+Classes:
+    Debtor (DataClass): A class representing a debtor.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

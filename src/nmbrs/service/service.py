@@ -1,3 +1,6 @@
+"""
+Abstract base class for defining service interfaces.
+"""
 from abc import ABC, abstractmethod
 
 
@@ -40,4 +43,3 @@ class Service(ABC):
         Args:
             auth_header (dict): New authentication dictionary.
         """
-        pass  # Implementation to be provided in subclasses

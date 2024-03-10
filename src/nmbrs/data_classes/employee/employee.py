@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing an employee.
+
+Classes:
+    Employee (DataClass): A class representing an employee.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

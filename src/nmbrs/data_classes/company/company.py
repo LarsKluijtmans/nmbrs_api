@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing a company.
+
+Classes:
+    Company (DataClass): A class representing a company.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

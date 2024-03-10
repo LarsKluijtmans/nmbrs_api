@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing service level information.
+
+Classes:
+    ServiceLevel (DataClass): A class representing service level information.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from datetime import datetime
 
 from ...data_classes.data_class import DataClass

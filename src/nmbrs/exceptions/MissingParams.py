@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for missing parameters.
+
+Classes:
+    MissingParams (Exception): Exception raised when a required parameter is missing, empty, or None.
+
+Dependencies:
+    None
+"""
+
+
 class MissingParams(Exception):
     """
     Exception raised when a required parameter is missing, empty or None.

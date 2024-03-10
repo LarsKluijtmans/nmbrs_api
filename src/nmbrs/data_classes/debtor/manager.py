@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing manager information.
+
+Classes:
+    Manager (DataClass): A class representing manager information.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

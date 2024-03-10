@@ -1,3 +1,13 @@
+"""
+This module defines a data class representing wage tax.
+
+Classes:
+    WageTax (DataClass): A class representing wage tax.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+    datetime: A module for manipulating dates and times.
+"""
 from datetime import datetime
 
 from ...data_classes.data_class import DataClass

@@ -1,3 +1,13 @@
+"""
+This module defines data classes representing events and webhook settings.
+
+Classes:
+    Event (DataClass): A class representing an event.
+    WebhookSetting (DataClass): A class representing a webhook setting.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

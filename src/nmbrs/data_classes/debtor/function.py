@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing a function.
+
+Classes:
+    Function (DataClass): A class representing a function.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

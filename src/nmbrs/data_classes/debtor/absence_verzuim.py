@@ -1,3 +1,13 @@
+"""
+This module defines a data class representing Absence Verzuim data.
+
+Classes:
+    AbsenceVerzuim (DataClass): A class representing Absence Verzuim data.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+    parse_xml_to_dict: A function for parsing XML strings into dictionaries.
+"""
 from ...data_classes.data_class import DataClass
 from ...data_classes.utils.xml import parse_xml_to_dict
 

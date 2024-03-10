@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing an address.
+
+Classes:
+    Address (DataClass): A class representing an address.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

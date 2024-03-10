@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing contact information.
+
+Classes:
+    ContactInfo (DataClass): A class representing contact information.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 
