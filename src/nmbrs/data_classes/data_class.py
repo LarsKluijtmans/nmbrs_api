@@ -1,37 +1,21 @@
-"""
-This module provides an abstract base class defining common methods for data classes.
-
-Classes:
-    DataClass (ABC): An abstract base class for data classes.
-
-Dependencies:
-    ABC: Abstract base class support module.
-    abstractmethod: Decorator for abstract methods.
-"""
-
-from abc import ABC, abstractmethod
-
-
-class DataClass(ABC):
+class DataClass:
     """
-    Abstract base class defining common methods for data classes.
+    A base class for data classes that automatically initializes instance variables from a dictionary.
     """
 
-    @abstractmethod
     def __init__(self, obj: dict) -> None:
         """
-        Constructor method for DataClass.
+        Initializes instance variables based on the provided dictionary.
 
         Args:
-            obj (dict): A dictionary containing data for initialization.
+            obj (dict): A dictionary containing data to initialize instance variables.
         """
-        self.obj = obj
+        self.__dict__.update(obj)
 
-    @abstractmethod
     def to_dict(self) -> dict:
         """
-        Abstract method to convert the instance to a dictionary.
+        Convert the instance to a dictionary.
 
-        Returns:
-            dict: A dictionary representation of the instance.
+        :return: A dictionary representation of the instance.
         """
+        return self.__dict__
