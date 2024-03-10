@@ -31,7 +31,7 @@ setup(
     long_description_content_type="text/markdown",
     license=about["__license__"],
     keywords=["nmbrs", "soap"],
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     install_requires=requires,
     package_data={"": ["LICENSE", "NOTICE"]},
     package_dir={"": "src"},
