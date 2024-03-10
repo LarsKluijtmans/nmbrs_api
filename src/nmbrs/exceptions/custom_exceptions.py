@@ -1,15 +1,12 @@
 """
-This module defines a custom exception class for missing parameters.
+This module defines custom exceptions related to parameter validation and authorization failures in nmbrs.
 
 Classes:
-    MissingParams (Exception): Exception raised when a required parameter is missing, empty, or None.
-
-Dependencies:
-    None
+    - ParameterMissingError(Exception): Exception raised when a required parameter is missing, empty, or None.
 """
 
 
-class MissingParams(Exception):
+class ParameterMissingError(Exception):
     """
     Exception raised when a required parameter is missing, empty or None.
     """
@@ -20,7 +17,7 @@ class MissingParams(Exception):
         params: list[str] = None,
     ) -> None:
         """
-        Constructor for UnauthorizedAccess class.
+        Constructor for ParameterMissingError class.
 
         Args:
             message (str): Explanation of the error.
@@ -28,5 +25,6 @@ class MissingParams(Exception):
         """
         if params is None:
             params = []
+        self.params = params
         self.message = f"{message}{', '.join(params)}"
         super().__init__(self.message)

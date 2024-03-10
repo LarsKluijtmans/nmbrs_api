@@ -18,12 +18,6 @@ Create the files that will be used as the package.
 py -m build
 ```
 
-or use:
-
-```commandline
-python setup.py sdist
-```
-
 ## Deployment
 
 ### Test

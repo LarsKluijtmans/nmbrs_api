@@ -19,12 +19,8 @@ Note:
 """
 import zeep.exceptions
 
-from ..exceptions.DefaultLoginFailure import DefaultLoginFailure
-from ..exceptions.InvalidAuthentication import InvalidAuthentication
-from ..exceptions.InvalidDomain import InvalidDomain
-from ..exceptions.InvalidEmailPassword import InvalidEmailPassword
-from ..exceptions.MultipleEnvironments import MultipleEnvironments
-from ..exceptions.UnauthorizedAccess import UnauthorizedAccess
+from ..exceptions.sso_exceptions import LoginSecurityFailure, DomainNotFoundError, InvalidCredentials, MultipleEnvironmentAccounts
+from ..exceptions.nmbrs_exceptions import AuthenticationError, AuthorizationError
 
 
 def nmbrs_exception_handler(resources: list[str]):
@@ -42,11 +38,11 @@ def nmbrs_exception_handler(resources: list[str]):
             except zeep.exceptions.Fault as e:
                 error_message = str(e)
                 if "---> 1001: Invalid Authentication" in error_message:
-                    raise InvalidAuthentication() from e
+                    raise AuthenticationError() from e
                 if "---> 1002: Unauthorized access" in error_message:
-                    raise UnauthorizedAccess(resources=resources) from e
+                    raise AuthorizationError(resources=resources) from e
                 if "---> 1003: Unauthorized access" in error_message:
-                    raise UnauthorizedAccess(resources=resources) from e
+                    raise AuthorizationError(resources=resources) from e
                 raise e
 
         return wrapper
@@ -69,16 +65,16 @@ def nmbrs_sso_exception_handler(resources: list[str]):
             except zeep.exceptions.Fault as e:
                 error_message = str(e)
                 if "---> 1006: Generic Login Security Failure" in error_message:
-                    raise DefaultLoginFailure(resources=resources) from e
+                    raise LoginSecurityFailure(resources=resources) from e
                 if (
                     "---> 2042: This username belongs to multiple environments"
                     in error_message
                 ):
-                    raise MultipleEnvironments() from e
+                    raise MultipleEnvironmentAccounts() from e
                 if " ---> 2043: Invalid Domain" in error_message:
-                    raise InvalidDomain(resources=resources) from e
+                    raise DomainNotFoundError(resources=resources) from e
                 if "---> Invalid combination email/password" in error_message:
-                    raise InvalidEmailPassword(resources=resources) from e
+                    raise InvalidCredentials(resources=resources) from e
                 raise e
 
         return wrapper

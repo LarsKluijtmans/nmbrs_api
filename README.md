@@ -123,7 +123,27 @@ api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 
 debtors = api.debtor.get_all()
 
-print(len(debtors))
+print(len(debtors.to_dict()))
+```
+
+Each object returned has a to_dict() function that reruns the object in the form of a dictionary. 
+
+## Exception handling
+
+In case a user does not have access to the needed endpoints an UnauthorizedAccess will be raised.
+
+To handle these Exceptions you can take inspiration from the following code.
+
+```python
+from nmbrs import Nmbrs
+from nmbrs.exceptions.UnauthorizedAccess import UnauthorizedAccess
+
+api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+
+try:
+    debtors = api.debtor.get_all()
+except UnauthorizedAccess as e:
+    print(f"User does not have access to: {', '.join(e.resources)}'")
 ```
 
 ## Single Sign-on(SSO)

@@ -1,7 +1,7 @@
 """
 Main class provided by the package.
 """
-from .exceptions.MissingParams import MissingParams
+from .exceptions.custom_exceptions import ParameterMissingError
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService
 from .service.employee_service import EmployeeService
@@ -47,14 +47,14 @@ class Nmbrs:
         if auth_type == "token":
             params = find_empty_params(**{"username": username, "token": token})
             if params:
-                raise MissingParams(params=params)
+                raise ParameterMissingError(params=params)
             self.standard_auth(username, token)
         elif auth_type == "domain":
             params = find_empty_params(
                 **{"username": username, "token": token, "domain": domain}
             )
             if params:
-                raise MissingParams(params=params)
+                raise ParameterMissingError(params=params)
             self.standard_auth_with_domain(username, token, domain)
 
     def _initialize_services(self, auth_header: dict) -> None:
