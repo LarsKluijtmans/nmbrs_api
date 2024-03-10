@@ -65,7 +65,7 @@ class MultipleEnvironmentAccounts(Exception):
     def __init__(
         self,
         message: str = "Multiple environments: User has multiple environments use the call sso_auth_with_domain, "
-                       "to specify the environments you want to use.",
+        "to specify the environments you want to use.",
     ) -> None:
         """
         Constructor for MultipleEnvironmentAccounts class.

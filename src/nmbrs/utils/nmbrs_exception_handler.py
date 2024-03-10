@@ -19,7 +19,12 @@ Note:
 """
 import zeep.exceptions
 
-from ..exceptions.sso_exceptions import LoginSecurityFailure, DomainNotFoundError, InvalidCredentials, MultipleEnvironmentAccounts
+from ..exceptions.sso_exceptions import (
+    LoginSecurityFailure,
+    DomainNotFoundError,
+    InvalidCredentials,
+    MultipleEnvironmentAccounts,
+)
 from ..exceptions.nmbrs_exceptions import AuthenticationError, AuthorizationError
 
 
