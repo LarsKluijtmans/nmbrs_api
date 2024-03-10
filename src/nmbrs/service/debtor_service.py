@@ -30,7 +30,7 @@ class DebtorService(Service):
     A class representing Debtor Service for interacting with Nmbrs debtor-related functionalities.
 
     Not implemented calls:
-        [Converter_GetDebtors_IntToGuid](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Converter_GetDebtors_IntToGuid)
+        1 [Converter_GetDebtors_IntToGuid](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Converter_GetDebtors_IntToGuid)
     """
 
     def __init__(self, sandbox: bool = True) -> None:
