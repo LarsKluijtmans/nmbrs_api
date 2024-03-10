@@ -121,7 +121,7 @@ from nmbrs import Nmbrs
 
 api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 
-debtors = api.debtor_service.get_all()
+debtors = api.debtor.get_all()
 
 print(len(debtors))
 ```

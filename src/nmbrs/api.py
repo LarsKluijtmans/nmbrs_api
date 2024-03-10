@@ -32,17 +32,17 @@ class Nmbrs:
         Initializes NmbrsSoapAPI instance with authentication details and settings.
 
         Args:
-            username (str): Username for Nmbrs.
-            token (str): Token for the Nmbrs SOAP API.
+            username (str (optional)): Username for Nmbrs.
+            token (str (optional)): Token for the Nmbrs SOAP API.
             domain (str (optional)): Nmbrs environment subdomain.
             sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
             auth_type (str (optional)): The type of authentication to be used. Options: "token", "domain", None (default: None).
         """
         self.sandbox = sandbox
-        self.sso_service = SingleSingOnService(self.sandbox)
-        self.debtor_service = DebtorService(self.sandbox)
-        self.company_service = CompanyService(self.sandbox)
-        self.employee_service = EmployeeService(self.sandbox)
+        self.sso = SingleSingOnService(self.sandbox)
+        self.debtor = DebtorService(self.sandbox)
+        self.company = CompanyService(self.sandbox)
+        self.employee = EmployeeService(self.sandbox)
 
         if auth_type == "token":
             params = find_empty_params(**{"username": username, "token": token})
@@ -64,10 +64,10 @@ class Nmbrs:
         Args:
             auth_header (dict): header value used for authentication.
         """
-        self.sso_service.set_auth_header(auth_header)
-        self.debtor_service.set_auth_header(auth_header)
-        self.company_service.set_auth_header(auth_header)
-        self.employee_service.set_auth_header(auth_header)
+        self.sso.set_auth_header(auth_header)
+        self.debtor.set_auth_header(auth_header)
+        self.company.set_auth_header(auth_header)
+        self.employee.set_auth_header(auth_header)
 
     def standard_auth(self, username: str, token: str) -> None:
         """
@@ -77,7 +77,7 @@ class Nmbrs:
             username (str): Username for Nmbrs.
             token (str): Token for the Nmbrs SOAP API.
         """
-        domain = self.debtor_service.get_domain(username, token)
+        domain = self.debtor.get_domain(username, token)
         auth_header = {
             "AuthHeaderWithDomain": {
                 "Username": username,

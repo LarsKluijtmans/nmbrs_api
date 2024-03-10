@@ -18,10 +18,10 @@ class TestNmbrs(unittest.TestCase):
         """
         nmbrs = Nmbrs()
 
-        self.assertIsNotNone(nmbrs.sso_service)
-        self.assertIsNotNone(nmbrs.debtor_service)
-        self.assertIsNotNone(nmbrs.company_service)
-        self.assertIsNotNone(nmbrs.employee_service)
+        self.assertIsNotNone(nmbrs.sso)
+        self.assertIsNotNone(nmbrs.debtor)
+        self.assertIsNotNone(nmbrs.company)
+        self.assertIsNotNone(nmbrs.employee)
 
     def test_standard_auth_with_missing_params(self):
         """
