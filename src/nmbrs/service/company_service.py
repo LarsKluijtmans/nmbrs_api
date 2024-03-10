@@ -7,9 +7,7 @@ from zeep.helpers import serialize_object
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
-from ..data_classes.company.company import Company
-from ..data_classes.company.wage_tax import WageTax
-from ..data_classes.company.wage_tax_xml import WageTaxXML
+from ..data_classes.company import Company, WageTax, WageTaxXML
 
 
 class CompanyService(Service):
@@ -50,9 +48,7 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects representing all companies.
         """
-        companies = self.company_service.service.List_GetAll(
-            _soapheaders=self.auth_header
-        )
+        companies = self.company_service.service.List_GetAll(_soapheaders=self.auth_header)
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
