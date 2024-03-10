@@ -49,11 +49,8 @@ class CompanyService(Service):
             list[Company]: A list of Company objects representing all companies.
         """
         companies = self.company_service.service.List_GetAll(_soapheaders=self.auth_header)
-        new_companies = []
-        for company in companies:
-            _new = Company(serialize_object(company))
-            new_companies.append(_new)
-        return new_companies
+        companies = [Company(company) for company in serialize_object(companies)]
+        return companies
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetList"])
