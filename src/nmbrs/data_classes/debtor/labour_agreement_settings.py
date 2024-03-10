@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing labour agreement settings.
+
+Classes:
+    LabourAgreementSettings (DataClass): A class representing labour agreement settings.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

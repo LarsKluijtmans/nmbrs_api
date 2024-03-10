@@ -1,3 +1,6 @@
+"""
+Module for handling Single Sign-On for Nmbrs services.
+"""
 from zeep import Client
 
 from .service import Service
@@ -25,7 +28,7 @@ class SingleSingOnService(Service):
         self.sso_service = Client(f"{self.base_uri}{self.sso_uri}")
 
     def set_auth_header(self, auth_header: dict) -> None:
-        pass
+        """Function inherited from higher level, but in this case not used."""
 
     def get_sso_url(self, token: str, nmbrs_env: str, target: str = "nmbrs") -> str:
         """

@@ -1,0 +1,16 @@
+[MASTER]
+
+# Specify errors or warnings to ignore
+# R0913: Too many arguments
+# W0122: Use of exec (exec-used)
+# E0402: Attempted relative import beyond top-level package (relative-beyond-top-level)
+# R0902: Too many instance attributes
+# R0903: Too few public methods
+# R0904: Too many public methods
+# C0103: Module name doesn't conform to snake_case naming style
+# R0801: Similar lines in 2 files
+# W0718: Catching too general exception Exception (broad-exception-caught)
+disable = R0913, W0122, E0402, R0902, R0903, R0904, C0103, R0801, W0718
+
+# Set the maximum line length to 120 characters
+max-line-length=140

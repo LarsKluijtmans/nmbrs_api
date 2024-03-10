@@ -1,3 +1,22 @@
+"""
+Exception Handling Decorators for Nmbrs SOAP API
+
+Provides decorators to handle exceptions raised by the Nmbrs SOAP API and customize exception handling
+based on specific error codes.
+
+Functions:
+    - nmbrs_exception_handler(resources: list[str]): Decorator for handling exceptions from the Nmbrs SOAP API.
+    - nmbrs_sso_exception_handler(resources: list[str]): Decorator for handling Single Sign-On (SSO) exceptions
+      from the Nmbrs SOAP API.
+
+Dependencies:
+    - zeep.exceptions: Exception classes provided by Zeep library for SOAP web service communication.
+    - Custom exception classes: DefaultLoginFailure, InvalidAuthentication, InvalidDomain,
+      InvalidEmailPassword, MultipleEnvironments, UnauthorizedAccess.
+
+Note:
+    These decorators are intended to be used with functions that interact with the Nmbrs SOAP API.
+"""
 import zeep.exceptions
 
 from ..exceptions.DefaultLoginFailure import DefaultLoginFailure
@@ -23,11 +42,11 @@ def nmbrs_exception_handler(resources: list[str]):
             except zeep.exceptions.Fault as e:
                 error_message = str(e)
                 if "---> 1001: Invalid Authentication" in error_message:
-                    raise InvalidAuthentication()
-                elif "---> 1002: Unauthorized access" in error_message:
-                    raise UnauthorizedAccess(resources=resources)
-                elif "---> 1003: Unauthorized access" in error_message:
-                    raise UnauthorizedAccess(resources=resources)
+                    raise InvalidAuthentication() from e
+                if "---> 1002: Unauthorized access" in error_message:
+                    raise UnauthorizedAccess(resources=resources) from e
+                if "---> 1003: Unauthorized access" in error_message:
+                    raise UnauthorizedAccess(resources=resources) from e
                 raise e
 
         return wrapper
@@ -50,17 +69,16 @@ def nmbrs_sso_exception_handler(resources: list[str]):
             except zeep.exceptions.Fault as e:
                 error_message = str(e)
                 if "---> 1006: Generic Login Security Failure" in error_message:
-                    raise DefaultLoginFailure(resources=resources)
-                elif (
+                    raise DefaultLoginFailure(resources=resources) from e
+                if (
                     "---> 2042: This username belongs to multiple environments"
                     in error_message
                 ):
-                    raise MultipleEnvironments()
-                elif " ---> 2043: Invalid Domain" in error_message:
-                    raise InvalidDomain(resources=resources)
-                elif "---> Invalid combination email/password" in error_message:
-                    raise InvalidEmailPassword(resources=resources)
-
+                    raise MultipleEnvironments() from e
+                if " ---> 2043: Invalid Domain" in error_message:
+                    raise InvalidDomain(resources=resources) from e
+                if "---> Invalid combination email/password" in error_message:
+                    raise InvalidEmailPassword(resources=resources) from e
                 raise e
 
         return wrapper

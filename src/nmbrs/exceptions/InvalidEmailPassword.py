@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for invalid email and password combination.
+
+Classes:
+    InvalidEmailPassword (Exception): Exception raised when the combination email and password is not valid.
+
+Dependencies:
+    None
+"""
+
+
 class InvalidEmailPassword(Exception):
     """
     Exception raised when the combination email and password is not valid.

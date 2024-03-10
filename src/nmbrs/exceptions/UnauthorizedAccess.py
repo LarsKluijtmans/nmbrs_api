@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for unauthorized access.
+
+Classes:
+    UnauthorizedAccess (Exception): Exception raised when unauthorized access occurs.
+
+Dependencies:
+    None
+"""
+
+
 class UnauthorizedAccess(Exception):
     """
     Exception raised when unauthorized access occurs.

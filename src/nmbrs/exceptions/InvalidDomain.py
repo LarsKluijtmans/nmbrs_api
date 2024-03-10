@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for invalid domain.
+
+Classes:
+    InvalidDomain (Exception): Exception raised when the specified domain (Nmbrs environment subdomain) does not exist.
+
+Dependencies:
+    None
+"""
+
+
 class InvalidDomain(Exception):
     """
     Exception raised when the specified domain (Nmbrs environment subdomain) does not exist.

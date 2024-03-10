@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing a department.
+
+Classes:
+    Department (DataClass): A class representing a department.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

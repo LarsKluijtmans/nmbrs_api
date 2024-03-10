@@ -1,3 +1,6 @@
+"""
+Main class provided by the package.
+"""
 from .exceptions.MissingParams import MissingParams
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService

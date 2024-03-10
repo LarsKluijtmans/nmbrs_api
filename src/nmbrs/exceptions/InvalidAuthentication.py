@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for invalid authentication.
+
+Classes:
+    InvalidAuthentication (Exception): Exception raised for invalid authentication.
+
+Dependencies:
+    None
+"""
+
+
 class InvalidAuthentication(Exception):
     """
     Exception raised for invalid authentication.

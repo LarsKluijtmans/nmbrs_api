@@ -1,3 +1,14 @@
+"""
+This module defines a custom exception class for default login failure.
+
+Classes:
+    DefaultLoginFailure (Exception): Exception raised when nmbrs raises the exception: "1006: Generic Login Security Failure".
+
+Dependencies:
+    None
+"""
+
+
 class DefaultLoginFailure(Exception):
     """
     Exception raised when nmbrs raises the exception: "1006: Generic Login Security Failure".

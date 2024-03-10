@@ -1,3 +1,12 @@
+"""
+This module defines a data class representing a bank account.
+
+Classes:
+    BankAccount (DataClass): A class representing a bank account.
+
+Dependencies:
+    DataClass: An abstract base class defining common methods for data classes.
+"""
 from ...data_classes.data_class import DataClass
 
 

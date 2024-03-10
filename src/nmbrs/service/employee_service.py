@@ -1,3 +1,6 @@
+"""
+Module for handling the Employee Nmbrs services.
+"""
 from zeep import Client
 from .service import Service
 
