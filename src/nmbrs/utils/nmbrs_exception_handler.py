@@ -76,7 +76,7 @@ def nmbrs_sso_exception_handler(resources: list[str]):
                     in error_message
                 ):
                     raise MultipleEnvironmentAccounts() from e
-                if " ---> 2043: Invalid Domain" in error_message:
+                if "---> 2043: Invalid Domain" in error_message:
                     raise DomainNotFoundError(resources=resources) from e
                 if "---> Invalid combination email/password" in error_message:
                     raise InvalidCredentials(resources=resources) from e
