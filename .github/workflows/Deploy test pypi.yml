@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 13-setup-deployment-in-cicd # the branch this feature was added in
 
 jobs:
   deploy:
