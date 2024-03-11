@@ -22,14 +22,10 @@ jobs:
           pip install --upgrade build twine
 
       - name: Increase version number
-        run: |
-          ls
-          python increase_version.py
+        run: python increase_version.py
 
       - name: Build package
-        run: |
-          python -m build
+        run: python -m build
 
       - name: Deploy to TestPyPI
-        run: |
-          python -m twine upload --repository testpypi -p ${{ secrets.TEST_PYPI_PASSWORD }} -u ${{ secrets.TEST_PYPI_USERNAME }} dist/*
+        run: python -m twine upload --repository testpypi -p ${{ secrets.TEST_PYPI_PASSWORD }} -u ${{ secrets.TEST_PYPI_USERNAME }} dist/*
