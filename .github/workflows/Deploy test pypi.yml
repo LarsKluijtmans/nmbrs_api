@@ -23,8 +23,7 @@ jobs:
 
       - name: Increase version number
         run: |
-          python ./increase_version.py
-        shell: bash
+          python increase_version.py
 
       - name: Build package
         run: |
