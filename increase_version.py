@@ -1,3 +1,6 @@
+"""
+Auto upgrade the version number of the package on deployment.
+"""
 import os
 import re
 
