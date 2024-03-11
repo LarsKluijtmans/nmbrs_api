@@ -4,15 +4,14 @@ on:
   push:
     branches:
       - main
-      - 13-setup-deployment-in-cicd # the branch this feature was added in
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
@@ -21,14 +20,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade build twine
 
-      # Debugging output
-      - name: List files in directory
-        run: ls -la
-
       - name: Increase version number
-        run: |
-          chmod +x increase_version.py
-          python increase_version.py
+        run:  python increase_version.py
 
       - name: Build package
         run: python -m build
