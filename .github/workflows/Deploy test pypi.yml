@@ -23,6 +23,7 @@ jobs:
 
       - name: Increase version number
         run: |
+          ls
           python increase_version.py
 
       - name: Build package
