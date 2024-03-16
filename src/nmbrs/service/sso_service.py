@@ -60,9 +60,7 @@ class SingleSingOnService(Service):
         Returns:
             str: Single sign-on token, valid for 30 seconds
         """
-        token = self.sso_service.service.GetToken(
-            **{"Username": username, "Password": password}
-        )
+        token = self.sso_service.service.GetToken(Username=username, Password=password)
         return token
 
     @nmbrs_exception_handler(resources=["SingleSignOn:GetToken2"])
@@ -78,9 +76,7 @@ class SingleSingOnService(Service):
         Returns:
             str: Single sign-on token, valid for 30 seconds
         """
-        token = self.sso_service.service.GetToken2(
-            **{"Username": username, "Token": token}
-        )
+        token = self.sso_service.service.GetToken2(Username=username, Token=token)
         return token
 
     @nmbrs_exception_handler(resources=["SingleSignOn:GetTokenWithDomain"])
@@ -97,7 +93,5 @@ class SingleSingOnService(Service):
         Returns:
             str: Single sign-on token, valid for 30 seconds
         """
-        token = self.sso_service.service.GetTokenWithDomain(
-            **{"Username": username, "Password": password, "Domain": domain}
-        )
+        token = self.sso_service.service.GetTokenWithDomain(Username=username, Password=password, Domain=domain)
         return token

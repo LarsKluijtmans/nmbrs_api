@@ -168,9 +168,8 @@ class CompanyService(Service):
         Returns:
             list[WageTax]: A list of WageTax objects representing all wage taxes for the specified company and year.
         """
-        data = {"CompanyId": company_id, "intYear": year}
         wage_taxes = self.company_service.service.WageTax_GetList(
-            **data, _soapheaders=self.auth_header
+            CompanyId=company_id, intYear=year, _soapheaders=self.auth_header
         )
         wage_taxes = [WageTax(wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
@@ -190,9 +189,8 @@ class CompanyService(Service):
         Returns:
             WageTaxXML: An object representing the wage tax details for the specified company and loonaangifte ID.
         """
-        data = {"CompanyId": company_id, "LoonaangifteID": loonaangifte_id}
         wage_tax_details = self.company_service.service.WageTax_GetXML(
-            **data, _soapheaders=self.auth_header
+            CompanyId=company_id, LoonaangifteID=loonaangifte_id, _soapheaders=self.auth_header
         )
         wage_tax_details = WageTaxXML(wage_tax_details)
         return wage_tax_details

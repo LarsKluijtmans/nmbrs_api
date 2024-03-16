@@ -1,9 +1,10 @@
 """
 A base class for data classes that automatically initializes instance variables from a dictionary.
 """
+from abc import ABC
 
 
-class DataClass:
+class DataClass(ABC):
     """
     A base class for data classes that automatically initializes instance variables from a dictionary.
     """

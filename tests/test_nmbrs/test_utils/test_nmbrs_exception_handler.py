@@ -1,6 +1,4 @@
-"""
-Unit tests for: src/nmbrs/utils/nmbrs_exception_handler.py
-"""
+"""Unit tests for the nmbrs_sso_exception_handler decorator."""
 from unittest import TestCase
 
 import zeep.exceptions
@@ -11,14 +9,10 @@ from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_sso_exception_handler,
 
 
 class TestNmbrsSSOExceptionHandler(TestCase):
-    """
-    Unit tests for the nmbrs_sso_exception_handler decorator.
-    """
+    """Unit tests for the nmbrs_sso_exception_handler decorator."""
 
     def test_handle_login_security_failure(self):
-        """
-        Test handling of LoginSecurityFailure exception.
-        """
+        """Test handling of LoginSecurityFailure exception."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_login_security_failure():
@@ -30,9 +24,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
     def test_handle_multiple_environment_accounts(self):
-        """
-        Test handling of MultipleEnvironmentAccounts exception.
-        """
+        """Test handling of MultipleEnvironmentAccounts exception."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_multiple_environment_accounts():
@@ -42,9 +34,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
             raise_multiple_environment_accounts()
 
     def test_handle_domain_not_found_error(self):
-        """
-        Test handling of DomainNotFoundError exception.
-        """
+        """Test handling of DomainNotFoundError exception."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_domain_not_found_error():
@@ -56,9 +46,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
     def test_handle_invalid_credentials(self):
-        """
-        Test handling of InvalidCredentials exception.
-        """
+        """Test handling of InvalidCredentials exception."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_invalid_credentials():
@@ -70,9 +58,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
     def test_no_exception(self):
-        """
-        Test when no exception is raised.
-        """
+        """Test when no exception is raised."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def no_exception():
@@ -81,9 +67,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
         self.assertEqual(no_exception(), "No exception")
 
     def test_raise_zeep_exception(self):
-        """
-        Test when a zeep exception is raised, and the message is not blocked.
-        """
+        """Test when a zeep exception is raised, and the message is not blocked."""
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def exception_raised():
@@ -95,9 +79,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
         self.assertEqual(str(context.exception), "custom error message")
 
     def test_raise_exception(self):
-        """
-        Test when an exception is raised.
-        """
+        """Test when an exception is raised."""
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def exception_raised():
             raise TypeError("custom error message")
@@ -109,14 +91,10 @@ class TestNmbrsSSOExceptionHandler(TestCase):
 
 
 class TestNmbrsExceptionHandler(TestCase):
-    """
-    Unit tests for the nmbrs_exception_handler decorator.
-    """
+    """Unit tests for the nmbrs_exception_handler decorator."""
 
     def test_handle_authentication_error(self):
-        """
-        Test handling of AuthenticationError exception.
-        """
+        """Test handling of AuthenticationError exception."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def raise_authentication_error():
@@ -126,9 +104,7 @@ class TestNmbrsExceptionHandler(TestCase):
             raise_authentication_error()
 
     def test_handle_authorization_error(self):
-        """
-        Test handling of AuthorizationError exception.
-        """
+        """Test handling of AuthorizationError exception."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def raise_authorization_error():
@@ -140,9 +116,7 @@ class TestNmbrsExceptionHandler(TestCase):
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
     def test_handle_multiple_authorization_error(self):
-        """
-        Test handling of AuthorizationError exception with different error message.
-        """
+        """Test handling of AuthorizationError exception with different error message."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def raise_authorization_error():
@@ -154,9 +128,7 @@ class TestNmbrsExceptionHandler(TestCase):
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
     def test_no_exception(self):
-        """
-        Test when no exception is raised.
-        """
+        """Test when no exception is raised."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def no_exception():
@@ -165,9 +137,7 @@ class TestNmbrsExceptionHandler(TestCase):
         self.assertEqual(no_exception(), "No exception")
 
     def test_raise_zeep_exception(self):
-        """
-        Test when a zeep exception is raised, and the message is not blocked.
-        """
+        """Test when a zeep exception is raised, and the message is not blocked."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def exception_raised():
@@ -179,9 +149,8 @@ class TestNmbrsExceptionHandler(TestCase):
         self.assertEqual(str(context.exception), "custom error message")
 
     def test_raise_exception(self):
-        """
-        Test when an exception is raised.
-        """
+        """Test when an exception is raised."""
+
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
         def exception_raised():
             raise TypeError("custom error message")

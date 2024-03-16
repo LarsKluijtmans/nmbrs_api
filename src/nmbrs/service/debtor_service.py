@@ -106,9 +106,8 @@ class DebtorService(Service):
         Returns:
             list[Debtor]: A list of Debtor objects representing all debtors.
         """
-        data = {"Number": number}
         debtors = self.debtor_service.service.List_GetByNumber(
-            **data, _soapheaders=self.auth_header
+            Number=number, _soapheaders=self.auth_header
         )
         debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
         return debtors
@@ -127,9 +126,8 @@ class DebtorService(Service):
         Returns:
             Debtor | None: A Debtor object representing the debtor if found, otherwise None.
         """
-        data = {"DebtorId": debtor_id}
         debtor = self.debtor_service.service.Debtor_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         if debtor is None:
             return None
@@ -214,9 +212,8 @@ class DebtorService(Service):
         Returns:
             list[ContactInfo]: A list of ContactInfo objects representing the accountant contact information.
         """
-        data = {"DebtorId": debtor_id}
         accountants = self.debtor_service.service.AccountantContact_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         accountants = [
             ContactInfo(accountant) for accountant in serialize_object(accountants)
@@ -237,9 +234,8 @@ class DebtorService(Service):
         Returns:
             Address | None: An Address object representing the address if found, otherwise None.
         """
-        data = {"DebtorId": debtor_id}
         address = self.debtor_service.service.Address_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         if address is None:
             return None
@@ -259,9 +255,8 @@ class DebtorService(Service):
         Returns:
             BankAccount | None: A BankAccount object representing the bank account if found, otherwise None.
         """
-        data = {"DebtorId": debtor_id}
         bank_account = self.debtor_service.service.BankAccount_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         if bank_account is None:
             return None
@@ -281,9 +276,8 @@ class DebtorService(Service):
         Returns:
             ContactInfo | None: A ContactInfo object representing the contact person if found, otherwise None.
         """
-        data = {"DebtorId": debtor_id}
         contact_person = self.debtor_service.service.ContactPerson_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         if contact_person is None:
             return None
@@ -317,9 +311,8 @@ class DebtorService(Service):
             debtor_id (int): The ID of the debtor.
             department_id (int): The ID of the department to delete.
         """
-        data = {"DebtorId": debtor_id, "id": department_id}
         self.debtor_service.service.Department_Delete(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header
         )
 
     @return_list
@@ -337,9 +330,8 @@ class DebtorService(Service):
         Returns:
             list[Department]: A list of Department objects representing all departments of the debtor.
         """
-        data = {"DebtorId": debtor_id}
         departments = self.debtor_service.service.Department_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         departments = [
             Department(department) for department in serialize_object(departments)
@@ -418,9 +410,8 @@ class DebtorService(Service):
             debtor_id (int): The ID of the debtor.
             function_id (int): The ID of the function to be deleted.
         """
-        data = {"DebtorId": debtor_id, "id": function_id}
         self.debtor_service.service.Function_Delete(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header
         )
 
     @return_list
@@ -439,9 +430,8 @@ class DebtorService(Service):
         Returns:
             list[Function]: A list of Function objects representing all functions of the debtor.
         """
-        data = {"DebtorId": debtor_id, "id": function_id}
         functions = self.debtor_service.service.Function_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header
         )
         functions = [Function(function) for function in serialize_object(functions)]
         return functions
@@ -520,9 +510,8 @@ class DebtorService(Service):
             list[LabourAgreementSettings]: A list of LabourAgreementSettings objects representing all labour
             agreement settings.
         """
-        data = {"DebtorId": debtor_id, "Year": year, "Period": period}
         labour_agreements = self.debtor_service.service.LabourAgreementSettings_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, Year=year, Period=period, _soapheaders=self.auth_header
         )
         labour_agreements = [
             LabourAgreementSettings(labour_agreement)
@@ -545,9 +534,8 @@ class DebtorService(Service):
         Returns:
             list[Manager]: A list of Manager objects representing all managers for the debtor.
         """
-        data = {"DebtorId": debtor_id}
         managers = self.debtor_service.service.Manager_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         managers = [Manager(manager) for manager in serialize_object(managers)]
         return managers
@@ -567,9 +555,8 @@ class DebtorService(Service):
             ServiceLevel | None: A ServiceLevel object representing the service level information if found, otherwise
             None.
         """
-        data = {"DebtorId": debtor_id}
         service_level = self.debtor_service.service.ServiceLevel_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         if service_level is None:
             return None
@@ -590,9 +577,8 @@ class DebtorService(Service):
         Returns:
             list[Tag]: A list of Tag objects representing all tags associated with the debtor.
         """
-        data = {"DebtorId": debtor_id}
         tags = self.debtor_service.service.Tags_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         tags = [Tag(tag) for tag in serialize_object(tags)]
         return tags
@@ -612,9 +598,8 @@ class DebtorService(Service):
         Returns:
             list[str]: A list of strings representing all titles associated with the debtor.
         """
-        data = {"DebtorId": debtor_id}
         titles = self.debtor_service.service.Title_GetList(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         titles = [title["TitleName"] for title in serialize_object(titles)]
         return titles
@@ -649,9 +634,8 @@ class DebtorService(Service):
         Returns:
             bool: True if the webhook is successfully deleted, otherwise False.
         """
-        data = {"DebtorId": debtor_id, "WebhookSettingId": webhook_id}
         deleted = self.debtor_service.service.WebhookSettings_Delete(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, WebhookSettingId=webhook_id, _soapheaders=self.auth_header
         )
         return deleted
 
@@ -670,9 +654,8 @@ class DebtorService(Service):
         Returns:
             list[WebhookSetting]: A list of WebhookSetting objects representing all webhooks associated with the debtor.
         """
-        data = {"DebtorId": debtor_id}
         webhooks = self.debtor_service.service.WebhookSettings_Get(
-            **data, _soapheaders=self.auth_header
+            DebtorId=debtor_id, _soapheaders=self.auth_header
         )
         webhooks = [WebhookSetting(webhook) for webhook in serialize_object(webhooks)]
         return webhooks
