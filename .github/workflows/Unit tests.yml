@@ -22,10 +22,3 @@ jobs:
       run: |
         python -m pytest --cov=src/nmbrs tests/
         coverage=$(coverage report --fail-under=100 -m)
-        if [ $? -eq 1 ]; then
-          echo "Test coverage is below 100%."
-          echo "$coverage"
-          exit 1
-        else
-          echo "Test coverage is 100%."
-        fi
