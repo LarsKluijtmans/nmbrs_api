@@ -1,6 +1,7 @@
 """
 A base class for data classes that automatically initializes instance variables from a dictionary.
 """
+
 from abc import ABC
 
 

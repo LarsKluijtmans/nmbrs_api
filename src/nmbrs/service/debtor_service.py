@@ -1,6 +1,7 @@
 """
 Module for handling the Debtor Nmbrs services.
 """
+
 from datetime import datetime
 from zeep import Client
 from zeep.helpers import serialize_object
@@ -41,7 +42,6 @@ class DebtorService(Service):
             sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
         super().__init__(sandbox)
-        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
         self.debtor_service = Client(f"{self.base_uri}{self.debtor_uri}")
@@ -635,7 +635,9 @@ class DebtorService(Service):
             bool: True if the webhook is successfully deleted, otherwise False.
         """
         deleted = self.debtor_service.service.WebhookSettings_Delete(
-            DebtorId=debtor_id, WebhookSettingId=webhook_id, _soapheaders=self.auth_header
+            DebtorId=debtor_id,
+            WebhookSettingId=webhook_id,
+            _soapheaders=self.auth_header,
         )
         return deleted
 

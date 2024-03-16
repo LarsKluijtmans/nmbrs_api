@@ -1,11 +1,21 @@
 """Unit tests for the nmbrs_sso_exception_handler decorator."""
+
 from unittest import TestCase
 
 import zeep.exceptions
 
-from src.nmbrs.exceptions import InvalidCredentials, LoginSecurityFailure, MultipleEnvironmentAccounts, \
-    DomainNotFoundError, AuthenticationError, AuthorizationError
-from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_sso_exception_handler, nmbrs_exception_handler
+from src.nmbrs.exceptions import (
+    InvalidCredentials,
+    LoginSecurityFailure,
+    MultipleEnvironmentAccounts,
+    DomainNotFoundError,
+    AuthenticationError,
+    AuthorizationError,
+)
+from src.nmbrs.utils.nmbrs_exception_handler import (
+    nmbrs_sso_exception_handler,
+    nmbrs_exception_handler,
+)
 
 
 class TestNmbrsSSOExceptionHandler(TestCase):
@@ -28,7 +38,9 @@ class TestNmbrsSSOExceptionHandler(TestCase):
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_multiple_environment_accounts():
-            raise zeep.exceptions.Fault("---> 2042: This username belongs to multiple environments")
+            raise zeep.exceptions.Fault(
+                "---> 2042: This username belongs to multiple environments"
+            )
 
         with self.assertRaises(MultipleEnvironmentAccounts):
             raise_multiple_environment_accounts()
@@ -80,6 +92,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
 
     def test_raise_exception(self):
         """Test when an exception is raised."""
+
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def exception_raised():
             raise TypeError("custom error message")

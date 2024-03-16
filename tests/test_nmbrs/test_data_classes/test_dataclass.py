@@ -1,10 +1,12 @@
 """Unit tests for the DataClass base class."""
+
 import unittest
 from src.nmbrs.data_classes.data_class import DataClass
 
 
 class TestDataClass(DataClass):
     """A subclass of DataClass for testing purposes."""
+
     def __init__(self, obj: dict) -> None:
         """
         Initializes instance variables based on the provided dictionary.
@@ -18,6 +20,7 @@ class TestDataClass(DataClass):
 
 class TestDataClassMethods(unittest.TestCase):
     """Unit tests for the DataClass base class."""
+
     def test_to_dict(self):
         """Test the to_dict method of the DataClass."""
         # Create an instance of TestDataClass

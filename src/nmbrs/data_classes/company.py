@@ -11,6 +11,7 @@ Dependencies:
 - datetime: Module providing classes for manipulating dates and times.
 - parse_xml_to_dict: Function for parsing XML data into a dictionary.
 """
+
 from datetime import datetime
 
 from .data_class import DataClass
@@ -65,9 +66,7 @@ class WageTax(DataClass):
         self.correction_tijdvak_start: datetime = obj.get(
             "CorrectionTijdvakStart", None
         )
-        self.correction_tijdvak_end: datetime = obj.get(
-            "CorrectionTijdvakEnd", None
-        )
+        self.correction_tijdvak_end: datetime = obj.get("CorrectionTijdvakEnd", None)
 
 
 class WageTaxXML(DataClass):

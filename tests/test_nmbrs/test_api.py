@@ -1,4 +1,5 @@
 """Unit tests for the Nmbrs class."""
+
 from unittest.mock import patch
 import unittest
 from src.nmbrs import Nmbrs
@@ -29,7 +30,7 @@ class TestNmbrs(unittest.TestCase):
             Nmbrs(username="test_user", auth_type="domain")
         self.assertEqual(e.exception.params, ["token", "domain"])
 
-    @patch('src.nmbrs.service.debtor_service.DebtorService.get_domain')
+    @patch("src.nmbrs.service.debtor_service.DebtorService.get_domain")
     def test_standard_auth(self, mock_get_domain):
         """Test standard authentication with correct parameters."""
         username = "test_user"
@@ -56,7 +57,7 @@ class TestNmbrs(unittest.TestCase):
         # Check if DebtorService.get_domain method is called with the correct parameters
         mock_get_domain.assert_called_once_with("test_user", "test_token")
 
-    @patch('src.nmbrs.service.debtor_service.DebtorService.get_domain')
+    @patch("src.nmbrs.service.debtor_service.DebtorService.get_domain")
     def test_standard_auth_constructor(self, mock_get_domain):
         """Test standard authentication with correct parameters, initialized using the constructor."""
         username = "test_user"

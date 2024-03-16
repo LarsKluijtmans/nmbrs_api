@@ -1,6 +1,7 @@
 """
 Abstract base class for defining service interfaces.
 """
+
 from abc import ABC, abstractmethod
 
 
@@ -19,6 +20,7 @@ class Service(ABC):
         Args:
             sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
+        self.auth_header: dict | None = None
         self.sandbox = sandbox
         self.nmbrs_base_uri = "https://api.nmbrs.nl/soap/v3/"
         self.nmbrs_sandbox_base_uri = "https://api-sandbox.nmbrs.nl/soap/v3/"

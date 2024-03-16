@@ -1,6 +1,7 @@
 """
 Main class provided by the package.
 """
+
 from .exceptions.custom_exceptions import ParameterMissingError
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService

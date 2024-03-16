@@ -1,4 +1,5 @@
 """Unit tests for the SingleSingOnService class."""
+
 from unittest import TestCase, mock
 
 from src.nmbrs.service.sso_service import SingleSingOnService
@@ -38,7 +39,9 @@ class TestSingleSingOnService(TestCase):
         password = "test_password"
         token = self.service.sso_auth_with_password(username, password)
         self.assertEqual(token, "test_token")
-        self.mock_service.GetToken.assert_called_once_with(Username=username, Password=password)
+        self.mock_service.GetToken.assert_called_once_with(
+            Username=username, Password=password
+        )
 
     def test_sso_auth_with_token(self):
         """Test sso_auth_with_token method."""
@@ -47,7 +50,9 @@ class TestSingleSingOnService(TestCase):
         token = "test_token"
         result = self.service.sso_auth_with_token(username, token)
         self.assertEqual(result, "test_token")
-        self.mock_service.GetToken2.assert_called_once_with(Username=username, Token=token)
+        self.mock_service.GetToken2.assert_called_once_with(
+            Username=username, Token=token
+        )
 
     def test_sso_auth_with_domain(self):
         """Test sso_auth_with_domain method."""
@@ -58,9 +63,7 @@ class TestSingleSingOnService(TestCase):
         token = self.service.sso_auth_with_domain(username, password, domain)
         self.assertEqual(token, "test_token")
         self.mock_service.GetTokenWithDomain.assert_called_once_with(
-            Username=username,
-            Password=password,
-            Domain=domain
+            Username=username, Password=password, Domain=domain
         )
 
     def test_sso_auth_with_password_exception(self):
@@ -70,7 +73,9 @@ class TestSingleSingOnService(TestCase):
         password = "test_password"
         with self.assertRaises(Exception):
             self.service.sso_auth_with_password(username, password)
-        self.mock_service.GetToken.assert_called_once_with(Username=username, Password=password)
+        self.mock_service.GetToken.assert_called_once_with(
+            Username=username, Password=password
+        )
 
     def test_sso_auth_with_token_exception(self):
         """Test sso_auth_with_token method with an exception."""
@@ -79,7 +84,9 @@ class TestSingleSingOnService(TestCase):
         token = "test_token"
         with self.assertRaises(Exception):
             self.service.sso_auth_with_token(username, token)
-        self.mock_service.GetToken2.assert_called_once_with(Username=username, Token=token)
+        self.mock_service.GetToken2.assert_called_once_with(
+            Username=username, Token=token
+        )
 
     def test_sso_auth_with_domain_exception(self):
         """Test sso_auth_with_domain method with an exception."""
