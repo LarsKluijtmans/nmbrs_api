@@ -21,13 +21,9 @@ jobs:
     - name: Run unit tests
       run: |
         python -m pytest --cov=nmbrs tests/
-    - name: Generate coverage report
-      run: |
         coverage report --skip-covered
         echo "Total coverage:"
         grep -E '^TOTAL' coverage.txt
-    - name: Ensure coverage is 100%
-      run: |
         coverage=$(coverage report --fail-under=100 -m)
         if [ $? -eq 1 ]; then
           echo "Test coverage is below 100%."
