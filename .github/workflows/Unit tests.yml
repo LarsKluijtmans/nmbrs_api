@@ -20,4 +20,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run unit tests
       run: |
-        python -m pytest --cov=nmbrs tests/
+        python -m pytest --cov=src/nmbrs tests/
+        coverage=$(coverage report --fail-under=100 -m)

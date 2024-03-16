@@ -1,9 +1,15 @@
 # Tests
 
-## Run tests
+## Run tests locally
 
 ```commandline
-pytest --cov=nmbrs tests/
+coverage run -m pytest tests/
+```
+
+## Generate report
+
+```commandline
+coverage html
 ```
 
 ## Linting

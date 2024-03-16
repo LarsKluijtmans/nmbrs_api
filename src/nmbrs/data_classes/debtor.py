@@ -293,9 +293,10 @@ class WebhookSetting(DataClass):
         self.name: str = obj.get("Name", None)
         self.endpoint: str = obj.get("Endpoint", None)
         self.active: bool = obj.get("Active", None)
-        self.events: list[Event] = [
-            Event(event_data) for event_data in obj.get("Event", [])
-        ]
+        events_data = obj.get("Event", [])
+        if not isinstance(events_data, list):
+            events_data = [events_data]
+        self.events: list[Event] = [Event(event_data) for event_data in events_data]
 
     def to_dict(self) -> dict:
         """

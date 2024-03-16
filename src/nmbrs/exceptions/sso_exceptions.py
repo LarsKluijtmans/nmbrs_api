@@ -26,8 +26,6 @@ class LoginSecurityFailure(Exception):
             message (str): Explanation of the error.
             resources (list[str]): List of resources causing the unauthorized access.
         """
-        if resources is None:
-            resources = []
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
         super().__init__(self.message)
@@ -50,8 +48,6 @@ class InvalidCredentials(Exception):
             message (str): Explanation of the error.
             resources (list[str]): List of resources used that might cause the error.
         """
-        if resources is None:
-            resources = []
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
         super().__init__(self.message)
@@ -94,8 +90,6 @@ class DomainNotFoundError(Exception):
             message (str): Explanation of the error.
             resources (list[str]): List of resources causing the unauthorized access.
         """
-        if resources is None:
-            resources = []
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
         super().__init__(self.message)

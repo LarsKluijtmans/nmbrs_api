@@ -23,8 +23,6 @@ class ParameterMissingError(Exception):
             message (str): Explanation of the error.
             params (list[str]): List of parameters that are missing.
         """
-        if params is None:
-            params = []
         self.params = params
         self.message = f"{message}{', '.join(params)}"
         super().__init__(self.message)
