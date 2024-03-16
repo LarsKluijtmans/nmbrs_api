@@ -3,7 +3,26 @@
 import unittest
 from unittest.mock import Mock
 from src.nmbrs.service.company_service import CompanyService, Company
-from src.nmbrs.service.microservices.company import *
+from src.nmbrs.service.microservices.company import (
+    CompanyAddressService,
+    CompanyBankAccountService,
+    CompanyCostCenterService,
+    CompanyCostUnitService,
+    CompanyHourModelService,
+    CompanyJournalService,
+    CompanyLabourAgreementService,
+    CompanyPensionService,
+    CompanyReportService,
+    CompanyRunService,
+    CompanySalaryDocumentService,
+    CompanySalaryTableService,
+    CompanyWageComponentFixedService,
+    CompanySVWService,
+    CompanyWageComponentVarService,
+    CompanyWageCostService,
+    CompanyWageModelService,
+    CompanyWageTaxService,
+)
 
 
 class TestCompanyService(unittest.TestCase):
@@ -19,20 +38,34 @@ class TestCompanyService(unittest.TestCase):
     def test_initiation_of_microservices(self):
         """Test initialization of all microservices."""
         self.assertIsInstance(self.company_service.address, CompanyAddressService)
-        self.assertIsInstance(self.company_service.bank_account, CompanyBankAccountService)
-        self.assertIsInstance(self.company_service.cost_center, CompanyCostCenterService)
+        self.assertIsInstance(
+            self.company_service.bank_account, CompanyBankAccountService
+        )
+        self.assertIsInstance(
+            self.company_service.cost_center, CompanyCostCenterService
+        )
         self.assertIsInstance(self.company_service.cost_unit, CompanyCostUnitService)
         self.assertIsInstance(self.company_service.hour_model, CompanyHourModelService)
         self.assertIsInstance(self.company_service.journal, CompanyJournalService)
-        self.assertIsInstance(self.company_service.labour_agreement, CompanyLabourAgreementService)
+        self.assertIsInstance(
+            self.company_service.labour_agreement, CompanyLabourAgreementService
+        )
         self.assertIsInstance(self.company_service.pension, CompanyPensionService)
         self.assertIsInstance(self.company_service.reports, CompanyReportService)
         self.assertIsInstance(self.company_service.run, CompanyRunService)
-        self.assertIsInstance(self.company_service.salary_documents, CompanySalaryDocumentService)
-        self.assertIsInstance(self.company_service.salary_table, CompanySalaryTableService)
+        self.assertIsInstance(
+            self.company_service.salary_documents, CompanySalaryDocumentService
+        )
+        self.assertIsInstance(
+            self.company_service.salary_table, CompanySalaryTableService
+        )
         self.assertIsInstance(self.company_service.svw, CompanySVWService)
-        self.assertIsInstance(self.company_service.wage_component_fixed, CompanyWageComponentFixedService)
-        self.assertIsInstance(self.company_service.wage_component_var, CompanyWageComponentVarService)
+        self.assertIsInstance(
+            self.company_service.wage_component_fixed, CompanyWageComponentFixedService
+        )
+        self.assertIsInstance(
+            self.company_service.wage_component_var, CompanyWageComponentVarService
+        )
         self.assertIsInstance(self.company_service.wage_cost, CompanyWageCostService)
         self.assertIsInstance(self.company_service.wage_model, CompanyWageModelService)
         self.assertIsInstance(self.company_service.wage_tax, CompanyWageTaxService)
@@ -59,7 +92,7 @@ class TestCompanyService(unittest.TestCase):
         self.company_service.wage_model = Mock()
         self.company_service.wage_tax = Mock()
 
-        auth_header = {'Authorization': 'Bearer token'}
+        auth_header = {"Authorization": "Bearer token"}
 
         # Call the set_auth_header method on the mocked CompanyService
         self.company_service.set_auth_header(auth_header)
@@ -102,17 +135,17 @@ class TestCompanyService(unittest.TestCase):
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(company, Company) for company in result))
         self.mock_company_service.service.List_GetByDebtor.assert_called_once_with(
-            DebtorId=1,
-            _soapheaders=self.mock_auth_header
+            DebtorId=1, _soapheaders=self.mock_auth_header
         )
 
     def test_get_current_period(self):
         """Test retrieving the current period of a company."""
         mock_period = "2024-03-M"
-        self.mock_company_service.service.Company_GetCurrentPeriod.return_value = mock_period
+        self.mock_company_service.service.Company_GetCurrentPeriod.return_value = (
+            mock_period
+        )
         result = self.company_service.get_current_period(1)
         self.assertEqual(result, mock_period)
         self.mock_company_service.service.Company_GetCurrentPeriod.assert_called_once_with(
-            CompanyId=1,
-            _soapheaders=self.mock_auth_header
+            CompanyId=1, _soapheaders=self.mock_auth_header
         )

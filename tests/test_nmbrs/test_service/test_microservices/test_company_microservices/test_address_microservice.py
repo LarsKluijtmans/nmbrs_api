@@ -1,7 +1,11 @@
 """Unit tests for the CompanyAddressService class."""
+
 import unittest
 from unittest.mock import Mock
-from src.nmbrs.service.microservices.company.address import CompanyAddressService, Address
+from src.nmbrs.service.microservices.company.address import (
+    CompanyAddressService,
+    Address,
+)
 
 
 class TestCompanyAddressService(unittest.TestCase):

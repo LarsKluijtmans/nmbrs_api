@@ -5,7 +5,26 @@ Module for handling the Company Nmbrs services.
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from .microservices.company import *
+from .microservices.company import (
+    CompanyAddressService,
+    CompanyBankAccountService,
+    CompanyCostCenterService,
+    CompanyCostUnitService,
+    CompanyHourModelService,
+    CompanyJournalService,
+    CompanyLabourAgreementService,
+    CompanyPensionService,
+    CompanyReportService,
+    CompanyRunService,
+    CompanySalaryDocumentService,
+    CompanySalaryTableService,
+    CompanyWageComponentFixedService,
+    CompanySVWService,
+    CompanyWageComponentVarService,
+    CompanyWageCostService,
+    CompanyWageModelService,
+    CompanyWageTaxService,
+)
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
