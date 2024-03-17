@@ -3,7 +3,7 @@
 ## Run tests locally
 
 ```commandline
-coverage run -m pytest tests/
+coverage run -m pytest --cov=src/nmbrs tests/test_nmbrs/
 ```
 
 ## Generate report
