@@ -1,9 +1,6 @@
 name: Deploy to TestPyPI
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       version_input:
