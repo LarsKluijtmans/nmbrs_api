@@ -21,25 +21,21 @@ class TestCompanyAddressService(unittest.TestCase):
         """Test retrieving the current address of the company."""
         mock_address = Mock()
         self.client.service.Address_GetCurrent.return_value = mock_address
-        result = self.company_address_service.get_address(1)
+        result = self.company_address_service.get(1)
         self.assertIsInstance(result, Address)
-        self.client.service.Address_GetCurrent.assert_called_once_with(
-            CompanyId=1, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.Address_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
 
     def test_get_address_returns_none(self):
         """Test that get returns None when debtor is not found."""
         self.client.service.Address_GetCurrent.return_value = None
-        result = self.company_address_service.get_address(1)
+        result = self.company_address_service.get(1)
         self.assertEqual(result, None)
-        self.client.service.Address_GetCurrent.assert_called_once_with(
-            CompanyId=1, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.Address_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
 
     def test_insert_address(self):
         """Test inserting a new address for the company."""
         self.client.service.Address_Insert.return_value = 123
-        result = self.company_address_service.insert_address(
+        result = self.company_address_service.insert(
             company_id=1,
             address_id=456,
             default=True,
@@ -70,7 +66,7 @@ class TestCompanyAddressService(unittest.TestCase):
 
     def test_update_address(self):
         """Test updating an existing address for the company."""
-        self.company_address_service.update_address(
+        self.company_address_service.update(
             company_id=1,
             address_id=456,
             default=True,

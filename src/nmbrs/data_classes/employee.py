@@ -16,13 +16,13 @@ class Employee(DataClass):
     A class representing an employee.
     """
 
-    def __init__(self, obj: dict) -> None:
+    def __init__(self, data: dict) -> None:
         """
         Initializes instance variables based on the provided dictionary.
 
         Args:
-            obj (dict): A dictionary containing data to initialize instance variables.
+            data (dict): A dictionary containing data to initialize instance variables.
         """
-        self.id: int = obj.get("Id", None)
-        self.number: str = obj.get("Number", None)
-        self.name: str = obj.get("DisplayName", None)
+        self.id: int = data.get("Id", None)
+        self.number: str = data.get("Number", None)
+        self.name: str = data.get("DisplayName", None)

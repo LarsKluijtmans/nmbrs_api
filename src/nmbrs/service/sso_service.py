@@ -94,7 +94,5 @@ class SingleSingOnService(Service):
         Returns:
             str: Single sign-on token, valid for 30 seconds
         """
-        token = self.sso_service.service.GetTokenWithDomain(
-            Username=username, Password=password, Domain=domain
-        )
+        token = self.sso_service.service.GetTokenWithDomain(Username=username, Password=password, Domain=domain)
         return token

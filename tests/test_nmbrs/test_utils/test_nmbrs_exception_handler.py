@@ -38,9 +38,7 @@ class TestNmbrsSSOExceptionHandler(TestCase):
 
         @nmbrs_sso_exception_handler(resources=["resource1", "resource2"])
         def raise_multiple_environment_accounts():
-            raise zeep.exceptions.Fault(
-                "---> 2042: This username belongs to multiple environments"
-            )
+            raise zeep.exceptions.Fault("---> 2042: This username belongs to multiple environments")
 
         with self.assertRaises(MultipleEnvironmentAccounts):
             raise_multiple_environment_accounts()

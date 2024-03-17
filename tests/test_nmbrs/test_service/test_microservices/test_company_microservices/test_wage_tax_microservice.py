@@ -25,9 +25,7 @@ class TestCompanyWageTaxService(unittest.TestCase):
         result = self.company_wagetax_service.get_all_wagetax(1, 2024)
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(wagetax, WageTax) for wagetax in result))
-        self.client.service.WageTax_GetList.assert_called_once_with(
-            CompanyId=1, intYear=2024, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.WageTax_GetList.assert_called_once_with(CompanyId=1, intYear=2024, _soapheaders=self.mock_auth_header)
 
     def test_get_wagetax_details(self):
         """Test retrieving wage tax details for a specific company and loonaangifte ID."""

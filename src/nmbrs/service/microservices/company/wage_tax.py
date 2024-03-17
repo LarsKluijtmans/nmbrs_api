@@ -51,9 +51,7 @@ class CompanyWageTaxService(MicroService):
         Returns:
             list[WageTax]: A list of WageTax objects for the specified company and year.
         """
-        wage_taxes = self.client.service.WageTax_GetList(
-            CompanyId=company_id, intYear=year, _soapheaders=self.auth_header
-        )
+        wage_taxes = self.client.service.WageTax_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_header)
         wage_taxes = [WageTax(wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
 

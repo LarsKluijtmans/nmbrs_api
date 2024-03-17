@@ -51,9 +51,7 @@ class Nmbrs:
                 raise ParameterMissingError(params=params)
             self.standard_auth(username, token)
         elif auth_type == "domain":
-            params = find_empty_params(
-                **{"username": username, "token": token, "domain": domain}
-            )
+            params = find_empty_params(**{"username": username, "token": token, "domain": domain})
             if params:
                 raise ParameterMissingError(params=params)
             self.standard_auth_with_domain(username, token, domain)

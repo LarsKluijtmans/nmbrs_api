@@ -12,7 +12,7 @@ class CompanyAddressService(MicroService):
     """
     Microservice responsible for address-related actions on the company level.
 
-    Deprecated:
+    Could not get working:
         - [Address_GetCurrentWithAddressType](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Address_GetCurrentWithAddressType)
     """
 
@@ -35,7 +35,7 @@ class CompanyAddressService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resources=["CompanyService:Address_GetCurrent"])
-    def get_address(self, company_id: int) -> Address | None:
+    def get(self, company_id: int) -> Address | None:
         """
         Get the current address of the company.
 
@@ -47,15 +47,13 @@ class CompanyAddressService(MicroService):
         Returns:
             Address | None: An Address object if found, otherwise None.
         """
-        address = self.client.service.Address_GetCurrent(
-            CompanyId=company_id, _soapheaders=self.auth_header
-        )
+        address = self.client.service.Address_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
         if address is None:
             return None
         return Address(serialize_object(address))
 
     @nmbrs_exception_handler(resources=["CompanyService:Address_Insert"])
-    def insert_address(
+    def insert(
         self,
         company_id: int,
         address_id: int,
@@ -102,13 +100,11 @@ class CompanyAddressService(MicroService):
                 "CountryISOCode": country_iso_code,
             },
         }
-        response = self.client.service.Address_Insert(
-            **data, _soapheaders=self.auth_header
-        )
+        response = self.client.service.Address_Insert(**data, _soapheaders=self.auth_header)
         return response
 
     @nmbrs_exception_handler(resources=["CompanyService:Address_Update"])
-    def update_address(
+    def update(
         self,
         company_id: int,
         address_id: int,

@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """
 This module defines custom exceptions related to authorization failures and invalid authentication in nmbrs.
 
@@ -49,3 +50,27 @@ class AuthenticationError(Exception):
             message (str): Explanation of the error.
         """
         super().__init__(message)
+
+
+class UnknownNmbrsError(Exception):
+    """
+    Exception raised when encountering unknown errors related to Nmbrs API.
+
+    For more details on Nmbrs API error codes, refer to: [Nmbrs API Error Codes](https://support.nmbrs.com/hc/en-us/articles/360013526891-Nmbrs-API-error-codes)
+    """
+
+    def __init__(
+        self,
+        message: str = "Unknown error occurred in Nmbrs API.",
+        resources: list[str] = None,
+    ) -> None:
+        """
+        Constructor for UnknownNmbrsError class.
+
+        Args:
+            message (str): Explanation of the error.
+            resources (list[str]): List of resources related to the error.
+        """
+        self.resources = resources
+        self.message = f"{message} Resources: {', '.join(resources) if resources else 'None'}"
+        super().__init__(self.message)
