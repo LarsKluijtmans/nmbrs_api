@@ -1,4 +1,5 @@
 """Unit tests for the find_empty_params function."""
+
 from unittest import TestCase
 
 from src.nmbrs.utils.find_empty_params import find_empty_params

@@ -1,6 +1,7 @@
 """
 Module for handling the Debtor Nmbrs services.
 """
+
 from datetime import datetime
 from zeep import Client
 from zeep.helpers import serialize_object
@@ -41,7 +42,6 @@ class DebtorService(Service):
             sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
         super().__init__(sandbox)
-        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
         self.debtor_service = Client(f"{self.base_uri}{self.debtor_uri}")
@@ -70,9 +70,7 @@ class DebtorService(Service):
         Returns:
             str: The domain associated with the token.
         """
-        env = self.debtor_service.service.Environment_Get(
-            _soapheaders={"AuthHeader": {"Username": username, "Token": token}}
-        )
+        env = self.debtor_service.service.Environment_Get(_soapheaders={"AuthHeader": {"Username": username, "Token": token}})
         return env.SubDomain
 
     @return_list
@@ -106,9 +104,7 @@ class DebtorService(Service):
         Returns:
             list[Debtor]: A list of Debtor objects representing all debtors.
         """
-        debtors = self.debtor_service.service.List_GetByNumber(
-            Number=number, _soapheaders=self.auth_header
-        )
+        debtors = self.debtor_service.service.List_GetByNumber(Number=number, _soapheaders=self.auth_header)
         debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
         return debtors
 
@@ -126,9 +122,7 @@ class DebtorService(Service):
         Returns:
             Debtor | None: A Debtor object representing the debtor if found, otherwise None.
         """
-        debtor = self.debtor_service.service.Debtor_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        debtor = self.debtor_service.service.Debtor_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if debtor is None:
             return None
         return Debtor(serialize_object(debtor))
@@ -150,9 +144,7 @@ class DebtorService(Service):
             int: The ID of the inserted debtor if successful.
         """
         data = {"Debtor": {"Id": debtor_id, "Number": number, "Name": name}}
-        inserted = self.debtor_service.service.Debtor_Insert(
-            **data, _soapheaders=self.auth_header
-        )
+        inserted = self.debtor_service.service.Debtor_Insert(**data, _soapheaders=self.auth_header)
         return inserted
 
     @nmbrs_exception_handler(resources=["DebtorService:Debtor_Update"])
@@ -173,9 +165,7 @@ class DebtorService(Service):
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:AbsenceXML_Get"])
-    def get_absence_xml(
-        self, debtor_id: int, start_date: datetime, end_date: datetime
-    ) -> list[AbsenceVerzuim]:
+    def get_absence_xml(self, debtor_id: int, start_date: datetime, end_date: datetime) -> list[AbsenceVerzuim]:
         """
         Retrieve absence data for a debtor within a specified date range.
 
@@ -191,9 +181,7 @@ class DebtorService(Service):
             list[AbsenceVerzuim]: A list of AbsenceVerzuim objects representing the absence data.
         """
         data = {"DebtorId": debtor_id, "from": start_date, "to": end_date}
-        absences = self.debtor_service.service.AbsenceXML_Get(
-            **data, _soapheaders=self.auth_header
-        )
+        absences = self.debtor_service.service.AbsenceXML_Get(**data, _soapheaders=self.auth_header)
         absences = [AbsenceVerzuim(absence) for absence in serialize_object(absences)]
         return absences
 
@@ -212,12 +200,8 @@ class DebtorService(Service):
         Returns:
             list[ContactInfo]: A list of ContactInfo objects representing the accountant contact information.
         """
-        accountants = self.debtor_service.service.AccountantContact_GetList(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
-        accountants = [
-            ContactInfo(accountant) for accountant in serialize_object(accountants)
-        ]
+        accountants = self.debtor_service.service.AccountantContact_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        accountants = [ContactInfo(accountant) for accountant in serialize_object(accountants)]
         return accountants
 
     @nmbrs_exception_handler(resources=["DebtorService:Address_Get"])
@@ -234,9 +218,7 @@ class DebtorService(Service):
         Returns:
             Address | None: An Address object representing the address if found, otherwise None.
         """
-        address = self.debtor_service.service.Address_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        address = self.debtor_service.service.Address_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if address is None:
             return None
         return Address(serialize_object(address))
@@ -255,9 +237,7 @@ class DebtorService(Service):
         Returns:
             BankAccount | None: A BankAccount object representing the bank account if found, otherwise None.
         """
-        bank_account = self.debtor_service.service.BankAccount_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        bank_account = self.debtor_service.service.BankAccount_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if bank_account is None:
             return None
         return BankAccount(serialize_object(bank_account))
@@ -276,9 +256,7 @@ class DebtorService(Service):
         Returns:
             ContactInfo | None: A ContactInfo object representing the contact person if found, otherwise None.
         """
-        contact_person = self.debtor_service.service.ContactPerson_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        contact_person = self.debtor_service.service.ContactPerson_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if contact_person is None:
             return None
         return ContactInfo(serialize_object(contact_person))
@@ -294,9 +272,7 @@ class DebtorService(Service):
         Returns:
             bool: True if the current user is the owner of the debtor, otherwise False.
         """
-        is_owner = self.debtor_service.service.Debtor_IsOwner(
-            _soapheaders=self.auth_header
-        )
+        is_owner = self.debtor_service.service.Debtor_IsOwner(_soapheaders=self.auth_header)
         return is_owner
 
     @nmbrs_exception_handler(resources=["DebtorService:Department_Delete"])
@@ -311,9 +287,7 @@ class DebtorService(Service):
             debtor_id (int): The ID of the debtor.
             department_id (int): The ID of the department to delete.
         """
-        self.debtor_service.service.Department_Delete(
-            DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header
-        )
+        self.debtor_service.service.Department_Delete(DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header)
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:Department_GetList"])
@@ -330,18 +304,12 @@ class DebtorService(Service):
         Returns:
             list[Department]: A list of Department objects representing all departments of the debtor.
         """
-        departments = self.debtor_service.service.Department_GetList(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
-        departments = [
-            Department(department) for department in serialize_object(departments)
-        ]
+        departments = self.debtor_service.service.Department_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        departments = [Department(department) for department in serialize_object(departments)]
         return departments
 
     @nmbrs_exception_handler(resources=["DebtorService:Department_Insert"])
-    def insert_department(
-        self, debtor_id: int, department_id: int, code: int, description: str
-    ) -> int:
+    def insert_department(self, debtor_id: int, department_id: int, code: int, description: str) -> int:
         """
         Insert a new department for a debtor.
 
@@ -365,15 +333,11 @@ class DebtorService(Service):
                 "Description": description,
             },
         }
-        inserted = self.debtor_service.service.Department_Insert(
-            **data, _soapheaders=self.auth_header
-        )
+        inserted = self.debtor_service.service.Department_Insert(**data, _soapheaders=self.auth_header)
         return inserted
 
     @nmbrs_exception_handler(resources=["DebtorService:Department_Update"])
-    def update_department(
-        self, debtor_id: int, department_id: int, code: int, description: str
-    ) -> None:
+    def update_department(self, debtor_id: int, department_id: int, code: int, description: str) -> None:
         """
         Update an existing department of a debtor.
 
@@ -394,9 +358,7 @@ class DebtorService(Service):
                 "Description": description,
             },
         }
-        self.debtor_service.service.Department_Update(
-            **data, _soapheaders=self.auth_header
-        )
+        self.debtor_service.service.Department_Update(**data, _soapheaders=self.auth_header)
 
     @nmbrs_exception_handler(resources=["DebtorService:Function_Delete"])
     def delete_function(self, debtor_id: int, function_id: int) -> None:
@@ -410,9 +372,7 @@ class DebtorService(Service):
             debtor_id (int): The ID of the debtor.
             function_id (int): The ID of the function to be deleted.
         """
-        self.debtor_service.service.Function_Delete(
-            DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header
-        )
+        self.debtor_service.service.Function_Delete(DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header)
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:Function_GetList"])
@@ -430,16 +390,12 @@ class DebtorService(Service):
         Returns:
             list[Function]: A list of Function objects representing all functions of the debtor.
         """
-        functions = self.debtor_service.service.Function_GetList(
-            DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header
-        )
+        functions = self.debtor_service.service.Function_GetList(DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header)
         functions = [Function(function) for function in serialize_object(functions)]
         return functions
 
     @nmbrs_exception_handler(resources=["DebtorService:Function_Insert"])
-    def insert_function(
-        self, debtor_id: int, function_id: int, code: int, description: str
-    ) -> int:
+    def insert_function(self, debtor_id: int, function_id: int, code: int, description: str) -> int:
         """
         Insert a new function for a debtor.
 
@@ -459,15 +415,11 @@ class DebtorService(Service):
             "DebtorId": debtor_id,
             "function": {"Id": function_id, "Code": code, "Description": description},
         }
-        inserted = self.debtor_service.service.Function_Insert(
-            **data, _soapheaders=self.auth_header
-        )
+        inserted = self.debtor_service.service.Function_Insert(**data, _soapheaders=self.auth_header)
         return inserted
 
     @nmbrs_exception_handler(resources=["DebtorService:Function_Update"])
-    def update_function(
-        self, debtor_id: int, function_id: int, code: int, description: str
-    ) -> None:
+    def update_function(self, debtor_id: int, function_id: int, code: int, description: str) -> None:
         """
         Update a function for a debtor.
 
@@ -484,17 +436,11 @@ class DebtorService(Service):
             "DebtorId": debtor_id,
             "function": {"Id": function_id, "Code": code, "Description": description},
         }
-        self.debtor_service.service.Function_Update(
-            **data, _soapheaders=self.auth_header
-        )
+        self.debtor_service.service.Function_Update(**data, _soapheaders=self.auth_header)
 
     @return_list
-    @nmbrs_exception_handler(
-        resources=["DebtorService:LabourAgreementSettings_GetList"]
-    )
-    def get_all_labour_agreements(
-        self, debtor_id: int, year: int, period: int
-    ) -> list[LabourAgreementSettings]:
+    @nmbrs_exception_handler(resources=["DebtorService:LabourAgreementSettings_GetList"])
+    def get_all_labour_agreements(self, debtor_id: int, year: int, period: int) -> list[LabourAgreementSettings]:
         """
         Retrieve all labour agreement settings for a debtor.
 
@@ -513,10 +459,7 @@ class DebtorService(Service):
         labour_agreements = self.debtor_service.service.LabourAgreementSettings_GetList(
             DebtorId=debtor_id, Year=year, Period=period, _soapheaders=self.auth_header
         )
-        labour_agreements = [
-            LabourAgreementSettings(labour_agreement)
-            for labour_agreement in serialize_object(labour_agreements)
-        ]
+        labour_agreements = [LabourAgreementSettings(labour_agreement) for labour_agreement in serialize_object(labour_agreements)]
         return labour_agreements
 
     @return_list
@@ -534,9 +477,7 @@ class DebtorService(Service):
         Returns:
             list[Manager]: A list of Manager objects representing all managers for the debtor.
         """
-        managers = self.debtor_service.service.Manager_GetList(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        managers = self.debtor_service.service.Manager_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
         managers = [Manager(manager) for manager in serialize_object(managers)]
         return managers
 
@@ -555,9 +496,7 @@ class DebtorService(Service):
             ServiceLevel | None: A ServiceLevel object representing the service level information if found, otherwise
             None.
         """
-        service_level = self.debtor_service.service.ServiceLevel_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        service_level = self.debtor_service.service.ServiceLevel_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if service_level is None:
             return None
         return ServiceLevel(serialize_object(service_level))
@@ -577,9 +516,7 @@ class DebtorService(Service):
         Returns:
             list[Tag]: A list of Tag objects representing all tags associated with the debtor.
         """
-        tags = self.debtor_service.service.Tags_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        tags = self.debtor_service.service.Tags_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         tags = [Tag(tag) for tag in serialize_object(tags)]
         return tags
 
@@ -598,9 +535,7 @@ class DebtorService(Service):
         Returns:
             list[str]: A list of strings representing all titles associated with the debtor.
         """
-        titles = self.debtor_service.service.Title_GetList(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        titles = self.debtor_service.service.Title_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
         titles = [title["TitleName"] for title in serialize_object(titles)]
         return titles
 
@@ -635,7 +570,9 @@ class DebtorService(Service):
             bool: True if the webhook is successfully deleted, otherwise False.
         """
         deleted = self.debtor_service.service.WebhookSettings_Delete(
-            DebtorId=debtor_id, WebhookSettingId=webhook_id, _soapheaders=self.auth_header
+            DebtorId=debtor_id,
+            WebhookSettingId=webhook_id,
+            _soapheaders=self.auth_header,
         )
         return deleted
 
@@ -654,9 +591,7 @@ class DebtorService(Service):
         Returns:
             list[WebhookSetting]: A list of WebhookSetting objects representing all webhooks associated with the debtor.
         """
-        webhooks = self.debtor_service.service.WebhookSettings_Get(
-            DebtorId=debtor_id, _soapheaders=self.auth_header
-        )
+        webhooks = self.debtor_service.service.WebhookSettings_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         webhooks = [WebhookSetting(webhook) for webhook in serialize_object(webhooks)]
         return webhooks
 
@@ -672,16 +607,12 @@ class DebtorService(Service):
         Returns:
             list[Event]: A list of Event objects representing all webhook events.
         """
-        events = self.debtor_service.service.WebhookSettings_GetEvents(
-            _soapheaders=self.auth_header
-        )
+        events = self.debtor_service.service.WebhookSettings_GetEvents(_soapheaders=self.auth_header)
         events = [Event(event) for event in serialize_object(events)]
         return events
 
     @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Insert"])
-    def insert_webhook(
-        self, debtor_id: int, insert_webhook_settings: WebhookSetting
-    ) -> int:
+    def insert_webhook(self, debtor_id: int, insert_webhook_settings: WebhookSetting) -> int:
         """
         Insert a webhook for a debtor.
 
@@ -699,7 +630,5 @@ class DebtorService(Service):
             "DebtorId": debtor_id,
             "WebhookSetting": insert_webhook_settings.to_insert_dict(),
         }
-        inserted = self.debtor_service.service.WebhookSettings_Insert(
-            **data, _soapheaders=self.auth_header
-        )
+        inserted = self.debtor_service.service.WebhookSettings_Insert(**data, _soapheaders=self.auth_header)
         return inserted

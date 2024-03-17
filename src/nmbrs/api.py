@@ -1,6 +1,7 @@
 """
 Main class provided by the package.
 """
+
 from .exceptions.custom_exceptions import ParameterMissingError
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService
@@ -50,9 +51,7 @@ class Nmbrs:
                 raise ParameterMissingError(params=params)
             self.standard_auth(username, token)
         elif auth_type == "domain":
-            params = find_empty_params(
-                **{"username": username, "token": token, "domain": domain}
-            )
+            params = find_empty_params(**{"username": username, "token": token, "domain": domain})
             if params:
                 raise ParameterMissingError(params=params)
             self.standard_auth_with_domain(username, token, domain)

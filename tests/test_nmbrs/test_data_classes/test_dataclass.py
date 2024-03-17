@@ -1,31 +1,78 @@
 """Unit tests for the DataClass base class."""
+
 import unittest
 from src.nmbrs.data_classes.data_class import DataClass
 
 
-class TestDataClass(DataClass):
-    """A subclass of DataClass for testing purposes."""
-    def __init__(self, obj: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            obj (dict): A dictionary containing data to initialize instance variables.
-        """
-        self.key1: str = obj.get("Key1", None)
-        self.key2: str = obj.get("Key2", None)
-
-
-class TestDataClassMethods(unittest.TestCase):
+class TestDataClass(unittest.TestCase):
     """Unit tests for the DataClass base class."""
+
     def test_to_dict(self):
-        """Test the to_dict method of the DataClass."""
-        # Create an instance of TestDataClass
-        obj = {"Key1": "value1", "Key2": "value2"}
-        test_instance = TestDataClass(obj)
+        """Test converting an instance to a dictionary."""
 
-        # Expected result
-        expected_result = {"key1": "value1", "key2": "value2"}
+        class TestClass(DataClass):
+            """Test class"""
 
-        # Check if the to_dict method returns the expected result
-        self.assertEqual(test_instance.to_dict(), expected_result)
+            def __init__(self, name, age, friends):
+                self.name = name
+                self.age = age
+                self.friends = friends
+
+        obj = TestClass("John", 30, ["Alice", "Bob"])
+        expected_dict = {"name": "John", "age": 30, "friends": ["Alice", "Bob"]}
+        self.assertEqual(obj.to_dict(), expected_dict)
+
+    def test_to_dict_nested(self):
+        """Test converting an instance with nested DataClass objects to a dictionary."""
+
+        class NestedClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, nested):
+                self.nested = nested
+
+        nested_obj = NestedClass("nested_value")
+        obj = TestClass(nested_obj)
+        expected_dict = {"nested": {"value": "nested_value"}}
+        self.assertEqual(obj.to_dict(), expected_dict)
+
+    def test_to_dict_list(self):
+        """Test converting an instance with a list of DataClass objects to a dictionary."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, items):
+                self.items = items
+
+        class Item(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        items = [Item("item1"), Item("item2")]
+        obj = TestClass(items)
+        expected_dict = {"items": [{"value": "item1"}, {"value": "item2"}]}
+        self.assertEqual(obj.to_dict(), expected_dict)
+
+    def test_str(self):
+        """Test converting an instance to a JSON string."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, name, age, friends):
+                self.name = name
+                self.age = age
+                self.friends = friends
+
+        obj = TestClass("John", 30, ["Alice", "Bob"])
+        expected_str = '{"name": "John", "age": 30, "friends": ["Alice", "Bob"]}'
+        self.assertEqual(str(obj), expected_str)

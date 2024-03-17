@@ -1,6 +1,7 @@
 """
 Module for handling Single Sign-On for Nmbrs services.
 """
+
 from zeep import Client
 
 from .service import Service

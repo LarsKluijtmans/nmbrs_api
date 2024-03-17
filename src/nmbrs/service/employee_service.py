@@ -229,7 +229,6 @@ class EmployeeService(Service):
             sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
         """
         super().__init__(sandbox)
-        self.auth_header: dict | None = None
 
         # Initialize nmbrs services
         self.employee_service = Client(f"{self.base_uri}{self.employee_uri}")

@@ -1,4 +1,5 @@
 """Unit tests for the return_list decorator."""
+
 import unittest
 
 from src.nmbrs.utils.return_list import return_list
@@ -36,14 +37,17 @@ class TestReturnListDecorator(unittest.TestCase):
 
     def test_raise_type_error(self):
         """Test that the decorated function raises TypeError when the original function raises TypeError."""
+
         @return_list
         def raise_type_error():
             """Faulty function trying to loop over None."""
             raise TypeError("'NoneType' object is not iterable")
+
         self.assertEqual(raise_type_error(), [])
 
     def test_raise_exception_on_other_error(self):
         """Test that the decorated function raises the original exception if it is not a TypeError."""
+
         @return_list
         def raise_custom_error():
             """Raise ValueError."""
@@ -58,6 +62,7 @@ class TestReturnListDecorator(unittest.TestCase):
         Test that the decorated function raises the original exception if the message was not:
             - "'NoneType' object is not iterable"
         """
+
         @return_list
         def raise_custom_error():
             """Raise TypeError with Custom error message."""

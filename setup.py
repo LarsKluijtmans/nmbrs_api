@@ -1,6 +1,7 @@
 """
 Setup document defining all needed info for creating the package and deploying to pypi.
 """
+
 import os
 from setuptools import setup
 

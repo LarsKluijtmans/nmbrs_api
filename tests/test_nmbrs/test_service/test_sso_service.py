@@ -1,4 +1,5 @@
 """Unit tests for the SingleSingOnService class."""
+
 from unittest import TestCase, mock
 
 from src.nmbrs.service.sso_service import SingleSingOnService
@@ -57,11 +58,7 @@ class TestSingleSingOnService(TestCase):
         domain = "test_domain"
         token = self.service.sso_auth_with_domain(username, password, domain)
         self.assertEqual(token, "test_token")
-        self.mock_service.GetTokenWithDomain.assert_called_once_with(
-            Username=username,
-            Password=password,
-            Domain=domain
-        )
+        self.mock_service.GetTokenWithDomain.assert_called_once_with(Username=username, Password=password, Domain=domain)
 
     def test_sso_auth_with_password_exception(self):
         """Test sso_auth_with_password method with an exception."""
