@@ -6,6 +6,7 @@ from datetime import datetime
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from .microservices.debtor import DebtorDepartmentService, DebtorFunctionService, DebtorTitleService, DebtorWebHooksService
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
@@ -15,14 +16,10 @@ from ..data_classes.debtor import (
     Address,
     BankAccount,
     ContactInfo,
-    Department,
-    Function,
     LabourAgreementSettings,
     Manager,
     ServiceLevel,
     Tag,
-    WebhookSetting,
-    Event,
 )
 
 
@@ -46,6 +43,12 @@ class DebtorService(Service):
         # Initialize nmbrs services
         self.debtor_service = Client(f"{self.base_uri}{self.debtor_uri}")
 
+        # Micro services
+        self.department = DebtorDepartmentService(self.debtor_service)
+        self.function = DebtorFunctionService(self.debtor_service)
+        self.webhook = DebtorWebHooksService(self.debtor_service)
+        self.title = DebtorTitleService(self.debtor_service)
+
     def set_auth_header(self, auth_header: dict) -> None:
         """
         Method to set the authentication.
@@ -54,6 +57,11 @@ class DebtorService(Service):
             auth_header (dict): A dictionary containing authentication details.
         """
         self.auth_header = auth_header
+
+        self.department.set_auth_header(auth_header)
+        self.function.set_auth_header(auth_header)
+        self.webhook.set_auth_header(auth_header)
+        self.title.set_auth_header(auth_header)
 
     @nmbrs_exception_handler(resources=["DebtorService:Environment_Get"])
     def get_domain(self, username: str, token: str) -> str:
@@ -275,169 +283,6 @@ class DebtorService(Service):
         is_owner = self.debtor_service.service.Debtor_IsOwner(_soapheaders=self.auth_header)
         return is_owner
 
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Delete"])
-    def delete_department(self, debtor_id: int, department_id: int) -> None:
-        """
-        Delete a department of a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Department_Delete](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Department_Delete)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            department_id (int): The ID of the department to delete.
-        """
-        self.debtor_service.service.Department_Delete(DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header)
-
-    @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Department_GetList"])
-    def get_all_departments(self, debtor_id: int) -> list[Department]:
-        """
-        Retrieve all departments of a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Department_GetList](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Department_GetList)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-
-        Returns:
-            list[Department]: A list of Department objects representing all departments of the debtor.
-        """
-        departments = self.debtor_service.service.Department_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        departments = [Department(department) for department in serialize_object(departments)]
-        return departments
-
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Insert"])
-    def insert_department(self, debtor_id: int, department_id: int, code: int, description: str) -> int:
-        """
-        Insert a new department for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Department_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Department_Insert)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            department_id (int): The ID of the department.
-            code (int): The code of the department.
-            description (str): The description of the department.
-
-        Returns:
-            int: The ID of the inserted department if successful.
-        """
-        data = {
-            "DebtorId": debtor_id,
-            "department": {
-                "Id": department_id,
-                "Code": code,
-                "Description": description,
-            },
-        }
-        inserted = self.debtor_service.service.Department_Insert(**data, _soapheaders=self.auth_header)
-        return inserted
-
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Update"])
-    def update_department(self, debtor_id: int, department_id: int, code: int, description: str) -> None:
-        """
-        Update an existing department of a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Department_Update](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Department_Update)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            department_id (int): The ID of the department.
-            code (int): The code of the department.
-            description (str): The description of the department.
-        """
-        data = {
-            "DebtorId": debtor_id,
-            "department": {
-                "Id": department_id,
-                "Code": code,
-                "Description": description,
-            },
-        }
-        self.debtor_service.service.Department_Update(**data, _soapheaders=self.auth_header)
-
-    @nmbrs_exception_handler(resources=["DebtorService:Function_Delete"])
-    def delete_function(self, debtor_id: int, function_id: int) -> None:
-        """
-        Delete a function of a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Function_Delete](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Function_Delete)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            function_id (int): The ID of the function to be deleted.
-        """
-        self.debtor_service.service.Function_Delete(DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header)
-
-    @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Function_GetList"])
-    def get_all_functions(self, debtor_id: int, function_id: int) -> list[Function]:
-        """
-        Retrieve all functions of a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Function_GetList](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Function_GetList)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            function_id (int): The ID of the function.
-
-        Returns:
-            list[Function]: A list of Function objects representing all functions of the debtor.
-        """
-        functions = self.debtor_service.service.Function_GetList(DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header)
-        functions = [Function(function) for function in serialize_object(functions)]
-        return functions
-
-    @nmbrs_exception_handler(resources=["DebtorService:Function_Insert"])
-    def insert_function(self, debtor_id: int, function_id: int, code: int, description: str) -> int:
-        """
-        Insert a new function for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Function_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Function_Insert)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            function_id (int): The ID of the function.
-            code (int): The code of the function.
-            description (str): The description of the function.
-
-        Returns:
-            int: The ID of the inserted function if successful.
-        """
-        data = {
-            "DebtorId": debtor_id,
-            "function": {"Id": function_id, "Code": code, "Description": description},
-        }
-        inserted = self.debtor_service.service.Function_Insert(**data, _soapheaders=self.auth_header)
-        return inserted
-
-    @nmbrs_exception_handler(resources=["DebtorService:Function_Update"])
-    def update_function(self, debtor_id: int, function_id: int, code: int, description: str) -> None:
-        """
-        Update a function for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Function_Update](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Function_Update)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            function_id (int): The ID of the function.
-            code (int): The code of the function.
-            description (str): The description of the function.
-        """
-        data = {
-            "DebtorId": debtor_id,
-            "function": {"Id": function_id, "Code": code, "Description": description},
-        }
-        self.debtor_service.service.Function_Update(**data, _soapheaders=self.auth_header)
-
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:LabourAgreementSettings_GetList"])
     def get_all_labour_agreements(self, debtor_id: int, year: int, period: int) -> list[LabourAgreementSettings]:
@@ -519,116 +364,3 @@ class DebtorService(Service):
         tags = self.debtor_service.service.Tags_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         tags = [Tag(tag) for tag in serialize_object(tags)]
         return tags
-
-    @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Title_GetList"])
-    def get_all_titles(self, debtor_id: int) -> list[str]:
-        """
-        Retrieve all titles for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Title_GetList](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Title_GetList)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-
-        Returns:
-            list[str]: A list of strings representing all titles associated with the debtor.
-        """
-        titles = self.debtor_service.service.Title_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        titles = [title["TitleName"] for title in serialize_object(titles)]
-        return titles
-
-    @nmbrs_exception_handler(resources=["DebtorService:Title_Insert"])
-    def insert_titles(self, debtor_id: int, title: str) -> None:
-        """
-        Insert a title for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call Title_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Title_Insert)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            title (str): The title to be inserted.
-        """
-        data = {"DebtorId": debtor_id, "title": {"TitleName": title}}
-        self.debtor_service.service.Title_Insert(**data, _soapheaders=self.auth_header)
-
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Delete"])
-    def delete_webhook(self, debtor_id: int, webhook_id: int) -> bool:
-        """
-        Delete a webhook for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call WebhookSettings_Delete](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=WebhookSettings_Delete)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            webhook_id (int): The ID of the webhook to be deleted.
-
-        Returns:
-            bool: True if the webhook is successfully deleted, otherwise False.
-        """
-        deleted = self.debtor_service.service.WebhookSettings_Delete(
-            DebtorId=debtor_id,
-            WebhookSettingId=webhook_id,
-            _soapheaders=self.auth_header,
-        )
-        return deleted
-
-    @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Get"])
-    def get_webhooks(self, debtor_id: int) -> list[WebhookSetting]:
-        """
-        Retrieve all webhooks for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call WebhookSettings_Get](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=WebhookSettings_Get)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-
-        Returns:
-            list[WebhookSetting]: A list of WebhookSetting objects representing all webhooks associated with the debtor.
-        """
-        webhooks = self.debtor_service.service.WebhookSettings_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        webhooks = [WebhookSetting(webhook) for webhook in serialize_object(webhooks)]
-        return webhooks
-
-    @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_GetEvents"])
-    def get_webhook_events(self) -> list[Event]:
-        """
-        Retrieve all webhook events.
-
-        For more information, refer to the official documentation:
-            [Soap call WebhookSettings_GetEvents](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=WebhookSettings_GetEvents)
-
-        Returns:
-            list[Event]: A list of Event objects representing all webhook events.
-        """
-        events = self.debtor_service.service.WebhookSettings_GetEvents(_soapheaders=self.auth_header)
-        events = [Event(event) for event in serialize_object(events)]
-        return events
-
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Insert"])
-    def insert_webhook(self, debtor_id: int, insert_webhook_settings: WebhookSetting) -> int:
-        """
-        Insert a webhook for a debtor.
-
-        For more information, refer to the official documentation:
-            [Soap call WebhookSettings_Insert](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=WebhookSettings_Insert)
-
-        Args:
-            debtor_id (int): The ID of the debtor.
-            insert_webhook_settings (WebhookSetting): The WebhookSetting object to be inserted.
-
-        Returns:
-            int: The ID of the inserted webhook.
-        """
-        data = {
-            "DebtorId": debtor_id,
-            "WebhookSetting": insert_webhook_settings.to_insert_dict(),
-        }
-        inserted = self.debtor_service.service.WebhookSettings_Insert(**data, _soapheaders=self.auth_header)
-        return inserted

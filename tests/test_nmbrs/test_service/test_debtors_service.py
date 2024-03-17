@@ -9,17 +9,14 @@ from src.nmbrs.data_classes.debtor import (
     Debtor,
     AbsenceVerzuim,
     ContactInfo,
-    Department,
     BankAccount,
     Address,
-    Function,
     ServiceLevel,
     Tag,
     Manager,
     LabourAgreementSettings,
-    Event,
-    WebhookSetting,
 )
+from src.nmbrs.service.microservices.debtor import DebtorDepartmentService, DebtorFunctionService, DebtorWebHooksService, DebtorTitleService
 
 
 class TestDebtorService(unittest.TestCase):
@@ -31,6 +28,31 @@ class TestDebtorService(unittest.TestCase):
         self.debtor_service = DebtorService()
         self.debtor_service.debtor_service = self.mock_debtor_service
         self.debtor_service.set_auth_header(self.mock_auth_header)
+
+    def test_initiation_of_microservices(self):
+        """Test initialization of all microservices."""
+        self.assertIsInstance(self.debtor_service.department, DebtorDepartmentService)
+        self.assertIsInstance(self.debtor_service.function, DebtorFunctionService)
+        self.assertIsInstance(self.debtor_service.webhook, DebtorWebHooksService)
+        self.assertIsInstance(self.debtor_service.title, DebtorTitleService)
+
+    def test_set_auth_headers(self):
+        """Test setting authentication headers for all microservices."""
+        # Setup mocks
+        self.debtor_service.department = Mock()
+        self.debtor_service.function = Mock()
+        self.debtor_service.webhook = Mock()
+        self.debtor_service.title = Mock()
+
+        auth_header = {"Authorization": "Bearer token"}
+
+        # Call the set_auth_header method on the mocked CompanyService
+        self.debtor_service.set_auth_header(auth_header)
+
+        self.debtor_service.department.set_auth_header.assert_called_once_with(auth_header)
+        self.debtor_service.function.set_auth_header.assert_called_once_with(auth_header)
+        self.debtor_service.webhook.set_auth_header.assert_called_once_with(auth_header)
+        self.debtor_service.title.set_auth_header.assert_called_once_with(auth_header)
 
     def test_get_domain(self):
         """Test getting the domain associated with the token."""
@@ -70,15 +92,6 @@ class TestDebtorService(unittest.TestCase):
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(contact_info, ContactInfo) for contact_info in result))
         self.mock_debtor_service.service.AccountantContact_GetList.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
-
-    def test_get_all_departments(self):
-        """Test retrieving all departments of a debtor."""
-        mock_departments = [Mock() for _ in range(3)]
-        self.mock_debtor_service.service.Department_GetList.return_value = mock_departments
-        result = self.debtor_service.get_all_departments(1)
-        self.assertEqual(len(result), 3)
-        self.assertTrue(all(isinstance(department, Department) for department in result))
-        self.mock_debtor_service.service.Department_GetList.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
 
     def test_get_all_by_number(self):
         """Test retrieving all debtors by number."""
@@ -177,65 +190,6 @@ class TestDebtorService(unittest.TestCase):
         self.debtor_service.is_owner()
         self.mock_debtor_service.service.Debtor_IsOwner.assert_called_with(_soapheaders=self.mock_auth_header)
 
-    def test_delete_department(self):
-        """Test delete_department method."""
-        self.debtor_service.delete_department(1, 1)
-        self.mock_debtor_service.service.Department_Delete.assert_called_with(DebtorId=1, id=1, _soapheaders=self.mock_auth_header)
-
-    def test_insert_department(self):
-        """Test inserting a new department for a debtor."""
-        self.mock_debtor_service.service.Department_Insert.return_value = 123
-        result = self.debtor_service.insert_department(1, 2, 3, "test_description")
-        self.assertEqual(result, 123)
-        self.mock_debtor_service.service.Department_Insert.assert_called_once_with(
-            DebtorId=1,
-            department={"Id": 2, "Code": 3, "Description": "test_description"},
-            _soapheaders=self.mock_auth_header,
-        )
-
-    def test_update_department(self):
-        """Test updating an existing department of a debtor."""
-        self.debtor_service.update_department(1, 2, 3, "test_description")
-        self.mock_debtor_service.service.Department_Update.assert_called_once_with(
-            DebtorId=1,
-            department={"Id": 2, "Code": 3, "Description": "test_description"},
-            _soapheaders=self.mock_auth_header,
-        )
-
-    def test_delete_function(self):
-        """Test deleting a function of a debtor."""
-        self.debtor_service.delete_function(1, 2)
-        self.mock_debtor_service.service.Function_Delete.assert_called_once_with(DebtorId=1, id=2, _soapheaders=self.mock_auth_header)
-
-    def test_get_all_functions(self):
-        """Test retrieving all functions of a debtor."""
-        mock_functions = [Mock() for _ in range(3)]
-        self.mock_debtor_service.service.Function_GetList.return_value = mock_functions
-        result = self.debtor_service.get_all_functions(1, 2)
-        self.assertEqual(len(result), 3)
-        self.assertTrue(all(isinstance(func, Function) for func in result))
-        self.mock_debtor_service.service.Function_GetList.assert_called_once_with(DebtorId=1, id=2, _soapheaders=self.mock_auth_header)
-
-    def test_insert_function(self):
-        """Test inserting a new function for a debtor."""
-        self.mock_debtor_service.service.Function_Insert.return_value = 123
-        result = self.debtor_service.insert_function(1, 2, 3, "test_description")
-        self.assertEqual(result, 123)
-        self.mock_debtor_service.service.Function_Insert.assert_called_once_with(
-            DebtorId=1,
-            function={"Id": 2, "Code": 3, "Description": "test_description"},
-            _soapheaders=self.mock_auth_header,
-        )
-
-    def test_update_function(self):
-        """Test updating a function for a debtor."""
-        self.debtor_service.update_function(1, 2, 3, "test_description")
-        self.mock_debtor_service.service.Function_Update.assert_called_once_with(
-            DebtorId=1,
-            function={"Id": 2, "Code": 3, "Description": "test_description"},
-            _soapheaders=self.mock_auth_header,
-        )
-
     def test_get_all_labour_agreements(self):
         """Test retrieving all labour agreement settings for a debtor."""
         mock_labour_agreements = [Mock() for _ in range(3)]
@@ -278,63 +232,3 @@ class TestDebtorService(unittest.TestCase):
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(tag, Tag) for tag in result))
         self.mock_debtor_service.service.Tags_Get.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
-
-    def test_get_all_titles(self):
-        """Test retrieving all titles for a debtor."""
-        mock_titles = [
-            {"TitleName": "Title1"},
-            {"TitleName": "Title2"},
-            {"TitleName": "Title3"},
-        ]
-        self.mock_debtor_service.service.Title_GetList.return_value = mock_titles
-        result = self.debtor_service.get_all_titles(1)
-        self.assertEqual(result, ["Title1", "Title2", "Title3"])
-        self.mock_debtor_service.service.Title_GetList.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
-
-    def test_insert_titles(self):
-        """Test inserting a title for a debtor."""
-        self.debtor_service.insert_titles(1, "Test Title")
-        self.mock_debtor_service.service.Title_Insert.assert_called_once_with(
-            DebtorId=1,
-            title={"TitleName": "Test Title"},
-            _soapheaders=self.mock_auth_header,
-        )
-
-    def test_delete_webhook(self):
-        """Test deleting a webhook for a debtor."""
-        self.mock_debtor_service.service.WebhookSettings_Delete.return_value = True
-        result = self.debtor_service.delete_webhook(1, 123)
-        self.assertTrue(result)
-        self.mock_debtor_service.service.WebhookSettings_Delete.assert_called_once_with(
-            DebtorId=1, WebhookSettingId=123, _soapheaders=self.mock_auth_header
-        )
-
-    def test_get_webhooks(self):
-        """Test retrieving all webhooks for a debtor."""
-        mock_webhooks = [Mock() for _ in range(3)]
-        self.mock_debtor_service.service.WebhookSettings_Get.return_value = mock_webhooks
-        result = self.debtor_service.get_webhooks(1)
-        self.assertEqual(len(result), 3)
-        self.assertTrue(all(isinstance(webhook, WebhookSetting) for webhook in result))
-        self.mock_debtor_service.service.WebhookSettings_Get.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
-
-    def test_get_webhook_events(self):
-        """Test retrieving all webhook events."""
-        mock_events = [Mock() for _ in range(3)]
-        self.mock_debtor_service.service.WebhookSettings_GetEvents.return_value = mock_events
-        result = self.debtor_service.get_webhook_events()
-        self.assertEqual(len(result), 3)
-        self.assertTrue(all(isinstance(event, Event) for event in result))
-        self.mock_debtor_service.service.WebhookSettings_GetEvents.assert_called_once_with(_soapheaders=self.mock_auth_header)
-
-    def test_insert_webhook(self):
-        """Test inserting a webhook for a debtor."""
-        mock_webhook_setting = Mock(to_insert_dict=Mock(return_value={"TestKey": "TestValue"}))
-        self.mock_debtor_service.service.WebhookSettings_Insert.return_value = 123
-        result = self.debtor_service.insert_webhook(1, mock_webhook_setting)
-        self.assertEqual(result, 123)
-        self.mock_debtor_service.service.WebhookSettings_Insert.assert_called_once_with(
-            DebtorId=1,
-            WebhookSetting={"TestKey": "TestValue"},
-            _soapheaders=self.mock_auth_header,
-        )
