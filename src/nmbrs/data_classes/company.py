@@ -73,35 +73,6 @@ class LabourAgreement(DataClass):
         self.cao: CodeDescription = CodeDescription(data.get("CAO"))
         self.bln_use_provisional: bool = data.get("BlnUseProvisional")
 
-    def to_dict(self) -> dict:
-        """
-        Convert the dataect to a dictionary.
-
-        Returns:
-            dict: A dictionary representation of the dataect.
-        """
-        return {
-            "id": self.id,
-            "guid": self.guid,
-            "number": self.number,
-            "description": self.description,
-            "default": self.default,
-            "schedule_model": self.schedule_model.to_dict(),
-            "wage_model": self.wage_model.to_dict(),
-            "wage_model_2": self.wage_model_2.to_dict(),
-            "hours_model": self.hours_model.to_dict(),
-            "hours_model_2": self.hours_model_2.to_dict(),
-            "industry": self.industry.to_dict(),
-            "industry_2": self.industry_2.to_dict(),
-            "industry_3": self.industry_3.to_dict(),
-            "leave_model": self.leave_model.to_dict(),
-            "hours_reservation_model": self.hours_reservation_model.to_dict(),
-            "reservation_model": self.reservation_model.to_dict(),
-            "salary_table": self.salary_table.to_dict(),
-            "cao": self.cao.to_dict(),
-            "bln_use_provisional": self.bln_use_provisional,
-        }
-
 
 class CodeDescription(DataClass):
     """
@@ -116,7 +87,7 @@ class CodeDescription(DataClass):
             data (dict): A dictionary containing data to initialize instance variables.
         """
         if data is None:
-            return
+            return  # pragma: no cover
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
 
@@ -225,7 +196,10 @@ class GuidConvertor(DataClass):
         """
         self.entity: str = data.get("Entity")
         mappings_data = data.get("Mappings", [])
-        self.mappings: list[Mapping] = [Mapping(mapping_data) for mapping_data in mappings_data["Mapping"]]
+        mappings_data = mappings_data.get("Mapping", [])
+        if not isinstance(mappings_data, list):
+            mappings_data = [mappings_data]
+        self.mappings: list[Mapping] = [Mapping(mapping_data) for mapping_data in mappings_data]
 
 
 class Mapping(DataClass):

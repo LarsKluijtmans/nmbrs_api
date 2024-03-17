@@ -11,6 +11,7 @@ from src.nmbrs.exceptions import (
     DomainNotFoundError,
     AuthenticationError,
     AuthorizationError,
+    UnknownNmbrsError,
 )
 from src.nmbrs.utils.nmbrs_exception_handler import (
     nmbrs_sso_exception_handler,
@@ -126,7 +127,7 @@ class TestNmbrsExceptionHandler(TestCase):
 
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
-    def test_handle_multiple_authorization_error(self):
+    def test_handle_unauthorized_error(self):
         """Test handling of AuthorizationError exception with different error message."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
@@ -134,6 +135,18 @@ class TestNmbrsExceptionHandler(TestCase):
             raise zeep.exceptions.Fault("---> 1003: Unauthorized access")
 
         with self.assertRaises(AuthorizationError) as context:
+            raise_authorization_error()
+
+        self.assertEqual(context.exception.resources, ["resource1", "resource2"])
+
+    def test_handle_unknown_error(self):
+        """Test handling of UnknownNmbrsError exception with different error message."""
+
+        @nmbrs_exception_handler(resources=["resource1", "resource2"])
+        def raise_authorization_error():
+            raise zeep.exceptions.Fault("---> 9999: Unkown")
+
+        with self.assertRaises(UnknownNmbrsError) as context:
             raise_authorization_error()
 
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])

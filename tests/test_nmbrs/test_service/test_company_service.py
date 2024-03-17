@@ -3,7 +3,7 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.company import Period
+from src.nmbrs.data_classes.company import Period, ContactPerson, GuidConvertor
 from src.nmbrs.service.company_service import CompanyService, Company
 from src.nmbrs.service.microservices.company import (
     CompanyAddressService,
@@ -129,3 +129,63 @@ class TestCompanyService(unittest.TestCase):
         result = self.company_service.get_current_period(1)
         self.assertIsInstance(result, Period)
         self.mock_company_service.service.Company_GetCurrentPeriod.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+
+    def test_get_current_period_return_none(self):
+        """Test retrieving the current period of a company, returns none."""
+        self.mock_company_service.service.Company_GetCurrentPeriod.return_value = None
+        result = self.company_service.get_current_period(1)
+        self.assertIsNone(result)
+        self.mock_company_service.service.Company_GetCurrentPeriod.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+
+    def test_get_by_employee(self):
+        """Test retrieving company by employee ID."""
+        mock_company = Mock()
+        self.mock_company_service.service.Company_GetCurrentByEmployeeId.return_value = mock_company
+        result = self.company_service.get_by_employee(1)
+        self.assertIsInstance(result, Company)
+        self.mock_company_service.service.Company_GetCurrentByEmployeeId.assert_called_once_with(
+            EmployeeId=1, _soapheaders=self.mock_auth_header
+        )
+
+    def test_get_by_employee_return_none(self):
+        """Test retrieving company by employee ID, returns none."""
+        self.mock_company_service.service.Company_GetCurrentByEmployeeId.return_value = None
+        result = self.company_service.get_by_employee(1)
+        self.assertIsNone(result)
+        self.mock_company_service.service.Company_GetCurrentByEmployeeId.assert_called_once_with(
+            EmployeeId=1, _soapheaders=self.mock_auth_header
+        )
+
+    def test_insert(self):
+        """Test inserting a new company."""
+        mock_inserted_id = 123
+        self.mock_company_service.service.Company_Insert.return_value = mock_inserted_id
+        result = self.company_service.insert(1, "Test Company", 1, 1, "labour_agreement_group_id", True)
+        self.assertEqual(result, mock_inserted_id)
+        self.mock_company_service.service.Company_Insert.assert_called_once_with(
+            DebtorId=1,
+            CompanyName="Test Company",
+            PeriodType=1,
+            DefaultCompanyId=1,
+            LabourAgreementSettingsGroupGuid="labour_agreement_group_id",
+            PayInAdvance=True,
+            _soapheaders=self.mock_auth_header,
+        )
+
+    def test_get_contact_person(self):
+        """Test retrieving contact person by company ID."""
+        mock_contact_person = Mock()
+        self.mock_company_service.service.ContactPerson_Get.return_value = mock_contact_person
+        result = self.company_service.get_contact_person(1)
+        self.assertIsInstance(result, ContactPerson)
+        self.mock_company_service.service.ContactPerson_Get.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+
+    def test_get_converter_mappings(self):
+        """Test retrieving converter mappings for the given entity and company ID."""
+        mock_guids = Mock()
+        self.mock_company_service.service.Converter_GetByCompany_IntToGuid.return_value = mock_guids
+        result = self.company_service.get_converter_mappings(1, "Employee")
+        self.assertIsInstance(result, GuidConvertor)
+        self.mock_company_service.service.Converter_GetByCompany_IntToGuid.assert_called_once_with(
+            Entity="Employee", CompanyId=1, _soapheaders=self.mock_auth_header
+        )
