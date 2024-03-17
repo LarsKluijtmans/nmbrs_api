@@ -1,12 +1,4 @@
-"""
-Decorator ensuring the decorated function always returns a list.
-
-Functions:
-    return_list: Decorator ensuring the decorated function always returns a list.
-
-Dependencies:
-    None
-"""
+"""Decorator ensuring the decorated function always returns a list."""
 
 
 def return_list(func):

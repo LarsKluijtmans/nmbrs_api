@@ -15,18 +15,11 @@ class MicroService(ABC):
 
     Attributes:
         client (Client): A Zeep Client object used for communication with the microservice.
+        auth_header (dict | None): The authentication header used by Nmbrs.
     """
 
     @abstractmethod
     def __init__(self, client: Client) -> None:
-        """
-        Constructor method for MicroService.
-
-        Initializes common attributes for microservice classes.
-
-        Args:
-            client (Client): A Zeep Client object representing the connection to the microservice.
-        """
         self.client = client
         self.auth_header: dict | None = None
 

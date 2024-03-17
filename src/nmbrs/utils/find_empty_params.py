@@ -1,9 +1,4 @@
-"""
-This module provides a function to find empty parameters in a set of keyword arguments.
-
-Functions:
-    find_empty_params: Finds and returns the names of empty parameters
-"""
+"""This module provides a function to find empty parameters in a set of keyword arguments."""
 
 
 def find_empty_params(**kwargs):

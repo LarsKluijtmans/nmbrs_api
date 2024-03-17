@@ -1,6 +1,4 @@
-"""
-Versioning details.
-"""
+"""Versioning details."""
 
 __title__ = "nmbrs"
 __version__ = "0.0.400"

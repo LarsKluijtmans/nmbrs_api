@@ -1,6 +1,4 @@
-"""
-Main class provided by the package.
-"""
+"""Main class provided by the package."""
 
 from .exceptions.custom_exceptions import ParameterMissingError
 from .service.company_service import CompanyService

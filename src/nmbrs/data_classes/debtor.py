@@ -1,26 +1,4 @@
-"""
-This module defines various data classes for representing different entities in the system.
-
-Classes:
-- AbsenceVerzuim: A class representing absence data.
-- Address: A class representing an address.
-- BankAccount: A class representing a bank account.
-- ContactInfo: A class representing contact information.
-- Debtor: A class representing a debtor.
-- Department: A class representing a department.
-- Function: A class representing a function.
-- LabourAgreementSettings: A class representing labour agreement settings.
-- Manager: A class representing manager information.
-- ServiceLevel: A class representing service level information.
-- Tag: A class representing debtor tag information.
-- Event: A class representing an event.
-- WebhookSetting: A class representing a webhook setting.
-
-Dependencies:
-- DataClass: A base class for data classes.
-- datetime: Module providing classes for manipulating dates and times.
-- parse_xml_to_dict: Function for parsing XML data into a dictionary.
-"""
+"""This module defines various data classes for representing different entities in the system."""
 
 from datetime import datetime
 
@@ -29,17 +7,9 @@ from .utils.xml import parse_xml_to_dict
 
 
 class AbsenceVerzuim(DataClass):
-    """
-    A class representing absence data.
-    """
+    """A class representing absence data."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.debtor_id: int = data.get("DebtorID", None)
         self.company_id: int = data.get("CompanyID", None)
         self.employee_id: int = data.get("EmployeeID", None)
@@ -60,17 +30,9 @@ class AbsenceVerzuim(DataClass):
 
 
 class Address(DataClass):
-    """
-    A class representing an address.
-    """
+    """A class representing an address."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.default: bool = data.get("Default", None)
         self.street: str = data.get("Street", None)
@@ -83,17 +45,9 @@ class Address(DataClass):
 
 
 class BankAccount(DataClass):
-    """
-    A class representing a bank account.
-    """
+    """A class representing a bank account."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.number: str = data.get("Number", None)
         self.description: str = data.get("Description", None)
@@ -105,85 +59,45 @@ class BankAccount(DataClass):
 
 
 class ContactInfo(DataClass):
-    """
-    A class representing a contact info.
-    """
+    """A class representing a contact info."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.email: str = data.get("Email", None)
         self.name: str = data.get("Name", None)
         self.phone: str = data.get("Phone", None)
 
 
 class Debtor(DataClass):
-    """
-    A class representing a debtor.
-    """
+    """A class representing a debtor."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.number: str = data.get("Number", None)
         self.name: str = data.get("Name", None)
 
 
 class Department(DataClass):
-    """
-    A class representing a department.
-    """
+    """A class representing a department."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.code: int = data.get("Code", None)
         self.description: str = data.get("Description", None)
 
 
 class Function(DataClass):
-    """
-    A class representing a function.
-    """
+    """A class representing a function."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.code: int = data.get("Code", None)
         self.description: str = data.get("Description", None)
 
 
 class LabourAgreementSettings(DataClass):
-    """
-    A class representing labour agreement settings.
-    """
+    """A class representing labour agreement settings."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id", None)
         self.guid: str = data.get("Guid", None)
         self.int_number: int = data.get("IntNumber", None)
@@ -192,17 +106,9 @@ class LabourAgreementSettings(DataClass):
 
 
 class Manager(DataClass):
-    """
-    A class representing manager information.
-    """
+    """A class representing manager information."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.number: int = data.get("Number", None)
         self.first_name: str = data.get("FirstName", None)
         self.name: str = data.get("Name", None)
@@ -215,17 +121,9 @@ class Manager(DataClass):
 
 
 class ServiceLevel(DataClass):
-    """
-    A class representing service level information.
-    """
+    """A class representing service level information."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.start_period: int = data.get("StartPeriod", None)
         self.start_year: int = data.get("StartYear", None)
         self.service_level: str = data.get("ServiceLevel", None)
@@ -233,34 +131,18 @@ class ServiceLevel(DataClass):
 
 
 class Tag(DataClass):
-    """
-    A class representing debtor tag information.
-    """
+    """A class representing debtor tag information."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.number: int = data.get("Number", None)
         self.hex_color: str = data.get("HexColor", None)
         self.tag: str = data.get("Tag", None)
 
 
 class Event(DataClass):
-    """
-    A class representing an event.
-    """
+    """A class representing an event."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.event_id: int = data.get("EventId", None)
         self.event_name: str = data.get("EventName", None)
         self.active: bool = data.get("Active", None)
@@ -278,17 +160,9 @@ class Event(DataClass):
 
 
 class WebhookSetting(DataClass):
-    """
-    A class representing a webhook setting.
-    """
+    """A class representing a webhook setting."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.webhook_setting_id: int = data.get("WebhookSettingId", None)
         self.name: str = data.get("Name", None)
         self.endpoint: str = data.get("Endpoint", None)
@@ -297,20 +171,6 @@ class WebhookSetting(DataClass):
         if not isinstance(events_data, list):
             events_data = [events_data]
         self.events: list[Event] = [Event(event_data) for event_data in events_data]
-
-    def to_dict(self) -> dict:
-        """
-        Convert the instance to a dictionary.
-
-        :return: A dictionary representation of the instance.
-        """
-        return {
-            "webhook_setting_id": self.webhook_setting_id,
-            "name": self.name,
-            "endpoint": self.endpoint,
-            "active": self.active,
-            "events": [event.to_dict() for event in self.events] if self.events else [],
-        }
 
     def to_insert_dict(self) -> dict:
         """

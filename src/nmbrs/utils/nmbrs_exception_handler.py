@@ -1,22 +1,4 @@
-"""
-Exception Handling Decorators for Nmbrs SOAP API
-
-Provides decorators to handle exceptions raised by the Nmbrs SOAP API and customize exception handling
-based on specific error codes.
-
-Functions:
-    - nmbrs_exception_handler(resources: list[str]): Decorator for handling exceptions from the Nmbrs SOAP API.
-    - nmbrs_sso_exception_handler(resources: list[str]): Decorator for handling Single Sign-On (SSO) exceptions
-      from the Nmbrs SOAP API.
-
-Dependencies:
-    - zeep.exceptions: Exception classes provided by Zeep library for SOAP web service communication.
-    - Custom exception classes: DefaultLoginFailure, InvalidAuthentication, InvalidDomain,
-      InvalidEmailPassword, MultipleEnvironments, UnauthorizedAccess.
-
-Note:
-    These decorators are intended to be used with functions that interact with the Nmbrs SOAP API.
-"""
+"""Exception Handling Decorators for Nmbrs SOAP API"""
 
 import zeep.exceptions
 

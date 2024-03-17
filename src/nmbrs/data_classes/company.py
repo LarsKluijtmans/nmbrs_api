@@ -1,16 +1,4 @@
-"""
-This module defines various data classes for representing different entities in the system.
-
-Classes:
-- Company: A class representing a company.
-- WageTax: A class representing a wage tax.
-- WageTaxXML: A class representing wage tax XML.
-
-Dependencies:
-- DataClass: A base class for data classes.
-- datetime: Module providing classes for manipulating dates and times.
-- parse_xml_to_dict: Function for parsing XML data into a dictionary.
-"""
+"""This module defines various data classes for representing different entities in the system."""
 
 from datetime import datetime
 
@@ -19,17 +7,9 @@ from .utils.xml import parse_xml_to_dict
 
 
 class Company(DataClass):
-    """
-    A class representing a company.
-    """
+    """A class representing a company."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("ID", None)
         self.number: int = data.get("Number", None)
         self.name: str = data.get("Name", None)
@@ -42,17 +22,9 @@ class Company(DataClass):
 
 
 class LabourAgreement(DataClass):
-    """
-    A class representing a labour agreement.
-    """
+    """A class representing a labour agreement."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("Id")
         self.guid: str = data.get("Guid")
         self.number: int = data.get("Number")
@@ -75,17 +47,9 @@ class LabourAgreement(DataClass):
 
 
 class CodeDescription(DataClass):
-    """
-    A class representing a code and a description.
-    """
+    """A class representing a code and a description."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         if data is None:
             return  # pragma: no cover
         self.code: int = data.get("Code")
@@ -93,17 +57,9 @@ class CodeDescription(DataClass):
 
 
 class Period(DataClass):
-    """
-    A class representing a period of a company.
-    """
+    """A class representing a period of a company."""
 
     def __init__(self, data: str) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (str): A string containing data to initialize instance variables.
-        """
         parts = data.split("-")
         self.year: int = int(parts[0])
         self.period: int = int(parts[1])
@@ -111,17 +67,9 @@ class Period(DataClass):
 
 
 class WageTax(DataClass):
-    """
-    A class representing a wage tax.
-    """
+    """A class representing a wage tax."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.loonaangifte_id: int = data.get("LoonaangifteID", None)
         self.serial_number: int = data.get("SerialNumber", None)
         self.payment_reference: str = data.get("PaymentReference", None)
@@ -137,17 +85,9 @@ class WageTax(DataClass):
 
 
 class WageTaxXML(DataClass):
-    """
-    A class representing wage tax XML.
-    """
+    """A class representing wage tax XML."""
 
     def __init__(self, data: str) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.xml: str = data
 
     def to_dict(self) -> dict:
@@ -160,17 +100,9 @@ class WageTaxXML(DataClass):
 
 
 class ContactPerson(DataClass):
-    """
-    A class representing a contact person with their details.
-    """
+    """A class representing a contact person with their details."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.email: str = data.get("Email")
         self.name: str = data.get("Name")
         self.phone: str = data.get("Phone")
@@ -183,17 +115,9 @@ class ContactPerson(DataClass):
 
 
 class GuidConvertor(DataClass):
-    """
-    A class representing the mappings between integer IDs and GUIDs for a specific entity.
-    """
+    """A class representing the mappings between integer IDs and GUIDs for a specific entity."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.entity: str = data.get("Entity")
         mappings_data = data.get("Mappings", [])
         mappings_data = mappings_data.get("Mapping", [])
@@ -203,16 +127,8 @@ class GuidConvertor(DataClass):
 
 
 class Mapping(DataClass):
-    """
-    A class representing a mapping between an integer ID and a GUID.
-    """
+    """A class representing a mapping between an integer ID and a GUID."""
 
     def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
         self.id: int = data.get("IdInt")
         self.guid: str = data.get("IdGuid")

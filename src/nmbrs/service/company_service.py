@@ -45,12 +45,6 @@ class CompanyService(Service):
     """
 
     def __init__(self, sandbox: bool = True) -> None:
-        """
-        Constructor method for CompanyService class.
-
-        Args:
-            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
-        """
         super().__init__(sandbox)
 
         # Initialize nmbrs client
@@ -81,10 +75,11 @@ class CompanyService(Service):
         Method to set the authentication.
 
         Args:
-             auth_header (dict): A dictionary containing authentication details.
+            auth_header (dict): A dictionary containing authentication details.
         """
         self.auth_header = auth_header
 
+        # Micro services
         self.address.set_auth_header(auth_header)
         self.bank_account.set_auth_header(auth_header)
         self.cost_center.set_auth_header(auth_header)
