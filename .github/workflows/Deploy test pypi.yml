@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      version_input:
+        description: 'Version number to be deployed'
+        required: false
 
 jobs:
   deploy:
@@ -22,7 +27,7 @@ jobs:
           pip install --upgrade build twine
 
       - name: Increase version number
-        run:  python increase_version.py
+        run:  python set_version.py --version=${{ github.event.inputs.version_input }}
 
       - name: Build package
         run: python -m build
