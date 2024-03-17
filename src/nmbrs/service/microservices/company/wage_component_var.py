@@ -20,19 +20,7 @@ class CompanyWageComponentVarService(MicroService):
     """
 
     def __init__(self, client: Client) -> None:
-        """
-        Constructor method for CompanyWageComponentVarService.
-
-        Args:
-            client (Client): A Zeep Client object representing the connection to the Nmbrs API.
-        """
         super().__init__(client)
 
     def set_auth_header(self, auth_header: dict) -> None:
-        """
-        Set the authentication header for requests to the Nmbrs API.
-
-        Args:
-            auth_header (dict): The authentication header to be set.
-        """
         self.auth_header = auth_header

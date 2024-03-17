@@ -17,12 +17,6 @@ class SingleSingOnService(Service):
     """
 
     def __init__(self, sandbox: bool = True) -> None:
-        """
-        Constructor method for SingleSingOnService class.
-
-        Args:
-            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
-        """
         super().__init__(sandbox)
 
         # Initialize nmbrs services

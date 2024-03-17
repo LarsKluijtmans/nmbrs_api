@@ -32,12 +32,6 @@ class DebtorService(Service):
     """
 
     def __init__(self, sandbox: bool = True) -> None:
-        """
-        Constructor method for DebtorService class.
-
-        Args:
-            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
-        """
         super().__init__(sandbox)
 
         # Initialize nmbrs services
@@ -58,6 +52,7 @@ class DebtorService(Service):
         """
         self.auth_header = auth_header
 
+        # Micro services
         self.department.set_auth_header(auth_header)
         self.function.set_auth_header(auth_header)
         self.webhook.set_auth_header(auth_header)
