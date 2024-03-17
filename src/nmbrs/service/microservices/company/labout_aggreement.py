@@ -26,6 +26,9 @@ class CompanyLabourAgreementService(MicroService):
         """
         Get a list of all the labour agreements that are assigned to a company.
 
+        For more information, refer to the official documentation:
+            [LabourAgreements_Get](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=LabourAgreements_Get)
+
         Args:
             company_id (int): The ID of the company.
             period (int): The period.
@@ -48,6 +51,9 @@ class CompanyLabourAgreementService(MicroService):
     def get_current(self, company_id: int):
         """
         Get a list of current labour agreements assigned to a company.
+
+        For more information, refer to the official documentation:
+            [LabourAgreements_GetCurrent](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=LabourAgreements_GetCurrent)
 
         Args:
             company_id (int): The ID of the company.

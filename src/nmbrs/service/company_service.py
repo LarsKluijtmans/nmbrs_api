@@ -14,13 +14,11 @@ from .microservices.company import (
     CompanyJournalService,
     CompanyLabourAgreementService,
     CompanyPensionService,
-    CompanyReportService,
     CompanyRunService,
     CompanySalaryDocumentService,
     CompanySalaryTableService,
-    CompanyWageComponentFixedService,
-    CompanySVWService,
-    CompanyWageComponentVarService,
+    CompanyWageComponentService,
+    CompanySvwService,
     CompanyWageCostService,
     CompanyWageModelService,
     CompanyWageTaxService,
@@ -59,13 +57,11 @@ class CompanyService(Service):
         self.journal = CompanyJournalService(self.company_service)
         self.labour_agreement = CompanyLabourAgreementService(self.company_service)
         self.pension = CompanyPensionService(self.company_service)
-        self.reports = CompanyReportService(self.company_service)
         self.run = CompanyRunService(self.company_service)
         self.salary_documents = CompanySalaryDocumentService(self.company_service)
         self.salary_table = CompanySalaryTableService(self.company_service)
-        self.svw = CompanySVWService(self.company_service)
-        self.wage_component_fixed = CompanyWageComponentFixedService(self.company_service)
-        self.wage_component_var = CompanyWageComponentVarService(self.company_service)
+        self.svw = CompanySvwService(self.company_service)
+        self.wage_component = CompanyWageComponentService(self.company_service)
         self.wage_cost = CompanyWageCostService(self.company_service)
         self.wage_model = CompanyWageModelService(self.company_service)
         self.wage_tax = CompanyWageTaxService(self.company_service)
@@ -88,13 +84,11 @@ class CompanyService(Service):
         self.journal.set_auth_header(auth_header)
         self.labour_agreement.set_auth_header(auth_header)
         self.pension.set_auth_header(auth_header)
-        self.reports.set_auth_header(auth_header)
         self.run.set_auth_header(auth_header)
         self.salary_documents.set_auth_header(auth_header)
         self.salary_table.set_auth_header(auth_header)
         self.svw.set_auth_header(auth_header)
-        self.wage_component_fixed.set_auth_header(auth_header)
-        self.wage_component_var.set_auth_header(auth_header)
+        self.wage_component.set_auth_header(auth_header)
         self.wage_cost.set_auth_header(auth_header)
         self.wage_model.set_auth_header(auth_header)
         self.wage_tax.set_auth_header(auth_header)

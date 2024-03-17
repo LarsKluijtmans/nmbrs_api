@@ -9,12 +9,7 @@ from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class CompanyAddressService(MicroService):
-    """
-    Microservice responsible for address-related actions on the company level.
-
-    Could not get working:
-        - [Address_GetCurrentWithAddressType](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Address_GetCurrentWithAddressType)
-    """
+    """Microservice responsible for address-related actions on the company level."""
 
     def __init__(self, client: Client) -> None:
         super().__init__(client)
@@ -27,7 +22,8 @@ class CompanyAddressService(MicroService):
         """
         Get the current address of the company.
 
-        This method fetches the current address of the specified company from the Nmbrs API.
+        For more information, refer to the official documentation:
+            [Address_GetCurrent](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Address_GetCurrent)
 
         Args:
             company_id (int): The ID of the company.
@@ -57,7 +53,8 @@ class CompanyAddressService(MicroService):
         """
         Insert a new address for the company.
 
-        This method inserts a new address for the specified company using the provided address data.
+        For more information, refer to the official documentation:
+            [Address_Insert](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Address_Insert)
 
         Args:
             company_id (int): The ID of the company.
@@ -108,7 +105,8 @@ class CompanyAddressService(MicroService):
         """
         Update an existing address for the company.
 
-        This method updates an existing address for the specified company using the provided address data.
+        For more information, refer to the official documentation:
+            [Address_Update](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Address_Update)
 
         Args:
             company_id (int): The ID of the company.

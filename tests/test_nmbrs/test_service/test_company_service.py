@@ -14,13 +14,11 @@ from src.nmbrs.service.microservices.company import (
     CompanyJournalService,
     CompanyLabourAgreementService,
     CompanyPensionService,
-    CompanyReportService,
     CompanyRunService,
     CompanySalaryDocumentService,
     CompanySalaryTableService,
-    CompanyWageComponentFixedService,
-    CompanySVWService,
-    CompanyWageComponentVarService,
+    CompanyWageComponentService,
+    CompanySvwService,
     CompanyWageCostService,
     CompanyWageModelService,
     CompanyWageTaxService,
@@ -47,13 +45,11 @@ class TestCompanyService(unittest.TestCase):
         self.assertIsInstance(self.company_service.journal, CompanyJournalService)
         self.assertIsInstance(self.company_service.labour_agreement, CompanyLabourAgreementService)
         self.assertIsInstance(self.company_service.pension, CompanyPensionService)
-        self.assertIsInstance(self.company_service.reports, CompanyReportService)
         self.assertIsInstance(self.company_service.run, CompanyRunService)
         self.assertIsInstance(self.company_service.salary_documents, CompanySalaryDocumentService)
         self.assertIsInstance(self.company_service.salary_table, CompanySalaryTableService)
-        self.assertIsInstance(self.company_service.svw, CompanySVWService)
-        self.assertIsInstance(self.company_service.wage_component_fixed, CompanyWageComponentFixedService)
-        self.assertIsInstance(self.company_service.wage_component_var, CompanyWageComponentVarService)
+        self.assertIsInstance(self.company_service.svw, CompanySvwService)
+        self.assertIsInstance(self.company_service.wage_component, CompanyWageComponentService)
         self.assertIsInstance(self.company_service.wage_cost, CompanyWageCostService)
         self.assertIsInstance(self.company_service.wage_model, CompanyWageModelService)
         self.assertIsInstance(self.company_service.wage_tax, CompanyWageTaxService)
@@ -74,8 +70,7 @@ class TestCompanyService(unittest.TestCase):
         self.company_service.salary_documents = Mock()
         self.company_service.salary_table = Mock()
         self.company_service.svw = Mock()
-        self.company_service.wage_component_fixed = Mock()
-        self.company_service.wage_component_var = Mock()
+        self.company_service.wage_component = Mock()
         self.company_service.wage_cost = Mock()
         self.company_service.wage_model = Mock()
         self.company_service.wage_tax = Mock()
@@ -93,13 +88,11 @@ class TestCompanyService(unittest.TestCase):
         self.company_service.journal.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.labour_agreement.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.pension.set_auth_header.assert_called_once_with(auth_header)
-        self.company_service.reports.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.run.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.salary_documents.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.salary_table.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.svw.set_auth_header.assert_called_once_with(auth_header)
-        self.company_service.wage_component_fixed.set_auth_header.assert_called_once_with(auth_header)
-        self.company_service.wage_component_var.set_auth_header.assert_called_once_with(auth_header)
+        self.company_service.wage_component.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.wage_cost.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.wage_model.set_auth_header.assert_called_once_with(auth_header)
         self.company_service.wage_tax.set_auth_header.assert_called_once_with(auth_header)

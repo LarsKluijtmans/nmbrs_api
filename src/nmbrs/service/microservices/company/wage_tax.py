@@ -10,12 +10,7 @@ from src.nmbrs.utils.return_list import return_list
 
 
 class CompanyWageTaxService(MicroService):
-    """
-    Microservice responsible for wagetax-related actions on the company level.
-
-    Not implemented calls:
-        - [WageTax_SetSentExternal](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_SetSentExternal)
-    """
+    """Microservice responsible for wagetax-related actions on the company level."""
 
     def __init__(self, client: Client) -> None:
         super().__init__(client)
@@ -65,3 +60,13 @@ class CompanyWageTaxService(MicroService):
         )
         wage_tax_details = WageTaxXML(wage_tax_details)
         return wage_tax_details
+
+    @nmbrs_exception_handler(resources=["CompanyService:WageTax_SetSentExternal"])
+    def set_send_as_external(self):
+        """
+        Set wage tax status to Sent as External.
+
+        For more information, refer to the official documentation:
+            [WageTax_SetSentExternal](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_SetSentExternal)
+        """
+        raise NotImplementedError()  # pragma: no cover
