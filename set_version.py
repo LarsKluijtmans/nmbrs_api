@@ -6,8 +6,6 @@ import os
 import re
 import argparse
 
-from src.nmbrs.exceptions import ParameterMissingError
-
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Set the version number of the package on deployment.")
 parser.add_argument("--version", default=None, help="New version number in the format x.y.z")
