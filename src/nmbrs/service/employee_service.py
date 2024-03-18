@@ -3,6 +3,7 @@
 Module for handling the Employee Nmbrs services.
 """
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from .microservices.employee import (
     EmployeeWageTaxService,
@@ -35,7 +36,10 @@ from .microservices.employee import (
     EmployeeTimeScheduleService,
 )
 from .service import Service
+from ..data_classes.company import Period
+from ..data_classes.employee import EmployeeTypes, Employee
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..utils.return_list import return_list
 
 
 class EmployeeService(Service):
@@ -45,37 +49,37 @@ class EmployeeService(Service):
         super().__init__(sandbox)
 
         # Initialize nmbrs services
-        self.employee_service = Client(f"{self.base_uri}{self.employee_uri}")
+        self.client = Client(f"{self.base_uri}{self.employee_uri}")
 
         # Micro services
-        self.absence = EmployeeAbsenceService(self.employee_service)
-        self.address = EmployeeAddressService(self.employee_service)
-        self.bank_account = EmployeeBankAccountService(self.employee_service)
-        self.child = EmployeeChildService(self.employee_service)
-        self.contract = EmployeeContractService(self.employee_service)
-        self.cost_center = EmployeeCostCenterService(self.employee_service)
-        self.days = EmployeeDaysService(self.employee_service)
-        self.department = EmployeeDepartmentsService(self.employee_service)
-        self.document = EmployeeDocumentService(self.employee_service)
-        self.employment = EmployeeEmploymentService(self.employee_service)
-        self.function = EmployeeFunctionService(self.employee_service)
-        self.hour_component = EmployeeHourComponentFixedService(self.employee_service)
-        self.labour_agreement = EmployeeLabourAgreementService(self.employee_service)
-        self.lease_car = EmployeeLeaseCarService(self.employee_service)
-        self.leave = EmployeeLeaveService(self.employee_service)
-        self.levensloop = EmployeeLevensLoopService(self.employee_service)
-        self.manager = EmployeeManagerService(self.employee_service)
-        self.partner = EmployeePartnerService(self.employee_service)
-        self.personal_info = EmployeePersonalInfoService(self.employee_service)
-        self.salary = EmployeeSalaryService(self.employee_service)
-        self.schedule = EmployeeScheduleService(self.employee_service)
-        self.service = EmployeeServiceService(self.employee_service)
-        self.spaarloon = EmployeeSpaarloonService(self.employee_service)
-        self.svw = EmployeeSvwService(self.employee_service)
-        self.time_registration = EmployeeTimeRegistrationService(self.employee_service)
-        self.time_schedule = EmployeeTimeScheduleService(self.employee_service)
-        self.wage_component = EmployeeWageComponentsService(self.employee_service)
-        self.wage_tax = EmployeeWageTaxService(self.employee_service)
+        self.absence = EmployeeAbsenceService(self.client)
+        self.address = EmployeeAddressService(self.client)
+        self.bank_account = EmployeeBankAccountService(self.client)
+        self.child = EmployeeChildService(self.client)
+        self.contract = EmployeeContractService(self.client)
+        self.cost_center = EmployeeCostCenterService(self.client)
+        self.days = EmployeeDaysService(self.client)
+        self.department = EmployeeDepartmentsService(self.client)
+        self.document = EmployeeDocumentService(self.client)
+        self.employment = EmployeeEmploymentService(self.client)
+        self.function = EmployeeFunctionService(self.client)
+        self.hour_component = EmployeeHourComponentFixedService(self.client)
+        self.labour_agreement = EmployeeLabourAgreementService(self.client)
+        self.lease_car = EmployeeLeaseCarService(self.client)
+        self.leave = EmployeeLeaveService(self.client)
+        self.levensloop = EmployeeLevensLoopService(self.client)
+        self.manager = EmployeeManagerService(self.client)
+        self.partner = EmployeePartnerService(self.client)
+        self.personal_info = EmployeePersonalInfoService(self.client)
+        self.salary = EmployeeSalaryService(self.client)
+        self.schedule = EmployeeScheduleService(self.client)
+        self.service = EmployeeServiceService(self.client)
+        self.spaarloon = EmployeeSpaarloonService(self.client)
+        self.svw = EmployeeSvwService(self.client)
+        self.time_registration = EmployeeTimeRegistrationService(self.client)
+        self.time_schedule = EmployeeTimeScheduleService(self.client)
+        self.wage_component = EmployeeWageComponentsService(self.client)
+        self.wage_tax = EmployeeWageTaxService(self.client)
 
     def set_auth_header(self, auth_header: dict) -> None:
         """
@@ -116,45 +120,80 @@ class EmployeeService(Service):
         self.wage_component.set_auth_header(auth_header)
         self.wage_tax.set_auth_header(auth_header)
 
+    @return_list
     @nmbrs_exception_handler(resources=["EmployeeService:EmployeeType_GetList"])
-    def get_types(self):
+    def get_types(self) -> list[EmployeeTypes]:
         """
         Get the list of all employee types available.
 
         For more information, refer to the official documentation:
-            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EmployeeType_GetList)
+            [EmployeeType_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EmployeeType_GetList)
+
+        Returns:
+            list[EmployeeTypes]: A list of employee type objects.
         """
-        raise NotImplementedError()  # pragma: no cover
+        employee_types = self.client.service.EmployeeType_GetList(_soapheaders=self.auth_header)
+        employee_types = [EmployeeTypes(employee_type) for employee_type in serialize_object(employee_types)]
+        return employee_types
 
     @nmbrs_exception_handler(resources=["EmployeeService:Employee_GetCurrent"])
-    def get_current_period(self):
+    def get_current_period(self, employee_id: int) -> Period | None:
         """
         Get the employees current period, Format = yyyy-pp-type, example: 2010-5-M or 2010-4-4W.
 
         For more information, refer to the official documentation:
-            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_GetCurrent)
-        """
-        raise NotImplementedError()  # pragma: no cover
+            [Employee_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_GetCurrent)
 
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            Period: year, period and period type and the company.
+        """
+        period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        if period is None:
+            return None
+        return Period(serialize_object(period))
+
+    @return_list
     @nmbrs_exception_handler(resources=["EmployeeService:List_GetByCompany"])
-    def get_by_company(self):
+    def get_by_company(self, company_id: int, employee_type: int) -> list[Employee]:
         """
         Get all employees that belong to a company and to a specific employee type.
 
         For more information, refer to the official documentation:
-            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByCompany)
-        """
-        raise NotImplementedError()  # pragma: no cover
+            [List_GetByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByCompany)
 
+        Args:
+            company_id (int): The ID of the company.
+            employee_type (int): The type of employees to be returned.
+
+        Returns:
+            list[Employee]: A list of employee objects.
+        """
+        employees = self.client.service.List_GetByCompany(CompanyId=company_id, EmployeeType=employee_type, _soapheaders=self.auth_header)
+        employees = [Employee(employee) for employee in serialize_object(employees)]
+        return employees
+
+    @return_list
     @nmbrs_exception_handler(resources=["EmployeeService:List_GetByDebtor"])
-    def get_by_debtor(self):
+    def get_by_debtor(self, debtor_id: int, employee_type: int) -> list[Employee]:
         """
         Get all employees that belong to a debtor and to a specific employee type.
 
         For more information, refer to the official documentation:
             [List_GetByDebtor](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByDebtor)
+
+        Args:
+            debtor_id (int): The ID of the company.
+            employee_type (int): The type of employees to be returned.
+
+        Returns:
+            list[Employee]: A list of employee objects.
         """
-        raise NotImplementedError()  # pragma: no cover
+        employees = self.client.service.List_GetByDebtor(DebtorId=debtor_id, EmployeeType=employee_type, _soapheaders=self.auth_header)
+        employees = [Employee(employee) for employee in serialize_object(employees)]
+        return employees
 
     @nmbrs_exception_handler(resources=["EmployeeService:Employee_Insert"])
     def insert(self):

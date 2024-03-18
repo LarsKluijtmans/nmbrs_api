@@ -12,6 +12,10 @@ from ..exceptions.nmbrs_exceptions import (
     AuthenticationError,
     AuthorizationError,
     UnknownNmbrsError,
+    AuthorizationEmployeeError,
+    AuthorizationCompanyError,
+    AuthorizationDebtorError,
+    AuthorizationDataError,
 )
 
 
@@ -34,7 +38,13 @@ def nmbrs_exception_handler(resources: list[str]):
                 if "---> 1002: Unauthorized access" in error_message:
                     raise AuthorizationError(resources=resources) from e
                 if "---> 1003: Unauthorized access" in error_message:
-                    raise AuthorizationError(resources=resources) from e
+                    raise AuthorizationDataError() from e
+                if "---> 2003: Unauthorized access" in error_message:
+                    raise AuthorizationEmployeeError() from e
+                if "---> 2004: Unauthorized access" in error_message:
+                    raise AuthorizationCompanyError() from e
+                if "---> 2009: Unauthorized access" in error_message:
+                    raise AuthorizationDebtorError() from e
                 if "---> 9999: Unkown" in error_message:
                     raise UnknownNmbrsError(resources=resources) from e
                 raise e

@@ -12,6 +12,10 @@ from src.nmbrs.exceptions import (
     AuthenticationError,
     AuthorizationError,
     UnknownNmbrsError,
+    AuthorizationDataError,
+    AuthorizationEmployeeError,
+    AuthorizationCompanyError,
+    AuthorizationDebtorError,
 )
 from src.nmbrs.utils.nmbrs_exception_handler import (
     nmbrs_sso_exception_handler,
@@ -127,17 +131,45 @@ class TestNmbrsExceptionHandler(TestCase):
 
         self.assertEqual(context.exception.resources, ["resource1", "resource2"])
 
-    def test_handle_unauthorized_error(self):
-        """Test handling of AuthorizationError exception with different error message."""
+    def test_handle_unauthorized_data_error(self):
+        """Test handling of AuthorizationDataError exception with different error message."""
 
         @nmbrs_exception_handler(resources=["resource1", "resource2"])
-        def raise_authorization_error():
+        def raise_authorization_data_error():
             raise zeep.exceptions.Fault("---> 1003: Unauthorized access")
 
-        with self.assertRaises(AuthorizationError) as context:
-            raise_authorization_error()
+        with self.assertRaises(AuthorizationDataError):
+            raise_authorization_data_error()
 
-        self.assertEqual(context.exception.resources, ["resource1", "resource2"])
+    def test_handle_authorization_employee_error(self):
+        """Test handling of AuthorizationEmployeeError exception with different error message."""
+
+        @nmbrs_exception_handler(resources=["resource1", "resource2"])
+        def raise_authorization_employee_error():
+            raise zeep.exceptions.Fault("---> 2003: Unauthorized access")
+
+        with self.assertRaises(AuthorizationEmployeeError):
+            raise_authorization_employee_error()
+
+    def test_handle_authorization_company_error(self):
+        """Test handling of AuthorizationCompanyError exception with different error message."""
+
+        @nmbrs_exception_handler(resources=["resource1", "resource2"])
+        def raise_authorization_company_error():
+            raise zeep.exceptions.Fault("---> 2004: Unauthorized access")
+
+        with self.assertRaises(AuthorizationCompanyError):
+            raise_authorization_company_error()
+
+    def test_handle_authorization_debtor_error(self):
+        """Test handling of AuthorizationDebtorError exception with different error message."""
+
+        @nmbrs_exception_handler(resources=["resource1", "resource2"])
+        def raise_authorization_debtor_error():
+            raise zeep.exceptions.Fault("---> 2009: Unauthorized access")
+
+        with self.assertRaises(AuthorizationDebtorError):
+            raise_authorization_debtor_error()
 
     def test_handle_unknown_error(self):
         """Test handling of UnknownNmbrsError exception with different error message."""
