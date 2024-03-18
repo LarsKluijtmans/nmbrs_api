@@ -4,8 +4,8 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock
 
-from src.nmbrs.service.debtor_service import DebtorService
-from src.nmbrs.data_classes.debtor import (
+from src.nmbrs_soap.service.debtor_service import DebtorService
+from src.nmbrs_soap.data_classes.debtor import (
     Debtor,
     AbsenceVerzuim,
     ContactInfo,
@@ -16,7 +16,12 @@ from src.nmbrs.data_classes.debtor import (
     Manager,
     LabourAgreementSettings,
 )
-from src.nmbrs.service.microservices.debtor import DebtorDepartmentService, DebtorFunctionService, DebtorWebHooksService, DebtorTitleService
+from src.nmbrs_soap.service.microservices.debtor import (
+    DebtorDepartmentService,
+    DebtorFunctionService,
+    DebtorWebHooksService,
+    DebtorTitleService,
+)
 
 
 class TestDebtorService(unittest.TestCase):

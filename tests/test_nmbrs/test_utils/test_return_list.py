@@ -2,7 +2,7 @@
 
 import unittest
 
-from src.nmbrs.utils.return_list import return_list
+from src.nmbrs_soap.utils.return_list import return_list
 
 
 class TestReturnListDecorator(unittest.TestCase):

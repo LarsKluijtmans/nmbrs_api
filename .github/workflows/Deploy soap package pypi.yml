@@ -1,0 +1,32 @@
+name: Deploy Soap package to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_input:
+        description: 'Version number to be deployed'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/nmbrs_soap/requirements.txt
+          pip install --upgrade build twine
+
+      - name: Increase version number
+        run:  python set_version.py --version=${{ github.event.inputs.version_input }} --path=src/nmbrs_soap
+
+      - name: Build package
+        run: python -m build
+
+      - name: Deploy to TestPyPI
+        run: python -m twine upload --repository pypi -p ${{ secrets.PYPI_PASSWORD }} -u ${{ secrets.PYPI_USERNAME }} dist/*
