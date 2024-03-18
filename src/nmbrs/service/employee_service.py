@@ -35,32 +35,11 @@ from .microservices.employee import (
     EmployeeTimeScheduleService,
 )
 from .service import Service
+from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class EmployeeService(Service):
-    """
-    A class representing Employee Service for interacting with Nmbrs employee-related functionalities.
-
-    Not implemented calls:
-        1 [EmployeeType_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EmployeeType_GetList)
-        62 [Employee_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_GetCurrent)
-        63 [Employee_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_Insert)
-        64 [Employee_InsertBasedOnDefault](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertBasedOnDefault)
-        65 [Employee_InsertByEmployeeType](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertByEmployeeType)
-        66 [Employee_Transition](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_Transition)
-        73 [List_GetByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByCompany)
-        120 [List_GetByDebtor](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByDebtor)
-
-        # microservice???
-        69 [EndServiceReason_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EndServiceReason_GetList)
-        70 [EndServiceReason_GetListByYear](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EndServiceReason_GetListByYear)
-        71 [ExtraFieldsWithStartDate_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=ExtraFieldsWithStartDate_GetList)
-        72 [ExtraFields_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=ExtraFields_GetList)
-        121 [PerformanceReview_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_Get)
-        128 [PerformanceReview_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_GetAll_AllEmployeesByCompany)
-        129 [Reports_GetJournalsReportByEmployee](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Reports_GetJournalsReportByEmployee)
-        137 [Reservations_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Reservations_GetList)
-    """
+    """A class representing Employee Service for interacting with Nmbrs employee-related functionalities."""
 
     def __init__(self, sandbox: bool = True) -> None:
         super().__init__(sandbox)
@@ -136,3 +115,166 @@ class EmployeeService(Service):
         self.time_schedule.set_auth_header(auth_header)
         self.wage_component.set_auth_header(auth_header)
         self.wage_tax.set_auth_header(auth_header)
+
+    @nmbrs_exception_handler(resources=["EmployeeService:EmployeeType_GetList"])
+    def get_types(self):
+        """
+        Get the list of all employee types available.
+
+        For more information, refer to the official documentation:
+            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EmployeeType_GetList)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Employee_GetCurrent"])
+    def get_current_period(self):
+        """
+        Get the employees current period, Format = yyyy-pp-type, example: 2010-5-M or 2010-4-4W.
+
+        For more information, refer to the official documentation:
+            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_GetCurrent)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:List_GetByCompany"])
+    def get_by_company(self):
+        """
+        Get all employees that belong to a company and to a specific employee type.
+
+        For more information, refer to the official documentation:
+            [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByCompany)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:List_GetByDebtor"])
+    def get_by_debtor(self):
+        """
+        Get all employees that belong to a debtor and to a specific employee type.
+
+        For more information, refer to the official documentation:
+            [List_GetByDebtor](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=List_GetByDebtor)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Employee_Insert"])
+    def insert(self):
+        """
+        Create a new Employee, returns the id of this Employee.
+        If the date is before the company's current period, unprotected mode flag is required.
+
+        For more information, refer to the official documentation:
+            [Employee_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_Insert)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Employee_InsertBasedOnDefault"])
+    def insert_based_on_default(self):
+        """
+        Insert new employee based on default employee.
+        If the date is before the company's current period, unprotected mode flag is required.
+
+        For more information, refer to the official documentation:
+            [Employee_InsertBasedOnDefault](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertBasedOnDefault)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Employee_InsertByEmployeeType"])
+    def insert_with_type(self):
+        """
+        Create a new employee based on the employee type and returns the Id of this employee.
+        If the date is before the company's current period, unprotected mode flag is required.
+
+        For more information, refer to the official documentation:
+            [Employee_InsertByEmployeeType](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertByEmployeeType)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Employee_Transition"])
+    def transition(self):
+        """
+        Transition employee to a different employee type. For example, from applicant to new hire. Or from new hire to payroll.
+
+        For more information, refer to the official documentation:
+            [Employee_Transition](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_Transition)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:EndServiceReason_GetList"])
+    def get_all_end_service_reasons(self):
+        """
+        Get all End Service Reasons.
+
+        For more information, refer to the official documentation:
+            [EndServiceReason_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EndServiceReason_GetList)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:EndServiceReason_GetListByYear"])
+    def get_all_end_service_reasons_by_year(self):
+        """
+        Get all End Service Reasons of given year.
+
+        For more information, refer to the official documentation:
+            [EndServiceReason_GetListByYear](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=EndServiceReason_GetListByYear)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:ExtraFieldsWithStartDate_GetList"])
+    def get_extra_fields_with_start_date(self):
+        """
+        Get employee extra fields list, including the ones of type Text+Date.
+
+        For more information, refer to the official documentation:
+            [ExtraFieldsWithStartDate_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=ExtraFieldsWithStartDate_GetList)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:ExtraFields_GetList"])
+    def get_extra_fields(self):
+        """
+        Get employee extra fields list.
+
+        For more information, refer to the official documentation:
+            [ExtraFields_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=ExtraFields_GetList)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:PerformanceReview_Get"])
+    def get_performance(self):
+        """
+        Get the HR Performance Review for the given Employee ID.
+
+        For more information, refer to the official documentation:
+            [PerformanceReview_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_Get)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:PerformanceReview_GetAll_AllEmployeesByCompany"])
+    def get_all_performance_by_company(self):
+        """
+        Get the HR Performance Reviews for all the employees in the given Company ID.
+
+        For more information, refer to the official documentation:
+            [PerformanceReview_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_GetAll_AllEmployeesByCompany)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Reports_GetJournalsReportByEmployee"])
+    def get_journal(self):
+        """
+        Returns the Journal Report for Employee.
+
+        For more information, refer to the official documentation:
+            [Reports_GetJournalsReportByEmployee](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Reports_GetJournalsReportByEmployee)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
+    @nmbrs_exception_handler(resources=["EmployeeService:Reservations_GetList"])
+    def get_reservations(self):
+        """
+        Get the reservation items for the given employee.
+
+        For more information, refer to the official documentation:
+            [Reservations_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Reservations_GetList)
+        """
+        raise NotImplementedError()  # pragma: no cover
