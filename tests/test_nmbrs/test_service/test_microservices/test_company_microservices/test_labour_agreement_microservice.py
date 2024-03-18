@@ -3,8 +3,8 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.company import LabourAgreement
-from src.nmbrs.service.microservices.company import CompanyLabourAgreementService
+from src.nmbrs_soap.data_classes.company import LabourAgreement
+from src.nmbrs_soap.service.microservices.company import CompanyLabourAgreementService
 
 
 class TestCompanyLabourAgreementService(unittest.TestCase):

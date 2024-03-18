@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from src.nmbrs.utils.find_empty_params import find_empty_params
+from src.nmbrs_soap.utils.find_empty_params import find_empty_params
 
 
 class TestFindEmptyParams(TestCase):

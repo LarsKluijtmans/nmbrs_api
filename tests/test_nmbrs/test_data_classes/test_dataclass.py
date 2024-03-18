@@ -1,7 +1,7 @@
 """Unit tests for the DataClass base class."""
 
 import unittest
-from src.nmbrs.data_classes.data_class import DataClass
+from src.nmbrs_soap.data_classes.data_class import DataClass
 
 
 class TestDataClass(unittest.TestCase):

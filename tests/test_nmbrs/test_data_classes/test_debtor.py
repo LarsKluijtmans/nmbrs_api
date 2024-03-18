@@ -2,7 +2,7 @@
 
 import unittest
 
-from src.nmbrs.data_classes.debtor import AbsenceVerzuim, Event, WebhookSetting
+from src.nmbrs_soap.data_classes.debtor import AbsenceVerzuim, Event, WebhookSetting
 
 
 class TestDebtorClasses(unittest.TestCase):

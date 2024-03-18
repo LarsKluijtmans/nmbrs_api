@@ -3,8 +3,8 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.debtor import Function
-from src.nmbrs.service.microservices.debtor import DebtorFunctionService
+from src.nmbrs_soap.data_classes.debtor import Function
+from src.nmbrs_soap.service.microservices.debtor import DebtorFunctionService
 
 
 class TestDebtorFunctionService(unittest.TestCase):

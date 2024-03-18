@@ -2,7 +2,7 @@
 
 from unittest import TestCase, mock
 
-from src.nmbrs.service.sso_service import SingleSingOnService
+from src.nmbrs_soap.service.sso_service import SingleSingOnService
 
 
 class TestSingleSingOnService(TestCase):

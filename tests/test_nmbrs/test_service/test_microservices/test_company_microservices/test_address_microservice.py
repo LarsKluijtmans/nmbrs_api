@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import Mock
-from src.nmbrs.service.microservices.company.address import (
+from src.nmbrs_soap.service.microservices.company.address import (
     CompanyAddressService,
     Address,
 )

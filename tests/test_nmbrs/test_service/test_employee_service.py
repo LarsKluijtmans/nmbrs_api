@@ -3,10 +3,10 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.company import Period
-from src.nmbrs.data_classes.employee import Employee, EmployeeTypes
-from src.nmbrs.service.employee_service import EmployeeService
-from src.nmbrs.service.microservices.employee import (
+from src.nmbrs_soap.data_classes.company import Period
+from src.nmbrs_soap.data_classes.employee import Employee, EmployeeTypes
+from src.nmbrs_soap.service.employee_service import EmployeeService
+from src.nmbrs_soap.service.microservices.employee import (
     EmployeeServiceService,
     EmployeeAbsenceService,
     EmployeeAddressService,

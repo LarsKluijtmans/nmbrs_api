@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import Mock
-from src.nmbrs.service.microservices.company.wage_tax import (
+from src.nmbrs_soap.service.microservices.company.wage_tax import (
     CompanyWageTaxService,
     WageTax,
     WageTaxXML,

@@ -3,7 +3,7 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.service.microservices.debtor import DebtorTitleService
+from src.nmbrs_soap.service.microservices.debtor import DebtorTitleService
 
 
 class TestDebtorTitleService(unittest.TestCase):

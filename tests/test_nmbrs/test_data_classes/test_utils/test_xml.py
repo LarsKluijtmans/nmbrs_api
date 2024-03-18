@@ -2,7 +2,7 @@
 
 import unittest
 
-from src.nmbrs.data_classes.utils.xml import parse_xml_to_dict, get_xml
+from src.nmbrs_soap.data_classes.utils.xml import parse_xml_to_dict, get_xml
 
 
 class TestXMLParser(unittest.TestCase):

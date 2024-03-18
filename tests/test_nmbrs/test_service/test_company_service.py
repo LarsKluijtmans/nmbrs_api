@@ -3,9 +3,9 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.company import Period, ContactPerson, GuidConvertor
-from src.nmbrs.service.company_service import CompanyService, Company
-from src.nmbrs.service.microservices.company import (
+from src.nmbrs_soap.data_classes.company import Period, ContactPerson, GuidConvertor
+from src.nmbrs_soap.service.company_service import CompanyService, Company
+from src.nmbrs_soap.service.microservices.company import (
     CompanyAddressService,
     CompanyBankAccountService,
     CompanyCostCenterService,

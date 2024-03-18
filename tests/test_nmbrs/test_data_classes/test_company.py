@@ -2,7 +2,7 @@
 
 import unittest
 
-from src.nmbrs.data_classes.company import WageTaxXML
+from src.nmbrs_soap.data_classes.company import WageTaxXML
 
 
 class TestCompanyClasses(unittest.TestCase):

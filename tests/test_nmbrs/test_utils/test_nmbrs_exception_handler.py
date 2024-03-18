@@ -4,7 +4,7 @@ from unittest import TestCase
 
 import zeep.exceptions
 
-from src.nmbrs.exceptions import (
+from src.nmbrs_soap.exceptions import (
     InvalidCredentials,
     LoginSecurityFailure,
     MultipleEnvironmentAccounts,
@@ -17,7 +17,7 @@ from src.nmbrs.exceptions import (
     AuthorizationCompanyError,
     AuthorizationDebtorError,
 )
-from src.nmbrs.utils.nmbrs_exception_handler import (
+from src.nmbrs_soap.utils.nmbrs_exception_handler import (
     nmbrs_sso_exception_handler,
     nmbrs_exception_handler,
 )

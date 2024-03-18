@@ -3,8 +3,8 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.debtor import WebhookSetting, Event
-from src.nmbrs.service.microservices.debtor import DebtorWebHooksService
+from src.nmbrs_soap.data_classes.debtor import WebhookSetting, Event
+from src.nmbrs_soap.service.microservices.debtor import DebtorWebHooksService
 
 
 class TestDebtorWebhookService(unittest.TestCase):
