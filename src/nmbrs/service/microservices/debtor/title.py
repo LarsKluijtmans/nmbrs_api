@@ -3,9 +3,9 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from nmbrs.service.microservices.micro_service import MicroService
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
-from nmbrs.utils.return_list import return_list
+from ..micro_service import MicroService
+from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class DebtorTitleService(MicroService):

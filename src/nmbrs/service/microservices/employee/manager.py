@@ -2,8 +2,8 @@
 
 from zeep import Client
 
-from nmbrs.service.microservices.micro_service import MicroService
-from s.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..micro_service import MicroService
+from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class EmployeeManagerService(MicroService):

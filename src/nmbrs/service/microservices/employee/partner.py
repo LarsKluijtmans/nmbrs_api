@@ -1,10 +1,9 @@
 # pylint: disable=line-too-long
 """Microservice responsible for partner related actions on the employee level."""
-
 from zeep import Client
 
-from nmbrs.service.microservices.micro_service import MicroService
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..micro_service import MicroService
+from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class EmployeePartnerService(MicroService):

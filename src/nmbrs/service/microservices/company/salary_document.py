@@ -2,8 +2,8 @@
 """Microservice responsible for salary documents related actions on the company level."""
 from zeep import Client
 
-from nmbrs.service.microservices.micro_service import MicroService
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..micro_service import MicroService
+from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class CompanySalaryDocumentService(MicroService):

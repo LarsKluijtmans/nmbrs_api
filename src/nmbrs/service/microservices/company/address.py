@@ -3,10 +3,9 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from nmbrs.data_classes.debtor import Address
-
-from nmbrs.service.microservices.micro_service import MicroService
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....data_classes.debtor import Address
+from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ..micro_service import MicroService
 
 
 class CompanyAddressService(MicroService):
