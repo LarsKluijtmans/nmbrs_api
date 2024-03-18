@@ -2,8 +2,8 @@
 
 from zeep import Client
 
-from src.nmbrs.service.microservices.micro_service import MicroService
-from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from nmbrs.service.microservices.micro_service import MicroService
+from s.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class CompanyRunService(MicroService):
