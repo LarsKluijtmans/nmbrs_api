@@ -1,4 +1,5 @@
 """Unit tests for the CompanyBankAccountService class."""
+
 import unittest
 from unittest.mock import Mock
 from src.nmbrs.service.microservices.company.bank_account import (
@@ -22,18 +23,14 @@ class TestCompanyBankAccountService(unittest.TestCase):
         self.client.service.BankAccount_GetCurrent.return_value = mock_bank_account
         result = self.bank_account_service.get_current(1)
         self.assertIsInstance(result, BankAccount)
-        self.client.service.BankAccount_GetCurrent.assert_called_once_with(
-            CompanyId=1, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.BankAccount_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
 
     def test_get_current_bank_account_returns_none(self):
         """Test that get_current returns None when bank account is not found."""
         self.client.service.BankAccount_GetCurrent.return_value = None
         result = self.bank_account_service.get_current(1)
         self.assertIsInstance(result, BankAccount)
-        self.client.service.BankAccount_GetCurrent.assert_called_once_with(
-            CompanyId=1, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.BankAccount_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
 
     def test_insert_bank_account(self):
         """Test inserting a new bank account for the company."""
