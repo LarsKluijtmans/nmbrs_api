@@ -7,6 +7,7 @@ from ..micro_service import MicroService
 from ....data_classes.company import RunRequest, RunInfo
 from ....data_classes.employee import Employee
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class CompanyRunService(MicroService):
@@ -18,6 +19,7 @@ class CompanyRunService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
+    @return_list
     @nmbrs_exception_handler(resources=["CompanyService:RunRequest_GetList"])
     def get_requests(self, company_id: int, year: int) -> list[RunRequest]:
         """
@@ -49,6 +51,7 @@ class CompanyRunService(MicroService):
         """
         self.client.service.RunRequest_Insert(CompanyId=company_id, _soapheaders=self.auth_header)
 
+    @return_list
     @nmbrs_exception_handler(resources=["CompanyService:Run_GetList"])
     def get(self, company_id: int, year: int) -> list[RunInfo]:
         """
@@ -67,6 +70,7 @@ class CompanyRunService(MicroService):
         runs = self.client.service.Run_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
         return [RunInfo(run) for run in serialize_object(runs)]
 
+    @return_list
     @nmbrs_exception_handler(resources=["CompanyService:Run_GetEmployeesByRunCompany"])
     def get_all_employees_by_run(self, company_id: int, year: int, run_id: int) -> list[Employee]:
         """
