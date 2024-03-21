@@ -6,6 +6,7 @@ from zeep.helpers import serialize_object
 from ..micro_service import MicroService
 from ....data_classes.company import CostCenter
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class CompanyCostCenterService(MicroService):
@@ -17,6 +18,7 @@ class CompanyCostCenterService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
+    @return_list
     @nmbrs_exception_handler(resources=["CompanyService:CostCenter_GetList"])
     def get(self, company_id: int) -> list[CostCenter]:
         """

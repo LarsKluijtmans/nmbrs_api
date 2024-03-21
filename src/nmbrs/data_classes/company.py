@@ -203,3 +203,31 @@ class RunInfo(DataClass):
         self.description: int = data.get("Description")
         self.run_at: datetime = data.get("RunAt")
         self.locked: datetime = data.get("IsLocked")
+
+
+class SalaryTable(DataClass):
+    """A class representing a salary table."""
+
+    def __init__(self, data: dict) -> None:
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
+
+
+class SalaryTableScale(DataClass):
+    """A class representing a salary table scale."""
+
+    def __init__(self, data: dict) -> None:
+        self.scale: str = data.get("Scale")
+        self.description: str = data.get("Description")
+        self.value: float = data.get("ScaleValue")
+        self.percentage_max: float = data.get("ScalePercentageMax")
+        self.percentage_min: float = data.get("ScalePercentageMin")
+
+
+class SalaryTableStep(DataClass):
+    """A class representing a salary table scale."""
+
+    def __init__(self, data: dict) -> None:
+        self.step: str = data.get("Step")
+        self.description: str = data.get("StepDescription")
+        self.value: float = data.get("StepValue")
