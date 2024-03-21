@@ -179,3 +179,27 @@ class PensionXML(DataClass):
     def to_dict(self) -> dict | str:
         """Convert the instance to a dictionary."""
         return parse_xml_to_dict(self.xml)
+
+
+class RunRequest(DataClass):
+    """A class representing a run request."""
+
+    def __init__(self, data: dict) -> None:
+        self.period: int = data.get("Period")
+        self.year: int = data.get("Year")
+        self.status: str = data.get("Status")
+        self.handle_delete: datetime = data.get("HandledDate")
+
+
+class RunInfo(DataClass):
+    """A class representing a run info."""
+
+    def __init__(self, data: dict) -> None:
+        self.id: int = data.get("ID")
+        self.number: int = data.get("Number")
+        self.year: int = data.get("Year")
+        self.period_start: int = data.get("PeriodStart")
+        self.period_end: int = data.get("PeriodEnd")
+        self.description: int = data.get("Description")
+        self.run_at: datetime = data.get("RunAt")
+        self.locked: datetime = data.get("IsLocked")
