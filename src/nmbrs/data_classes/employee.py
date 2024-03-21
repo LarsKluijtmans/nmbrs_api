@@ -8,7 +8,7 @@ class Employee(DataClass):
 
     def __init__(self, data: dict) -> None:
         self.id: int = data.get("Id", None)
-        self.number: str = data.get("Number", None)
+        self.number: int = data.get("Number", None)
         self.name: str = data.get("DisplayName", None)
 
 
