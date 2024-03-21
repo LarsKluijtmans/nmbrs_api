@@ -87,15 +87,11 @@ class WageTax(DataClass):
 class WageTaxXML(DataClass):
     """A class representing wage tax XML."""
 
-    def __init__(self, data: str) -> None:
-        self.xml: str = data
+    def __init__(self, xml: str) -> None:
+        self.xml: str = xml
 
-    def to_dict(self) -> dict:
-        """
-        Convert the instance to a dictionary.
-
-        :return: A dictionary representation of the instance.
-        """
+    def to_dict(self) -> dict | str:
+        """Convert the instance to a dictionary."""
         return parse_xml_to_dict(self.xml)
 
 
@@ -158,3 +154,28 @@ class HourCode(DataClass):
     def __init__(self, data: dict) -> None:
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
+
+
+class Pension(DataClass):
+    """A class representing a pension exports information."""
+
+    def __init__(self, data: dict) -> None:
+        self.pension_export_id: int = data.get("PensionExportID")
+        self.serial_number: int = data.get("SerialNumber")
+        self.period: int = data.get("Period")
+        self.year: int = data.get("Year")
+        self.status: str = data.get("Status")
+        self.send_at: datetime = data.get("SentAt")
+        self.correctie_tijdvak_start: datetime = data.get("CorrectionTijdvakStart")
+        self.correctie_tijdvak_end: datetime = data.get("CorrectionTijdvakEnd")
+
+
+class PensionXML(DataClass):
+    """A class representing a pension export xml."""
+
+    def __init__(self, xml: str) -> None:
+        self.xml: str = xml
+
+    def to_dict(self) -> dict | str:
+        """Convert the instance to a dictionary."""
+        return parse_xml_to_dict(self.xml)
