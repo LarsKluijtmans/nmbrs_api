@@ -1,8 +1,9 @@
 """This module defines various data classes for representing different entities in the system."""
 
 from datetime import datetime
-
+from decimal import Decimal
 from .data_class import DataClass
+from .general import CodeDescription
 from .utils.xml import parse_xml_to_dict
 
 
@@ -44,16 +45,6 @@ class LabourAgreement(DataClass):
         self.salary_table: CodeDescription = CodeDescription(data.get("SalaryTable"))
         self.cao: CodeDescription = CodeDescription(data.get("CAO"))
         self.bln_use_provisional: bool = data.get("BlnUseProvisional")
-
-
-class CodeDescription(DataClass):
-    """A class representing a code and a description."""
-
-    def __init__(self, data: dict) -> None:
-        if data is None:
-            return  # pragma: no cover
-        self.code: int = data.get("Code")
-        self.description: str = data.get("Description")
 
 
 class Period(DataClass):
@@ -219,9 +210,9 @@ class SalaryTableScale(DataClass):
     def __init__(self, data: dict) -> None:
         self.scale: str = data.get("Scale")
         self.description: str = data.get("Description")
-        self.value: float = data.get("ScaleValue")
-        self.percentage_max: float = data.get("ScalePercentageMax")
-        self.percentage_min: float = data.get("ScalePercentageMin")
+        self.value: Decimal = data.get("ScaleValue")
+        self.percentage_max: Decimal = data.get("ScalePercentageMax")
+        self.percentage_min: Decimal = data.get("ScalePercentageMin")
 
 
 class SalaryTableStep(DataClass):
@@ -230,4 +221,52 @@ class SalaryTableStep(DataClass):
     def __init__(self, data: dict) -> None:
         self.step: str = data.get("Step")
         self.description: str = data.get("StepDescription")
-        self.value: float = data.get("StepValue")
+        self.value: Decimal = data.get("StepValue")
+
+
+class SVWSettings(DataClass):
+    """A class representing a svw settings."""
+
+    def __init__(self, data: dict) -> None:
+        self.cao_code: int = data.get("CodeCao")
+        self.eigenrisicodrager_gediff_wga: bool = data.get("EigenrisicodragerGediffWGA")
+        self.eigenrisicodrager_uniforme_wao: bool = data.get("EigenrisicodragerUniformeWAO")
+        self.eigenrisicodrager_ziektewet: bool = data.get("EigenrisicodragerZiektewet")
+        self.risc_group: int = data.get("RisicoGroep")
+        self.wga_wn: Decimal = data.get("Gediff_WGA_wn")
+        self.wga_wg: Decimal = data.get("Gediff_WGA_wg")
+        self.sector: int = data.get("Sector")
+
+
+class SVW(DataClass):
+    """A class representing a svw."""
+
+    def __init__(self, data: dict) -> None:
+        self.settings: SVWSettings = SVWSettings(data.get("SVWSettings"))
+        self.sector: CodeDescription = CodeDescription(data.get("Sector"))
+        self.risc_group: CodeDescription = CodeDescription(data.get("Risicogroep"))
+        self.cao: CodeDescription = CodeDescription(data.get("CAO"))
+
+    def insert_dict(self) -> dict:
+        """Method used in combination with the Insert methode in the company.svw service"""
+        return {
+            "SVWSettings": {
+                "CodeCao": self.settings.cao_code,
+                "EigenrisicodragerGediffWGA": self.settings.eigenrisicodrager_gediff_wga,
+                "EigenrisicodragerUniformeWAO": self.settings.eigenrisicodrager_uniforme_wao,
+                "EigenrisicodragerZiektewet": self.settings.eigenrisicodrager_ziektewet,
+                "RisicoGroep": self.settings.risc_group,
+                "Gediff_WGA_wn": self.settings.wga_wn,
+                "Gediff_WGA_wg": self.settings.wga_wg,
+                "Sector": self.settings.sector,
+            },
+            "Sector": {"Code": self.sector.code, "Description": self.sector.description},
+            "Risicogroep": {
+                "Code": self.risc_group.code,
+                "Description": self.risc_group.description,
+            },
+            "CAO": {
+                "Code": self.cao.code,
+                "Description": self.cao.description,
+            },
+        }

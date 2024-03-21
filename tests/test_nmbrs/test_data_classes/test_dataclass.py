@@ -1,6 +1,7 @@
 """Unit tests for the DataClass base class."""
 
 import unittest
+from decimal import Decimal
 from src.nmbrs.data_classes.data_class import DataClass
 
 
@@ -76,3 +77,18 @@ class TestDataClass(unittest.TestCase):
         obj = TestClass("John", 30, ["Alice", "Bob"])
         expected_str = '{"name": "John", "age": 30, "friends": ["Alice", "Bob"]}'
         self.assertEqual(str(obj), expected_str)
+
+    def test_to_dict_decimal(self):
+        """Test converting an instance with Decimal values to a dictionary."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, amount):
+                """Test classs"""
+                self.amount = amount
+
+        amount = Decimal("123.45")  # Create a Decimal value
+        obj = TestClass(amount)
+        expected_dict = {"amount": float(amount)}  # Expected dictionary should have the Decimal value converted to float
+        self.assertEqual(obj.to_dict(), expected_dict)
