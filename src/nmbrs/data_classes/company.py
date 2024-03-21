@@ -150,3 +150,11 @@ class CostUnit(DataClass):
         self.id: int = data.get("Id")
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
+
+
+class HourCode(DataClass):
+    """A class representing an hour code."""
+
+    def __init__(self, data: dict) -> None:
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
