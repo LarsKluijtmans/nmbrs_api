@@ -1,8 +1,11 @@
 """Microservice responsible for run related actions on the company level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.company import RunRequest, RunInfo
+from ....data_classes.employee import Employee
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -16,41 +19,74 @@ class CompanyRunService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resources=["CompanyService:RunRequest_GetList"])
-    def get_requests(self):
+    def get_requests(self, company_id: int, year: int) -> list[RunRequest]:
         """
         Returns a list of requested runs with status for given company and year.
 
         For more information, refer to the official documentation:
             [RunRequest_GetList](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=RunRequest_GetList)
+
+        Args:
+            company_id (int): The ID of the company.
+            year (int): year.
+
+        Returns:
+            list[RunRequest]: A list of run requests objects.
         """
-        raise NotImplementedError()  # pragma: no cover
+        run_requests = self.client.service.RunRequest_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
+        return [RunRequest(run_request) for run_request in serialize_object(run_requests)]
 
     @nmbrs_exception_handler(resources=["CompanyService:RunRequest_Insert"])
-    def insert_request(self):
+    def insert_request(self, company_id: int):
         """
         Requests a run for given company.
 
         For more information, refer to the official documentation:
             [RunRequest_Insert](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=RunRequest_Insert)
+
+        Args:
+            company_id (int): The ID of the company.
         """
-        raise NotImplementedError()  # pragma: no cover
+        self.client.service.RunRequest_Insert(CompanyId=company_id, _soapheaders=self.auth_header)
 
     @nmbrs_exception_handler(resources=["CompanyService:Run_GetList"])
-    def get_run(self):
+    def get(self, company_id: int, year: int) -> list[RunInfo]:
         """
         Get the company's run list for a specified year.
 
         For more information, refer to the official documentation:
             [Run_GetList](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Run_GetList)
+
+        Args:
+            company_id (int): The ID of the company.
+            year (int): year.
+
+        Returns:
+            list[RunInfo]: A list of run info objects.
         """
-        raise NotImplementedError()  # pragma: no cover
+        runs = self.client.service.Run_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
+        return [RunInfo(run) for run in serialize_object(runs)]
 
     @nmbrs_exception_handler(resources=["CompanyService:Run_GetEmployeesByRunCompany"])
-    def get_all_by_run(self):
+    def get_all_employees_by_run(self, company_id: int, year: int, run_id: int) -> list[Employee]:
         """
         Get the employee's list for a specified company id, run id and year
 
         For more information, refer to the official documentation:
             [Run_GetEmployeesByRunCompany](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Run_GetEmployeesByRunCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+            year (int): Year.
+            run_id (int): The unique identifier for a run.
+
+        Returns:
+            list[Employee]: A list of employee objects, with the name field empty.
         """
-        raise NotImplementedError()  # pragma: no cover
+        employees = self.client.service.Run_GetEmployeesByRunCompany(
+            CompanyId=company_id, Year=year, RunId=run_id, _soapheaders=self.auth_header
+        )
+        return [
+            Employee({"Id": employee.get("EmployeeId"), "Number": employee.get("EmployeeNumber")})
+            for employee in serialize_object(employees)
+        ]
