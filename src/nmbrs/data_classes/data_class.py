@@ -1,6 +1,7 @@
 """A base class for data classes that automatically initializes instance variables from a dictionary."""
 
 import json
+from decimal import Decimal
 from abc import ABC, abstractmethod
 
 
@@ -27,14 +28,11 @@ class DataClass(ABC):
             if isinstance(value, DataClass):
                 new_item[key] = value.to_dict()
             elif isinstance(value, list):
-                items = value
-                new_list = []
-                for obj in items:
-                    if isinstance(obj, DataClass):
-                        new_list.append(obj.to_dict())
-                    else:
-                        new_list.append(obj)
-                new_item[key] = new_list
+                new_item[key] = [
+                    obj.to_dict() if isinstance(obj, DataClass) else float(obj) if isinstance(obj, Decimal) else obj for obj in value
+                ]
+            elif isinstance(value, Decimal):
+                new_item[key] = float(value)
             else:
                 new_item[key] = value
         return new_item
