@@ -1,13 +1,15 @@
-"""Microservice responsible for cost center related actions on the company level."""
+"""Microservice responsible for managing cost centers at the company level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.company import CostCenter
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class CompanyCostCenterService(MicroService):
-    """Microservice responsible for cost center related actions on the company level."""
+    """Microservice responsible for managing cost centers at the company level."""
 
     def __init__(self, client: Client) -> None:
         super().__init__(client)
@@ -16,21 +18,41 @@ class CompanyCostCenterService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resources=["CompanyService:CostCenter_GetList"])
-    def get(self):
+    def get(self, company_id: int) -> list[CostCenter]:
         """
-        Get cost centers that belong to a company.
+        Retrieve cost centers associated with a company.
 
-        For more information, refer to the official documentation:
+        For further details, see the official documentation:
             [CostCenter_GetList](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=CostCenter_GetList)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[CostCenter]: A list of cost center objects.
         """
-        raise NotImplementedError()  # pragma: no cover
+        cost_centers = self.client.service.CostCenter_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
+        return [CostCenter(cost_center) for cost_center in serialize_object(cost_centers)]
 
     @nmbrs_exception_handler(resources=["CompanyService:CostCenter_Insert"])
-    def insert(self):
+    def insert(self, company_id: int, cost_center_id: int, code: str, description: str) -> int:
         """
-        Update or insert a cost center in a company.
+        Insert or update a cost center within a company.
 
-        For more information, refer to the official documentation:
+        For further details, see the official documentation:
             [CostCenter_Insert](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=CostCenter_Insert)
+
+        Args:
+            company_id (int): The ID of the company.
+            cost_center_id (int): The ID of the cost center.
+            code (str): The code of the cost center.
+            description (str): The description of the cost center.
+
+        Returns:
+            int: The ID of the inserted or updated cost center.
         """
-        raise NotImplementedError()  # pragma: no cover
+        cost_center = {"Id": cost_center_id, "Code": code, "Description": description}
+        cost_center_id = self.client.service.CostCenter_Insert(
+            CompanyId=company_id, kostenplaats=cost_center, _soapheaders=self.auth_header
+        )
+        return cost_center_id

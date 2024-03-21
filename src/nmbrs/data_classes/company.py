@@ -132,3 +132,12 @@ class Mapping(DataClass):
     def __init__(self, data: dict) -> None:
         self.id: int = data.get("IdInt")
         self.guid: str = data.get("IdGuid")
+
+
+class CostCenter(DataClass):
+    """A class representing a cost center."""
+
+    def __init__(self, data: dict) -> None:
+        self.id: int = data.get("Id")
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
