@@ -1,7 +1,9 @@
 """This module defines custom exceptions related to authentication and authorization failures in nmbrs."""
 
+from .exceptions import Error
 
-class LoginSecurityFailure(Exception):
+
+class LoginSecurityFailure(Error):
     """
     Exception raised when nmbrs raises the exception: "1006: Generic Login Security Failure".
     """
@@ -13,10 +15,10 @@ class LoginSecurityFailure(Exception):
     ) -> None:
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
-        super().__init__(self.message)
+        super().__init__(message)
 
 
-class InvalidCredentials(Exception):
+class InvalidCredentials(Error):
     """
     Exception raised when the combination email and password is not valid.
     """
@@ -28,10 +30,10 @@ class InvalidCredentials(Exception):
     ) -> None:
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
-        super().__init__(self.message)
+        super().__init__(message)
 
 
-class MultipleEnvironmentAccounts(Exception):
+class MultipleEnvironmentAccounts(Error):
     """
     Exception raised when the SSO service is used but the user has accounts in multiple environments.
     """
@@ -42,10 +44,10 @@ class MultipleEnvironmentAccounts(Exception):
         "to specify the environments you want to use.",
     ) -> None:
         self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 
-class DomainNotFoundError(Exception):
+class DomainNotFoundError(Error):
     """
     Exception raised when the specified domain (Nmbrs environment subdomain) does not exist.
     """
@@ -57,4 +59,4 @@ class DomainNotFoundError(Exception):
     ) -> None:
         self.resources = resources
         self.message = f"{message}{', '.join(resources)}"
-        super().__init__(self.message)
+        super().__init__(message)

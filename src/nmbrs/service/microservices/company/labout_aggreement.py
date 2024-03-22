@@ -3,7 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from ....data_classes.company import LabourAgreement
+from ....data_classes.company import LabourAgreement, LeaveTypeGroup
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -64,3 +64,32 @@ class CompanyLabourAgreementService(MicroService):
         labour_agreements = self.client.service.LabourAgreements_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
         labour_agreements = [LabourAgreement(labour_agreement) for labour_agreement in serialize_object(labour_agreements)]
         return labour_agreements
+
+    @return_list
+    @nmbrs_exception_handler(resources=["CompanyService:CompanyLeaveTypeGroups_Get"])
+    def get_leave_type_groups(
+        self, company_id: int, labour_agreement_settings_group_id: int, year: int, period: int
+    ) -> list[LeaveTypeGroup]:
+        """
+        Get the company's leave type groups.
+
+        For further details, see the official documentation:
+            [CompanyLeaveTypeGroups_Get](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=CompanyLeaveTypeGroups_Get)
+
+        Args:
+            company_id (int): The ID of the company.
+            labour_agreement_settings_group_id (int): The ID of the labour agreement settings group.
+            year (int): The year.
+            period (int): The period.
+
+        Returns:
+            List[LeaveTypeGroup]: A list of LeaveTypeGroup objects.
+        """
+        responses = self.client.service.CompanyLeaveTypeGroups_Get(
+            CompanyId=company_id,
+            LabourAgreementSettingsGroupId=labour_agreement_settings_group_id,
+            Year=year,
+            Period=period,
+            _soapheaders=self.auth_header,
+        )
+        return [LeaveTypeGroup(response) for response in serialize_object(responses)]

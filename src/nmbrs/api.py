@@ -1,6 +1,6 @@
 """Main class provided by the package."""
 
-from .exceptions.custom_exceptions import ParameterMissingError
+from .exceptions import ParameterMissingError
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService
 from .service.employee_service import EmployeeService

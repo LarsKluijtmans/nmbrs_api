@@ -94,3 +94,25 @@ class CompanyRunService(MicroService):
             Employee({"Id": employee.get("EmployeeId"), "Number": employee.get("EmployeeNumber")})
             for employee in serialize_object(employees)
         ]
+
+    @nmbrs_exception_handler(resources=["CompanyService:HrDocuments_EmployerCostPerHour_Year"])
+    def get_hr_documents_cost_per_hour_year(self, company_id: int, run_id: int, year: int, period: int) -> bytes:
+        """
+        Get HR Document: Employer Cost per Hour per company per period.
+
+        For further details, see the official documentation:
+            [HrDocuments_EmployerCostPerHour_Year](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=HrDocuments_EmployerCostPerHour_Year)
+
+        Args:
+            company_id (int): The ID of the company.
+            run_id (int): The ID of the run.
+            year (int): The year.
+            period (int): The period.
+
+        Returns:
+            bytes: The HR document as base64Binary.
+        """
+        response = self.client.service.HrDocuments_EmployerCostPerHour_Year(
+            CompanyId=company_id, RunId=run_id, Year=year, Period=period, _soapheaders=self.auth_header
+        )
+        return response
