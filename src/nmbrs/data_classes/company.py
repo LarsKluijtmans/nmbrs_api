@@ -270,3 +270,82 @@ class SVW(DataClass):
                 "Description": self.cao.description,
             },
         }
+
+
+class DefaultEmployeeTemplate(DataClass):
+    """A class representing a default employee template scale."""
+
+    def __init__(self, data: dict) -> None:
+        self.id: str = data.get("DefaultEmployeeTemplateId")
+        self.description: str = data.get("Description")
+
+
+class FulltimeSchedules(DataClass):
+    """A class representing all fulltime schedules."""
+
+    def __init__(self, data: dict) -> None:
+        self.schedule_one: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleOne"))
+        self.schedule_two: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleTwo"))
+        self.schedule_three: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleThree"))
+        self.schedule_four: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleFour"))
+
+
+class FulltimeSchedule(DataClass):
+    """A class representing a fulltime schedule."""
+
+    def __init__(self, data: dict) -> None:
+        self.schedule_calc_method: str = data.get("ScheduleCalcMethod")
+        self.hours_monday: Decimal = data.get("HoursMonday")
+        self.hours_tuesday: Decimal = data.get("HoursTuesday")
+        self.hours_wednesday: Decimal = data.get("HoursWednesday")
+        self.hours_thursday: Decimal = data.get("HoursThursday")
+        self.hours_friday: Decimal = data.get("HoursFriday")
+        self.hours_saturday: Decimal = data.get("HoursSaturday")
+        self.hours_sunday: Decimal = data.get("HoursSunday")
+        self.hours_monday2: Decimal = data.get("HoursMonday2")
+        self.hours_tuesday2: Decimal = data.get("HoursTuesday2")
+        self.hours_wednesday2: Decimal = data.get("HoursWednesday2")
+        self.hours_thursday2: Decimal = data.get("HoursThursday2")
+        self.hours_friday2: Decimal = data.get("HoursFriday2")
+        self.hours_saturday2: Decimal = data.get("HoursSaturday2")
+        self.hours_sunday2: Decimal = data.get("HoursSunday2")
+
+
+class PayrollWorkflowAction(DataClass):
+    """A class representing a payroll workflow action."""
+
+    def __init__(self, data: dict) -> None:
+        self.action_id: int = data.get("ActionId")
+        self.action_name: str = data.get("ActionName")
+        self.action_status_id: int = data.get("ActionStatusId")
+        self.action_status: str = data.get("ActionStatus")
+        self.run_at: datetime = data.get("RunAt")
+
+
+class PayrollWorkflowTrack(DataClass):
+    """A class representing a payroll workflow track."""
+
+    def __init__(self, data: dict) -> None:
+        self.track_name: str = data.get("TrackName")
+        self.track_status: str = data.get("TrackStatus")
+        self.actions: list[PayrollWorkflowAction] = [PayrollWorkflowAction(action) for action in data.get("Actions", [])]
+
+
+class LeaveTypeGroup(DataClass):
+    """A class representing a leave type group."""
+
+    def __init__(self, data: dict) -> None:
+        self.type: str = data.get("Type")
+        self.description: str = data.get("Description")
+        self.company_leave_balance: list[CompanyLeaveType] = [
+            CompanyLeaveType(leave_type) for leave_type in data.get("CompanyLeaveBalance", [])
+        ]
+
+
+class CompanyLeaveType(DataClass):
+    """A class representing a company leave type."""
+
+    def __init__(self, data: dict) -> None:
+        self.description_leave_balance: str = data.get("DescriptionLeaveBalance")
+        self.full_time_balance: Decimal = data.get("FullTimeBalance")
+        self.leave_rounding_method: str = data.get("LeaveRoundingMethod")

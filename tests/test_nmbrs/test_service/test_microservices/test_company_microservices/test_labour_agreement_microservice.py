@@ -3,7 +3,9 @@
 import unittest
 from unittest.mock import Mock
 
-from src.nmbrs.data_classes.company import LabourAgreement
+from decimal import Decimal
+
+from src.nmbrs.data_classes.company import LabourAgreement, LeaveTypeGroup
 from src.nmbrs.service.microservices.company import CompanyLabourAgreementService
 
 
@@ -35,3 +37,37 @@ class TestCompanyLabourAgreementService(unittest.TestCase):
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(labour_agreement, LabourAgreement) for labour_agreement in result))
         self.client.service.LabourAgreements_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+
+    def test_get_leave_type_groups(self):
+        """Test retrieving the company's leave type groups."""
+        company_id = 123
+        labour_agreement_settings_group_id = 456
+        year = 2023
+        period = 6
+        expected_responses = [
+            {
+                "Type": "1",
+                "Description": "Group 1",
+                "CompanyLeaveBalance": [
+                    {"DescriptionLeaveBalance": "leave balance", "FullTimeBalance": Decimal(10.1), "LeaveRoundingMethod": "Rounding Model"}
+                ],
+            },
+            {"Type": "2", "Description": "Group 2"},
+        ]
+        self.client.service.CompanyLeaveTypeGroups_Get.return_value = expected_responses
+
+        result = self.labour_agreement_service.get_leave_type_groups(company_id, labour_agreement_settings_group_id, year, period)
+
+        self.assertEqual(len(result), 2)
+        self.assertIsInstance(result[0], LeaveTypeGroup)
+        self.assertEqual(result[0].type, "1")
+        self.assertEqual(result[0].description, "Group 1")
+        self.assertEqual(result[1].type, "2")
+        self.assertEqual(result[1].description, "Group 2")
+        self.client.service.CompanyLeaveTypeGroups_Get.assert_called_once_with(
+            CompanyId=company_id,
+            LabourAgreementSettingsGroupId=labour_agreement_settings_group_id,
+            Year=year,
+            Period=period,
+            _soapheaders=self.mock_auth_header,
+        )

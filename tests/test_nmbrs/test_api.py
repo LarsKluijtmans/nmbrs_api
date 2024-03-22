@@ -3,7 +3,7 @@
 from unittest.mock import patch
 import unittest
 from src.nmbrs import Nmbrs
-from src.nmbrs.exceptions.custom_exceptions import ParameterMissingError
+from src.nmbrs.exceptions import ParameterMissingError
 
 
 class TestNmbrs(unittest.TestCase):

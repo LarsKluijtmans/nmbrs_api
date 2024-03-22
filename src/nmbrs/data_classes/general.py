@@ -7,7 +7,11 @@ class CodeDescription(DataClass):
     """A class representing a code and a description."""
 
     def __init__(self, data: dict) -> None:
+        self.code: int | None = None
+        self.description: str | None = None
+
         if data is None:
             return  # pragma: no cover
-        self.code: int = data.get("Code")
-        self.description: str = data.get("Description")
+
+        self.code = data.get("Code")
+        self.description = data.get("Description")

@@ -59,3 +59,19 @@ class TestCompanyRunService(unittest.TestCase):
         self.client.service.Run_GetEmployeesByRunCompany.assert_called_once_with(
             CompanyId=1, Year=2023, RunId=123, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_hr_documents_cost_per_hour_year(self):
+        """Test retrieving HR Document: Employer Cost per Hour per company per period."""
+        company_id = 123
+        run_id = 456
+        year = 2023
+        period = 6
+        expected_response = b"mocked_hr_document_bytes"
+        self.client.service.HrDocuments_EmployerCostPerHour_Year.return_value = expected_response
+
+        result = self.run_service.get_hr_documents_cost_per_hour_year(company_id, run_id, year, period)
+
+        self.assertEqual(result, expected_response)
+        self.client.service.HrDocuments_EmployerCostPerHour_Year.assert_called_once_with(
+            CompanyId=company_id, RunId=run_id, Year=year, Period=period, _soapheaders=self.mock_auth_header
+        )

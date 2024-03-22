@@ -26,45 +26,43 @@ from .microservices.company import (
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
-from ..data_classes.company import Company, Period, ContactPerson, GuidConvertor
+from ..data_classes.company import (
+    Company,
+    Period,
+    ContactPerson,
+    GuidConvertor,
+    DefaultEmployeeTemplate,
+    FulltimeSchedules,
+    PayrollWorkflowTrack,
+)
 
 
 class CompanyService(Service):
-    """
-    A class representing Company Service for interacting with Nmbrs company-related functionalities.
-
-    Not implemented calls:
-        - [DefaultEmployeeTemplates_GetByCompany](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=DefaultEmployeeTemplates_GetByCompany)
-        - [FileExplorer_UploadFile](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=FileExplorer_UploadFile)
-        - [HrDocuments_EmployerCostPerHour_Year](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=HrDocuments_EmployerCostPerHour_Year)
-        - [PayrollWorkflow_Get](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=PayrollWorkflow_Get)
-        - [Schedule_GetCurrent](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Schedule_GetCurrent)
-        - [CompanyLeaveTypeGroups_Get](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=CompanyLeaveTypeGroups_Get)
-    """
+    """A class representing Company Service for interacting with Nmbrs company-related functionalities."""
 
     def __init__(self, sandbox: bool = True) -> None:
         super().__init__(sandbox)
 
         # Initialize nmbrs client
-        self.company_service = Client(f"{self.base_uri}{self.company_uri}")
+        self.client = Client(f"{self.base_uri}{self.company_uri}")
 
         # Micro services
-        self.address = CompanyAddressService(self.company_service)
-        self.bank_account = CompanyBankAccountService(self.company_service)
-        self.cost_center = CompanyCostCenterService(self.company_service)
-        self.cost_unit = CompanyCostUnitService(self.company_service)
-        self.hour_model = CompanyHourModelService(self.company_service)
-        self.journal = CompanyJournalService(self.company_service)
-        self.labour_agreement = CompanyLabourAgreementService(self.company_service)
-        self.pension = CompanyPensionService(self.company_service)
-        self.run = CompanyRunService(self.company_service)
-        self.salary_documents = CompanySalaryDocumentService(self.company_service)
-        self.salary_table = CompanySalaryTableService(self.company_service)
-        self.svw = CompanySvwService(self.company_service)
-        self.wage_component = CompanyWageComponentService(self.company_service)
-        self.wage_cost = CompanyWageCostService(self.company_service)
-        self.wage_model = CompanyWageModelService(self.company_service)
-        self.wage_tax = CompanyWageTaxService(self.company_service)
+        self.address = CompanyAddressService(self.client)
+        self.bank_account = CompanyBankAccountService(self.client)
+        self.cost_center = CompanyCostCenterService(self.client)
+        self.cost_unit = CompanyCostUnitService(self.client)
+        self.hour_model = CompanyHourModelService(self.client)
+        self.journal = CompanyJournalService(self.client)
+        self.labour_agreement = CompanyLabourAgreementService(self.client)
+        self.pension = CompanyPensionService(self.client)
+        self.run = CompanyRunService(self.client)
+        self.salary_documents = CompanySalaryDocumentService(self.client)
+        self.salary_table = CompanySalaryTableService(self.client)
+        self.svw = CompanySvwService(self.client)
+        self.wage_component = CompanyWageComponentService(self.client)
+        self.wage_cost = CompanyWageCostService(self.client)
+        self.wage_model = CompanyWageModelService(self.client)
+        self.wage_tax = CompanyWageTaxService(self.client)
 
     def set_auth_header(self, auth_header: dict) -> None:
         """
@@ -105,7 +103,7 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects.
         """
-        companies = self.company_service.service.List_GetAll(_soapheaders=self.auth_header)
+        companies = self.client.service.List_GetAll(_soapheaders=self.auth_header)
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
@@ -124,7 +122,7 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects.
         """
-        companies = self.company_service.service.List_GetByDebtor(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        companies = self.client.service.List_GetByDebtor(DebtorId=debtor_id, _soapheaders=self.auth_header)
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
@@ -142,7 +140,7 @@ class CompanyService(Service):
         Returns:
             Company: A list of Company objects.
         """
-        company = self.company_service.service.Company_GetCurrentByEmployeeId(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        company = self.client.service.Company_GetCurrentByEmployeeId(EmployeeId=employee_id, _soapheaders=self.auth_header)
         if company is None:
             return None
         return Company(serialize_object(company))
@@ -161,7 +159,7 @@ class CompanyService(Service):
         Returns:
             Period: year, period and period type and the company.
         """
-        period = self.company_service.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_header)
+        period = self.client.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_header)
         if period is None:
             return None
         return Period(serialize_object(period))
@@ -189,7 +187,7 @@ class CompanyService(Service):
         Returns:
             int: The ID of the inserted debtor if successful.
         """
-        inserted = self.company_service.service.Company_Insert(
+        inserted = self.client.service.Company_Insert(
             DebtorId=debtor_id,
             CompanyName=name,
             PeriodType=period_type,
@@ -214,7 +212,7 @@ class CompanyService(Service):
         Returns:
             ContactPerson: The contact person details.
         """
-        contact_person = self.company_service.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_header)
+        contact_person = self.client.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_header)
         return ContactPerson(serialize_object(contact_person))
 
     @nmbrs_exception_handler(resources=["CompanyService:Converter_GetByCompany_IntToGuid"])
@@ -232,7 +230,89 @@ class CompanyService(Service):
         Returns:
             GuidConvertor: The converter mappings response.
         """
-        guids = self.company_service.service.Converter_GetByCompany_IntToGuid(
-            Entity=entity, CompanyId=company_id, _soapheaders=self.auth_header
-        )
+        guids = self.client.service.Converter_GetByCompany_IntToGuid(Entity=entity, CompanyId=company_id, _soapheaders=self.auth_header)
         return GuidConvertor(serialize_object(guids))
+
+    @return_list
+    @nmbrs_exception_handler(resources=["CompanyService:DefaultEmployeeTemplates_GetByCompany"])
+    def get_default_employee_templates(self, company_id: int) -> list[DefaultEmployeeTemplate]:
+        """
+        Get available default employee templates by company.
+
+        For more information, refer to the official documentation:
+            [Converter_GetByCompany_IntToGuid](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=DefaultEmployeeTemplates_GetByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Company]: A list of Company objects.
+        """
+        employee_templates = self.client.service.DefaultEmployeeTemplates_GetByCompany(CompanyId=company_id, _soapheaders=self.auth_header)
+        employee_templates = [DefaultEmployeeTemplate(employee_template) for employee_template in serialize_object(employee_templates)]
+        return employee_templates
+
+    @nmbrs_exception_handler(resources=["CompanyService:FileExplorer_UploadFile"])
+    def upload_file(self, company_id: int, document_name: str, document_sub_folder: str, data: bytes) -> None:
+        """
+        Upload a document for a company.
+
+        For further details, see the official documentation:
+            [FileExplorer_UploadFile](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=FileExplorer_UploadFile)
+
+        Args:
+            company_id (int): The ID of the company.
+            document_name (str): The name of the document.
+            document_sub_folder (str): The subfolder in which the document will be uploaded.
+            data (bytes): The data of the document.
+
+        Returns:
+            None
+        """
+        self.client.service.FileExplorer_UploadFile(
+            **{
+                "CompanyId": company_id,
+                "StrDocumentName": document_name,
+                "StrDocumentSubFolder": document_sub_folder,
+                "Body": data,
+            },
+            _soapheaders=self.auth_header,
+        )
+
+    @nmbrs_exception_handler(resources=["CompanyService:Schedule_GetCurrent"])
+    def get_current_schedule(self, company_id: int) -> FulltimeSchedules:
+        """
+        Retrieve the current schedules for a company.
+
+        For further details, see the official documentation:
+            [Schedule_GetCurrent](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=Schedule_GetCurrent)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            FulltimeSchedules: A FulltimeSchedules object.
+        """
+        response = self.client.service.Schedule_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        return FulltimeSchedules(serialize_object(response))
+
+    @return_list
+    @nmbrs_exception_handler(resources=["CompanyService:PayrollWorkflow_Get"])
+    def get_payroll_workflow(self, company_id: int, year: int, period: int) -> list[PayrollWorkflowTrack]:
+        """
+        Get the company's payroll workflow tracks and actions.
+
+        For further details, see the official documentation:
+            [PayrollWorkflow_Get](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=PayrollWorkflow_Get)
+
+        Args:
+            company_id (int): The ID of the company.
+            year (int): The year.
+            period (int): The period.
+
+        Returns:
+            List[PayrollWorkflowTrack]: A list of PayrollWorkflowTrack objects.
+        """
+        responses = self.client.service.PayrollWorkflow_Get(CompanyId=company_id, Year=year, Period=period, _soapheaders=self.auth_header)
+        responses = [PayrollWorkflowTrack(response) for response in serialize_object(responses)]
+        return responses
