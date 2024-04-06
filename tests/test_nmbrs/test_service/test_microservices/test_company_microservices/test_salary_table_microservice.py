@@ -71,7 +71,7 @@ class TestCompanySalaryTableService(unittest.TestCase):
             {"Step": "Step2", "StepDescription": "Step 2", "StepValue": 2000},
         ]
         mock_scale = SalaryTableScale(
-            {"Scale": "Scale1", "Description": "Scale 1", "ScaleValue": 1000, "ScalePercentageMax": 10, "ScalePercentageMin": 5}
+            1, {"Scale": "Scale1", "Description": "Scale 1", "ScaleValue": 1000, "ScalePercentageMax": 10, "ScalePercentageMin": 5}
         )
         self.client.service.SalaryTable_GetSteps.return_value = mock_steps
         result = self.salary_table_service.get_step(1, 6, 2023, mock_scale)

@@ -43,7 +43,9 @@ class CompanyLabourAgreementService(MicroService):
             Year=year,
             _soapheaders=self.auth_header,
         )
-        labour_agreements = [LabourAgreement(labour_agreement) for labour_agreement in serialize_object(labour_agreements)]
+        labour_agreements = [
+            LabourAgreement(company_id=company_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
+        ]
         return labour_agreements
 
     @return_list
@@ -62,7 +64,9 @@ class CompanyLabourAgreementService(MicroService):
             list[LabourAgreement]: A list of LabourAgreement objects representing the current labour agreements.
         """
         labour_agreements = self.client.service.LabourAgreements_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
-        labour_agreements = [LabourAgreement(labour_agreement) for labour_agreement in serialize_object(labour_agreements)]
+        labour_agreements = [
+            LabourAgreement(company_id=company_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
+        ]
         return labour_agreements
 
     @return_list
@@ -92,4 +96,4 @@ class CompanyLabourAgreementService(MicroService):
             Period=period,
             _soapheaders=self.auth_header,
         )
-        return [LeaveTypeGroup(response) for response in serialize_object(responses)]
+        return [LeaveTypeGroup(company_id=company_id, data=response) for response in serialize_object(responses)]

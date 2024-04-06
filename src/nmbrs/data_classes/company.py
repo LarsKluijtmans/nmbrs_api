@@ -56,7 +56,8 @@ class Address(DataClass):
 class LabourAgreement(DataClass):
     """A class representing a labour agreement."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.id: int = data.get("Id")
         self.guid: str = data.get("Guid")
         self.number: int = data.get("Number")
@@ -81,8 +82,9 @@ class LabourAgreement(DataClass):
 class Period(DataClass):
     """A class representing a period of a company."""
 
-    def __init__(self, data: str) -> None:
+    def __init__(self, company_id: int, data: str) -> None:
         parts = data.split("-")
+        self.company_id = company_id
         self.year: int = int(parts[0])
         self.period: int = int(parts[1])
         self.type: str = parts[2]
@@ -91,7 +93,8 @@ class Period(DataClass):
 class WageTax(DataClass):
     """A class representing a wage tax."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.loonaangifte_id: int = data.get("LoonaangifteID", None)
         self.serial_number: int = data.get("SerialNumber", None)
         self.payment_reference: str = data.get("PaymentReference", None)
@@ -120,7 +123,8 @@ class WageTaxXML(DataClass):
 class ContactPerson(DataClass):
     """A class representing a contact person with their details."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.email: str = data.get("Email")
         self.name: str = data.get("Name")
         self.phone: str = data.get("Phone")
@@ -135,7 +139,8 @@ class ContactPerson(DataClass):
 class GuidConvertor(DataClass):
     """A class representing the mappings between integer IDs and GUIDs for a specific entity."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.entity: str = data.get("Entity")
         mappings_data = data.get("Mappings", [])
         mappings_data = mappings_data.get("Mapping", [])
@@ -155,7 +160,8 @@ class Mapping(DataClass):
 class CostCenter(DataClass):
     """A class representing a cost center."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.id: int = data.get("Id")
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
@@ -164,7 +170,8 @@ class CostCenter(DataClass):
 class CostUnit(DataClass):
     """A class representing a cost unit."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.id: int = data.get("Id")
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
@@ -173,7 +180,8 @@ class CostUnit(DataClass):
 class HourCode(DataClass):
     """A class representing an hour code."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
 
@@ -181,7 +189,8 @@ class HourCode(DataClass):
 class Pension(DataClass):
     """A class representing a pension exports information."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.pension_export_id: int = data.get("PensionExportID")
         self.serial_number: int = data.get("SerialNumber")
         self.period: int = data.get("Period")
@@ -206,7 +215,8 @@ class PensionXML(DataClass):
 class RunRequest(DataClass):
     """A class representing a run request."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id: company_id
         self.period: int = data.get("Period")
         self.year: int = data.get("Year")
         self.status: str = data.get("Status")
@@ -216,7 +226,8 @@ class RunRequest(DataClass):
 class RunInfo(DataClass):
     """A class representing a run info."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.id: int = data.get("ID")
         self.number: int = data.get("Number")
         self.year: int = data.get("Year")
@@ -230,7 +241,8 @@ class RunInfo(DataClass):
 class SalaryTable(DataClass):
     """A class representing a salary table."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.code: int = data.get("Code")
         self.description: str = data.get("Description")
 
@@ -238,7 +250,8 @@ class SalaryTable(DataClass):
 class SalaryTableScale(DataClass):
     """A class representing a salary table scale."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.scale: str = data.get("Scale")
         self.description: str = data.get("Description")
         self.value: Decimal = data.get("ScaleValue")
@@ -249,7 +262,8 @@ class SalaryTableScale(DataClass):
 class SalaryTableStep(DataClass):
     """A class representing a salary table scale."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.step: str = data.get("Step")
         self.description: str = data.get("StepDescription")
         self.value: Decimal = data.get("StepValue")
@@ -272,7 +286,8 @@ class SVWSettings(DataClass):
 class SVW(DataClass):
     """A class representing a svw."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.settings: SVWSettings = SVWSettings(data.get("SVWSettings"))
         self.sector: CodeDescription = CodeDescription(data.get("Sector"))
         self.risc_group: CodeDescription = CodeDescription(data.get("Risicogroep"))
@@ -306,7 +321,8 @@ class SVW(DataClass):
 class DefaultEmployeeTemplate(DataClass):
     """A class representing a default employee template scale."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.id: str = data.get("DefaultEmployeeTemplateId")
         self.description: str = data.get("Description")
 
@@ -314,7 +330,8 @@ class DefaultEmployeeTemplate(DataClass):
 class FulltimeSchedules(DataClass):
     """A class representing all fulltime schedules."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.schedule_one: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleOne"))
         self.schedule_two: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleTwo"))
         self.schedule_three: FulltimeSchedule = FulltimeSchedule(data.get("FulltimeScheduleThree"))
@@ -356,7 +373,8 @@ class PayrollWorkflowAction(DataClass):
 class PayrollWorkflowTrack(DataClass):
     """A class representing a payroll workflow track."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.track_name: str = data.get("TrackName")
         self.track_status: str = data.get("TrackStatus")
         self.actions: list[PayrollWorkflowAction] = [PayrollWorkflowAction(action) for action in data.get("Actions", [])]
@@ -365,7 +383,8 @@ class PayrollWorkflowTrack(DataClass):
 class LeaveTypeGroup(DataClass):
     """A class representing a leave type group."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
         self.type: str = data.get("Type")
         self.description: str = data.get("Description")
         self.company_leave_balance: list[CompanyLeaveType] = [

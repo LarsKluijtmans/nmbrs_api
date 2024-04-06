@@ -72,7 +72,7 @@ class TestCompanySvwService(unittest.TestCase):
             "Risicogroep": {"Code": "ABC", "Description": "Risico Groep ABC"},
             "CAO": {"Code": "DEF", "Description": "CAO DEF"},
         }
-        svw_obj = SVW(svw_data)
+        svw_obj = SVW(company_id, svw_data)
         expected_dict = svw_obj.insert_dict()
 
         self.service.insert_current(company_id, svw_obj)

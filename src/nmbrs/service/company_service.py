@@ -52,16 +52,16 @@ class CompanyService(Service):
         self.cost_center = CompanyCostCenterService(self.client)
         self.cost_unit = CompanyCostUnitService(self.client)
         self.hour_model = CompanyHourModelService(self.client)
-        self.journal = CompanyJournalService(self.client)
+        self.journal = CompanyJournalService(self.client)  # TO BE implemented
         self.labour_agreement = CompanyLabourAgreementService(self.client)
         self.pension = CompanyPensionService(self.client)
         self.run = CompanyRunService(self.client)
-        self.salary_documents = CompanySalaryDocumentService(self.client)
+        self.salary_documents = CompanySalaryDocumentService(self.client)  # TO BE implemented
         self.salary_table = CompanySalaryTableService(self.client)
         self.svw = CompanySvwService(self.client)
-        self.wage_component = CompanyWageComponentService(self.client)
-        self.wage_cost = CompanyWageCostService(self.client)
-        self.wage_model = CompanyWageModelService(self.client)
+        self.wage_component = CompanyWageComponentService(self.client)  # TO BE implemented
+        self.wage_cost = CompanyWageCostService(self.client)  # TO BE implemented
+        self.wage_model = CompanyWageModelService(self.client)  # TO BE implemented
         self.wage_tax = CompanyWageTaxService(self.client)
 
     def set_auth_header(self, auth_header: dict) -> None:
@@ -162,7 +162,7 @@ class CompanyService(Service):
         period = self.client.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_header)
         if period is None:
             return None
-        return Period(serialize_object(period))
+        return Period(company_id=company_id, data=serialize_object(period))
 
     @nmbrs_exception_handler(resources=["CompanyService:Company_Insert"])
     def insert(
@@ -213,7 +213,7 @@ class CompanyService(Service):
             ContactPerson: The contact person details.
         """
         contact_person = self.client.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_header)
-        return ContactPerson(serialize_object(contact_person))
+        return ContactPerson(company_id=company_id, data=serialize_object(contact_person))
 
     @nmbrs_exception_handler(resources=["CompanyService:Converter_GetByCompany_IntToGuid"])
     def get_converter_mappings(self, company_id: int, entity: str) -> GuidConvertor:
@@ -231,7 +231,7 @@ class CompanyService(Service):
             GuidConvertor: The converter mappings response.
         """
         guids = self.client.service.Converter_GetByCompany_IntToGuid(Entity=entity, CompanyId=company_id, _soapheaders=self.auth_header)
-        return GuidConvertor(serialize_object(guids))
+        return GuidConvertor(company_id=company_id, data=serialize_object(guids))
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:DefaultEmployeeTemplates_GetByCompany"])
@@ -249,7 +249,10 @@ class CompanyService(Service):
             list[Company]: A list of Company objects.
         """
         employee_templates = self.client.service.DefaultEmployeeTemplates_GetByCompany(CompanyId=company_id, _soapheaders=self.auth_header)
-        employee_templates = [DefaultEmployeeTemplate(employee_template) for employee_template in serialize_object(employee_templates)]
+        employee_templates = [
+            DefaultEmployeeTemplate(company_id=company_id, data=employee_template)
+            for employee_template in serialize_object(employee_templates)
+        ]
         return employee_templates
 
     @nmbrs_exception_handler(resources=["CompanyService:FileExplorer_UploadFile"])
@@ -294,7 +297,7 @@ class CompanyService(Service):
             FulltimeSchedules: A FulltimeSchedules object.
         """
         response = self.client.service.Schedule_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
-        return FulltimeSchedules(serialize_object(response))
+        return FulltimeSchedules(company_id=company_id, data=serialize_object(response))
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:PayrollWorkflow_Get"])
@@ -314,5 +317,5 @@ class CompanyService(Service):
             List[PayrollWorkflowTrack]: A list of PayrollWorkflowTrack objects.
         """
         responses = self.client.service.PayrollWorkflow_Get(CompanyId=company_id, Year=year, Period=period, _soapheaders=self.auth_header)
-        responses = [PayrollWorkflowTrack(response) for response in serialize_object(responses)]
+        responses = [PayrollWorkflowTrack(company_id=company_id, data=response) for response in serialize_object(responses)]
         return responses

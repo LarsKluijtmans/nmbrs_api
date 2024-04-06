@@ -36,8 +36,7 @@ from .microservices.employee import (
     EmployeeTimeScheduleService,
 )
 from .service import Service
-from ..data_classes.company import Period
-from ..data_classes.employee import EmployeeTypes, Employee
+from ..data_classes.employee import EmployeeTypes, Employee, Period
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
 
@@ -52,34 +51,34 @@ class EmployeeService(Service):
         self.client = Client(f"{self.base_uri}{self.employee_uri}")
 
         # Micro services
-        self.absence = EmployeeAbsenceService(self.client)
-        self.address = EmployeeAddressService(self.client)
-        self.bank_account = EmployeeBankAccountService(self.client)
-        self.child = EmployeeChildService(self.client)
-        self.contract = EmployeeContractService(self.client)
-        self.cost_center = EmployeeCostCenterService(self.client)
-        self.days = EmployeeDaysService(self.client)
-        self.department = EmployeeDepartmentsService(self.client)
-        self.document = EmployeeDocumentService(self.client)
-        self.employment = EmployeeEmploymentService(self.client)
-        self.function = EmployeeFunctionService(self.client)
-        self.hour_component = EmployeeHourComponentFixedService(self.client)
-        self.labour_agreement = EmployeeLabourAgreementService(self.client)
-        self.lease_car = EmployeeLeaseCarService(self.client)
-        self.leave = EmployeeLeaveService(self.client)
-        self.levensloop = EmployeeLevensLoopService(self.client)
-        self.manager = EmployeeManagerService(self.client)
-        self.partner = EmployeePartnerService(self.client)
-        self.personal_info = EmployeePersonalInfoService(self.client)
-        self.salary = EmployeeSalaryService(self.client)
-        self.schedule = EmployeeScheduleService(self.client)
-        self.service = EmployeeServiceService(self.client)
-        self.spaarloon = EmployeeSpaarloonService(self.client)
-        self.svw = EmployeeSvwService(self.client)
-        self.time_registration = EmployeeTimeRegistrationService(self.client)
-        self.time_schedule = EmployeeTimeScheduleService(self.client)
-        self.wage_component = EmployeeWageComponentsService(self.client)
-        self.wage_tax = EmployeeWageTaxService(self.client)
+        self.absence = EmployeeAbsenceService(self.client)  # TO BE implemented
+        self.address = EmployeeAddressService(self.client)  # TO BE implemented
+        self.bank_account = EmployeeBankAccountService(self.client)  # TO BE implemented
+        self.child = EmployeeChildService(self.client)  # TO BE implemented
+        self.contract = EmployeeContractService(self.client)  # TO BE implemented
+        self.cost_center = EmployeeCostCenterService(self.client)  # TO BE implemented
+        self.days = EmployeeDaysService(self.client)  # TO BE implemented
+        self.department = EmployeeDepartmentsService(self.client)  # TO BE implemented
+        self.document = EmployeeDocumentService(self.client)  # TO BE implemented
+        self.employment = EmployeeEmploymentService(self.client)  # TO BE implemented
+        self.function = EmployeeFunctionService(self.client)  # TO BE implemented
+        self.hour_component = EmployeeHourComponentFixedService(self.client)  # TO BE implemented
+        self.labour_agreement = EmployeeLabourAgreementService(self.client)  # TO BE implemented
+        self.lease_car = EmployeeLeaseCarService(self.client)  # TO BE implemented
+        self.leave = EmployeeLeaveService(self.client)  # TO BE implemented
+        self.levensloop = EmployeeLevensLoopService(self.client)  # TO BE implemented
+        self.manager = EmployeeManagerService(self.client)  # TO BE implemented
+        self.partner = EmployeePartnerService(self.client)  # TO BE implemented
+        self.personal_info = EmployeePersonalInfoService(self.client)  # TO BE implemented
+        self.salary = EmployeeSalaryService(self.client)  # TO BE implemented
+        self.schedule = EmployeeScheduleService(self.client)  # TO BE implemented
+        self.service = EmployeeServiceService(self.client)  # TO BE implemented
+        self.spaarloon = EmployeeSpaarloonService(self.client)  # TO BE implemented
+        self.svw = EmployeeSvwService(self.client)  # TO BE implemented
+        self.time_registration = EmployeeTimeRegistrationService(self.client)  # TO BE implemented
+        self.time_schedule = EmployeeTimeScheduleService(self.client)  # TO BE implemented
+        self.wage_component = EmployeeWageComponentsService(self.client)  # TO BE implemented
+        self.wage_tax = EmployeeWageTaxService(self.client)  # TO BE implemented
 
     def set_auth_header(self, auth_header: dict) -> None:
         """
@@ -153,7 +152,7 @@ class EmployeeService(Service):
         period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
         if period is None:
             return None
-        return Period(serialize_object(period))
+        return Period(employee_id=employee_id, data=serialize_object(period))
 
     @return_list
     @nmbrs_exception_handler(resources=["EmployeeService:List_GetByCompany"])

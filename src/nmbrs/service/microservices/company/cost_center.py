@@ -34,7 +34,7 @@ class CompanyCostCenterService(MicroService):
             list[CostCenter]: A list of cost center objects.
         """
         cost_centers = self.client.service.CostCenter_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
-        return [CostCenter(cost_center) for cost_center in serialize_object(cost_centers)]
+        return [CostCenter(company_id=company_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
 
     @nmbrs_exception_handler(resources=["CompanyService:CostCenter_Insert"])
     def insert(self, company_id: int, cost_center_id: int, code: str, description: str) -> int:
