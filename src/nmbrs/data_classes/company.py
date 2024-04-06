@@ -399,3 +399,14 @@ class CompanyLeaveType(DataClass):
         self.description_leave_balance: str = data.get("DescriptionLeaveBalance")
         self.full_time_balance: Decimal = data.get("FullTimeBalance")
         self.leave_rounding_method: str = data.get("LeaveRoundingMethod")
+
+
+class WageComponent(DataClass):
+    """A class representing a wage component."""
+
+    def __init__(self, company_id: int, component_type: str, data: dict) -> None:
+        self.company_id = company_id
+        self.type = component_type
+        self.id: int = data.get("Id")
+        self.code: int = data.get("Code")
+        self.value: str = data.get("Value")
