@@ -49,7 +49,7 @@ class DebtorFunctionService(MicroService):
             list[Function]: A list of Function objects representing all functions of the debtor.
         """
         functions = self.client.service.Function_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        functions = [Function(debtor_id, function) for function in serialize_object(functions)]
+        functions = [Function(debtor_id=debtor_id, data=function) for function in serialize_object(functions)]
         return functions
 
     @nmbrs_exception_handler(resources=["DebtorService:Function_Insert"])
