@@ -23,6 +23,17 @@ class EmployeeTypes(DataClass):
         self.description: str = data.get("Description", None)
 
 
+class Period(DataClass):
+    """A class representing a period of a company."""
+
+    def __init__(self, employee_id: int, data: str) -> None:
+        parts = data.split("-")
+        self.employee_id = employee_id
+        self.year: int = int(parts[0])
+        self.period: int = int(parts[1])
+        self.type: str = parts[2]
+
+
 class Contract(DataClass):
     """A class representing a contract."""
 

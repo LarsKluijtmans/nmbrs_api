@@ -56,7 +56,7 @@ class DebtorWebHooksService(MicroService):
             list[WebhookSetting]: A list of WebhookSetting objects representing all webhooks associated with the debtor.
         """
         webhooks = self.client.service.WebhookSettings_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        webhooks = [WebhookSetting(webhook) for webhook in serialize_object(webhooks)]
+        webhooks = [WebhookSetting(debtor_id=debtor_id, data=webhook) for webhook in serialize_object(webhooks)]
         return webhooks
 
     @return_list

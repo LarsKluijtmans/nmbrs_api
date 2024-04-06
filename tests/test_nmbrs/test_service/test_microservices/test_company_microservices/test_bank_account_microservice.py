@@ -29,7 +29,7 @@ class TestCompanyBankAccountService(unittest.TestCase):
         """Test that get_current returns None when bank account is not found."""
         self.client.service.BankAccount_GetCurrent.return_value = None
         result = self.bank_account_service.get_current(1)
-        self.assertIsInstance(result, BankAccount)
+        self.assertEqual(result, None)
         self.client.service.BankAccount_GetCurrent.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
 
     def test_insert_bank_account(self):

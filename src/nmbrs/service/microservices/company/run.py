@@ -36,7 +36,7 @@ class CompanyRunService(MicroService):
             list[RunRequest]: A list of run requests objects.
         """
         run_requests = self.client.service.RunRequest_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
-        return [RunRequest(run_request) for run_request in serialize_object(run_requests)]
+        return [RunRequest(company_id=company_id, data=run_request) for run_request in serialize_object(run_requests)]
 
     @nmbrs_exception_handler(resources=["CompanyService:RunRequest_Insert"])
     def insert_request(self, company_id: int):
@@ -68,7 +68,7 @@ class CompanyRunService(MicroService):
             list[RunInfo]: A list of run info objects.
         """
         runs = self.client.service.Run_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
-        return [RunInfo(run) for run in serialize_object(runs)]
+        return [RunInfo(company_id=company_id, data=run) for run in serialize_object(runs)]
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:Run_GetEmployeesByRunCompany"])

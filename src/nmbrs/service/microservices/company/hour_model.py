@@ -34,7 +34,7 @@ class CompanyHourModelService(MicroService):
             list[HourCode]: A list of hour code objects.
         """
         hour_codes = self.client.service.HourModel_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_header)
-        return [HourCode(hour_code) for hour_code in serialize_object(hour_codes)]
+        return [HourCode(company_id=company_id, data=hour_code) for hour_code in serialize_object(hour_codes)]
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:HourModel2_GetHourCodes"])
@@ -52,4 +52,4 @@ class CompanyHourModelService(MicroService):
             list[HourCode]: A list of hour code objects.
         """
         hour_codes = self.client.service.HourModel2_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_header)
-        return [HourCode(hour_code) for hour_code in serialize_object(hour_codes)]
+        return [HourCode(company_id=company_id, data=hour_code) for hour_code in serialize_object(hour_codes)]

@@ -34,7 +34,7 @@ class DebtorFunctionService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:Function_GetList"])
-    def get_all(self, debtor_id: int, function_id: int) -> list[Function]:
+    def get_all(self, debtor_id: int) -> list[Function]:
         """
         Retrieve all functions of a debtor.
 
@@ -48,8 +48,8 @@ class DebtorFunctionService(MicroService):
         Returns:
             list[Function]: A list of Function objects representing all functions of the debtor.
         """
-        functions = self.client.service.Function_GetList(DebtorId=debtor_id, id=function_id, _soapheaders=self.auth_header)
-        functions = [Function(function) for function in serialize_object(functions)]
+        functions = self.client.service.Function_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        functions = [Function(debtor_id=debtor_id, data=function) for function in serialize_object(functions)]
         return functions
 
     @nmbrs_exception_handler(resources=["DebtorService:Function_Insert"])

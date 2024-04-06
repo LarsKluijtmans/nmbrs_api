@@ -32,7 +32,7 @@ class CompanySvwService(MicroService):
             SVW: object representing svw settings
         """
         svw = self.client.service.SVW_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
-        return SVW(serialize_object(svw))
+        return SVW(company_id=company_id, data=serialize_object(svw))
 
     @nmbrs_exception_handler(resources=["CompanyService:SVW_UpdateCurrent"])
     def insert_current(self, company_id: int, svw: SVW) -> None:

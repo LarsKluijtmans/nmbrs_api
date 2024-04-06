@@ -34,7 +34,7 @@ class CompanyPensionService(MicroService):
             list[Pension]: A list of pension objects.
         """
         pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
-        return [Pension(pension) for pension in serialize_object(pensions)]
+        return [Pension(company_id=company_id, data=pension) for pension in serialize_object(pensions)]
 
     @nmbrs_exception_handler(resources=["CompanyService:PensionExport_GetXML"])
     def get_xml(self, company_id: int, pension_export_id: int) -> PensionXML:

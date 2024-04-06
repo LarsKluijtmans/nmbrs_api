@@ -36,7 +36,7 @@ class CompanySalaryTableService(MicroService):
             list[SalaryTable]: A list of salary table objects.
         """
         salary_tables = self.client.service.SalaryTable_Get(CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header)
-        return [SalaryTable(salary_table) for salary_table in serialize_object(salary_tables)]
+        return [SalaryTable(company_id=company_id, data=salary_table) for salary_table in serialize_object(salary_tables)]
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_Get"])
@@ -76,7 +76,7 @@ class CompanySalaryTableService(MicroService):
             list[SalaryTableScale]: A list of salary table scale objects.
         """
         scales = self.client.service.SalaryTable_GetScales(CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header)
-        return [SalaryTableScale(scale) for scale in serialize_object(scales)]
+        return [SalaryTableScale(company_id=company_id, data=scale) for scale in serialize_object(scales)]
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_GetScales"])
@@ -128,7 +128,7 @@ class CompanySalaryTableService(MicroService):
         steps = self.client.service.SalaryTable_GetSteps(
             CompanyId=company_id, Period=period, Year=year, Scale=_scale, _soapheaders=self.auth_header
         )
-        return [SalaryTableStep(step) for step in serialize_object(steps)]
+        return [SalaryTableStep(company_id=company_id, data=step) for step in serialize_object(steps)]
 
     @return_list
     @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_GetSteps"])

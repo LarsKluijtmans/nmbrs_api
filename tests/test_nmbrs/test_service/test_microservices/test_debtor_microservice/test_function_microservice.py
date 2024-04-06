@@ -25,10 +25,10 @@ class TestDebtorFunctionService(unittest.TestCase):
         """Test retrieving all functions of a debtor."""
         mock_functions = [Mock() for _ in range(3)]
         self.mock_client.service.Function_GetList.return_value = mock_functions
-        result = self.debtor_function_service.get_all(1, 2)
+        result = self.debtor_function_service.get_all(1)
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(func, Function) for func in result))
-        self.mock_client.service.Function_GetList.assert_called_once_with(DebtorId=1, id=2, _soapheaders=self.mock_auth_header)
+        self.mock_client.service.Function_GetList.assert_called_once_with(DebtorId=1, _soapheaders=self.mock_auth_header)
 
     def test_insert_function(self):
         """Test inserting a new function for a debtor."""
