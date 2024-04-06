@@ -2,9 +2,12 @@
 """Microservice responsible for contract related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import Contract
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class EmployeeContractService(MicroService):
@@ -36,15 +39,28 @@ class EmployeeContractService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resources=["EmployeeService:Contract_GetAll_AllEmployeesByCompany"])
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[Contract]:
         """
         Get all contracts of all employees.
 
         For more information, refer to the official documentation:
             [Contract_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Contract_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Contract]: a list of contract objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        contracts = self.client.service.Contract_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        contracts = serialize_object(contracts)
+        _contracts = []
+        for employee in contracts:
+            for contract in employee["EmployeeContracts"]["EmployeeContract"]:
+                _contracts.append(Contract(employee_id=employee["EmployeeId"], data=contract))
+        return _contracts
 
     @nmbrs_exception_handler(resources=["EmployeeService:Contract_Delete"])
     def delete(self):

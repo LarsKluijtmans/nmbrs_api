@@ -92,3 +92,140 @@ class TestDataClass(unittest.TestCase):
         obj = TestClass(amount)
         expected_dict = {"amount": float(amount)}  # Expected dictionary should have the Decimal value converted to float
         self.assertEqual(obj.to_dict(), expected_dict)
+
+    def test_getattr(self):
+        """Test custom __getattr__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self):
+                self.attribute = 42
+
+        obj = TestClass()
+        self.assertEqual(obj.attribute, 42)
+
+        with self.assertRaises(AttributeError):
+            _ = obj.non_existent_attribute
+
+    def test_setattr(self):
+        """Test custom __setattr__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self):
+                self.attribute = 42
+
+        obj = TestClass()
+        obj.attribute = 99
+        self.assertEqual(obj.attribute, 99)
+
+    def test_delattr(self):
+        """Test custom __delattr__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self):
+                self.attribute = 42
+
+        obj = TestClass()
+        del obj.attribute
+
+        with self.assertRaises(AttributeError):
+            _ = obj.attribute
+
+    def test_delattr_exception(self):
+        """Test custom __delattr__ method, throwing an exception"""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self):
+                self.attribute = 42
+
+        obj = TestClass()
+        self.assertTrue(obj.attribute == 42)
+        del obj.attribute
+        with self.assertRaises(AttributeError):
+            getattr(obj, "attribute")  # Attempt to access the deleted attribute
+
+    def test_eq(self):
+        """Test custom __eq__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        obj1 = TestClass(42)
+        obj2 = TestClass(42)
+        obj3 = TestClass(99)
+
+        self.assertTrue(obj1 == obj2)
+        self.assertFalse(obj1 == obj3)
+
+    def test_eq_not_equal(self):
+        """Test inequality of objects with different attribute values."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, attribute1, attribute2):
+                self.attribute1 = attribute1
+                self.attribute2 = attribute2
+
+        obj1 = TestClass("value1", "value2")
+        obj2 = TestClass("value3", "value4")
+        self.assertNotEqual(obj1, obj2)
+
+    def test_repr(self):
+        """Test custom __repr__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        obj = TestClass(42)
+        self.assertEqual(repr(obj), "TestClass({'value': 42})")
+
+    def test_len(self):
+        """Test custom __len__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        obj = TestClass(42)
+        self.assertEqual(len(obj), 1)
+
+    def test_iter(self):
+        """Test custom __iter__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        obj = TestClass(42)
+        self.assertTrue(hasattr(obj, "__iter__"))
+        self.assertTrue(hasattr(iter(obj), "__iter__"))
+
+    def test_next(self):
+        """Test custom __next__ method."""
+
+        class TestClass(DataClass):
+            """Test class"""
+
+            def __init__(self, value):
+                self.value = value
+
+        obj = TestClass(42)
+        self.assertEqual(next(iter(obj)), ("value", 42))
