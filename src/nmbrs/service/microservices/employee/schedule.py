@@ -2,8 +2,10 @@
 """Microservice responsible for schedule related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import Schedule
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -47,14 +49,26 @@ class EmployeeScheduleService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resources=["EmployeeService:Schedule_GetAll_AllEmployeesByCompany"])
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[Schedule]:
         """
         Get all schedules of all employees from company.
 
         For more information, refer to the official documentation:
             [Schedule_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Schedule_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Contract]: a list of contract objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        schedules = self.client.service.Schedule_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        schedules = serialize_object(schedules)
+        _schedules = []
+        for employee in schedules:
+            for schedule in employee["EmployeeSchedules"]["Schedule_V2"]:
+                _schedules.append(Schedule(employee_id=employee["EmployeeId"], data=schedule))
+        return _schedules
 
     @nmbrs_exception_handler(resources=["EmployeeService:ScheduleCalendar_Get"])
     def get_calender(self):
