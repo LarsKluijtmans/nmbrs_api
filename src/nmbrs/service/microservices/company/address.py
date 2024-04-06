@@ -3,7 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from ....data_classes.debtor import Address
+from ....data_classes.company import Address
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..micro_service import MicroService
 
@@ -34,7 +34,7 @@ class CompanyAddressService(MicroService):
         address = self.client.service.Address_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
         if address is None:
             return None
-        return Address(serialize_object(address))
+        return Address(company_id=company_id, data=serialize_object(address))
 
     @nmbrs_exception_handler(resources=["CompanyService:Address_Insert"])
     def insert(

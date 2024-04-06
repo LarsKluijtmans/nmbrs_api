@@ -41,9 +41,10 @@ class TestDebtorClasses(unittest.TestCase):
             "Active": True,
             "Event": [{"EventId": 456, "EventName": "Test Event", "Active": True}],
         }
-        webhook_setting = WebhookSetting(data)
+        webhook_setting = WebhookSetting(1, data)
         expected_result = {
             "webhook_setting_id": 123,
+            "debtor_id": 1,
             "name": "Test Webhook",
             "endpoint": "https://example.com/webhook",
             "active": True,
@@ -60,7 +61,7 @@ class TestDebtorClasses(unittest.TestCase):
             "Active": True,
             "Event": [{"EventId": 1, "Active": True}, {"EventId": 2, "Active": False}],
         }
-        webhook_setting = WebhookSetting(obj)
+        webhook_setting = WebhookSetting(1, obj)
         expected_result = {
             "WebhookSetting": {
                 "Name": "Sample Webhook",

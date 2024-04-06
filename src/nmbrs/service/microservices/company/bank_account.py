@@ -4,7 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
-from ....data_classes.debtor import BankAccount
+from ....data_classes.company import BankAccount
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -33,8 +33,8 @@ class CompanyBankAccountService(MicroService):
         """
         bank_account = self.client.service.BankAccount_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
         if bank_account is None:
-            return BankAccount({})
-        return BankAccount(serialize_object(bank_account))
+            return BankAccount(company_id=company_id, data={})
+        return BankAccount(company_id=company_id, data=serialize_object(bank_account))
 
     @nmbrs_exception_handler(resources=["CompanyService:BankAccount_Insert"])
     def insert(

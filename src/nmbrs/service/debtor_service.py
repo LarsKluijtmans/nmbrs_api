@@ -204,7 +204,7 @@ class DebtorService(Service):
             list[ContactInfo]: A list of ContactInfo objects representing the accountant contact information.
         """
         accountants = self.debtor_service.service.AccountantContact_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        accountants = [ContactInfo(accountant) for accountant in serialize_object(accountants)]
+        accountants = [ContactInfo(debtor_id=debtor_id, data=accountant) for accountant in serialize_object(accountants)]
         return accountants
 
     @nmbrs_exception_handler(resources=["DebtorService:Address_Get"])
@@ -224,7 +224,7 @@ class DebtorService(Service):
         address = self.debtor_service.service.Address_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if address is None:
             return None
-        return Address(serialize_object(address))
+        return Address(debtor_id=debtor_id, data=serialize_object(address))
 
     @nmbrs_exception_handler(resources=["DebtorService:BankAccount_Get"])
     def get_bank_account(self, debtor_id: int) -> BankAccount | None:
@@ -243,7 +243,7 @@ class DebtorService(Service):
         bank_account = self.debtor_service.service.BankAccount_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if bank_account is None:
             return None
-        return BankAccount(serialize_object(bank_account))
+        return BankAccount(debtor_id=debtor_id, data=serialize_object(bank_account))
 
     @nmbrs_exception_handler(resources=["DebtorService:ContactPerson_Get"])
     def get_contact_person(self, debtor_id: int) -> ContactInfo | None:
@@ -262,7 +262,7 @@ class DebtorService(Service):
         contact_person = self.debtor_service.service.ContactPerson_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if contact_person is None:
             return None
-        return ContactInfo(serialize_object(contact_person))
+        return ContactInfo(debtor_id=debtor_id, data=serialize_object(contact_person))
 
     @nmbrs_exception_handler(resources=["DebtorService:Debtor_IsOwner"])
     def is_owner(self) -> bool:
@@ -299,7 +299,9 @@ class DebtorService(Service):
         labour_agreements = self.debtor_service.service.LabourAgreementSettings_GetList(
             DebtorId=debtor_id, Year=year, Period=period, _soapheaders=self.auth_header
         )
-        labour_agreements = [LabourAgreementSettings(labour_agreement) for labour_agreement in serialize_object(labour_agreements)]
+        labour_agreements = [
+            LabourAgreementSettings(debtor_id=debtor_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
+        ]
         return labour_agreements
 
     @return_list
@@ -318,7 +320,7 @@ class DebtorService(Service):
             list[Manager]: A list of Manager objects representing all managers for the debtor.
         """
         managers = self.debtor_service.service.Manager_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        managers = [Manager(manager) for manager in serialize_object(managers)]
+        managers = [Manager(debtor_id=debtor_id, data=manager) for manager in serialize_object(managers)]
         return managers
 
     @nmbrs_exception_handler(resources=["DebtorService:ServiceLevel_Get"])
@@ -339,7 +341,7 @@ class DebtorService(Service):
         service_level = self.debtor_service.service.ServiceLevel_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
         if service_level is None:
             return None
-        return ServiceLevel(serialize_object(service_level))
+        return ServiceLevel(debtor_id=debtor_id, data=serialize_object(service_level))
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:Tags_Get"])
@@ -357,5 +359,5 @@ class DebtorService(Service):
             list[Tag]: A list of Tag objects representing all tags associated with the debtor.
         """
         tags = self.debtor_service.service.Tags_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        tags = [Tag(tag) for tag in serialize_object(tags)]
+        tags = [Tag(debtor_id=debtor_id, data=tag) for tag in serialize_object(tags)]
         return tags

@@ -22,6 +22,37 @@ class Company(DataClass):
         self.kvk_number: str = data.get("KvkNr", None)
 
 
+class BankAccount(DataClass):
+    """A class representing a bank account."""
+
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
+        self.id: int = data.get("Id", None)
+        self.number: str = data.get("Number", None)
+        self.description: str = data.get("Description", None)
+        self.iban: str = data.get("IBAN", None)
+        self.bic: str = data.get("BIC", None)
+        self.city: str = data.get("City", None)
+        self.name: str = data.get("Name", None)
+        self.type: str = data.get("Type", None)
+
+
+class Address(DataClass):
+    """A class representing an address."""
+
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
+        self.id: int = data.get("Id", None)
+        self.default: bool = data.get("Default", None)
+        self.street: str = data.get("Street", None)
+        self.house_number: str = data.get("HouseNumber", None)
+        self.house_number_addition: str = data.get("HouseNumberAddition", None)
+        self.postal_code: str = data.get("PostalCode", None)
+        self.city: str = data.get("City", None)
+        self.state_province: str = data.get("StateProvince", None)
+        self.country_iso_code: str = data.get("CountryISOCode", None)
+
+
 class LabourAgreement(DataClass):
     """A class representing a labour agreement."""
 

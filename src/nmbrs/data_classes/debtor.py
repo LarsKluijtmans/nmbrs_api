@@ -32,7 +32,8 @@ class AbsenceVerzuim(DataClass):
 class Address(DataClass):
     """A class representing an address."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.id: int = data.get("Id", None)
         self.default: bool = data.get("Default", None)
         self.street: str = data.get("Street", None)
@@ -47,7 +48,8 @@ class Address(DataClass):
 class BankAccount(DataClass):
     """A class representing a bank account."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.id: int = data.get("Id", None)
         self.number: str = data.get("Number", None)
         self.description: str = data.get("Description", None)
@@ -61,7 +63,8 @@ class BankAccount(DataClass):
 class ContactInfo(DataClass):
     """A class representing a contact info."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.email: str = data.get("Email", None)
         self.name: str = data.get("Name", None)
         self.phone: str = data.get("Phone", None)
@@ -79,7 +82,8 @@ class Debtor(DataClass):
 class Department(DataClass):
     """A class representing a department."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.id: int = data.get("Id", None)
         self.code: int = data.get("Code", None)
         self.description: str = data.get("Description", None)
@@ -88,7 +92,8 @@ class Department(DataClass):
 class Function(DataClass):
     """A class representing a function."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.id: int = data.get("Id", None)
         self.code: int = data.get("Code", None)
         self.description: str = data.get("Description", None)
@@ -97,7 +102,8 @@ class Function(DataClass):
 class LabourAgreementSettings(DataClass):
     """A class representing labour agreement settings."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.id: int = data.get("Id", None)
         self.guid: str = data.get("Guid", None)
         self.int_number: int = data.get("IntNumber", None)
@@ -108,7 +114,8 @@ class LabourAgreementSettings(DataClass):
 class Manager(DataClass):
     """A class representing manager information."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.number: int = data.get("Number", None)
         self.first_name: str = data.get("FirstName", None)
         self.name: str = data.get("Name", None)
@@ -123,7 +130,8 @@ class Manager(DataClass):
 class ServiceLevel(DataClass):
     """A class representing service level information."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.start_period: int = data.get("StartPeriod", None)
         self.start_year: int = data.get("StartYear", None)
         self.service_level: str = data.get("ServiceLevel", None)
@@ -133,7 +141,8 @@ class ServiceLevel(DataClass):
 class Tag(DataClass):
     """A class representing debtor tag information."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.number: int = data.get("Number", None)
         self.hex_color: str = data.get("HexColor", None)
         self.tag: str = data.get("Tag", None)
@@ -162,7 +171,8 @@ class Event(DataClass):
 class WebhookSetting(DataClass):
     """A class representing a webhook setting."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, debtor_id: int, data: dict) -> None:
+        self.debtor_id = debtor_id
         self.webhook_setting_id: int = data.get("WebhookSettingId", None)
         self.name: str = data.get("Name", None)
         self.endpoint: str = data.get("Endpoint", None)

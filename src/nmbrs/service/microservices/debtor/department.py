@@ -48,7 +48,7 @@ class DebtorDepartmentService(MicroService):
             list[Department]: A list of Department objects representing all departments of the debtor.
         """
         departments = self.client.service.Department_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
-        departments = [Department(department) for department in serialize_object(departments)]
+        departments = [Department(debtor_id, department) for department in serialize_object(departments)]
         return departments
 
     @nmbrs_exception_handler(resources=["DebtorService:Department_Insert"])
