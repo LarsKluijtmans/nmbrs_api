@@ -1,4 +1,4 @@
-"""Microservice responsible for wagetax-related actions on the company level."""
+"""Microservice responsible for managing wage tax-related actions on the company level."""
 
 from zeep import Client
 from zeep.helpers import serialize_object
@@ -10,7 +10,7 @@ from ....utils.return_list import return_list
 
 
 class CompanyWageTaxService(MicroService):
-    """Microservice responsible for wagetax-related actions on the company level."""
+    """Microservice responsible for managing wage tax-related actions on the company level."""
 
     def __init__(self, client: Client) -> None:
         super().__init__(client)
@@ -25,7 +25,7 @@ class CompanyWageTaxService(MicroService):
         Retrieve all wage taxes for a specific company and year.
 
         For more information, refer to the official documentation:
-            [Soap call WageTax_GetList](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_GetList)
+            [WageTax_GetList](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_GetList)
 
         Args:
             company_id (int): The ID of the company.
@@ -39,16 +39,16 @@ class CompanyWageTaxService(MicroService):
         return wage_taxes
 
     @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetXML"])
-    def get_wagetax_details(self, company_id: int, loonaangifte_id) -> WageTaxXML:
+    def get_wagetax_details(self, company_id: int, loonaangifte_id: int) -> WageTaxXML:
         """
         Retrieve wage tax details for a specific company and loonaangifte ID.
 
         For more information, refer to the official documentation:
-            [Soap call WageTax_GetXML](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_GetXML)
+            [WageTax_GetXML](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_GetXML)
 
         Args:
             company_id (int): The ID of the company.
-            loonaangifte_id: The loonaangifte ID.
+            loonaangifte_id (int): The loonaangifte ID.
 
         Returns:
             WageTaxXML: An wage tax object detailing the specified company and loonaangifte ID.
@@ -62,11 +62,23 @@ class CompanyWageTaxService(MicroService):
         return wage_tax_details
 
     @nmbrs_exception_handler(resources=["CompanyService:WageTax_SetSentExternal"])
-    def set_send_as_external(self):
+    def set_send_as_external(self, company_id: int, loonaangifte_id: int) -> bool:
         """
-        Set wage tax status to Sent as External.
+        Set the wage tax status to Sent as External.
 
         For more information, refer to the official documentation:
             [WageTax_SetSentExternal](https://api.nmbrs.nl/soap/v3/CompanyService.asmx?op=WageTax_SetSentExternal)
+
+        Args:
+            company_id (int): The ID of the company.
+            loonaangifte_id (int): The loonaangifte ID.
+
+        Returns:
+            bool: A boolean indicating if the wage tax was send externally.
         """
-        raise NotImplementedError()  # pragma: no cover
+        response = self.client.service.WageTax_SetSentExternal(
+            CompanyId=company_id,
+            LoonaangifteID=loonaangifte_id,
+            _soapheaders=self.auth_header,
+        )
+        return response
