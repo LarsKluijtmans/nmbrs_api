@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....data_classes.company import WageCost
 from ..micro_service import MicroService
 from ....data_classes.company import WageCost
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
