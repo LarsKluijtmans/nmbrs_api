@@ -1,3 +1,5 @@
+"""Unit tests for the CompanyWageModelService class."""
+
 import unittest
 from unittest.mock import Mock
 from src.nmbrs.service.microservices.company.wage_model import CompanyWageModelService, WageModel
