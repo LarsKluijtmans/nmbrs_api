@@ -419,11 +419,20 @@ class WageCost(DataClass):
         self.company_id = company_id
         self.period: int = data.get("Period")
         self.year: int = data.get("Year")
-        self.payroll: int = data.get("WorkCostPayroll")
-        self.financial: int = data.get("WorkCostFinancial")
-        self.fiscal_wage: int = data.get("FiscalWage")
-        self.available_space: int = data.get("WorkCostAvailableSpace")
-        self.base: int = data.get("WorkCostBase")
-        self.to_pay: int = data.get("WorkCostToPay")
-        self.estimated: str = data.get("WorkCostEstimated")
-        self.paid: str = data.get("WorkCostPaid")
+        self.payroll: Decimal = data.get("WorkCostPayroll")
+        self.financial: Decimal = data.get("WorkCostFinancial")
+        self.fiscal_wage: Decimal = data.get("FiscalWage")
+        self.available_space: Decimal = data.get("WorkCostAvailableSpace")
+        self.base: Decimal = data.get("WorkCostBase")
+        self.to_pay: Decimal = data.get("WorkCostToPay")
+        self.estimated: Decimal = data.get("WorkCostEstimated")
+        self.paid: Decimal = data.get("WorkCostPaid")
+
+
+class WageModel(DataClass):
+    """A class representing a wage model."""
+
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")

@@ -26,13 +26,8 @@ class DataClass(ABC):
     """A base class for data classes that automatically initializes instance variables from a dictionary."""
 
     @abstractmethod
-    def __init__(self, data: dict) -> None:
-        """
-        Initializes instance variables based on the provided dictionary.
-
-        Args:
-            data (dict): A dictionary containing data to initialize instance variables.
-        """
+    def __init__(self) -> None:
+        """Initializes instance variables based on the provided dictionary."""
 
     def to_dict(self) -> dict:
         """Convert the instance to a dictionary."""

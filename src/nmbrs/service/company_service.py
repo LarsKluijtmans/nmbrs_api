@@ -59,9 +59,9 @@ class CompanyService(Service):
         self.salary_documents = CompanySalaryDocumentService(self.client)  # TO BE implemented
         self.salary_table = CompanySalaryTableService(self.client)
         self.svw = CompanySvwService(self.client)
-        self.wage_component = CompanyWageComponentService(self.client)  # TO BE implemented
-        self.wage_cost = CompanyWageCostService(self.client)  # TO BE implemented
-        self.wage_model = CompanyWageModelService(self.client)  # TO BE implemented
+        self.wage_component = CompanyWageComponentService(self.client)
+        self.wage_cost = CompanyWageCostService(self.client)
+        self.wage_model = CompanyWageModelService(self.client)
         self.wage_tax = CompanyWageTaxService(self.client)
 
     def set_auth_header(self, auth_header: dict) -> None:

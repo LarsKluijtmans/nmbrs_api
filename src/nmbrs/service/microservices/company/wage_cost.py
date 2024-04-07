@@ -3,8 +3,8 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
-from ....data_classes.company import WageCost
 from ..micro_service import MicroService
+from ....data_classes.company import WageCost
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
 
@@ -34,9 +34,9 @@ class CompanyWageCostService(MicroService):
         Returns:
             list[WageCost]: A list of work cost values.
         """
-        wage_cost = self.client.service.WorkCost_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
-        wage_cost = [WageCost(company_id=company_id, data=wage_component) for wage_component in serialize_object(wage_cost)]
-        return wage_cost
+        wage_costs = self.client.service.WorkCost_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
+        wage_costs = [WageCost(company_id=company_id, data=wage_cost) for wage_cost in serialize_object(wage_costs)]
+        return wage_costs
 
     @nmbrs_exception_handler(resources=["CompanyService:WorkCost_Insert"])
     def insert(self, company_id: int, value: float, period: int, year: int):
