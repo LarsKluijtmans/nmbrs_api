@@ -20,6 +20,7 @@ from ..data_classes.debtor import (
     Manager,
     ServiceLevel,
     Tag,
+    Domain,
 )
 
 
@@ -59,7 +60,7 @@ class DebtorService(Service):
         self.title.set_auth_header(auth_header)
 
     @nmbrs_exception_handler(resources=["DebtorService:Environment_Get"])
-    def get_domain(self, username: str, token: str) -> str:
+    def get_domain(self, username: str, token: str) -> Domain:
         """
         Generate authentication header for standard token-based authentication.
 
@@ -71,10 +72,10 @@ class DebtorService(Service):
             token (str): A string representing the token for authentication.
 
         Returns:
-            str: The domain associated with the token.
+            Domain: The domain object associated with the token.
         """
         env = self.debtor_service.service.Environment_Get(_soapheaders={"AuthHeader": {"Username": username, "Token": token}})
-        return env.SubDomain
+        return Domain(data=serialize_object(env))
 
     @return_list
     @nmbrs_exception_handler(resources=["DebtorService:List_GetAll"])

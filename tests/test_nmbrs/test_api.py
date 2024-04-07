@@ -2,6 +2,8 @@
 
 from unittest.mock import patch
 import unittest
+
+from src.nmbrs.data_classes.debtor import Domain
 from src.nmbrs import Nmbrs
 from src.nmbrs.exceptions import ParameterMissingError
 
@@ -38,7 +40,7 @@ class TestNmbrs(unittest.TestCase):
         domain = "test_domain"
 
         # Mocking the DebtorService.get_domain method
-        mock_get_domain.return_value = domain
+        mock_get_domain.return_value = Domain(data={"Domain": domain, "SubDomain": domain})
         nmbrs = Nmbrs()
         nmbrs.standard_auth(username=username, token=token)
 
@@ -64,7 +66,7 @@ class TestNmbrs(unittest.TestCase):
         token = "test_token"
         domain = "test_domain"
         # Mocking the DebtorService.get_domain method
-        mock_get_domain.return_value = domain
+        mock_get_domain.return_value = Domain(data={"Domain": domain, "SubDomain": domain})
 
         nmbrs = Nmbrs(username=username, token=token, auth_type="token")
 
