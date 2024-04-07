@@ -410,3 +410,20 @@ class WageComponent(DataClass):
         self.id: int = data.get("Id")
         self.code: int = data.get("Code")
         self.value: str = data.get("Value")
+
+
+class WageCost(DataClass):
+    """A class representing a wage cost."""
+
+    def __init__(self, company_id: int, data: dict) -> None:
+        self.company_id = company_id
+        self.period: int = data.get("Period")
+        self.year: int = data.get("Year")
+        self.payroll: int = data.get("WorkCostPayroll")
+        self.financial: int = data.get("WorkCostFinancial")
+        self.fiscal_wage: int = data.get("FiscalWage")
+        self.available_space: int = data.get("WorkCostAvailableSpace")
+        self.base: int = data.get("WorkCostBase")
+        self.to_pay: int = data.get("WorkCostToPay")
+        self.estimated: str = data.get("WorkCostEstimated")
+        self.paid: str = data.get("WorkCostPaid")

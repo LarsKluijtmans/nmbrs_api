@@ -1,4 +1,3 @@
-# pylint: disable=line-too-long
 """Microservice responsible for wage component related actions on the company level."""
 
 from zeep import Client
@@ -220,6 +219,7 @@ class CompanyWageComponentService(MicroService):
         ]
         return wage_components
 
+    @return_list
     @nmbrs_exception_handler(resources=["CompanyService:WageComponentVar_GetCurrent"])
     def variable_get_current(self, company_id: int) -> list[WageComponent]:
         """
