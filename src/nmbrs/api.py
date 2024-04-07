@@ -79,7 +79,7 @@ class Nmbrs:
             "AuthHeaderWithDomain": {
                 "Username": username,
                 "Token": token,
-                "Domain": domain,
+                "Domain": domain.sub_domain,
             }
         }
         self._initialize_services(auth_header)

@@ -15,6 +15,7 @@ from src.nmbrs.data_classes.debtor import (
     Tag,
     Manager,
     LabourAgreementSettings,
+    Domain,
 )
 from src.nmbrs.service.microservices.debtor import DebtorDepartmentService, DebtorFunctionService, DebtorWebHooksService, DebtorTitleService
 
@@ -56,9 +57,11 @@ class TestDebtorService(unittest.TestCase):
 
     def test_get_domain(self):
         """Test getting the domain associated with the token."""
-        self.mock_debtor_service.service.Environment_Get.return_value = Mock(SubDomain="test_domain")
+        self.mock_debtor_service.service.Environment_Get.return_value = {"Domain": "domain", "SubDomain": "test_domain"}
         domain = self.debtor_service.get_domain("test_username", "test_token")
-        self.assertEqual(domain, "test_domain")
+        self.assertIsInstance(domain, Domain)
+        self.assertEqual(domain.domain, "domain")
+        self.assertEqual(domain.sub_domain, "test_domain")
         self.mock_debtor_service.service.Environment_Get.assert_called_once_with(_soapheaders=self.mock_auth_header)
 
     def test_get_all(self):

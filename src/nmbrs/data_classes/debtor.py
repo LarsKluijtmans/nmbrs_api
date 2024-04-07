@@ -6,6 +6,14 @@ from .data_class import DataClass
 from .utils.xml import parse_xml_to_dict
 
 
+class Domain(DataClass):
+    """A class representing domain."""
+
+    def __init__(self, data: dict) -> None:
+        self.domain: int = data.get("Domain", None)
+        self.sub_domain: int = data.get("SubDomain", None)
+
+
 class AbsenceVerzuim(DataClass):
     """A class representing absence data."""
 
