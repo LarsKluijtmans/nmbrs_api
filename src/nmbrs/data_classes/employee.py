@@ -9,7 +9,7 @@ from .data_class import DataClass
 class Employee(DataClass):
     """A class representing an employee."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data: dict):
         self.id: int = data.get("Id", None)
         self.number: int = data.get("Number", None)
         self.name: str = data.get("DisplayName", None)
@@ -18,7 +18,7 @@ class Employee(DataClass):
 class EmployeeTypes(DataClass):
     """A class representing an employee type."""
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, data: dict):
         self.id: int = data.get("Id", None)
         self.description: str = data.get("Description", None)
 
@@ -26,7 +26,7 @@ class EmployeeTypes(DataClass):
 class Period(DataClass):
     """A class representing a period of a company."""
 
-    def __init__(self, employee_id: int, data: str) -> None:
+    def __init__(self, employee_id: int, data: str):
         parts = data.split("-")
         self.employee_id = employee_id
         self.year: int = int(parts[0])
@@ -37,7 +37,7 @@ class Period(DataClass):
 class Contract(DataClass):
     """A class representing a contract."""
 
-    def __init__(self, data: dict, employee_id: int | None = None) -> None:
+    def __init__(self, employee_id: int, data: dict):
         self.employee_id = employee_id
         self.contract_id: int = data.get("ContractID", None)
         self.creation_date: datetime = data.get("CreationDate", None)
@@ -55,7 +55,7 @@ class Contract(DataClass):
 class Schedule(DataClass):
     """A class representing a schedule."""
 
-    def __init__(self, data: dict, employee_id: int | None = None) -> None:
+    def __init__(self, employee_id: int, data: dict):
         self.employee_id = employee_id
         self.schedule_calc_method: str = data.get("ScheduleCalcMethod")
         self.hours_monday: Decimal = data.get("HoursMonday")
@@ -72,3 +72,72 @@ class Schedule(DataClass):
         self.hours_friday2: Decimal = data.get("HoursFriday2")
         self.hours_saturday2: Decimal = data.get("HoursSaturday2")
         self.hours_sunday2: Decimal = data.get("HoursSunday2")
+
+
+class PersonalInfo(DataClass):
+    """A class representing an employee's personal information."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.employee_number: int = data.get("EmployeeNumber")
+        self.bsn: str = data.get("BSN")
+        self.title: str = data.get("Title")
+        self.first_name: str = data.get("FirstName")
+        self.initials: str = data.get("Initials")
+        self.prefix: str = data.get("Prefix")
+        self.last_name: str = data.get("LastName")
+        self.nickname: str = data.get("Nickname")
+        self.gender: str = data.get("Gender")
+        self.nationality_code: int = data.get("NationalityCode")
+        self.place_of_birth: str = data.get("PlaceOfBirth")
+        self.country_of_birth_iso_code: str = data.get("CountryOfBirthISOCode")
+        self.identification_number: str = data.get("IdentificationNumber")
+        self.identification_type: int = data.get("IdentificationType")
+        self.partner_prefix: str = data.get("PartnerPrefix")
+        self.partner_last_name: str = data.get("PartnerLastName")
+        self.telephone_private: str = data.get("TelephonePrivate")
+        self.telephone_work: str = data.get("TelephoneWork")
+        self.telephone_mobile_private: str = data.get("TelephoneMobilePrivate")
+        self.telephone_mobile_work: str = data.get("TelephoneMobileWork")
+        self.telephone_other: str = data.get("TelephoneOther")
+        self.email_private: str = data.get("EmailPrivate")
+        self.email_work: str = data.get("EmailWork")
+        self.burgerlijke_staat: str = data.get("BurgerlijkeStaat")
+        self.naamstelling: str = data.get("Naamstelling")
+        self.birthday: datetime = data.get("Birthday")
+        self.deceased_date: datetime = data.get("DeceasedDate")
+        self.in_case_of_emergency: str = data.get("InCaseOfEmergency")
+        self.in_case_of_emergency_phone: str = data.get("InCaseOfEmergencyPhone")
+        self.in_case_of_emergency_relation: str = data.get("InCaseOfEmergencyRelation")
+        self.title_after: str = data.get("TitleAfter")
+
+
+class PersonalInfoContractSalaryAddress(DataClass):
+    """A class representing personal, contract, salary, and address information."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id: int = employee_id
+        self.employee_number: int = data.get("EmployeeNumber")
+        self.first_name: str = data.get("FirstName")
+        self.birthday: datetime = data.get("Birthday")
+        self.prefix: str = data.get("Prefix")
+        self.last_name: str = data.get("LastName")
+        self.gender: str = data.get("Gender")
+        self.bsn: str = data.get("BSN")
+        self.city: str = data.get("City")
+        self.telephone_work: str = data.get("TelephoneWork")
+        self.telephone_mobile_work: str = data.get("TelephoneMobileWork")
+        self.email_work: str = data.get("EmailWork")
+        self.contract_start_date: datetime = data.get("ContractStartDate")
+        self.contract_end_date: datetime = data.get("ContractEndDate")
+        self.email_private: str = data.get("EmailPrivate")
+        self.telephone_private: str = data.get("TelephonePrivate")
+        self.telephone_mobile_private: str = data.get("TelephoneMobilePrivate")
+        self.salary_type: str = data.get("SalaryType")
+        self.salary_value: Decimal = data.get("SalaryValue")
+        self.street: str = data.get("Street")
+        self.house_number: str = data.get("HouseNumber")
+        self.house_number_addition: str = data.get("HouseNumberAddition")
+        self.post_code: str = data.get("PostCode")
+        self.hourly_wage: Decimal = data.get("HourlyWage")
+        self.contract_hours: Decimal = data.get("ContractHours")
