@@ -12,6 +12,7 @@ from src.nmbrs.data_classes.company import (
     FulltimeSchedules,
     DefaultEmployeeTemplate,
     FulltimeSchedule,
+    Mapping,
 )
 from src.nmbrs.service.company_service import CompanyService, Company
 from src.nmbrs.service.microservices.company import (
@@ -177,6 +178,29 @@ class TestCompanyService(unittest.TestCase):
         result = self.client.get_contact_person(1)
         self.assertIsInstance(result, ContactPerson)
         self.mock_client.service.ContactPerson_Get.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+
+    def test_get_converter_mappings_multiple(self):
+        """Test retrieving converter mappings for the given entity and company ID."""
+        mock_guids = {
+            "Entity": "Entity",
+            "Mappings": {
+                "Mapping": [
+                    {
+                        "IdInt": "IdInt",
+                        "IdGuid": "IdGuid",
+                    }
+                ],
+            },
+        }
+
+        self.mock_client.service.Converter_GetByCompany_IntToGuid.return_value = mock_guids
+        result = self.client.get_converter_mappings(1, "Employee")
+        self.assertIsInstance(result, GuidConvertor)
+        for item in result.mappings:
+            self.assertIsInstance(item, Mapping)
+        self.mock_client.service.Converter_GetByCompany_IntToGuid.assert_called_once_with(
+            Entity="Employee", CompanyId=1, _soapheaders=self.mock_auth_header
+        )
 
     def test_get_converter_mappings(self):
         """Test retrieving converter mappings for the given entity and company ID."""

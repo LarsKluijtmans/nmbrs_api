@@ -80,11 +80,11 @@ def nmbrs_sso_exception_handler(resource: str):
                 return func(*args, **kwargs)
             except zeep.exceptions.Fault as e:
                 e_str = str(e)
-                if "---> 1006: Generic Login Security Failure" in e_str:
+                if "---> 1006:" in e_str:
                     raise LoginSecurityFailureException(resource=resource) from e
-                if "---> 2042: This username belongs to multiple environments" in e_str:
+                if "---> 2042:" in e_str:
                     raise MultipleEnvironmentAccountsException(resource=resource) from e
-                if "---> 2043: Invalid Domain" in e_str:
+                if "---> 2043" in e_str:
                     raise DomainNotFoundException(resource=resource) from e
                 if "---> Invalid combination email/password" in e_str:
                     raise InvalidCredentialsException(resource=resource) from e

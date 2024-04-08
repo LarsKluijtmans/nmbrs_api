@@ -19,6 +19,7 @@ from src.nmbrs.exceptions import (
     UnauthorizedEmployeeException,
     InvalidWageComponentException,
     UnknownException,
+    NoValidSubscriptionException,
 )
 from src.nmbrs.utils.nmbrs_exception_handler import (
     nmbrs_sso_exception_handler,
@@ -120,8 +121,10 @@ class TestNmbrsExceptionHandler(TestCase):
         def raise_authentication_error():
             raise zeep.exceptions.Fault("---> 1001: Invalid Authentication")
 
-        with self.assertRaises(AuthenticationException):
+        with self.assertRaises(AuthenticationException) as context:
             raise_authentication_error()
+
+        self.assertEqual(context.exception.resource, "resource1")
 
     def test_handle_authorization_error(self):
         """Test handling of AuthorizationException exception."""
@@ -144,6 +147,16 @@ class TestNmbrsExceptionHandler(TestCase):
 
         with self.assertRaises(AuthorizationDataException):
             raise_authorization_data_error()
+
+    def test_handle_no_valid_subscription_error(self):
+        """Test handling of NoValidSubscriptionException exception with different error message."""
+
+        @nmbrs_exception_handler(resource="resource1")
+        def handle_no_valid_subscription_error():
+            raise zeep.exceptions.Fault("---> 1004: Disabled, no valid subscription")
+
+        with self.assertRaises(NoValidSubscriptionException):
+            handle_no_valid_subscription_error()
 
     def test_handle_invalid_hour_component_error(self):
         """Test handling of InvalidHourComponentException exception with different error message."""
@@ -233,10 +246,10 @@ class TestNmbrsExceptionHandler(TestCase):
         def exception_raised():
             raise zeep.exceptions.Fault("custom error message")
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(UnknownException) as context:
             exception_raised()
 
-        self.assertEqual(str(context.exception), "custom error message")
+        self.assertEqual(context.exception.resource, "resource1")
 
     def test_raise_exception(self):
         """Test when an exception is raised."""
