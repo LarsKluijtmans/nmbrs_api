@@ -15,7 +15,7 @@ class CompanyJournalService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCompany")
     def get_run_by_company(self):
         """
         Returns the Journal XML, takes year from active year of the company.
@@ -25,7 +25,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCompany_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCompany_v2")
     def get_run_by_company_2(self):
         """
         Returns the Journal XML.
@@ -35,7 +35,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCostCenter"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCostCenter")
     def get_run_by_cost_center(self):
         """
         Returns the Journal XML, takes year from active year of the company.
@@ -45,7 +45,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCostCenter_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCostCenter_v2")
     def get_run_by_cost_center_2(self):
         """
         Returns the Journal XML.
@@ -55,7 +55,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCostCenterCostUnit"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCostCenterCostUnit")
     def get_run_by_cost_center_nad_cost_unit(self):
         """
         Returns the Journal XML with Cost Center/Cost Unit information, takes year from active year of the company.
@@ -65,7 +65,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunCostCenterCostUnitPerYear"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunCostCenterCostUnitPerYear")
     def get_run_by_cost_center_nad_cost_unit_per_year(self):
         """
         Returns the Journal XML with Cost Center/Cost Unit information of the given year.
@@ -75,7 +75,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunDepartment"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunDepartment")
     def get_run_by_department(self):
         """
         Returns the Journal XML, takes year from active year of the company.
@@ -85,7 +85,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunDepartment_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunDepartment_v2")
     def get_run_by_department_2(self):
         """
         Returns the Journal XML.
@@ -95,7 +95,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunEmployee"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunEmployee")
     def get_run_by_employee(self):
         """
         Returns the Journal XML, takes year from active year of the company.
@@ -105,7 +105,7 @@ class CompanyJournalService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:Journals_GetByRunEmployee_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:Journals_GetByRunEmployee_v2")
     def get_run_by_employee_2(self):
         """
         Returns the Journal XML.

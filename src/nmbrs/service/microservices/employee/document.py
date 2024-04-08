@@ -15,7 +15,7 @@ class EmployeeDocumentService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:EmployeeDocument_UploadDocument"])
+    @nmbrs_exception_handler(resource="EmployeeService:EmployeeDocument_UploadDocument")
     def upload(self):
         """
         Uploads document for employee.
@@ -25,7 +25,7 @@ class EmployeeDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:EmployeeDocument_UploadDocumentFull"])
+    @nmbrs_exception_handler(resource="EmployeeService:EmployeeDocument_UploadDocumentFull")
     def upload_full(self):
         """
         Uploads document for employee with all the fields.

@@ -136,14 +136,14 @@ To handle these Exceptions you can take inspiration from the following code.
 
 ```python
 from nmbrs import Nmbrs
-from nmbrs.exceptions import AuthorizationError
+from nmbrs.exceptions import AuthenticationException
 
 api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 
 try:
     debtors = api.debtor.get_all()
-except AuthorizationError as e:
-    print(f"User does not have access to: {', '.join(e.resources)}'")
+except AuthenticationException as e:
+    print(f"User does not have access to: {e.resource}")
 ```
 
 ## Single Sign-on(SSO)

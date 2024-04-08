@@ -37,9 +37,9 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     project_urls={
-        "Homepage": "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK",
-        "Source": "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK",
-        "Issues": "https://github.com/LarsKluijtmans/Visma-NMBRS-SOAP-API-SDK/issues",
+        "Homepage": about["__git_homepage__"],
+        "Source": about["__git_source__"],
+        "Issues": about["__git_issues__"],
     },
     classifiers=[
         "Programming Language :: Python :: 3",

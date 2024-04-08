@@ -16,7 +16,7 @@ class EmployeeWageComponentsService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponent_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponent_Delete")
     def delete(self):
         """
         Delete a wage component by ID.
@@ -26,7 +26,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponent_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponent_Update")
     def update(self):
         """
         Update any wage Component Variable or Fixed.
@@ -38,7 +38,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_Get")
     def fixed_get(self):
         """
         Get all fixed wage components for given period.
@@ -48,7 +48,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_GetCurrent")
     def fixed_get_current(self):
         """
         Get all fixed wage components for the current period.
@@ -58,7 +58,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_GetCurrent")
     def fixed_insert(self):
         """
         Insert a wage component to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -68,7 +68,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_Insert_With_End"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_Insert_With_End")
     def fixed_insert_with_end(self):
         """
         Insert a wage component to given period of time. If the start period is before the company's current period, unprotected mode flag is required.
@@ -78,7 +78,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_InsertCurrent")
     def fixed_insert_current(self):
         """
         Insert a wage component to the current period.
@@ -88,7 +88,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_InsertCurrent_With_End"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_InsertCurrent_With_End")
     def fixed_insert_current_with_end(self):
         """
         Insert a wage component to the current period with end period.
@@ -98,7 +98,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_Insert_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_Insert_Batch")
     def fixed_insert_batch(self):
         """
         Insert a batch of wage components to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -108,7 +108,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_Insert_Batch_With_End"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_Insert_Batch_With_End")
     def fixed_insert_batch_with_end(self):
         """
         Insert a batch of wage components to given period of time. If the start period is before the company's current period, unprotected mode flag is required.
@@ -118,7 +118,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentFixed_Stop"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentFixed_Stop")
     def fixed_stop(self):
         """
         Stop a wage component ending after given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -128,7 +128,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_Get")
     def variable_get(self):
         """
         Get all variable wage components for given period.
@@ -138,7 +138,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_GetCurrent")
     def variable_get_current(self):
         """
         Get all variable wage components for the current period.
@@ -148,7 +148,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_Insert")
     def variable_insert(self):
         """
         Insert a wage component to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -158,7 +158,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_InsertCurrent")
     def variable_insert_current(self):
         """
         Insert a wage components to the current period.
@@ -168,7 +168,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_Insert_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_Insert_Batch")
     def variable_insert_batch(self):
         """
         Insert a batch of wage components to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -178,7 +178,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_Clear"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_Clear")
     def variable_clear(self):
         """
         Clear all variable wage components for given period.
@@ -188,7 +188,7 @@ class EmployeeWageComponentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageComponentVar_ClearCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageComponentVar_ClearCurrent")
     def variable_clear_current(self):
         """
         Clear all variable wage components for the current period.

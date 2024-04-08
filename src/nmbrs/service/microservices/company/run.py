@@ -20,7 +20,7 @@ class CompanyRunService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:RunRequest_GetList"])
+    @nmbrs_exception_handler(resource="CompanyService:RunRequest_GetList")
     def get_requests(self, company_id: int, year: int) -> list[RunRequest]:
         """
         Returns a list of requested runs with status for given company and year.
@@ -38,7 +38,7 @@ class CompanyRunService(MicroService):
         run_requests = self.client.service.RunRequest_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
         return [RunRequest(company_id=company_id, data=run_request) for run_request in serialize_object(run_requests)]
 
-    @nmbrs_exception_handler(resources=["CompanyService:RunRequest_Insert"])
+    @nmbrs_exception_handler(resource="CompanyService:RunRequest_Insert")
     def insert_request(self, company_id: int):
         """
         Requests a run for given company.
@@ -52,7 +52,7 @@ class CompanyRunService(MicroService):
         self.client.service.RunRequest_Insert(CompanyId=company_id, _soapheaders=self.auth_header)
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:Run_GetList"])
+    @nmbrs_exception_handler(resource="CompanyService:Run_GetList")
     def get(self, company_id: int, year: int) -> list[RunInfo]:
         """
         Get the company's run list for a specified year.
@@ -71,7 +71,7 @@ class CompanyRunService(MicroService):
         return [RunInfo(company_id=company_id, data=run) for run in serialize_object(runs)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:Run_GetEmployeesByRunCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:Run_GetEmployeesByRunCompany")
     def get_all_employees_by_run(self, company_id: int, year: int, run_id: int) -> list[Employee]:
         """
         Get the employee's list for a specified company id, run id and year
@@ -95,7 +95,7 @@ class CompanyRunService(MicroService):
             for employee in serialize_object(employees)
         ]
 
-    @nmbrs_exception_handler(resources=["CompanyService:HrDocuments_EmployerCostPerHour_Year"])
+    @nmbrs_exception_handler(resource="CompanyService:HrDocuments_EmployerCostPerHour_Year")
     def get_hr_documents_cost_per_hour_year(self, company_id: int, run_id: int, year: int, period: int) -> bytes:
         """
         Get HR Document: Employer Cost per Hour per company per period.

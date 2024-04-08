@@ -19,7 +19,7 @@ class CompanyHourModelService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:HourModel_GetHourCodes"])
+    @nmbrs_exception_handler(resource="CompanyService:HourModel_GetHourCodes")
     def get(self, company_id: int) -> list[HourCode]:
         """
         Get hour codes that belong to a company's hour model.
@@ -37,7 +37,7 @@ class CompanyHourModelService(MicroService):
         return [HourCode(company_id=company_id, data=hour_code) for hour_code in serialize_object(hour_codes)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:HourModel2_GetHourCodes"])
+    @nmbrs_exception_handler(resource="CompanyService:HourModel2_GetHourCodes")
     def get_2(self, company_id: int) -> list[HourCode]:
         """
         Get hour codes that belong to a company's hour model 2.

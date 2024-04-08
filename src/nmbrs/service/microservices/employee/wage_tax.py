@@ -15,7 +15,7 @@ class EmployeeWageTaxService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_Get")
     def get(self):
         """
         Get the active loonheffing settings for given period.
@@ -25,7 +25,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_GetCurrent")
     def get_current(self):
         """
         Get the currently active loonheffing settings.
@@ -35,7 +35,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_GetList")
     def get_all(self):
         """
         Get a list of all loonheffing settings.
@@ -45,7 +45,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_Get_SE"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_Get_SE")
     def get_settings(self):
         """
         Get active wage tax settings for a specific period.
@@ -55,7 +55,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_Update")
     def update(self):
         """
         Update loonheffing settings starting from given period
@@ -65,7 +65,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_UpdateCurrent")
     def update_current(self):
         """
         Update loonheffing settings starting from the current period.
@@ -75,7 +75,7 @@ class EmployeeWageTaxService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:WageTax_Update_SE"])
+    @nmbrs_exception_handler(resource="EmployeeService:WageTax_Update_SE")
     def update_settings(self):
         """
         Update loonheffing settings starting from given period.

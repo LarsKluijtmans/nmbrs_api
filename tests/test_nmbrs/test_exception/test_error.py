@@ -1,7 +1,7 @@
 """Unit tests for the Error class."""
 
 import unittest
-from src.nmbrs.exceptions import Error
+from src.nmbrs.exceptions import NmbrsBaseException
 
 
 class TestError(unittest.TestCase):
@@ -9,7 +9,6 @@ class TestError(unittest.TestCase):
 
     def test_repr(self):
         """Test the __repr__ method of the Error class."""
-        error_message = "Test error message"
-        error = Error(error_message)
-        expected_repr = f"Error({error_message})"
-        self.assertEqual(repr(error), expected_repr)
+        error = NmbrsBaseException(1001, "test")
+        self.assertEqual(error.error_code, 1001)
+        self.assertEqual(error.resource, "test")

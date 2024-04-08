@@ -15,7 +15,7 @@ class EmployeeBankAccountService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:BankAccount_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:BankAccount_GetList")
     def get(self):
         """
         Get all active bank accounts for given period.
@@ -25,7 +25,7 @@ class EmployeeBankAccountService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:BankAccount_GetListCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:BankAccount_GetListCurrent")
     def get_current(self):
         """
         Get all active bank accounts for the current period.
@@ -35,7 +35,7 @@ class EmployeeBankAccountService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:BankAccount_DeleteCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:BankAccount_DeleteCurrent")
     def delete(self):
         """
         Delete given bank account.
@@ -45,7 +45,7 @@ class EmployeeBankAccountService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:BankAccount_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:BankAccount_Insert")
     def insert(self):
         """
         Insert given bank account to the given period. Unprotected mode flag is required.
@@ -55,7 +55,7 @@ class EmployeeBankAccountService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:BankAccount_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:BankAccount_InsertCurrent")
     def insert_current(self):
         """
         Insert given bank account to the current period.

@@ -59,7 +59,7 @@ class DebtorService(Service):
         self.webhook.set_auth_header(auth_header)
         self.title.set_auth_header(auth_header)
 
-    @nmbrs_exception_handler(resources=["DebtorService:Environment_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:Environment_Get")
     def get_domain(self, username: str, token: str) -> Domain:
         """
         Generate authentication header for standard token-based authentication.
@@ -78,7 +78,7 @@ class DebtorService(Service):
         return Domain(data=serialize_object(env))
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:List_GetAll"])
+    @nmbrs_exception_handler(resource="DebtorService:List_GetAll")
     def get_all(self) -> list[Debtor]:
         """
         Retrieve all debtors.
@@ -94,7 +94,7 @@ class DebtorService(Service):
         return debtors
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:List_GetByNumber"])
+    @nmbrs_exception_handler(resource="DebtorService:List_GetByNumber")
     def get_all_by_number(self, number: str) -> list[Debtor]:
         """
         Retrieve all debtors by number.
@@ -112,7 +112,7 @@ class DebtorService(Service):
         debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
         return debtors
 
-    @nmbrs_exception_handler(resources=["DebtorService:Debtor_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:Debtor_Get")
     def get(self, debtor_id: int) -> Debtor | None:
         """
         Retrieve a debtor by ID.
@@ -131,7 +131,7 @@ class DebtorService(Service):
             return None
         return Debtor(serialize_object(debtor))
 
-    @nmbrs_exception_handler(resources=["DebtorService:Debtor_Insert"])
+    @nmbrs_exception_handler(resource="DebtorService:Debtor_Insert")
     def insert(self, debtor_id: int, number: str, name: str) -> int:
         """
         Insert a new debtor.
@@ -151,7 +151,7 @@ class DebtorService(Service):
         inserted = self.debtor_service.service.Debtor_Insert(**data, _soapheaders=self.auth_header)
         return inserted
 
-    @nmbrs_exception_handler(resources=["DebtorService:Debtor_Update"])
+    @nmbrs_exception_handler(resource="DebtorService:Debtor_Update")
     def update(self, debtor_id: int, number: str, name: str) -> None:
         """
         Update an existing debtor.
@@ -168,7 +168,7 @@ class DebtorService(Service):
         self.debtor_service.service.Debtor_Update(**data, _soapheaders=self.auth_header)
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:AbsenceXML_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:AbsenceXML_Get")
     def get_absence_xml(self, debtor_id: int, start_date: datetime, end_date: datetime) -> list[AbsenceVerzuim]:
         """
         Retrieve absence data for a debtor within a specified date range.
@@ -190,7 +190,7 @@ class DebtorService(Service):
         return absences
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:AccountantContact_GetList"])
+    @nmbrs_exception_handler(resource="DebtorService:AccountantContact_GetList")
     def get_all_accountant_contact_info(self, debtor_id: int) -> list[ContactInfo]:
         """
         Retrieve all accountant contact information.
@@ -208,7 +208,7 @@ class DebtorService(Service):
         accountants = [ContactInfo(debtor_id=debtor_id, data=accountant) for accountant in serialize_object(accountants)]
         return accountants
 
-    @nmbrs_exception_handler(resources=["DebtorService:Address_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:Address_Get")
     def get_address(self, debtor_id: int) -> Address | None:
         """
         Retrieve address information for a debtor.
@@ -227,7 +227,7 @@ class DebtorService(Service):
             return None
         return Address(debtor_id=debtor_id, data=serialize_object(address))
 
-    @nmbrs_exception_handler(resources=["DebtorService:BankAccount_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:BankAccount_Get")
     def get_bank_account(self, debtor_id: int) -> BankAccount | None:
         """
         Retrieve bank account information for a debtor.
@@ -246,7 +246,7 @@ class DebtorService(Service):
             return None
         return BankAccount(debtor_id=debtor_id, data=serialize_object(bank_account))
 
-    @nmbrs_exception_handler(resources=["DebtorService:ContactPerson_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:ContactPerson_Get")
     def get_contact_person(self, debtor_id: int) -> ContactInfo | None:
         """
         Retrieve contact person information for a debtor.
@@ -265,7 +265,7 @@ class DebtorService(Service):
             return None
         return ContactInfo(debtor_id=debtor_id, data=serialize_object(contact_person))
 
-    @nmbrs_exception_handler(resources=["DebtorService:Debtor_IsOwner"])
+    @nmbrs_exception_handler(resource="DebtorService:Debtor_IsOwner")
     def is_owner(self) -> bool:
         """
         Check if the current user is the owner of the debtor.
@@ -280,7 +280,7 @@ class DebtorService(Service):
         return is_owner
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:LabourAgreementSettings_GetList"])
+    @nmbrs_exception_handler(resource="DebtorService:LabourAgreementSettings_GetList")
     def get_all_labour_agreements(self, debtor_id: int, year: int, period: int) -> list[LabourAgreementSettings]:
         """
         Retrieve all labour agreement settings for a debtor.
@@ -306,7 +306,7 @@ class DebtorService(Service):
         return labour_agreements
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Manager_GetList"])
+    @nmbrs_exception_handler(resource="DebtorService:Manager_GetList")
     def get_all_managers(self, debtor_id: int) -> list[Manager]:
         """
         Retrieve all managers for a debtor.
@@ -324,7 +324,7 @@ class DebtorService(Service):
         managers = [Manager(debtor_id=debtor_id, data=manager) for manager in serialize_object(managers)]
         return managers
 
-    @nmbrs_exception_handler(resources=["DebtorService:ServiceLevel_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:ServiceLevel_Get")
     def get_service_level(self, debtor_id: int) -> ServiceLevel | None:
         """
         Retrieve service level information for a debtor.
@@ -345,7 +345,7 @@ class DebtorService(Service):
         return ServiceLevel(debtor_id=debtor_id, data=serialize_object(service_level))
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Tags_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:Tags_Get")
     def get_tags(self, debtor_id: int) -> list[Tag]:
         """
         Retrieve all tags for a debtor.

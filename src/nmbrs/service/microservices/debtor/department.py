@@ -18,7 +18,7 @@ class DebtorDepartmentService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Delete"])
+    @nmbrs_exception_handler(resource="DebtorService:Department_Delete")
     def delete(self, debtor_id: int, department_id: int) -> None:
         """
         Delete a department of a debtor.
@@ -33,7 +33,7 @@ class DebtorDepartmentService(MicroService):
         self.client.service.Department_Delete(DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header)
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Department_GetList"])
+    @nmbrs_exception_handler(resource="DebtorService:Department_GetList")
     def get_all(self, debtor_id: int) -> list[Department]:
         """
         Retrieve all departments of a debtor.
@@ -51,7 +51,7 @@ class DebtorDepartmentService(MicroService):
         departments = [Department(debtor_id=debtor_id, data=department) for department in serialize_object(departments)]
         return departments
 
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Insert"])
+    @nmbrs_exception_handler(resource="DebtorService:Department_Insert")
     def insert(self, debtor_id: int, department_id: int, code: int, description: str) -> int:
         """
         Insert a new department for a debtor.
@@ -79,7 +79,7 @@ class DebtorDepartmentService(MicroService):
         inserted = self.client.service.Department_Insert(**data, _soapheaders=self.auth_header)
         return inserted
 
-    @nmbrs_exception_handler(resources=["DebtorService:Department_Update"])
+    @nmbrs_exception_handler(resource="DebtorService:Department_Update")
     def update(self, debtor_id: int, department_id: int, code: int, description: str) -> None:
         """
         Update an existing department of a debtor.

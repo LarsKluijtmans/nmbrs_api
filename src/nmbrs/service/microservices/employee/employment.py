@@ -16,7 +16,7 @@ class EmployeeEmploymentService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employment_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employment_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get all (historical) employment records for all employees that belong to the company.
@@ -26,7 +26,7 @@ class EmployeeEmploymentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employment_UpdateEmploymentInitialStartDate"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employment_UpdateEmploymentInitialStartDate")
     def update_start_date(self):
         """
         Update employee service initial start date.

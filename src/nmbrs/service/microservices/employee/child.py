@@ -15,7 +15,7 @@ class EmployeeChildService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Children_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Children_Get")
     def get(self):
         """
         Get employee childs.
@@ -25,7 +25,7 @@ class EmployeeChildService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Children_GetAll_Employeesbycompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Children_GetAll_Employeesbycompany")
     def get_all_by_company(self):
         """
         Get employee childs.
@@ -35,7 +35,7 @@ class EmployeeChildService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Child_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Child_Delete")
     def delete(self):
         """
         Delete's child.
@@ -45,7 +45,7 @@ class EmployeeChildService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Children_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Children_Insert")
     def insert(self):
         """
         Insert an employee child.
@@ -55,7 +55,7 @@ class EmployeeChildService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Children_InsertBatch"])
+    @nmbrs_exception_handler(resource="EmployeeService:Children_InsertBatch")
     def insert_batch(self):
         """
         Insert employee children.
@@ -65,7 +65,7 @@ class EmployeeChildService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Children_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Children_Update")
     def update(self):
         """
         Update employee child.

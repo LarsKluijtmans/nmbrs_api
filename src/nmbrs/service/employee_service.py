@@ -69,7 +69,8 @@ class EmployeeService(Service):
         self.levensloop = EmployeeLevensLoopService(self.client)  # TO BE implemented
         self.manager = EmployeeManagerService(self.client)  # TO BE implemented
         self.partner = EmployeePartnerService(self.client)  # TO BE implemented
-        self.personal_info = EmployeePersonalInfoService(self.client)  # TO BE implemented
+        self.personal_info = EmployeePersonalInfoService(self.client)
+
         self.salary = EmployeeSalaryService(self.client)  # TO BE implemented
         self.schedule = EmployeeScheduleService(self.client)  # TO BE implemented
         self.service = EmployeeServiceService(self.client)  # TO BE implemented
@@ -120,7 +121,7 @@ class EmployeeService(Service):
         self.wage_tax.set_auth_header(auth_header)
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:EmployeeType_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:EmployeeType_GetList")
     def get_types(self) -> list[EmployeeTypes]:
         """
         Get the list of all employee types available.
@@ -135,7 +136,7 @@ class EmployeeService(Service):
         employee_types = [EmployeeTypes(employee_type) for employee_type in serialize_object(employee_types)]
         return employee_types
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employee_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employee_GetCurrent")
     def get_current_period(self, employee_id: int) -> Period | None:
         """
         Get the employees current period, Format = yyyy-pp-type, example: 2010-5-M or 2010-4-4W.
@@ -155,7 +156,7 @@ class EmployeeService(Service):
         return Period(employee_id=employee_id, data=serialize_object(period))
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:List_GetByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:List_GetByCompany")
     def get_by_company(self, company_id: int, employee_type: int) -> list[Employee]:
         """
         Get all employees that belong to a company and to a specific employee type.
@@ -175,7 +176,7 @@ class EmployeeService(Service):
         return employees
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:List_GetByDebtor"])
+    @nmbrs_exception_handler(resource="EmployeeService:List_GetByDebtor")
     def get_by_debtor(self, debtor_id: int, employee_type: int) -> list[Employee]:
         """
         Get all employees that belong to a debtor and to a specific employee type.
@@ -194,7 +195,7 @@ class EmployeeService(Service):
         employees = [Employee(employee) for employee in serialize_object(employees)]
         return employees
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employee_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employee_Insert")
     def insert(self):
         """
         Create a new Employee, returns the id of this Employee.
@@ -205,7 +206,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employee_InsertBasedOnDefault"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertBasedOnDefault")
     def insert_based_on_default(self):
         """
         Insert new employee based on default employee.
@@ -216,7 +217,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employee_InsertByEmployeeType"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertByEmployeeType")
     def insert_with_type(self):
         """
         Create a new employee based on the employee type and returns the Id of this employee.
@@ -227,7 +228,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Employee_Transition"])
+    @nmbrs_exception_handler(resource="EmployeeService:Employee_Transition")
     def transition(self):
         """
         Transition employee to a different employee type. For example, from applicant to new hire. Or from new hire to payroll.
@@ -237,7 +238,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:EndServiceReason_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:EndServiceReason_GetList")
     def get_all_end_service_reasons(self):
         """
         Get all End Service Reasons.
@@ -247,7 +248,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:EndServiceReason_GetListByYear"])
+    @nmbrs_exception_handler(resource="EmployeeService:EndServiceReason_GetListByYear")
     def get_all_end_service_reasons_by_year(self):
         """
         Get all End Service Reasons of given year.
@@ -257,7 +258,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:ExtraFieldsWithStartDate_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:ExtraFieldsWithStartDate_GetList")
     def get_extra_fields_with_start_date(self):
         """
         Get employee extra fields list, including the ones of type Text+Date.
@@ -267,7 +268,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:ExtraFields_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:ExtraFields_GetList")
     def get_extra_fields(self):
         """
         Get employee extra fields list.
@@ -277,7 +278,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PerformanceReview_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:PerformanceReview_Get")
     def get_performance(self):
         """
         Get the HR Performance Review for the given Employee ID.
@@ -287,7 +288,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PerformanceReview_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:PerformanceReview_GetAll_AllEmployeesByCompany")
     def get_all_performance_by_company(self):
         """
         Get the HR Performance Reviews for all the employees in the given Company ID.
@@ -297,7 +298,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Reports_GetJournalsReportByEmployee"])
+    @nmbrs_exception_handler(resource="EmployeeService:Reports_GetJournalsReportByEmployee")
     def get_journal(self):
         """
         Returns the Journal Report for Employee.
@@ -307,7 +308,7 @@ class EmployeeService(Service):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Reservations_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Reservations_GetList")
     def get_reservations(self):
         """
         Get the reservation items for the given employee.

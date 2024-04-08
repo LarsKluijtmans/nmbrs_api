@@ -15,7 +15,7 @@ class CompanySalaryDocumentService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_AnualStatement"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_AnualStatement")
     def get_annual_statement(self):
         """
         Get Annual Statement in PDF.
@@ -25,7 +25,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_CompanyWageComponentsCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_CompanyWageComponentsCumulative")
     def get_annual_wage_components(self):
         """
         Get Annual Company Wage Components Cumulative in PDF.
@@ -35,7 +35,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesCompanyrCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesCompanyrCumulative")
     def get_annual_journal_entries_company(self):
         """
         Get Annual Journal Entries company Cumulative in PDF.
@@ -45,7 +45,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesCostCenterCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesCostCenterCumulative")
     def get_annual_journal_entries_cost_center(self):
         """
         Get Annual Journal Entries Cost Center Cumulative in PDF.
@@ -55,7 +55,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesDepartmentCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesDepartmentCumulative")
     def get_annual_journal_entries_department(self):
         """
         Get Annual Journal Entries Department Cumulative in PDF.
@@ -65,7 +65,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesEmployeeCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_JournalEntriesEmployeeCumulative")
     def get_annual_journal_entries_employee(self):
         """
         Get Annual Journal Entries Employee Cumulative in PDF.
@@ -75,7 +75,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_LeaveSaldos"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_LeaveSaldos")
     def get_annual_leave_saldo(self):
         """
         Get Annual Leave Saldos in PDF.
@@ -85,7 +85,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_PaymentListCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_PaymentListCumulative")
     def get_annual_payment_list(self):
         """
         Get Annual Payment List Cumulative in PDF.
@@ -95,7 +95,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_PayrollRegister"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_PayrollRegister")
     def get_annual_payroll(self):
         """
         Get Annual Journal Entries Department Cumulative in PDF.
@@ -105,7 +105,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_PayrollRegisterAllEmployees"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_PayrollRegisterAllEmployees")
     def get_annual_payroll_employees(self):
         """
         Get Annual PayrollRegister All Employee in PDF.
@@ -115,7 +115,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_PayrollRegisterSummaryCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_PayrollRegisterSummaryCumulative")
     def get_annual_payroll_summary(self):
         """
         Get Annual Payroll Register Summary Cumulative in PDF.
@@ -125,7 +125,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_ReservationSaldos"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_ReservationSaldos")
     def get_annual_reservation_saldo(self):
         """
         Get Annual Reservation Saldo in PDF.
@@ -135,7 +135,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_SentWageTaxDeclarations"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_SentWageTaxDeclarations")
     def get_annual_wage_tax_declaration(self):
         """
         Get Annual Document Sent Wage Tax Declarations in PDF.
@@ -145,7 +145,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_WageTaxDeclarationOverviewByPeriod"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_WageTaxDeclarationOverviewByPeriod")
     def get_annual_wage_tax_declaration_by_period(self):
         """
         Get Annual Document WageTax Declaration Overview Cumulative in PDF.
@@ -155,7 +155,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_AnnualDocument_WageTaxDeclarationOverviewCumulative"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_AnnualDocument_WageTaxDeclarationOverviewCumulative")
     def get_annual_wage_tax_declaration_cumulative(self):
         """
         Get Annual Document WageTax Declaration Overview Cumulative in PDF.
@@ -165,7 +165,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetAllPayslipsPDFByRunCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetAllPayslipsPDFByRunCompany")
     def get_annual_all_payslips(self):
         """
         Get all payslip PDF's of a company for a specific run period, takes year from active year of the company.
@@ -175,7 +175,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetAllPayslipsPDFByRunCompany_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetAllPayslipsPDFByRunCompany_v2")
     def get_annual_all_payslips_2(self):
         """
         Get all payslip PDF's of a company for a specific run period.
@@ -185,7 +185,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetEmployeePayslipsInOnePDFByRunCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetEmployeePayslipsInOnePDFByRunCompany")
     def get_annual_all_payslips_as_one(self):
         """
         Get all employees payslips in one PDF by run company for a specific run period.
@@ -195,7 +195,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetEmployeePayslipsPDFByRunCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetEmployeePayslipsPDFByRunCompany")
     def get_annual_all_payslips_by_employee(self):
         """
         Get employee payslips in PDF by run company for a specific run period, takes year from active year of the company
@@ -205,7 +205,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetEmployeePayslipsPDFByRunCompany_v2"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetEmployeePayslipsPDFByRunCompany_v2")
     def get_annual_all_payslips_by_employee_2(self):
         """
         Get employee payslips in PDF by run company for a specific run period.
@@ -215,7 +215,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetSEPA"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetSEPA")
     def get_SEPA(self):
         """
         Get SEPA file.
@@ -225,7 +225,7 @@ class CompanySalaryDocumentService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryDocuments_GetSEPA_Tax"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryDocuments_GetSEPA_Tax")
     def get_SEPA_tax(self):
         """
         Get SEPA Tax file.

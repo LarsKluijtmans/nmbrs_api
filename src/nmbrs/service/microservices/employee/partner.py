@@ -15,7 +15,7 @@ class EmployeePartnerService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Partner_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Partner_Get")
     def get(self):
         """
         Get employee partner.
@@ -25,7 +25,7 @@ class EmployeePartnerService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Partner_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Partner_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get employee partner.
@@ -35,7 +35,7 @@ class EmployeePartnerService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Partner_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Partner_Update")
     def update(self):
         """
         Update the employee partner info.
@@ -45,7 +45,7 @@ class EmployeePartnerService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Partner_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Partner_Delete")
     def delete(self):
         """
         Delete employee's partner.

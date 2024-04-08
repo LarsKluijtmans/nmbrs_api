@@ -42,8 +42,8 @@ class SingleSingOnService(Service):
 
         return f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
 
-    @nmbrs_exception_handler(resources=["SingleSignOn:GetToken"])
-    @nmbrs_sso_exception_handler(resources=["SingleSignOn:GetToken"])
+    @nmbrs_exception_handler(resource="SingleSignOn:GetToken")
+    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetToken")
     def sso_auth_with_password(self, username: str, password: str) -> str:
         """
         Perform Single Sign-On authentication using username and password.
@@ -58,8 +58,8 @@ class SingleSingOnService(Service):
         token = self.sso_service.service.GetToken(Username=username, Password=password)
         return token
 
-    @nmbrs_exception_handler(resources=["SingleSignOn:GetToken2"])
-    @nmbrs_sso_exception_handler(resources=["SingleSignOn:GetToken2"])
+    @nmbrs_exception_handler(resource="SingleSignOn:GetToken2")
+    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetToken2")
     def sso_auth_with_token(self, username: str, token: str) -> str:
         """
         Perform Single Sign-On authentication using username and token.
@@ -74,8 +74,8 @@ class SingleSingOnService(Service):
         token = self.sso_service.service.GetToken2(Username=username, Token=token)
         return token
 
-    @nmbrs_exception_handler(resources=["SingleSignOn:GetTokenWithDomain"])
-    @nmbrs_sso_exception_handler(resources=["SingleSignOn:GetTokenWithDomain"])
+    @nmbrs_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
+    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
     def sso_auth_with_domain(self, username: str, password: str, domain: str) -> str:
         """
         Perform Single Sign-On authentication using username, password, and domain.

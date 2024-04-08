@@ -92,7 +92,7 @@ class CompanyService(Service):
         self.wage_tax.set_auth_header(auth_header)
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:List_GetAll"])
+    @nmbrs_exception_handler(resource="CompanyService:List_GetAll")
     def get_all(self) -> list[Company]:
         """
         Retrieve all companies.
@@ -108,7 +108,7 @@ class CompanyService(Service):
         return companies
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:List_GetByDebtor"])
+    @nmbrs_exception_handler(resource="CompanyService:List_GetByDebtor")
     def get_by_debtor(self, debtor_id: int) -> list[Company]:
         """
         Get all the companies belonging to a debtor.
@@ -126,7 +126,7 @@ class CompanyService(Service):
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
-    @nmbrs_exception_handler(resources=["CompanyService:Company_GetCurrentByEmployeeId"])
+    @nmbrs_exception_handler(resource="CompanyService:Company_GetCurrentByEmployeeId")
     def get_by_employee(self, employee_id: int) -> Company | None:
         """
         Get company by employee id.
@@ -145,7 +145,7 @@ class CompanyService(Service):
             return None
         return Company(serialize_object(company))
 
-    @nmbrs_exception_handler(resources=["CompanyService:Company_GetCurrentPeriod"])
+    @nmbrs_exception_handler(resource="CompanyService:Company_GetCurrentPeriod")
     def get_current_period(self, company_id: int) -> Period | None:
         """
         Get the current period of the company.
@@ -164,7 +164,7 @@ class CompanyService(Service):
             return None
         return Period(company_id=company_id, data=serialize_object(period))
 
-    @nmbrs_exception_handler(resources=["CompanyService:Company_Insert"])
+    @nmbrs_exception_handler(resource="CompanyService:Company_Insert")
     def insert(
         self, debtor_id: int, name: str, period_type: int, default_id: int, labour_agreement_group_id: str, pay_in_advance: bool
     ) -> int:
@@ -198,7 +198,7 @@ class CompanyService(Service):
         )
         return inserted
 
-    @nmbrs_exception_handler(resources=["CompanyService:ContactPerson_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:ContactPerson_Get")
     def get_contact_person(self, company_id: int) -> ContactPerson:
         """
         Get contact person by company ID.
@@ -215,7 +215,7 @@ class CompanyService(Service):
         contact_person = self.client.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_header)
         return ContactPerson(company_id=company_id, data=serialize_object(contact_person))
 
-    @nmbrs_exception_handler(resources=["CompanyService:Converter_GetByCompany_IntToGuid"])
+    @nmbrs_exception_handler(resource="CompanyService:Converter_GetByCompany_IntToGuid")
     def get_converter_mappings(self, company_id: int, entity: str) -> GuidConvertor:
         """
         Get converter mappings for the given entity and company ID.
@@ -234,7 +234,7 @@ class CompanyService(Service):
         return GuidConvertor(company_id=company_id, data=serialize_object(guids))
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:DefaultEmployeeTemplates_GetByCompany"])
+    @nmbrs_exception_handler(resource="CompanyService:DefaultEmployeeTemplates_GetByCompany")
     def get_default_employee_templates(self, company_id: int) -> list[DefaultEmployeeTemplate]:
         """
         Get available default employee templates by company.
@@ -255,7 +255,7 @@ class CompanyService(Service):
         ]
         return employee_templates
 
-    @nmbrs_exception_handler(resources=["CompanyService:FileExplorer_UploadFile"])
+    @nmbrs_exception_handler(resource="CompanyService:FileExplorer_UploadFile")
     def upload_file(self, company_id: int, document_name: str, document_sub_folder: str, data: bytes) -> None:
         """
         Upload a document for a company.
@@ -282,7 +282,7 @@ class CompanyService(Service):
             _soapheaders=self.auth_header,
         )
 
-    @nmbrs_exception_handler(resources=["CompanyService:Schedule_GetCurrent"])
+    @nmbrs_exception_handler(resource="CompanyService:Schedule_GetCurrent")
     def get_current_schedule(self, company_id: int) -> FulltimeSchedules:
         """
         Retrieve the current schedules for a company.
@@ -300,7 +300,7 @@ class CompanyService(Service):
         return FulltimeSchedules(company_id=company_id, data=serialize_object(response))
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:PayrollWorkflow_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:PayrollWorkflow_Get")
     def get_payroll_workflow(self, company_id: int, year: int, period: int) -> list[PayrollWorkflowTrack]:
         """
         Get the company's payroll workflow tracks and actions.

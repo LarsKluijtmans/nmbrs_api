@@ -19,7 +19,7 @@ class CompanyWageModelService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:WageModel_GetWageCodes"])
+    @nmbrs_exception_handler(resource="CompanyService:WageModel_GetWageCodes")
     def get(self, company_id: int) -> list[WageModel]:
         """
         Retrieve the list of wage codes belonging to a company's wage model.
@@ -38,7 +38,7 @@ class CompanyWageModelService(MicroService):
         return wage_models
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:WageModel2_GetWageCodes"])
+    @nmbrs_exception_handler(resource="CompanyService:WageModel2_GetWageCodes")
     def get_2(self, company_id: int) -> list[WageModel]:
         """
         Retrieve the list of wage codes belonging to a company's wage model.

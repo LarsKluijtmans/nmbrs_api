@@ -19,7 +19,7 @@ class CompanySalaryTableService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable_Get")
     def get(self, company_id: int, period: int, year: int) -> list[SalaryTable]:
         """
         Returns a list of available tables for the company.
@@ -39,7 +39,7 @@ class CompanySalaryTableService(MicroService):
         return [SalaryTable(company_id=company_id, data=salary_table) for salary_table in serialize_object(salary_tables)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable2_Get")
     def get_2(self, company_id: int, period: int, year: int) -> list[str]:
         """
         Returns a list of available tables for the company with unique identifiers.
@@ -59,7 +59,7 @@ class CompanySalaryTableService(MicroService):
         return [salary_table.get("GuidSalaryTable") for salary_table in serialize_object(salary_tables)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable_GetScales"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable_GetScales")
     def get_scale(self, company_id: int, period: int, year: int) -> list[SalaryTableScale]:
         """
         Returns a list of available scales for the company salary table.
@@ -79,7 +79,7 @@ class CompanySalaryTableService(MicroService):
         return [SalaryTableScale(company_id=company_id, data=scale) for scale in serialize_object(scales)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_GetScales"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable2_GetScales")
     def get_scale_2(self, company_id: int, period: int, year: int) -> list[str]:
         """
         Returns a list of available scales for the company salary table with unique identifiers.
@@ -101,7 +101,7 @@ class CompanySalaryTableService(MicroService):
         return [salary_table.get("GuidSalaryTableScale") for salary_table in serialize_object(salary_tables)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable_GetSteps"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable_GetSteps")
     def get_step(self, company_id: int, period: int, year: int, scale: SalaryTableScale) -> list[SalaryTableStep]:
         """
         Returns a list of available steps for the company salary table and selected scale.
@@ -131,7 +131,7 @@ class CompanySalaryTableService(MicroService):
         return [SalaryTableStep(company_id=company_id, data=step) for step in serialize_object(steps)]
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:SalaryTable2_GetSteps"])
+    @nmbrs_exception_handler(resource="CompanyService:SalaryTable2_GetSteps")
     def get_step_2(self, company_id: int, period: int, year: int) -> list[str]:
         """
         Returns a list of available steps for the company salary table and selected scale with unique identifiers.

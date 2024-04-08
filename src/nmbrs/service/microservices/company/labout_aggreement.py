@@ -21,7 +21,7 @@ class CompanyLabourAgreementService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:LabourAgreements_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:LabourAgreements_Get")
     def get(self, company_id: int, period: int, year: int):
         """
         Get a list of all the labour agreements that are assigned to a company.
@@ -49,7 +49,7 @@ class CompanyLabourAgreementService(MicroService):
         return labour_agreements
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:LabourAgreements_GetCurrent"])
+    @nmbrs_exception_handler(resource="CompanyService:LabourAgreements_GetCurrent")
     def get_current(self, company_id: int):
         """
         Get a list of current labour agreements assigned to a company.
@@ -70,7 +70,7 @@ class CompanyLabourAgreementService(MicroService):
         return labour_agreements
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:CompanyLeaveTypeGroups_Get"])
+    @nmbrs_exception_handler(resource="CompanyService:CompanyLeaveTypeGroups_Get")
     def get_leave_type_groups(
         self, company_id: int, labour_agreement_settings_group_id: int, year: int, period: int
     ) -> list[LeaveTypeGroup]:

@@ -15,7 +15,7 @@ class EmployeeLevensLoopService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Levensloop_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Levensloop_Get")
     def get(self):
         """
         Get the active levensloop for given period.
@@ -25,7 +25,7 @@ class EmployeeLevensLoopService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Levensloop_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Levensloop_Insert")
     def insert(self):
         """
         Start levensloop for given date and amount.
@@ -35,7 +35,7 @@ class EmployeeLevensLoopService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Levensloop_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Levensloop_Delete")
     def delete(self):
         """
         Delete the given levensloop. This action can not be undone.
@@ -45,7 +45,7 @@ class EmployeeLevensLoopService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Levensloop_Stop"])
+    @nmbrs_exception_handler(resource="EmployeeService:Levensloop_Stop")
     def stop(self):
         """
         Stop the active levensloop for given date.

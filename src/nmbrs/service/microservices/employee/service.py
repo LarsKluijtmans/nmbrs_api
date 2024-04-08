@@ -16,7 +16,7 @@ class EmployeeServiceService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_GetList")
     def get_all(self):
         """
         Get all service intervals.
@@ -26,7 +26,7 @@ class EmployeeServiceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_Insert")
     def insert(self):
         """
         Start a new service interval. If the date is before the company's current period, unprotected mode flag is required.
@@ -36,7 +36,7 @@ class EmployeeServiceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_Insert2"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_Insert2")
     def insert_2(self):
         """
         Start a new service interval. If the date is before the company's current period, unprotected mode flag is required.
@@ -46,7 +46,7 @@ class EmployeeServiceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_Delete")
     def delete(self):
         """
         Delete a service interval.
@@ -56,7 +56,7 @@ class EmployeeServiceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_StopCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_StopCurrent")
     def stop_current(self):
         """
         Stop the current service interval. If the date is before the company's current period, unprotected mode flag is required.
@@ -67,7 +67,7 @@ class EmployeeServiceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Service_RemoveOutService"])
+    @nmbrs_exception_handler(resource="EmployeeService:Service_RemoveOutService")
     def remove_out_service(self):
         """
         Remove out of service date.

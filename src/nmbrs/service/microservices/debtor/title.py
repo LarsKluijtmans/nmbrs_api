@@ -18,7 +18,7 @@ class DebtorTitleService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:Title_GetList"])
+    @nmbrs_exception_handler(resource="DebtorService:Title_GetList")
     def get_all(self, debtor_id: int) -> list[str]:
         """
         Retrieve all titles for a debtor.
@@ -36,7 +36,7 @@ class DebtorTitleService(MicroService):
         titles = [title["TitleName"] for title in serialize_object(titles)]
         return titles
 
-    @nmbrs_exception_handler(resources=["DebtorService:Title_Insert"])
+    @nmbrs_exception_handler(resource="DebtorService:Title_Insert")
     def insert(self, debtor_id: int, title: str) -> None:
         """
         Insert a title for a debtor.

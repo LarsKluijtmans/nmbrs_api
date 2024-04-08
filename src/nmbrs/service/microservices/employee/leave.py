@@ -15,7 +15,7 @@ class EmployeeLeaveService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaveBalance_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaveBalance_Get")
     def get(self):
         """
         Get the Leave Balance for the given employee.
@@ -25,7 +25,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Leave_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Leave_GetList")
     def get_all(self):
         """
         Get a list of leave for the given year, type and usage type.
@@ -35,7 +35,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Leave_GetList_V2"])
+    @nmbrs_exception_handler(resource="EmployeeService:Leave_GetList_V2")
     def get_all_2(self):
         """
         Get a list of leave for the given year, type and usage type.
@@ -45,7 +45,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaveBalance_GetPerType"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaveBalance_GetPerType")
     def get_by_type(self):
         """
         Get the leave balance for the given employee and type.
@@ -55,7 +55,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Leave_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Leave_Insert")
     def insert(self):
         """
         Insert a new leave, starting from a specific date.
@@ -65,7 +65,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Leave_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Leave_Update")
     def update(self):
         """
         Insert a new leave, starting from a specific date.
@@ -75,7 +75,7 @@ class EmployeeLeaveService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Leave_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Leave_Delete")
     def delete(self):
         """
         Delete a leave entry.

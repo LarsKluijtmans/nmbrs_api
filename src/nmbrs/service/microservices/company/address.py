@@ -17,7 +17,7 @@ class CompanyAddressService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["CompanyService:Address_GetCurrent"])
+    @nmbrs_exception_handler(resource="CompanyService:Address_GetCurrent")
     def get(self, company_id: int) -> Address | None:
         """
         Get the current address of the company.
@@ -36,7 +36,7 @@ class CompanyAddressService(MicroService):
             return None
         return Address(company_id=company_id, data=serialize_object(address))
 
-    @nmbrs_exception_handler(resources=["CompanyService:Address_Insert"])
+    @nmbrs_exception_handler(resource="CompanyService:Address_Insert")
     def insert(
         self,
         company_id: int,
@@ -88,7 +88,7 @@ class CompanyAddressService(MicroService):
         response = self.client.service.Address_Insert(**data, _soapheaders=self.auth_header)
         return response
 
-    @nmbrs_exception_handler(resources=["CompanyService:Address_Update"])
+    @nmbrs_exception_handler(resource="CompanyService:Address_Update")
     def update(
         self,
         company_id: int,
