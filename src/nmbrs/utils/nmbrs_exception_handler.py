@@ -106,7 +106,7 @@ def nmbrs_exception_handler(resource: str):
                     2045: InvalidNameException,
                     2046: NotFoundException,
                     2047: InvalidDocumentTypeException,
-                    9999: UnknownNmbrsException
+                    9999: UnknownNmbrsException,
                 }
                 exception_str = str(e)
                 for error_code, exception_class in error_map.items():
