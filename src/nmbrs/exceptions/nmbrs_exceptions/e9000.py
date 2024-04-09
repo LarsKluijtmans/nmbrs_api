@@ -22,4 +22,4 @@ class UnknownException(NmbrsBaseException):
         self,
         resource: str,
     ) -> None:
-        super().__init__(9001, resource=resource)
+        super().__init__(0, resource=resource)
