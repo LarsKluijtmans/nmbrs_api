@@ -18,7 +18,7 @@ class EmployeeScheduleService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetList")
     def get_all(self):
         """
         Get all schedules, until given period.
@@ -28,7 +28,7 @@ class EmployeeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_Get")
     def get(self):
         """
         Get schedule the active schedule for given period.
@@ -38,7 +38,7 @@ class EmployeeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetCurrent")
     def get_current(self):
         """
         Get currently active schedule.
@@ -48,7 +48,7 @@ class EmployeeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self, company_id: int) -> list[Schedule]:
         """
         Get all schedules of all employees from company.
@@ -70,7 +70,7 @@ class EmployeeScheduleService(MicroService):
                 _schedules.append(Schedule(employee_id=employee["EmployeeId"], data=schedule))
         return _schedules
 
-    @nmbrs_exception_handler(resources=["EmployeeService:ScheduleCalendar_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:ScheduleCalendar_Get")
     def get_calender(self):
         """
         Get the employee's schedule calendar for given period.
@@ -80,7 +80,7 @@ class EmployeeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_Update")
     def update(self):
         """
         Update schedule starting from the given date. The company default rooster number can be specified.
@@ -90,7 +90,7 @@ class EmployeeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Schedule_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Schedule_UpdateCurrent")
     def update_current(self):
         """
         Update schedule starting from the current period. The company default rooster number can be specified.

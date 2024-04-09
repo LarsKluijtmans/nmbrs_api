@@ -15,7 +15,7 @@ class EmployeeLabourAgreementService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LabourAgreements_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:LabourAgreements_Get")
     def get(self):
         """
         Get the labour agreement settings to an employee.
@@ -25,7 +25,7 @@ class EmployeeLabourAgreementService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LabourAgreements_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:LabourAgreements_GetCurrent")
     def get_current(self):
         """
         Get labour agreement settings to an employee for the current period.
@@ -35,7 +35,7 @@ class EmployeeLabourAgreementService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LabourAgreements_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:LabourAgreements_Update")
     def update(self):
         """
         Update the labour agreement that is assigned to an employee. Unprotected mode flag activated.
@@ -45,7 +45,7 @@ class EmployeeLabourAgreementService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LabourAgreements_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:LabourAgreements_UpdateCurrent")
     def update_current(self):
         """
         Update the labour agreement that is assigned to an employee for the current period.

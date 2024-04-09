@@ -19,7 +19,7 @@ class EmployeeContractService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_GetAll"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_GetAll")
     def get_all(self):
         """
         Get all contracts for the specified employee.
@@ -29,7 +29,7 @@ class EmployeeContractService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_GetCurrentPeriod"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_GetCurrentPeriod")
     def get_current(self):
         """
         Get a list of all active contracts for specified employee in current period.
@@ -40,7 +40,7 @@ class EmployeeContractService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self, company_id: int) -> list[Contract]:
         """
         Get all contracts of all employees.
@@ -62,7 +62,7 @@ class EmployeeContractService(MicroService):
                 _contracts.append(Contract(employee_id=employee["EmployeeId"], data=contract))
         return _contracts
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_Delete")
     def delete(self):
         """
         Delete a contract from the system. This action can not be undone.
@@ -72,7 +72,7 @@ class EmployeeContractService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_Update")
     def update(self):
         """
         Update the specified contract for specified employee. Contract start date can’t be updated, this field will be ignored.
@@ -82,7 +82,7 @@ class EmployeeContractService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_Insert")
     def insert(self):
         """
         Insert Contract. If the start date is before the company's current period, unprotected mode flag is required.
@@ -92,7 +92,7 @@ class EmployeeContractService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Contract_InsertCurrentPeriod"])
+    @nmbrs_exception_handler(resource="EmployeeService:Contract_InsertCurrentPeriod")
     def insert_current(self):
         """
         Insert Contract in current period for specified employee.

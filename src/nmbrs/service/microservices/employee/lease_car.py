@@ -15,7 +15,7 @@ class EmployeeLeaseCarService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Get")
     def get(self):
         """
         Get the active lease car contract for given period.
@@ -25,7 +25,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_GetCurrent")
     def get_current(self):
         """
         Get currently active lease car contract.
@@ -35,7 +35,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_GetList")
     def get_all(self):
         """
         Get lease car contract list, until given period.
@@ -45,7 +45,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_GetAll_EmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_GetAll_EmployeesByCompany")
     def get_all_by_company(self):
         """
         Get lease car contract list for all employee in company, until given period.
@@ -55,7 +55,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar2_GetAll_EmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar2_GetAll_EmployeesByCompany")
     def get_all_by_company_2(self):
         """
         Get lease car contract list for all employee in company, until given period.
@@ -65,7 +65,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Insert")
     def insert(self):
         """
         Insert a new lease car contract, this contract will start from given date within the object.
@@ -75,7 +75,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_InsertCurrent")
     def insert_current(self):
         """
         Insert a new lease car contract, this contract will start from given date within the object.
@@ -85,7 +85,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Delete")
     def delete(self):
         """
         Delete a lease car contract. This action can not be undone.
@@ -95,7 +95,7 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:LeaseCar_Stop"])
+    @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Stop")
     def stop(self):
         """
         Stop the currently active lease car contract.

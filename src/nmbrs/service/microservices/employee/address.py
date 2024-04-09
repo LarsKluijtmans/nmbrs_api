@@ -16,7 +16,7 @@ class EmployeeAddressService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_GetList")
     def get(self):
         """
         Get all addresses which are active in given period.
@@ -26,7 +26,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_GetListCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_GetListCurrent")
     def get_current(self):
         """
         Get all currently active addresses.
@@ -36,7 +36,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get all addresses of all employees.
@@ -46,7 +46,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_Delete")
     def delete(self):
         """
         Get all active bank accounts for given period.
@@ -56,7 +56,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_Update")
     def update(self):
         """
         Delete Employee Address.
@@ -66,7 +66,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_Insert")
     def insert(self):
         """
         Insert given address to the specified period. If the period is before the company's current period, unprotected mode flag is required.
@@ -76,7 +76,7 @@ class EmployeeAddressService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Address_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Address_InsertCurrent")
     def insert_current(self):
         """
         Insert given address to the current period.

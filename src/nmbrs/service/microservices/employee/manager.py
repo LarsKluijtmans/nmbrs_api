@@ -15,7 +15,7 @@ class EmployeeManagerService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Manager_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Manager_Get")
     def get(self):
         """
         Get the manager of an employee to the specified period.
@@ -25,7 +25,7 @@ class EmployeeManagerService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Manager_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Manager_GetCurrent")
     def get_current(self):
         """
         Get the manager of an employee.

@@ -16,7 +16,7 @@ class EmployeeTimeRegistrationService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_GetList")
     def get_all(self):
         """
         Get Time Registration items filtered by time.
@@ -26,7 +26,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Insert")
     def insert(self):
         """
         Register item into the calendar of an employee.
@@ -36,7 +36,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_Insert_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Insert_Batch")
     def insert_batch(self):
         """
         Register items into the calendars.
@@ -46,7 +46,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_GetAll_AllTimeRegistrationCodes"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_GetAll_AllTimeRegistrationCodes")
     def get_codes(self):
         """
         Get available TimeRegistrationCodes.
@@ -56,7 +56,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Delete")
     def delete(self):
         """
         Delete Time Registration Item By ID.
@@ -66,7 +66,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_Clear"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Clear")
     def clear(self):
         """
         Delete Time Registration Item By EmployeeId and given dates.
@@ -76,7 +76,7 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeRegistration_ClearCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_ClearCurrent")
     def clear_current(self):
         """
         Delete Time Registration Item By EmployeeId.

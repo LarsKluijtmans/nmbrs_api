@@ -17,7 +17,7 @@ class CompanyBankAccountService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["CompanyService:BankAccount_GetCurrent"])
+    @nmbrs_exception_handler(resource="CompanyService:BankAccount_GetCurrent")
     def get_current(self, company_id: int) -> BankAccount | None:
         """
         Get the company's current bank account.
@@ -36,7 +36,7 @@ class CompanyBankAccountService(MicroService):
             return None
         return BankAccount(company_id=company_id, data=serialize_object(bank_account))
 
-    @nmbrs_exception_handler(resources=["CompanyService:BankAccount_Insert"])
+    @nmbrs_exception_handler(resource="CompanyService:BankAccount_Insert")
     def insert(
         self,
         company_id: int,
@@ -83,7 +83,7 @@ class CompanyBankAccountService(MicroService):
         response = self.client.service.BankAccount_Insert(CompanyId=company_id, BankAccount=bank_account, _soapheaders=self.auth_header)
         return response
 
-    @nmbrs_exception_handler(resources=["CompanyService:BankAccount_Update"])
+    @nmbrs_exception_handler(resource="CompanyService:BankAccount_Update")
     def update(
         self,
         company_id: int,

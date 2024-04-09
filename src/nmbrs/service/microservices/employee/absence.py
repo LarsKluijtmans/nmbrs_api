@@ -16,7 +16,7 @@ class EmployeeAbsenceService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence_GetList")
     def get(self):
         """
         Get a list of all absences.
@@ -26,7 +26,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence2_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence2_GetList")
     def get_2(self):
         """
         Get a list of all absences with their respective cause.
@@ -36,7 +36,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get a list of all absence of all company employees.
@@ -46,7 +46,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence_Insert")
     def insert(self):
         """
         Insert an absence, this item will start from the given date in the object.
@@ -56,7 +56,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence2_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence2_Insert")
     def insert_2(self):
         """
         Insert an absence with cause, this item will start from the given date in the object.
@@ -66,7 +66,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence_PartialRecoveryInsert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence_PartialRecoveryInsert")
     def insert_partial_recovery(self):
         """
         Insert an absence partial recovery message.
@@ -76,7 +76,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Absence_RecoveryInsert"])
+    @nmbrs_exception_handler(resource="EmployeeService:Absence_RecoveryInsert")
     def insert_recovery(self):
         """
         Insert an absence recovery message.
@@ -86,7 +86,7 @@ class EmployeeAbsenceService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:AbsenceNotification_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:AbsenceNotification_Insert")
     def insert_notification(self):
         """
         Insert a new absence date, this item will start from the given date in the object to the requested absence dossier.

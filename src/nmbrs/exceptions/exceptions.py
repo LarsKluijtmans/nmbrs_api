@@ -1,18 +1,7 @@
 """General exceptions"""
 
 
-class Error(Exception):
-    """Base for errors"""
-
-    def __init__(self, message=""):
-        super(Exception, self).__init__(message)
-        self.message = message
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.message})"
-
-
-class ParameterMissingError(Error):
+class ParameterMissingError(Exception):
     """Exception raised when a required parameter is missing, empty or None."""
 
     def __init__(

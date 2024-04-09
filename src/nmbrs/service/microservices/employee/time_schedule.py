@@ -16,7 +16,7 @@ class EmployeeTimeScheduleService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeSchedule_AllEmployee_GetListByPeriod"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_AllEmployee_GetListByPeriod")
     def get_all_by_company(self):
         """
         Get Time Schedules from employee and period.
@@ -26,7 +26,7 @@ class EmployeeTimeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeSchedule_GetAll"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_GetAll")
     def get_all(self):
         """
         Get all Time Schedules from employee.
@@ -36,7 +36,7 @@ class EmployeeTimeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeSchedule_GetListByPeriod"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_GetListByPeriod")
     def get(self):
         """
         Get Time Schedules from employee and period.
@@ -46,7 +46,7 @@ class EmployeeTimeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeSchedule_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_Insert")
     def insert(self):
         """
         Add a new TimeSchedule.
@@ -56,7 +56,7 @@ class EmployeeTimeScheduleService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:TimeSchedule_DeleteByID"])
+    @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_DeleteByID")
     def delete(self):
         """
         Delete employee time schedule.

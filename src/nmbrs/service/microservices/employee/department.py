@@ -16,7 +16,7 @@ class EmployeeDepartmentsService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Department_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Department_GetCurrent")
     def get_current(self):
         """
         Get the currently active department.
@@ -26,7 +26,7 @@ class EmployeeDepartmentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Department_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Department_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get all department history of all employees.
@@ -36,7 +36,7 @@ class EmployeeDepartmentsService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Department_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Department_UpdateCurrent")
     def update_current(self):
         """
         Update the department starting the current period.

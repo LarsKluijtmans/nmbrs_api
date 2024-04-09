@@ -16,7 +16,7 @@ class EmployeeFunctionService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Function_GetFunction"])
+    @nmbrs_exception_handler(resource="EmployeeService:Function_GetFunction")
     def get_by_id(self):
         """
         Get Function by functionID.
@@ -26,7 +26,7 @@ class EmployeeFunctionService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Function_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Function_GetCurrent")
     def get_current(self):
         """
         Get the currently active function.
@@ -36,7 +36,7 @@ class EmployeeFunctionService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Function_GetAll_AllEmployeesByCompany_V2"])
+    @nmbrs_exception_handler(resource="EmployeeService:Function_GetAll_AllEmployeesByCompany_V2")
     def get_all_by_company(self):
         """
         Get all Function history of all employees.
@@ -46,7 +46,7 @@ class EmployeeFunctionService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Function_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Function_Update")
     def update(self):
         """
         Update the function starting from the given period.
@@ -56,7 +56,7 @@ class EmployeeFunctionService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Function_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Function_UpdateCurrent")
     def update_current(self):
         """
         Update the function starting from current period.

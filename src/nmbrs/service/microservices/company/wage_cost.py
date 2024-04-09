@@ -19,7 +19,7 @@ class CompanyWageCostService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:WorkCost_GetList"])
+    @nmbrs_exception_handler(resource="CompanyService:WorkCost_GetList")
     def get(self, company_id: int, year: int) -> list[WageCost]:
         """
         Retrieve the list of work cost values for a given company and year.
@@ -38,7 +38,7 @@ class CompanyWageCostService(MicroService):
         wage_costs = [WageCost(company_id=company_id, data=wage_cost) for wage_cost in serialize_object(wage_costs)]
         return wage_costs
 
-    @nmbrs_exception_handler(resources=["CompanyService:WorkCost_Insert"])
+    @nmbrs_exception_handler(resource="CompanyService:WorkCost_Insert")
     def insert(self, company_id: int, value: float, period: int, year: int):
         """
         Insert a work cost value from the financial administration for a specific period.

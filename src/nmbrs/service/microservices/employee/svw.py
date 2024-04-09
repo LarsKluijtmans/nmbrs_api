@@ -15,7 +15,7 @@ class EmployeeSvwService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_Get")
     def get(self):
         """
         Get the active SVW settings for given period.
@@ -25,7 +25,7 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_GetCurrent")
     def get_current(self):
         """
         Get the currently active SVW settings.
@@ -35,7 +35,7 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_GetList")
     def get_all(self):
         """
         Get a list of all SVW settings.
@@ -45,7 +45,7 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get all (historical) svw setting records for all employees that belong to the company.
@@ -55,7 +55,7 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_Update")
     def update(self):
         """
         Update SVW settings starting from given period.
@@ -65,7 +65,7 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SVW_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:SVW_UpdateCurrent")
     def update_current(self):
         """
         Update SVW settings starting from the current period.

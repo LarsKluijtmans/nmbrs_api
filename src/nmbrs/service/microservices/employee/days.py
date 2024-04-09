@@ -16,7 +16,7 @@ class EmployeeDaysService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_Get")
     def fixed_get(self):
         """
         Get fixed days worked for given period.
@@ -26,7 +26,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_GetCurrent")
     def fixed_get_current(self):
         """
         Get fixed days worked for the current period.
@@ -36,7 +36,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_Set"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_Set")
     def fixed_set(self):
         """
         Set fixed days for given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -46,7 +46,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_SetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_SetCurrent")
     def fixed_set_current(self):
         """
         Set fixed days worked for the current period.
@@ -56,7 +56,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_Set_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_Set_Batch")
     def fixed_set_batch(self):
         """
         Set fixed days for given period for a batch of Employees. If the period is before the company's current period, unprotected mode flag is required.
@@ -66,7 +66,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysFixed_Stop"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysFixed_Stop")
     def fixed_stop(self):
         """
         Stop fixed days, the given period is the last for these days. If the period is before the company's current period, unprotected mode flag is required.
@@ -76,7 +76,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVar_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVar_Get")
     def variable_get(self):
         """
         Get variable days worked for given period.
@@ -86,7 +86,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVar_Set_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVar_Set_Batch")
     def variable_set_batch(self):
         """
         Set variable days for given period for a batch of Employees. If the period is before the company's current period, unprotected mode flag is required.
@@ -96,7 +96,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVarWorked_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVarWorked_Get")
     def days_worked_get(self):
         """
         Get days worked and +/- days for wage components per day filled in for given period.
@@ -106,7 +106,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVarWorked_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVarWorked_GetCurrent")
     def days_worked_get_current(self):
         """
         Get days worked and +/- days for wage components per day for the current period.
@@ -116,7 +116,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVarWorked_Set"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVarWorked_Set")
     def days_worked_set(self):
         """
         Get days worked and +/- days for wage components per day for the current period.
@@ -126,7 +126,7 @@ class EmployeeDaysService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:DaysVarWorked_SetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:DaysVarWorked_SetCurrent")
     def days_worked_set_current(self):
         """
         Set days worked and +/- days for wage components per day for the given period. If the period is before the company's current period, unprotected mode flag is required.

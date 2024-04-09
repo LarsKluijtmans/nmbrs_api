@@ -16,7 +16,7 @@ class EmployeeSalaryService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_Get")
     def get(self):
         """
         Get the active salary for the given period.
@@ -26,7 +26,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_GetCurrent")
     def get_current(self):
         """
         Get the active salary for the given period.
@@ -36,7 +36,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_GetList"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_GetList")
     def get_all(self):
         """
         Get all salary, within given period.
@@ -46,7 +46,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self):
         """
         Get all salary, until current period.
@@ -56,7 +56,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SalaryDocuments_GetAnnualStatementPDF"])
+    @nmbrs_exception_handler(resource="EmployeeService:SalaryDocuments_GetAnnualStatementPDF")
     def get_annual_pdf(self):
         """
         Get employee annual statement in PDF
@@ -66,7 +66,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_GetEstimatedCostPerHour"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_GetEstimatedCostPerHour")
     def get_hourly_cost(self):
         """
         Get estimated cost per hour for a given employee and period.
@@ -76,7 +76,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SalaryTable_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:SalaryTable_Insert")
     def insert(self):
         """
         Insert salary table to salary.
@@ -86,7 +86,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:SalaryTable_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:SalaryTable_InsertCurrent")
     def insert_current(self):
         """
         Insert salary table to salary of current salary.
@@ -96,7 +96,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_Update")
     def update(self):
         """
         Update salary. This salary will start from the date given.
@@ -106,7 +106,7 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:Salary_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:Salary_UpdateCurrent")
     def update_current(self):
         """
         Update salary. This salary will start from the first date of the current period.

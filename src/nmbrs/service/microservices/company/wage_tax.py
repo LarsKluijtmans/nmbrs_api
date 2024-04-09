@@ -19,7 +19,7 @@ class CompanyWageTaxService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetList"])
+    @nmbrs_exception_handler(resource="CompanyService:WageTax_GetList")
     def get_all_wagetax(self, company_id: int, year: int) -> list[WageTax]:
         """
         Retrieve all wage taxes for a specific company and year.
@@ -38,7 +38,7 @@ class CompanyWageTaxService(MicroService):
         wage_taxes = [WageTax(company_id=company_id, data=wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
 
-    @nmbrs_exception_handler(resources=["CompanyService:WageTax_GetXML"])
+    @nmbrs_exception_handler(resource="CompanyService:WageTax_GetXML")
     def get_wagetax_details(self, company_id: int, loonaangifte_id: int) -> WageTaxXML:
         """
         Retrieve wage tax details for a specific company and loonaangifte ID.
@@ -61,7 +61,7 @@ class CompanyWageTaxService(MicroService):
         wage_tax_details = WageTaxXML(wage_tax_details)
         return wage_tax_details
 
-    @nmbrs_exception_handler(resources=["CompanyService:WageTax_SetSentExternal"])
+    @nmbrs_exception_handler(resource="CompanyService:WageTax_SetSentExternal")
     def set_send_as_external(self, company_id: int, loonaangifte_id: int) -> bool:
         """
         Set the wage tax status to Sent as External.

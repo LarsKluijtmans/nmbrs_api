@@ -18,7 +18,7 @@ class EmployeePersonalInfoService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfo_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_Get")
     def get(self, employee_id: int, period: int, year: int) -> PersonalInfo | None:
         """
         Get the active personal info for given period.
@@ -41,7 +41,7 @@ class EmployeePersonalInfoService(MicroService):
             return None
         return PersonalInfo(employee_id=employee_id, data=serialize_object(personal_info))
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfo_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_GetCurrent")
     def get_current(self, employee_id: int) -> PersonalInfo | None:
         """
         Get the currently active personal info.
@@ -61,7 +61,7 @@ class EmployeePersonalInfoService(MicroService):
         return PersonalInfo(employee_id=employee_id, data=serialize_object(personal_info))
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfo_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self, company_id: int) -> list[PersonalInfo]:
         """
         Get all personal infos of all employees.
@@ -85,7 +85,7 @@ class EmployeePersonalInfoService(MicroService):
         return _people_info
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfoWithoutBSN_Get_GetAllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfoWithoutBSN_Get_GetAllEmployeesByCompany")
     def get_all_by_company_without_bsn(self, company_id: int) -> list[PersonalInfo]:
         """
         Get all personal infos of all employees, excluding the BSN.
@@ -111,7 +111,7 @@ class EmployeePersonalInfoService(MicroService):
         return _people_info
 
     @return_list
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfoContractSalaryAddress_GetAll_AllEmployeesByCompany"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfoContractSalaryAddress_GetAll_AllEmployeesByCompany")
     def get_all_by_company_contract_address_salary(self, company_id: int) -> list[PersonalInfoContractSalaryAddress]:
         """
         Get all personal infos of all employees.
@@ -132,7 +132,7 @@ class EmployeePersonalInfoService(MicroService):
             PersonalInfoContractSalaryAddress(employee_id=person["EmployeeID"], data=person) for person in serialize_object(people_info)
         ]
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfo_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_Update")
     def update(self, employee_id: int, personal_info: PersonalInfo, period: int, year: int):
         """
         Update personal info starting from the given period.
@@ -186,7 +186,7 @@ class EmployeePersonalInfoService(MicroService):
         )
         return response
 
-    @nmbrs_exception_handler(resources=["EmployeeService:PersonalInfo_UpdateCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_UpdateCurrent")
     def update_current(self, employee_id: int, personal_info: PersonalInfo):
         """
         Update personal info starting from the current period.

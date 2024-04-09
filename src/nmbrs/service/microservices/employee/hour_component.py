@@ -16,7 +16,7 @@ class EmployeeHourComponentFixedService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Get")
     def fixed_get(self):
         """
         Get all extra hour components for given period.
@@ -26,7 +26,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_GetCurrent")
     def fixed_get_current(self):
         """
         Get all extra hour components for the current period.
@@ -36,7 +36,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert")
     def fixed_insert(self):
         """
         Insert an extra hour component to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -46,7 +46,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_InsertCurrent")
     def fixed_insert_current(self):
         """
         Insert an extra hour component to the current period.
@@ -56,7 +56,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_Insert_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert_Batch")
     def fixed_insert_batch(self):
         """
         Insert a batch of extra hour components to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -66,7 +66,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_Insert_With_End"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert_With_End")
     def fixed_insert_with_end(self):
         """
         Insert an extra hour component with end to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -76,7 +76,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentFixed_Stop"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Stop")
     def fixed_stop(self):
         """
         Stop an hour component. If the period is before the company's current period, unprotected mode flag is required.
@@ -86,7 +86,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_Get"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Get")
     def variable_get(self):
         """
         Get all extra hour components for given period.
@@ -96,7 +96,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_GetCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_GetCurrent")
     def variable_get_current(self):
         """
         Get all extra hour components for the current period.
@@ -106,7 +106,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_Insert"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Insert")
     def variable_insert(self):
         """
         Insert an extra hour component to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -116,7 +116,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_InsertCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_InsertCurrent")
     def variable_insert_current(self):
         """
         Insert an extra hour component to the current period.
@@ -126,7 +126,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_Insert_Batch"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Insert_Batch")
     def variable_insert_batch(self):
         """
         Insert a batch of extra hour components to given period. If the period is before the company's current period, unprotected mode flag is required.
@@ -136,7 +136,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_Clear"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Clear")
     def variable_clear(self):
         """
         Clear all extra hour components for given period.
@@ -146,7 +146,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponentVar_ClearCurrent"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_ClearCurrent")
     def variable_clear_current(self):
         """
         Clear all extra hour components for current period.
@@ -156,7 +156,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponent_Delete"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponent_Delete")
     def delete(self):
         """
         Delete an hour component linked to an employee by HourComponentID.
@@ -166,7 +166,7 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
-    @nmbrs_exception_handler(resources=["EmployeeService:HourComponent_Update"])
+    @nmbrs_exception_handler(resource="EmployeeService:HourComponent_Update")
     def update(self):
         """
         Update any Hour Component Variable or Fixed.

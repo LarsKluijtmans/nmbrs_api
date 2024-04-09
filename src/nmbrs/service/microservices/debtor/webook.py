@@ -18,7 +18,7 @@ class DebtorWebHooksService(MicroService):
     def set_auth_header(self, auth_header: dict) -> None:
         self.auth_header = auth_header
 
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Delete"])
+    @nmbrs_exception_handler(resource="DebtorService:WebhookSettings_Delete")
     def delete(self, debtor_id: int, webhook_id: int) -> bool:
         """
         Delete a webhook for a debtor.
@@ -41,7 +41,7 @@ class DebtorWebHooksService(MicroService):
         return deleted
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Get"])
+    @nmbrs_exception_handler(resource="DebtorService:WebhookSettings_Get")
     def get_all(self, debtor_id: int) -> list[WebhookSetting]:
         """
         Retrieve all webhooks for a debtor.
@@ -60,7 +60,7 @@ class DebtorWebHooksService(MicroService):
         return webhooks
 
     @return_list
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_GetEvents"])
+    @nmbrs_exception_handler(resource="DebtorService:WebhookSettings_GetEvents")
     def get_all_events(self) -> list[Event]:
         """
         Retrieve all webhook events.
@@ -75,7 +75,7 @@ class DebtorWebHooksService(MicroService):
         events = [Event(event) for event in serialize_object(events)]
         return events
 
-    @nmbrs_exception_handler(resources=["DebtorService:WebhookSettings_Insert"])
+    @nmbrs_exception_handler(resource="DebtorService:WebhookSettings_Insert")
     def insert(self, debtor_id: int, insert_webhook_settings: WebhookSetting) -> int:
         """
         Insert a webhook for a debtor.

@@ -19,7 +19,7 @@ class CompanyPensionService(MicroService):
         self.auth_header = auth_header
 
     @return_list
-    @nmbrs_exception_handler(resources=["CompanyService:PensionExport_GetList"])
+    @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetList")
     def get(self, company_id: int) -> list[Pension]:
         """
         Returns pension exports that belong to a company for a certain year.
@@ -36,7 +36,7 @@ class CompanyPensionService(MicroService):
         pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
         return [Pension(company_id=company_id, data=pension) for pension in serialize_object(pensions)]
 
-    @nmbrs_exception_handler(resources=["CompanyService:PensionExport_GetXML"])
+    @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetXML")
     def get_xml(self, company_id: int, pension_export_id: int) -> PensionXML:
         """
         Returns one XML pension export by ID that belong to a company.
