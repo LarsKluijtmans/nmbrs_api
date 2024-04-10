@@ -39,7 +39,7 @@ class Contract(DataClass):
 
     def __init__(self, employee_id: int, data: dict):
         self.employee_id = employee_id
-        self.contract_id: int = data.get("ContractID")
+        self.id: int = data.get("ContractID")
         self.creation_date: datetime = data.get("CreationDate")
         self.start_date: datetime = data.get("StartDate")
         self.trial_period: datetime = data.get("TrialPeriod")

@@ -1,6 +1,4 @@
-"""
-Module for handling the Company Nmbrs services.
-"""
+"""Module for handling the Company Nmbrs services."""
 
 from zeep import Client
 from zeep.helpers import serialize_object
