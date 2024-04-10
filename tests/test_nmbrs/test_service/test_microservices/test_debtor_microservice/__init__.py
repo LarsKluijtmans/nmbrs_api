@@ -1,1 +1,2 @@
-"""Entry point for tests related to debtor microservices"""
+"""Entry point for tests related to debtor
+microservices"""
