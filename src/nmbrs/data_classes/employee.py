@@ -141,3 +141,30 @@ class PersonalInfoContractSalaryAddress(DataClass):
         self.post_code: str = data.get("PostCode")
         self.hourly_wage: Decimal = data.get("HourlyWage")
         self.contract_hours: Decimal = data.get("ContractHours")
+
+
+class Absence(DataClass):
+    """A class representing absence"""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id: int = employee_id
+        self.id: int = data.get("AbsenceId")
+        self.comment: str = data.get("Comment")
+        self.percentage: int = data.get("Percentage")
+        self.start: datetime = data.get("Start")
+        self.registration_start_date: datetime = data.get("RegistrationStartDate")
+        self.end: datetime = data.get("End")
+        self.registration_end_date: datetime = data.get("RegistrationEndDate")
+        self.dossier: str = data.get("Dossier")
+        self.dossier_number: int = data.get("Dossiernr")
+        self.cause: AbsenceCause = AbsenceCause(data.get("AbsenceCause"))
+
+
+class AbsenceCause(DataClass):
+    """A class representing the cause of an absence"""
+
+    def __init__(self, data: dict | None):
+        if data is None:
+            return
+        self.id: int = data.get("CauseId")
+        self.cause: str = data.get("Cause")
