@@ -168,3 +168,20 @@ class AbsenceCause(DataClass):
             return
         self.id: int = data.get("CauseId")
         self.cause: str = data.get("Cause")
+
+
+class Address(DataClass):
+    """A class representing an address"""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id: int = employee_id
+        self.id: int = data.get("Id")
+        self.default: bool = data.get("Default")
+        self.street: str = data.get("Street")
+        self.house_number: str = data.get("HouseNumber")
+        self.house_number_addition: str = data.get("HouseNumberAddition")
+        self.postcode: str = data.get("PostalCode")
+        self.city: str = data.get("City")
+        self.state_province: str = data.get("StateProvince")
+        self.country_iso_code: str = data.get("CountryISOCode")
+        self.type: str = data.get("Type")
