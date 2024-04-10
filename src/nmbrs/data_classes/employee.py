@@ -200,3 +200,16 @@ class BankAccount(DataClass):
         self.city: str = data.get("City")
         self.name: str = data.get("Name")
         self.type: str = data.get("Type")
+
+
+class Child(DataClass):
+    """A class representing a child."""
+
+    def __init__(self, employee_id: int, data: dict) -> None:
+        self.employee_id = employee_id
+        self.id: int = data.get("Id")
+        self.name: str = data.get("Name")
+        self.first_name: str = data.get("FirstName")
+        self.initials: str = data.get("Initials")
+        self.gender: str = data.get("Gender")
+        self.birthday: datetime = data.get("Birthday")
