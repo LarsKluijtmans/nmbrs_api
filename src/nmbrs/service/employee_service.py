@@ -53,9 +53,9 @@ class EmployeeService(Service):
         # Micro services
         self.absence = EmployeeAbsenceService(self.client)
         self.address = EmployeeAddressService(self.client)
-        self.bank_account = EmployeeBankAccountService(self.client)  # TO BE implemented
-        self.child = EmployeeChildService(self.client)  # TO BE implemented
-        self.contract = EmployeeContractService(self.client)  # TO BE implemented
+        self.bank_account = EmployeeBankAccountService(self.client)
+        self.child = EmployeeChildService(self.client)
+        self.contract = EmployeeContractService(self.client)
         self.cost_center = EmployeeCostCenterService(self.client)  # TO BE implemented
         self.days = EmployeeDaysService(self.client)  # TO BE implemented
         self.department = EmployeeDepartmentsService(self.client)  # TO BE implemented

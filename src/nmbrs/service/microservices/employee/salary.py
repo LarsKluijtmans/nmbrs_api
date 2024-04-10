@@ -2,9 +2,12 @@
 """Microservice responsible for salary related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import Salary
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class EmployeeSalaryService(MicroService):
@@ -46,15 +49,28 @@ class EmployeeSalaryService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Salary_GetAll_AllEmployeesByCompany")
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[Salary]:
         """
         Get all salary, until current period.
 
         For more information, refer to the official documentation:
             [Salary_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Salary_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Salary]: A list of Salary objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        salaries = self.client.service.Salary_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        salaries = serialize_object(salaries)
+        _salaries = []
+        for employee in salaries:
+            for salary in employee["EmployeeSalaries"]["Salary_V2"]:
+                _salaries.append(Salary(employee_id=employee["EmployeeId"], data=salary))
+        return _salaries
 
     @nmbrs_exception_handler(resource="EmployeeService:SalaryDocuments_GetAnnualStatementPDF")
     def get_annual_pdf(self):
