@@ -1,4 +1,3 @@
-# pylint: disable=line-too-long
 """Microservice responsible for address related actions on the employee level."""
 
 from zeep import Client
@@ -64,7 +63,7 @@ class EmployeeAddressService(MicroService):
         Get all addresses of all employees.
 
         For more information, refer to the official documentation:
-            [Address_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_GetAll_AllEmployeesByCompany)
+            [Address_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_GetAll_AllEmployeesByCompany)  # pylint: disable=line-too-long
 
         Args:
             company_id (int): The ID of the company.
@@ -131,7 +130,8 @@ class EmployeeAddressService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:Address_Insert")
     def insert(self, employee_id: int, address: Address, period: int, year: int, unprotected_mode: bool) -> int:
         """
-        Insert given address to the specified period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert given address to the specified period. If the period is before the company's current period,
+        unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [Address_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_Insert)
@@ -164,7 +164,7 @@ class EmployeeAddressService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=unprotected_mode,
-            _soapheaders=self.auth_header
+            _soapheaders=self.auth_header,
         )
         return response
 
@@ -195,9 +195,5 @@ class EmployeeAddressService(MicroService):
             "CountryISOCode": address.country_iso_code,
             "Type": address.type,
         }
-        response = self.client.service.Address_InsertCurrent(
-            EmployeeId=employee_id,
-            Address=_address,
-            _soapheaders=self.auth_header
-        )
+        response = self.client.service.Address_InsertCurrent(EmployeeId=employee_id, Address=_address, _soapheaders=self.auth_header)
         return response

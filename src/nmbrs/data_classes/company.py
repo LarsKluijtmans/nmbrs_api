@@ -11,15 +11,15 @@ class Company(DataClass):
     """A class representing a company."""
 
     def __init__(self, data: dict) -> None:
-        self.id: int = data.get("ID", None)
-        self.number: int = data.get("Number", None)
-        self.name: str = data.get("Name", None)
-        self.phone_number: str = data.get("PhoneNumber", None)
-        self.fax_number: str = data.get("FaxNumber", None)
-        self.email: str = data.get("Email", None)
-        self.website: str = data.get("Website", None)
-        self.loonaangifte_tijdvak: str = data.get("LoonaangifteTijdvak", None)
-        self.kvk_number: str = data.get("KvkNr", None)
+        self.id: int = data.get("ID")
+        self.number: int = data.get("Number")
+        self.name: str = data.get("Name")
+        self.phone_number: str = data.get("PhoneNumber")
+        self.fax_number: str = data.get("FaxNumber")
+        self.email: str = data.get("Email")
+        self.website: str = data.get("Website")
+        self.loonaangifte_tijdvak: str = data.get("LoonaangifteTijdvak")
+        self.kvk_number: str = data.get("KvkNr")
 
 
 class BankAccount(DataClass):
@@ -27,14 +27,14 @@ class BankAccount(DataClass):
 
     def __init__(self, company_id: int, data: dict) -> None:
         self.company_id = company_id
-        self.id: int = data.get("Id", None)
-        self.number: str = data.get("Number", None)
-        self.description: str = data.get("Description", None)
-        self.iban: str = data.get("IBAN", None)
-        self.bic: str = data.get("BIC", None)
-        self.city: str = data.get("City", None)
-        self.name: str = data.get("Name", None)
-        self.type: str = data.get("Type", None)
+        self.id: int = data.get("Id")
+        self.number: str = data.get("Number")
+        self.description: str = data.get("Description")
+        self.iban: str = data.get("IBAN")
+        self.bic: str = data.get("BIC")
+        self.city: str = data.get("City")
+        self.name: str = data.get("Name")
+        self.type: str = data.get("Type")
 
 
 class Address(DataClass):
@@ -42,15 +42,15 @@ class Address(DataClass):
 
     def __init__(self, company_id: int, data: dict) -> None:
         self.company_id = company_id
-        self.id: int = data.get("Id", None)
-        self.default: bool = data.get("Default", None)
-        self.street: str = data.get("Street", None)
-        self.house_number: str = data.get("HouseNumber", None)
-        self.house_number_addition: str = data.get("HouseNumberAddition", None)
-        self.postal_code: str = data.get("PostalCode", None)
-        self.city: str = data.get("City", None)
-        self.state_province: str = data.get("StateProvince", None)
-        self.country_iso_code: str = data.get("CountryISOCode", None)
+        self.id: int = data.get("Id")
+        self.default: bool = data.get("Default")
+        self.street: str = data.get("Street")
+        self.house_number: str = data.get("HouseNumber")
+        self.house_number_addition: str = data.get("HouseNumberAddition")
+        self.postal_code: str = data.get("PostalCode")
+        self.city: str = data.get("City")
+        self.state_province: str = data.get("StateProvince")
+        self.country_iso_code: str = data.get("CountryISOCode")
 
 
 class LabourAgreement(DataClass):
@@ -95,18 +95,18 @@ class WageTax(DataClass):
 
     def __init__(self, company_id: int, data: dict) -> None:
         self.company_id = company_id
-        self.loonaangifte_id: int = data.get("LoonaangifteID", None)
-        self.serial_number: int = data.get("SerialNumber", None)
-        self.payment_reference: str = data.get("PaymentReference", None)
-        self.total_general: int = data.get("TotalGeneral", None)
-        self.period: int = data.get("Period", None)
-        self.year: int = data.get("Year", None)
-        self.status: str = data.get("Status", None)
-        self.sent_at: datetime = data.get("SentAt", None)
-        self.tijdvak_start: datetime = data.get("TijdvakStart", None)
-        self.tijdvak_end: datetime = data.get("TijdvakEnd", None)
-        self.correction_tijdvak_start: datetime = data.get("CorrectionTijdvakStart", None)
-        self.correction_tijdvak_end: datetime = data.get("CorrectionTijdvakEnd", None)
+        self.loonaangifte_id: int = data.get("LoonaangifteID")
+        self.serial_number: int = data.get("SerialNumber")
+        self.payment_reference: str = data.get("PaymentReference")
+        self.total_general: int = data.get("TotalGeneral")
+        self.period: int = data.get("Period")
+        self.year: int = data.get("Year")
+        self.status: str = data.get("Status")
+        self.sent_at: datetime = data.get("SentAt")
+        self.tijdvak_start: datetime = data.get("TijdvakStart")
+        self.tijdvak_end: datetime = data.get("TijdvakEnd")
+        self.correction_tijdvak_start: datetime = data.get("CorrectionTijdvakStart")
+        self.correction_tijdvak_end: datetime = data.get("CorrectionTijdvakEnd")
 
 
 class WageTaxXML(DataClass):
