@@ -1,10 +1,10 @@
-xmltodict==0.13.0
-zeep==4.2.1
+xmltodict>=0.13.0
+zeep>=4.2.1
 
-pylint==3.1.0
-pytest==8.1.1
-pytest-cov==4.1.0
-pytest-mock==3.12.0
+pylint>=3.1.0
+pytest>=8.1.1
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
 
 # Setup tools in needed for python 3.12
-setuptools==69.2.0
+setuptools>=69.2.0
