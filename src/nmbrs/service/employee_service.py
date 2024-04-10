@@ -51,8 +51,8 @@ class EmployeeService(Service):
         self.client = Client(f"{self.base_uri}{self.employee_uri}")
 
         # Micro services
-        self.absence = EmployeeAbsenceService(self.client)  # TO BE implemented
-        self.address = EmployeeAddressService(self.client)  # TO BE implemented
+        self.absence = EmployeeAbsenceService(self.client)
+        self.address = EmployeeAddressService(self.client)
         self.bank_account = EmployeeBankAccountService(self.client)  # TO BE implemented
         self.child = EmployeeChildService(self.client)  # TO BE implemented
         self.contract = EmployeeContractService(self.client)  # TO BE implemented
@@ -70,7 +70,6 @@ class EmployeeService(Service):
         self.manager = EmployeeManagerService(self.client)  # TO BE implemented
         self.partner = EmployeePartnerService(self.client)  # TO BE implemented
         self.personal_info = EmployeePersonalInfoService(self.client)
-
         self.salary = EmployeeSalaryService(self.client)  # TO BE implemented
         self.schedule = EmployeeScheduleService(self.client)  # TO BE implemented
         self.service = EmployeeServiceService(self.client)  # TO BE implemented

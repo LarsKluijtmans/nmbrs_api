@@ -10,17 +10,17 @@ class Employee(DataClass):
     """A class representing an employee."""
 
     def __init__(self, data: dict):
-        self.id: int = data.get("Id", None)
-        self.number: int = data.get("Number", None)
-        self.name: str = data.get("DisplayName", None)
+        self.id: int = data.get("Id")
+        self.number: int = data.get("Number")
+        self.name: str = data.get("DisplayName")
 
 
 class EmployeeTypes(DataClass):
     """A class representing an employee type."""
 
     def __init__(self, data: dict):
-        self.id: int = data.get("Id", None)
-        self.description: str = data.get("Description", None)
+        self.id: int = data.get("Id")
+        self.description: str = data.get("Description")
 
 
 class Period(DataClass):
@@ -39,17 +39,17 @@ class Contract(DataClass):
 
     def __init__(self, employee_id: int, data: dict):
         self.employee_id = employee_id
-        self.contract_id: int = data.get("ContractID", None)
-        self.creation_date: datetime = data.get("CreationDate", None)
-        self.start_date: datetime = data.get("StartDate", None)
-        self.trial_period: datetime = data.get("TrialPeriod", None)
-        self.end_date: datetime = data.get("EndDate", None)
-        self.employment_type: int = data.get("EmployementType", None)
-        self.employment_sequence_tax_id: int = data.get("EmploymentSequenceTaxId", None)
-        self.indefinite: bool = data.get("Indefinite", None)
-        self.phase_classification: int = data.get("PhaseClassification", None)
-        self.written_contract: bool = data.get("WrittenContract", None)
-        self.hours_per_week: Decimal = data.get("HoursPerWeek", None)
+        self.contract_id: int = data.get("ContractID")
+        self.creation_date: datetime = data.get("CreationDate")
+        self.start_date: datetime = data.get("StartDate")
+        self.trial_period: datetime = data.get("TrialPeriod")
+        self.end_date: datetime = data.get("EndDate")
+        self.employment_type: int = data.get("EmployementType")
+        self.employment_sequence_tax_id: int = data.get("EmploymentSequenceTaxId")
+        self.indefinite: bool = data.get("Indefinite")
+        self.phase_classification: int = data.get("PhaseClassification")
+        self.written_contract: bool = data.get("WrittenContract")
+        self.hours_per_week: Decimal = data.get("HoursPerWeek")
 
 
 class Schedule(DataClass):
@@ -168,3 +168,20 @@ class AbsenceCause(DataClass):
             return
         self.id: int = data.get("CauseId")
         self.cause: str = data.get("Cause")
+
+
+class Address(DataClass):
+    """A class representing an address"""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id: int = employee_id
+        self.id: int = data.get("Id")
+        self.default: bool = data.get("Default")
+        self.street: str = data.get("Street")
+        self.house_number: str = data.get("HouseNumber")
+        self.house_number_addition: str = data.get("HouseNumberAddition")
+        self.postcode: str = data.get("PostalCode")
+        self.city: str = data.get("City")
+        self.state_province: str = data.get("StateProvince")
+        self.country_iso_code: str = data.get("CountryISOCode")
+        self.type: str = data.get("Type")

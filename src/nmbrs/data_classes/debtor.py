@@ -10,18 +10,18 @@ class Domain(DataClass):
     """A class representing domain."""
 
     def __init__(self, data: dict) -> None:
-        self.domain: int = data.get("Domain", None)
-        self.sub_domain: int = data.get("SubDomain", None)
+        self.domain: int = data.get("Domain")
+        self.sub_domain: int = data.get("SubDomain")
 
 
 class AbsenceVerzuim(DataClass):
     """A class representing absence data."""
 
     def __init__(self, data: dict) -> None:
-        self.debtor_id: int = data.get("DebtorID", None)
-        self.company_id: int = data.get("CompanyID", None)
-        self.employee_id: int = data.get("EmployeeID", None)
-        self.xml: str = data.get("XML", None)
+        self.debtor_id: int = data.get("DebtorID")
+        self.company_id: int = data.get("CompanyID")
+        self.employee_id: int = data.get("EmployeeID")
+        self.xml: str = data.get("XML")
 
     def to_dict(self) -> dict:
         """
@@ -42,15 +42,15 @@ class Address(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.id: int = data.get("Id", None)
-        self.default: bool = data.get("Default", None)
-        self.street: str = data.get("Street", None)
-        self.house_number: str = data.get("HouseNumber", None)
-        self.house_number_addition: str = data.get("HouseNumberAddition", None)
-        self.postal_code: str = data.get("PostalCode", None)
-        self.city: str = data.get("City", None)
-        self.state_province: str = data.get("StateProvince", None)
-        self.country_iso_code: str = data.get("CountryISOCode", None)
+        self.id: int = data.get("Id")
+        self.default: bool = data.get("Default")
+        self.street: str = data.get("Street")
+        self.house_number: str = data.get("HouseNumber")
+        self.house_number_addition: str = data.get("HouseNumberAddition")
+        self.postal_code: str = data.get("PostalCode")
+        self.city: str = data.get("City")
+        self.state_province: str = data.get("StateProvince")
+        self.country_iso_code: str = data.get("CountryISOCode")
 
 
 class BankAccount(DataClass):
@@ -58,14 +58,14 @@ class BankAccount(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.id: int = data.get("Id", None)
-        self.number: str = data.get("Number", None)
-        self.description: str = data.get("Description", None)
-        self.iban: str = data.get("IBAN", None)
-        self.bic: str = data.get("BIC", None)
-        self.city: str = data.get("City", None)
-        self.name: str = data.get("Name", None)
-        self.type: str = data.get("Type", None)
+        self.id: int = data.get("Id")
+        self.number: str = data.get("Number")
+        self.description: str = data.get("Description")
+        self.iban: str = data.get("IBAN")
+        self.bic: str = data.get("BIC")
+        self.city: str = data.get("City")
+        self.name: str = data.get("Name")
+        self.type: str = data.get("Type")
 
 
 class ContactInfo(DataClass):
@@ -73,18 +73,18 @@ class ContactInfo(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.email: str = data.get("Email", None)
-        self.name: str = data.get("Name", None)
-        self.phone: str = data.get("Phone", None)
+        self.email: str = data.get("Email")
+        self.name: str = data.get("Name")
+        self.phone: str = data.get("Phone")
 
 
 class Debtor(DataClass):
     """A class representing a debtor."""
 
     def __init__(self, data: dict) -> None:
-        self.id: int = data.get("Id", None)
-        self.number: str = data.get("Number", None)
-        self.name: str = data.get("Name", None)
+        self.id: int = data.get("Id")
+        self.number: str = data.get("Number")
+        self.name: str = data.get("Name")
 
 
 class Department(DataClass):
@@ -92,9 +92,9 @@ class Department(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.id: int = data.get("Id", None)
-        self.code: int = data.get("Code", None)
-        self.description: str = data.get("Description", None)
+        self.id: int = data.get("Id")
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
 
 
 class Function(DataClass):
@@ -102,9 +102,9 @@ class Function(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.id: int = data.get("Id", None)
-        self.code: int = data.get("Code", None)
-        self.description: str = data.get("Description", None)
+        self.id: int = data.get("Id")
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
 
 
 class LabourAgreementSettings(DataClass):
@@ -112,11 +112,11 @@ class LabourAgreementSettings(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.id: int = data.get("Id", None)
-        self.guid: str = data.get("Guid", None)
-        self.int_number: int = data.get("IntNumber", None)
-        self.str_name: str = data.get("StrName", None)
-        self.debtor_id: int = data.get("IntDebiteurID", None)
+        self.id: int = data.get("Id")
+        self.guid: str = data.get("Guid")
+        self.int_number: int = data.get("IntNumber")
+        self.str_name: str = data.get("StrName")
+        self.debtor_id: int = data.get("IntDebiteurID")
 
 
 class Manager(DataClass):
@@ -124,15 +124,15 @@ class Manager(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.number: int = data.get("Number", None)
-        self.first_name: str = data.get("FirstName", None)
-        self.name: str = data.get("Name", None)
-        self.department: str = data.get("Department", None)
-        self.function: str = data.get("Function", None)
-        self.phone_number: str = data.get("PhoneNumber", None)
-        self.mobile: str = data.get("Mobile", None)
-        self.fax: str = data.get("Fax", None)
-        self.email: str = data.get("Email", None)
+        self.number: int = data.get("Number")
+        self.first_name: str = data.get("FirstName")
+        self.name: str = data.get("Name")
+        self.department: str = data.get("Department")
+        self.function: str = data.get("Function")
+        self.phone_number: str = data.get("PhoneNumber")
+        self.mobile: str = data.get("Mobile")
+        self.fax: str = data.get("Fax")
+        self.email: str = data.get("Email")
 
 
 class ServiceLevel(DataClass):
@@ -140,10 +140,10 @@ class ServiceLevel(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.start_period: int = data.get("StartPeriod", None)
-        self.start_year: int = data.get("StartYear", None)
-        self.service_level: str = data.get("ServiceLevel", None)
-        self.start_contract: datetime = data.get("StartContract", None)
+        self.start_period: int = data.get("StartPeriod")
+        self.start_year: int = data.get("StartYear")
+        self.service_level: str = data.get("ServiceLevel")
+        self.start_contract: datetime = data.get("StartContract")
 
 
 class Tag(DataClass):
@@ -151,18 +151,18 @@ class Tag(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.number: int = data.get("Number", None)
-        self.hex_color: str = data.get("HexColor", None)
-        self.tag: str = data.get("Tag", None)
+        self.number: int = data.get("Number")
+        self.hex_color: str = data.get("HexColor")
+        self.tag: str = data.get("Tag")
 
 
 class Event(DataClass):
     """A class representing an event."""
 
     def __init__(self, data: dict) -> None:
-        self.event_id: int = data.get("EventId", None)
-        self.event_name: str = data.get("EventName", None)
-        self.active: bool = data.get("Active", None)
+        self.event_id: int = data.get("EventId")
+        self.event_name: str = data.get("EventName")
+        self.active: bool = data.get("Active")
 
     def to_insert_dict(self) -> dict:
         """
@@ -181,10 +181,10 @@ class WebhookSetting(DataClass):
 
     def __init__(self, debtor_id: int, data: dict) -> None:
         self.debtor_id = debtor_id
-        self.webhook_setting_id: int = data.get("WebhookSettingId", None)
-        self.name: str = data.get("Name", None)
-        self.endpoint: str = data.get("Endpoint", None)
-        self.active: bool = data.get("Active", None)
+        self.webhook_setting_id: int = data.get("WebhookSettingId")
+        self.name: str = data.get("Name")
+        self.endpoint: str = data.get("Endpoint")
+        self.active: bool = data.get("Active")
         events_data = data.get("Event", [])
         if not isinstance(events_data, list):
             events_data = [events_data]
