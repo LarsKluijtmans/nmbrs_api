@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """Microservice responsible for address related actions on the employee level."""
 
 from zeep import Client
@@ -26,6 +27,14 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_GetList](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_GetList)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            list[Address]: A list of Address objects representing the addresses.
         """
         addresses = self.client.service.Address_GetList(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
         return [Address(employee_id=employee_id, data=absence) for absence in serialize_object(addresses)]
@@ -38,6 +47,12 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_GetListCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_GetListCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            list[Address]: A list of Address objects representing the addresses.
         """
         addresses = self.client.service.Address_GetListCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
         return [Address(employee_id=employee_id, data=absence) for absence in serialize_object(addresses)]
@@ -50,6 +65,12 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Address]: A list of Address objects representing the addresses.
         """
         addresses = self.client.service.Address_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
 
@@ -66,6 +87,13 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_Delete](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_Delete)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            address_id (int): The ID of the address.
+
+        Returns:
+            bool: A boolean indicating the success of the operation.
         """
         response = self.client.service.Address_Delete(EmployeeId=employee_id, AddressID=address_id, _soapheaders=self.auth_header)
         return response
@@ -77,6 +105,13 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_Update](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_Update)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            address (Address): The Address object to update.
+
+        Returns:
+            bool: A boolean indicating the success of the operation.
         """
         _address = {
             "Id": address.id,
@@ -100,6 +135,16 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_Insert)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            address (Address): The Address object to insert.
+            period (int): The period.
+            year (int): The year.
+            unprotected_mode (bool): Flag indicating whether unprotected mode is enabled.
+
+        Returns:
+            int: The response indicating the success of the operation.
         """
         _address = {
             "Id": address.id,
@@ -130,6 +175,13 @@ class EmployeeAddressService(MicroService):
 
         For more information, refer to the official documentation:
             [Address_InsertCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Address_InsertCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            address (Address): The Address object to insert.
+
+        Returns:
+            int: The response indicating the success of the operation.
         """
         _address = {
             "Id": address.id,
