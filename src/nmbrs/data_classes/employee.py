@@ -201,7 +201,6 @@ class BankAccount(DataClass):
         self.name: str = data.get("Name")
         self.type: str = data.get("Type")
 
-
 class Child(DataClass):
     """A class representing a child."""
 
@@ -213,3 +212,4 @@ class Child(DataClass):
         self.initials: str = data.get("Initials")
         self.gender: str = data.get("Gender")
         self.birthday: datetime = data.get("Birthday")
+
