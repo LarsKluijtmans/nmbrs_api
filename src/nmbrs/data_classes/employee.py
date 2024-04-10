@@ -185,3 +185,18 @@ class Address(DataClass):
         self.state_province: str = data.get("StateProvince")
         self.country_iso_code: str = data.get("CountryISOCode")
         self.type: str = data.get("Type")
+
+
+class BankAccount(DataClass):
+    """A class representing a bank account."""
+
+    def __init__(self, employee_id: int, data: dict) -> None:
+        self.employee_id = employee_id
+        self.id: int = data.get("Id")
+        self.number: str = data.get("Number")
+        self.description: str = data.get("Description")
+        self.iban: str = data.get("IBAN")
+        self.bic: str = data.get("BIC")
+        self.city: str = data.get("City")
+        self.name: str = data.get("Name")
+        self.type: str = data.get("Type")

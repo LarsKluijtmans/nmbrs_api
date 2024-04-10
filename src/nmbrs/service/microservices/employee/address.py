@@ -36,7 +36,7 @@ class EmployeeAddressService(MicroService):
             list[Address]: A list of Address objects representing the addresses.
         """
         addresses = self.client.service.Address_GetList(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
-        return [Address(employee_id=employee_id, data=absence) for absence in serialize_object(addresses)]
+        return [Address(employee_id=employee_id, data=address) for address in serialize_object(addresses)]
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Address_GetListCurrent")
@@ -54,7 +54,7 @@ class EmployeeAddressService(MicroService):
             list[Address]: A list of Address objects representing the addresses.
         """
         addresses = self.client.service.Address_GetListCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
-        return [Address(employee_id=employee_id, data=absence) for absence in serialize_object(addresses)]
+        return [Address(employee_id=employee_id, data=address) for address in serialize_object(addresses)]
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Address_GetAll_AllEmployeesByCompany")
