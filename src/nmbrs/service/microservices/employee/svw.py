@@ -1,9 +1,12 @@
 """Microservice responsible for svw related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import SVW
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class EmployeeSvwService(MicroService):
@@ -45,15 +48,28 @@ class EmployeeSvwService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:SVW_GetAll_AllEmployeesByCompany")
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[SVW]:
         """
         Get all (historical) svw setting records for all employees that belong to the company.
 
         For more information, refer to the official documentation:
             [SVW_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=SVW_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[SVW]: A list of SVW objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        svws = self.client.service.SVW_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        svws = serialize_object(svws)
+        _svw = []
+        for employee in svws:
+            for svw in employee["EmployeeSVWSettings"]["EmployeeSVWSettings"]:
+                _svw.append(SVW(employee_id=employee["EmployeeId"], data=svw))
+        return _svw
 
     @nmbrs_exception_handler(resource="EmployeeService:SVW_Update")
     def update(self):

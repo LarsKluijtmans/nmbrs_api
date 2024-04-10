@@ -1,9 +1,12 @@
 """Microservice responsible for lease car related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import LeaseCar
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class EmployeeLeaseCarService(MicroService):
@@ -45,15 +48,32 @@ class EmployeeLeaseCarService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_GetAll_EmployeesByCompany")
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int, period: int, year: int) -> list[LeaseCar]:
         """
         Get lease car contract list for all employee in company, until given period.
 
         For more information, refer to the official documentation:
             [LeaseCar_GetAll_EmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=LeaseCar_GetAll_EmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            list[LeaseCar]: a list of LeaseCar objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        lease_cars = self.client.service.LeaseCar_GetAll_EmployeesByCompany(
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+        )
+        lease_cars = serialize_object(lease_cars)
+        _lease_cars = []
+        for employee in lease_cars:
+            for department in employee["LeaseCars"]["EmployeeLeaseCar"]:
+                _lease_cars.append(LeaseCar(employee_id=employee["EmployeeId"], data=department))
+        return _lease_cars
 
     @nmbrs_exception_handler(resource="EmployeeService:LeaseCar2_GetAll_EmployeesByCompany")
     def get_all_by_company_2(self):

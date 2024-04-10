@@ -1,9 +1,12 @@
 # pylint: disable=line-too-long
 """Microservice responsible for partner related actions on the employee level."""
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
+from ....data_classes.employee import Partner
 
 
 class EmployeePartnerService(MicroService):
@@ -25,15 +28,27 @@ class EmployeePartnerService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Partner_GetAll_AllEmployeesByCompany")
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[Partner]:
         """
         Get employee partner.
 
         For more information, refer to the official documentation:
             [Partner_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Partner_GetAll_AllEmployeesByCompany)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Partner]: A list of Partner objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        partners = self.client.service.Partner_GetAll_AllEmployeesByCompany(CompanyId=company_id, _soapheaders=self.auth_header)
+        partners = serialize_object(partners)
+        _partners = []
+        for employee in partners:
+            _partners.append(Partner(employee_id=employee["EmployeeId"], data=employee["Partner"]))
+        return _partners
 
     @nmbrs_exception_handler(resource="EmployeeService:Partner_Update")
     def update(self):

@@ -2,9 +2,12 @@
 """Microservice responsible for function related actions on the employee level."""
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....data_classes.employee import Function
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+from ....utils.return_list import return_list
 
 
 class EmployeeFunctionService(MicroService):
@@ -36,15 +39,29 @@ class EmployeeFunctionService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Function_GetAll_AllEmployeesByCompany_V2")
-    def get_all_by_company(self):
+    def get_all_by_company(self, company_id: int) -> list[Function]:
         """
         Get all Function history of all employees.
 
         For more information, refer to the official documentation:
             [Function_GetAll_AllEmployeesByCompany_V2](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Function_GetAll_AllEmployeesByCompany_V2)
+
+        Args:
+            company_id (int): The ID of the company.
+
+        Returns:
+            list[Function]: a list of Function objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        functions = self.client.service.Function_GetAll_AllEmployeesByCompany_V2(CompanyID=company_id, _soapheaders=self.auth_header)
+        functions = serialize_object(functions)
+
+        _functions = []
+        for employee in functions:
+            for function in employee["EmployeeFunctions"]["EmployeeFunction"]:
+                _functions.append(Function(employee_id=employee["EmployeeId"], data=function))
+        return _functions
 
     @nmbrs_exception_handler(resource="EmployeeService:Function_Update")
     def update(self):
