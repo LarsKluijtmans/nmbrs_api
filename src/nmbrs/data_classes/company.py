@@ -216,7 +216,7 @@ class RunRequest(DataClass):
     """A class representing a run request."""
 
     def __init__(self, company_id: int, data: dict) -> None:
-        self.company_id: company_id
+        self.company_id = company_id
         self.period: int = data.get("Period")
         self.year: int = data.get("Year")
         self.status: str = data.get("Status")
