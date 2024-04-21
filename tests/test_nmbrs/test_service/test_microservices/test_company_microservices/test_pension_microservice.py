@@ -40,7 +40,7 @@ class TestCompanyPensionService(unittest.TestCase):
             },
         ]
         self.client.service.PensionExport_GetList.return_value = mock_pensions
-        result = self.pension_service.get(1)
+        result = self.pension_service.get(1, 2024)
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], Pension)
         self.assertEqual(result[0].pension_export_id, 1)
@@ -51,7 +51,7 @@ class TestCompanyPensionService(unittest.TestCase):
         self.assertEqual(result[0].send_at, datetime(2024, 1, 1))
         self.assertEqual(result[0].correctie_tijdvak_start, datetime(2024, 2, 2))
         self.assertEqual(result[0].correctie_tijdvak_end, datetime(2024, 3, 3))
-        self.client.service.PensionExport_GetList.assert_called_once_with(CompanyId=1, _soapheaders=self.mock_auth_header)
+        self.client.service.PensionExport_GetList.assert_called_once_with(CompanyId=1, intYear=2024, _soapheaders=self.mock_auth_header)
 
     def test_get_xml_pension(self):
         """Test retrieving XML pension export associated with a company."""
