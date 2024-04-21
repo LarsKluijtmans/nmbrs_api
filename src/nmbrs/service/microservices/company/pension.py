@@ -20,7 +20,7 @@ class CompanyPensionService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetList")
-    def get(self, company_id: int) -> list[Pension]:
+    def get(self, company_id: int, year: int) -> list[Pension]:
         """
         Returns pension exports that belong to a company for a certain year.
 
@@ -29,11 +29,12 @@ class CompanyPensionService(MicroService):
 
         Args:
             company_id (int): The ID of the company.
+            year (int): The year to retrieve the pension information for.
 
         Returns:
             list[Pension]: A list of pension objects.
         """
-        pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
+        pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_header)
         return [Pension(company_id=company_id, data=pension) for pension in serialize_object(pensions)]
 
     @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetXML")
