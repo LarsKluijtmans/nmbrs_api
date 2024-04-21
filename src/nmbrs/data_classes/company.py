@@ -235,7 +235,7 @@ class RunInfo(DataClass):
         self.period_end: int = data.get("PeriodEnd")
         self.description: int = data.get("Description")
         self.run_at: datetime = data.get("RunAt")
-        self.locked: datetime = data.get("IsLocked")
+        self.locked: bool = data.get("IsLocked")
 
 
 class SalaryTable(DataClass):
