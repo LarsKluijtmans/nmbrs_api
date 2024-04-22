@@ -18,14 +18,23 @@ class EmployeeManagerService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="EmployeeService:Manager_Get")
-    def get(self):
+    def get(self, employee_id: int, period: int, year: int) -> Manager:
         """
         Get the manager of an employee to the specified period.
 
         For more information, refer to the official documentation:
             [Manager_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Manager_Get)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            Manager: The Manager objects representing the manager of the employee.
         """
-        raise NotImplementedError()  # pragma: no cover
+        manager = self.client.service.Manager_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        return Manager(employee_id=employee_id, data=serialize_object(manager))
 
     @nmbrs_exception_handler(resource="EmployeeService:Manager_GetCurrent")
     def get_current(self, employee_id: int) -> Manager:
