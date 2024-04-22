@@ -67,7 +67,7 @@ class EmployeeService(Service):
         self.lease_car = EmployeeLeaseCarService(self.client)  # TO BE implemented
         self.leave = EmployeeLeaveService(self.client)  # TO BE implemented
         self.levensloop = EmployeeLevensLoopService(self.client)  # TO BE implemented
-        self.manager = EmployeeManagerService(self.client)  # TO BE implemented
+        self.manager = EmployeeManagerService(self.client)
         self.partner = EmployeePartnerService(self.client)  # TO BE implemented
         self.personal_info = EmployeePersonalInfoService(self.client)
         self.salary = EmployeeSalaryService(self.client)  # TO BE implemented
