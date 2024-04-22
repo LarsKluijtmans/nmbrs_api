@@ -5,7 +5,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
-from ....data_classes.employee import Function
+from ....data_classes.employee import Function, FunctionAll
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
 
@@ -30,18 +30,25 @@ class EmployeeFunctionService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Function_GetCurrent")
-    def get_current(self):
+    def get_current(self, employee_id: int) -> Function:
         """
         Get the currently active function.
 
         For more information, refer to the official documentation:
             [Function_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Function_GetCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            Function: The Function objects representing the function of the employee.
         """
-        raise NotImplementedError()  # pragma: no cover
+        function = self.client.service.Function_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        return Function(employee_id=employee_id, data=serialize_object(function))
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Function_GetAll_AllEmployeesByCompany_V2")
-    def get_all_by_company(self, company_id: int) -> list[Function]:
+    def get_all_by_company(self, company_id: int) -> list[FunctionAll]:
         """
         Get all Function history of all employees.
 
@@ -52,7 +59,7 @@ class EmployeeFunctionService(MicroService):
             company_id (int): The ID of the company.
 
         Returns:
-            list[Function]: a list of Function objects
+            list[FunctionAll]: a list of Function objects
         """
         functions = self.client.service.Function_GetAll_AllEmployeesByCompany_V2(CompanyID=company_id, _soapheaders=self.auth_header)
         functions = serialize_object(functions)
@@ -60,7 +67,7 @@ class EmployeeFunctionService(MicroService):
         _functions = []
         for employee in functions:
             for function in employee["EmployeeFunctions"]["EmployeeFunction"]:
-                _functions.append(Function(employee_id=employee["EmployeeId"], data=function))
+                _functions.append(FunctionAll(employee_id=employee["EmployeeId"], data=function))
         return _functions
 
     @nmbrs_exception_handler(resource="EmployeeService:Function_Update")
