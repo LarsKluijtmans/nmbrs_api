@@ -14,7 +14,6 @@ class TestEmployeeManagerService(unittest.TestCase):
         self.mock_auth_header = Mock()
         self.manager_service.set_auth_header(self.mock_auth_header)
 
-
     def test_get_current(self):
         """Test getting the current manager of an employee."""
         employee_id = 123
@@ -47,6 +46,4 @@ class TestEmployeeManagerService(unittest.TestCase):
         self.assertEqual(result.email, expected_manager.email)
         # Assert other fields as needed
 
-        self.client.service.Manager_GetCurrent.assert_called_once_with(
-            EmployeeId=employee_id, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.Manager_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)

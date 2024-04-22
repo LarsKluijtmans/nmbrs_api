@@ -95,6 +95,4 @@ class TestEmployeeFunctionService(unittest.TestCase):
         self.assertEqual(result.description, "Description of Test Function")
         # Assert other fields as needed
 
-        self.client.service.Function_GetCurrent.assert_called_once_with(
-            EmployeeId=employee_id, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.Function_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)

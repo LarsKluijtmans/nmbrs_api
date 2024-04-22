@@ -90,6 +90,4 @@ class TestEmployeeDepartmentsService(unittest.TestCase):
         self.assertEqual(result.code, 333)
         self.assertEqual(result.description, "Human Resources")
 
-        self.client.service.Department_GetCurrent.assert_called_once_with(
-            EmployeeId=employee_id, _soapheaders=self.mock_auth_header
-        )
+        self.client.service.Department_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
