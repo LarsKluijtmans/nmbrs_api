@@ -14,31 +14,92 @@ class TestEmployeeCostCenterService(unittest.TestCase):
         self.mock_auth_header = Mock()
         self.cost_center_service.set_auth_header(self.mock_auth_header)
 
-    def test_get_all_by_company(self):
-        """Test getting all cost centers for all employees in a company."""
-        company_id = 123
+    def test_get(self):
+        """Test getting cost centers for a specific employee."""
+        employee_id = 123
         period = 1
         year = 2024
-        self.client.service.CostCenter_GetAllEmployeesByCompany.return_value = [
-            {"EmployeeId": 1, "CostCenters": {"EmployeeCostCenter": [{"Id": 1, "Code": "CC1", "Description": "Cost Center 1"}]}},
-            {"EmployeeId": 2, "CostCenters": {"EmployeeCostCenter": [{"Id": 2, "Code": "CC2", "Description": "Cost Center 2"}]}},
+        mock_cost_centers = [
+            {"Id": 1, "Code": "CC1", "Description": "Cost Center 1"},
+            {"Id": 2, "Code": "CC2", "Description": "Cost Center 2"},
         ]
+        self.client.service.CostCenter_Get.return_value = mock_cost_centers
+
+        result = self.cost_center_service.get(employee_id, period, year)
+
+        expected_cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in mock_cost_centers]
+        self.assertEqual(result, expected_cost_centers)
+
+        self.client.service.CostCenter_Get.assert_called_once_with(
+            EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.mock_auth_header
+        )
+
+    def test_get_current(self):
+        """Test getting current cost centers for a specific employee."""
+        employee_id = 123
+        mock_cost_centers = [
+            {"Id": 1, "Code": "CC1", "Description": "Cost Center 1"},
+            {"Id": 2, "Code": "CC2", "Description": "Cost Center 2"},
+        ]
+        self.client.service.CostCenter_GetCurrent.return_value = mock_cost_centers
+
+        result = self.cost_center_service.get_current(employee_id)
+
+        expected_cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in mock_cost_centers]
+        self.assertEqual(result, expected_cost_centers)
+
+        self.client.service.CostCenter_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
+
+    def test_get_all_by_company(self):
+        """Test getting all cost centers for all employees of a company."""
+        company_id = 456
+        period = 1
+        year = 2024
+        mock_cost_centers = [
+            {"EmployeeId": 123, "CostCenters": {"EmployeeCostCenter": [{"Id": 1, "Code": "CC1", "Description": "Cost Center 1"}]}},
+            {"EmployeeId": 456, "CostCenters": {"EmployeeCostCenter": [{"Id": 2, "Code": "CC2", "Description": "Cost Center 2"}]}},
+        ]
+        self.client.service.CostCenter_GetAllEmployeesByCompany.return_value = mock_cost_centers
 
         result = self.cost_center_service.get_all_by_company(company_id, period, year)
 
-        self.assertEqual(len(result), 2)
-        for item in result:
-            self.assertIsInstance(item, CostCenter)
-        self.assertEqual(result[0].employee_id, 1)
-        self.assertEqual(result[0].id, 1)
-        self.assertEqual(result[0].code, "CC1")
-        self.assertEqual(result[0].description, "Cost Center 1")
-
-        self.assertEqual(result[1].employee_id, 2)
-        self.assertEqual(result[1].id, 2)
-        self.assertEqual(result[1].code, "CC2")
-        self.assertEqual(result[1].description, "Cost Center 2")
+        expected_cost_centers = [
+            CostCenter(employee_id=123, data=mock_cost_centers[0]["CostCenters"]["EmployeeCostCenter"][0]),
+            CostCenter(employee_id=456, data=mock_cost_centers[1]["CostCenters"]["EmployeeCostCenter"][0]),
+        ]
+        self.assertEqual(result, expected_cost_centers)
 
         self.client.service.CostCenter_GetAllEmployeesByCompany.assert_called_once_with(
             CompanyId=company_id, Period=period, Year=year, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_with_no_data(self):
+        """Test getting cost centers when no data is returned."""
+        employee_id = 123
+        period = 1
+        year = 2024
+        self.client.service.CostCenter_Get.return_value = []
+
+        result = self.cost_center_service.get(employee_id, period, year)
+
+        self.assertEqual(result, [])
+
+    def test_get_current_with_no_data(self):
+        """Test getting current cost centers when no data is returned."""
+        employee_id = 123
+        self.client.service.CostCenter_GetCurrent.return_value = []
+
+        result = self.cost_center_service.get_current(employee_id)
+
+        self.assertEqual(result, [])
+
+    def test_get_all_by_company_with_no_data(self):
+        """Test getting all cost centers for all employees of a company when no data is returned."""
+        company_id = 456
+        period = 1
+        year = 2024
+        self.client.service.CostCenter_GetAllEmployeesByCompany.return_value = []
+
+        result = self.cost_center_service.get_all_by_company(company_id, period, year)
+
+        self.assertEqual(result, [])

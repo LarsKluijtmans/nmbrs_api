@@ -19,24 +19,42 @@ class EmployeeCostCenterService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="EmployeeService:CostCenter_Get")
-    def get(self):
+    def get(self, employee_id: int, period: int, year: int) -> list[CostCenter]:
         """
         Get all cost center per employee.
 
         For more information, refer to the official documentation:
             [CostCenter_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=CostCenter_Get)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            list[CostCenter]: a list of CostCenter objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        cost_centers = self.client.service.CostCenter_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
+        return cost_centers
 
     @nmbrs_exception_handler(resource="EmployeeService:CostCenter_GetCurrent")
-    def get_current(self):
+    def get_current(self, employee_id: int) -> list[CostCenter]:
         """
         Get all active cost centers of a specific employee on the current period.
 
         For more information, refer to the official documentation:
             [CostCenter_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=CostCenter_GetCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            list[CostCenter]: a list of CostCenter objects
         """
-        raise NotImplementedError()  # pragma: no cover
+        cost_centers = self.client.service.CostCenter_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
+        return cost_centers
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:CostCenter_GetAllEmployeesByCompany")
