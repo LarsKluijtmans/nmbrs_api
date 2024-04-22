@@ -3,7 +3,9 @@
 import unittest
 from unittest.mock import Mock
 from datetime import datetime
-from src.nmbrs.service.microservices.employee.function import EmployeeFunctionService, Function
+
+from src.nmbrs.data_classes.employee import FunctionAll, Function
+from src.nmbrs.service.microservices.employee.function import EmployeeFunctionService
 
 
 class TestEmployeeFunctionService(unittest.TestCase):
@@ -54,7 +56,7 @@ class TestEmployeeFunctionService(unittest.TestCase):
         self.assertEqual(len(result), 2)
 
         for item in result:
-            self.assertIsInstance(item, Function)
+            self.assertIsInstance(item, FunctionAll)
 
         self.assertEqual(result[0].employee_id, 1)
         self.assertEqual(result[0].record_id, 1)
@@ -73,3 +75,24 @@ class TestEmployeeFunctionService(unittest.TestCase):
         self.client.service.Function_GetAll_AllEmployeesByCompany_V2.assert_called_once_with(
             CompanyID=company_id, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_current(self):
+        """Test getting the currently active function for an employee."""
+        employee_id = 123
+        mock_function = {
+            "Id": 1,
+            "Code": 123,
+            "Description": "Description of Test Function",
+        }
+        self.client.service.Function_GetCurrent.return_value = mock_function
+
+        result = self.function_service.get_current(employee_id)
+
+        self.assertEqual(result.employee_id, employee_id)
+        self.assertIsInstance(result, Function)
+        self.assertEqual(result.id, 1)
+        self.assertEqual(result.code, 123)
+        self.assertEqual(result.description, "Description of Test Function")
+        # Assert other fields as needed
+
+        self.client.service.Function_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)

@@ -3,7 +3,9 @@
 import unittest
 from unittest.mock import Mock
 from datetime import datetime
-from src.nmbrs.service.microservices.employee.department import EmployeeDepartmentsService, Department
+
+from src.nmbrs.data_classes.employee import DepartmentAll, Department
+from src.nmbrs.service.microservices.employee.department import EmployeeDepartmentsService
 
 
 class TestEmployeeDepartmentsService(unittest.TestCase):
@@ -55,7 +57,7 @@ class TestEmployeeDepartmentsService(unittest.TestCase):
 
         self.assertEqual(len(result), 2)
         for item in result:
-            self.assertIsInstance(item, Department)
+            self.assertIsInstance(item, DepartmentAll)
         self.assertEqual(result[0].employee_id, 1)
         self.assertEqual(result[0].id, 1)
         self.assertEqual(result[0].code, "Dept1")
@@ -69,3 +71,23 @@ class TestEmployeeDepartmentsService(unittest.TestCase):
         self.client.service.Department_GetAll_AllEmployeesByCompany.assert_called_once_with(
             CompanyID=company_id, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_current(self):
+        """Test getting the current department of an employee."""
+        employee_id = 123
+        mock_department_data = {
+            "Id": 1,
+            "Code": 333,
+            "Description": "Human Resources",
+        }
+        self.client.service.Department_GetCurrent.return_value = mock_department_data
+
+        result = self.departments_service.get_current(employee_id)
+
+        self.assertIsInstance(result, Department)
+        self.assertEqual(result.employee_id, 123)
+        self.assertEqual(result.id, 1)
+        self.assertEqual(result.code, 333)
+        self.assertEqual(result.description, "Human Resources")
+
+        self.client.service.Department_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)

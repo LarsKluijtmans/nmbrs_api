@@ -225,7 +225,7 @@ class CostCenter(DataClass):
         self.description: str = data.get("Description")
 
 
-class Department(DataClass):
+class DepartmentAll(DataClass):
     """A class representing a department."""
 
     def __init__(self, employee_id: int, data: dict):
@@ -236,6 +236,16 @@ class Department(DataClass):
         self.creation_date = data.get("CreationDate")
         self.start_period = data.get("StartPeriod")
         self.start_year = data.get("StartYear")
+
+
+class Department(DataClass):
+    """A class representing a department."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.id = data.get("Id")
+        self.code = data.get("Code")
+        self.description = data.get("Description")
 
 
 class Employment(DataClass):
@@ -250,7 +260,7 @@ class Employment(DataClass):
         self.initial_start_date: datetime = data.get("InitialStartDate")
 
 
-class Function(DataClass):
+class FunctionAll(DataClass):
     """A class representing a functions."""
 
     def __init__(self, employee_id: int, data: dict):
@@ -260,6 +270,32 @@ class Function(DataClass):
         self.creation_date: datetime = data.get("CreationDate")
         self.start_period: datetime = data.get("StartPeriod")
         self.start_year: datetime = data.get("StartYear")
+
+
+class Function(DataClass):
+    """A class representing a functions."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.id: int = data.get("Id")
+        self.code: int = data.get("Code")
+        self.description: str = data.get("Description")
+
+
+class Manager(DataClass):
+    """A class representing a manager."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.number: int = data.get("Number")
+        self.first_name: str = data.get("FirstName")
+        self.name: str = data.get("Name")
+        self.department: str = data.get("Department")
+        self.function: str = data.get("Function")
+        self.phone_number: str = data.get("PhoneNumber")
+        self.mobile: str = data.get("Mobile")
+        self.fax: str = data.get("Fax")
+        self.email: str = data.get("Email")
 
 
 class LeaseCar(DataClass):
