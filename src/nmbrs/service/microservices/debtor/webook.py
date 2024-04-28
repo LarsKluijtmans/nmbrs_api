@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....auth.token_manager import AuthManager
 from ....data_classes.debtor import WebhookSetting, Event
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class DebtorWebHooksService(MicroService):
     """Microservice responsible for webhooks related actions on the debtor level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="DebtorService:WebhookSettings_Delete")
     def delete(self, debtor_id: int, webhook_id: int) -> bool:
@@ -36,7 +34,7 @@ class DebtorWebHooksService(MicroService):
         deleted = self.client.service.WebhookSettings_Delete(
             DebtorId=debtor_id,
             WebhookSettingId=webhook_id,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return deleted
 
@@ -55,7 +53,7 @@ class DebtorWebHooksService(MicroService):
         Returns:
             list[WebhookSetting]: A list of WebhookSetting objects representing all webhooks associated with the debtor.
         """
-        webhooks = self.client.service.WebhookSettings_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        webhooks = self.client.service.WebhookSettings_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         webhooks = [WebhookSetting(debtor_id=debtor_id, data=webhook) for webhook in serialize_object(webhooks)]
         return webhooks
 
@@ -71,7 +69,7 @@ class DebtorWebHooksService(MicroService):
         Returns:
             list[Event]: A list of Event objects representing all webhook events.
         """
-        events = self.client.service.WebhookSettings_GetEvents(_soapheaders=self.auth_header)
+        events = self.client.service.WebhookSettings_GetEvents(_soapheaders=self.auth_manager.header)
         events = [Event(event) for event in serialize_object(events)]
         return events
 
@@ -94,5 +92,5 @@ class DebtorWebHooksService(MicroService):
             "DebtorId": debtor_id,
             "WebhookSetting": insert_webhook_settings.to_insert_dict(),
         }
-        inserted = self.client.service.WebhookSettings_Insert(**data, _soapheaders=self.auth_header)
+        inserted = self.client.service.WebhookSettings_Insert(**data, _soapheaders=self.auth_manager.header)
         return inserted

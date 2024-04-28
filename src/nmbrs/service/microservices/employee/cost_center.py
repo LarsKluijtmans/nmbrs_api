@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import CostCenter
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeeCostCenterService(MicroService):
     """Microservice responsible for cost center related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:CostCenter_Get")
     def get(self, employee_id: int, period: int, year: int) -> list[CostCenter]:
@@ -34,7 +32,9 @@ class EmployeeCostCenterService(MicroService):
         Returns:
             list[CostCenter]: a list of CostCenter objects
         """
-        cost_centers = self.client.service.CostCenter_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        cost_centers = self.client.service.CostCenter_Get(
+            EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
+        )
         cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
         return cost_centers
 
@@ -52,7 +52,7 @@ class EmployeeCostCenterService(MicroService):
         Returns:
             list[CostCenter]: a list of CostCenter objects
         """
-        cost_centers = self.client.service.CostCenter_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        cost_centers = self.client.service.CostCenter_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         cost_centers = [CostCenter(employee_id=employee_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
         return cost_centers
 
@@ -74,7 +74,7 @@ class EmployeeCostCenterService(MicroService):
             list[CostCenter]: a list of CostCenter objects
         """
         cost_centers = self.client.service.CostCenter_GetAllEmployeesByCompany(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         cost_centers = serialize_object(cost_centers)
         _cost_centers = []

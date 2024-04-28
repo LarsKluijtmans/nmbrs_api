@@ -2,8 +2,9 @@
 
 import unittest
 from datetime import datetime
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.absence import EmployeeAbsenceService, Absence
 
 
@@ -11,11 +12,17 @@ class TestEmployeeAbsenceService(unittest.TestCase):
     """Test cases for the EmployeeAbsenceService class."""
 
     def setUp(self):
-        """Set up test environment."""
-        self.client = MagicMock()
-        self.employee_absence_service = EmployeeAbsenceService(self.client)
-        self.mock_auth_header = MagicMock()
-        self.employee_absence_service.set_auth_header(self.mock_auth_header)
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
+        self.client = Mock()
+        self.employee_absence_service = EmployeeAbsenceService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test the get method of EmployeeAbsenceService."""

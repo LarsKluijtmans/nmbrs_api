@@ -5,6 +5,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Schedule
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
@@ -12,11 +13,8 @@ from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 class EmployeeScheduleService(MicroService):
     """Microservice responsible for schedule related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetList")
     def get_all(self):
@@ -62,7 +60,7 @@ class EmployeeScheduleService(MicroService):
         Returns:
             list[Contract]: a list of contract objects
         """
-        schedules = self.client.service.Schedule_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        schedules = self.client.service.Schedule_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_manager.header)
         schedules = serialize_object(schedules)
         _schedules = []
         for employee in schedules:

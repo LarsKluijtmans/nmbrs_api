@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
 
@@ -11,11 +12,8 @@ from ....utils.return_list import return_list
 class DebtorTitleService(MicroService):
     """Microservice responsible for title related actions on the debtor level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="DebtorService:Title_GetList")
@@ -32,7 +30,7 @@ class DebtorTitleService(MicroService):
         Returns:
             list[str]: A list of strings representing all titles associated with the debtor.
         """
-        titles = self.client.service.Title_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        titles = self.client.service.Title_GetList(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         titles = [title["TitleName"] for title in serialize_object(titles)]
         return titles
 
@@ -49,4 +47,4 @@ class DebtorTitleService(MicroService):
             title (str): The title to be inserted.
         """
         data = {"DebtorId": debtor_id, "title": {"TitleName": title}}
-        self.client.service.Title_Insert(**data, _soapheaders=self.auth_header)
+        self.client.service.Title_Insert(**data, _soapheaders=self.auth_manager.header)

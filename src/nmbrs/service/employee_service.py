@@ -36,6 +36,7 @@ from .microservices.employee import (
     EmployeeTimeScheduleService,
 )
 from .service import Service
+from ..auth.token_manager import AuthManager
 from ..data_classes.employee import EmployeeTypes, Employee, Period
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
@@ -44,80 +45,41 @@ from ..utils.return_list import return_list
 class EmployeeService(Service):
     """A class representing Employee Service for interacting with Nmbrs employee-related functionalities."""
 
-    def __init__(self, sandbox: bool = True) -> None:
-        super().__init__(sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
+        super().__init__(auth_manager, sandbox)
 
         # Initialize nmbrs services
         self.client = Client(f"{self.base_uri}{self.employee_uri}")
 
         # Micro services
-        self.absence = EmployeeAbsenceService(self.client)
-        self.address = EmployeeAddressService(self.client)
-        self.bank_account = EmployeeBankAccountService(self.client)
-        self.child = EmployeeChildService(self.client)
-        self.contract = EmployeeContractService(self.client)
-        self.cost_center = EmployeeCostCenterService(self.client)  # TO BE implemented
-        self.days = EmployeeDaysService(self.client)  # TO BE implemented
-        self.department = EmployeeDepartmentsService(self.client)  # TO BE implemented
-        self.document = EmployeeDocumentService(self.client)  # TO BE implemented
-        self.employment = EmployeeEmploymentService(self.client)  # TO BE implemented
-        self.function = EmployeeFunctionService(self.client)  # TO BE implemented
-        self.hour_component = EmployeeHourComponentFixedService(self.client)  # TO BE implemented
-        self.labour_agreement = EmployeeLabourAgreementService(self.client)  # TO BE implemented
-        self.lease_car = EmployeeLeaseCarService(self.client)  # TO BE implemented
-        self.leave = EmployeeLeaveService(self.client)  # TO BE implemented
-        self.levensloop = EmployeeLevensLoopService(self.client)  # TO BE implemented
-        self.manager = EmployeeManagerService(self.client)
-        self.partner = EmployeePartnerService(self.client)  # TO BE implemented
-        self.personal_info = EmployeePersonalInfoService(self.client)
-        self.salary = EmployeeSalaryService(self.client)  # TO BE implemented
-        self.schedule = EmployeeScheduleService(self.client)  # TO BE implemented
-        self.service = EmployeeServiceService(self.client)  # TO BE implemented
-        self.spaarloon = EmployeeSpaarloonService(self.client)  # TO BE implemented
-        self.svw = EmployeeSvwService(self.client)  # TO BE implemented
-        self.time_registration = EmployeeTimeRegistrationService(self.client)  # TO BE implemented
-        self.time_schedule = EmployeeTimeScheduleService(self.client)  # TO BE implemented
-        self.wage_component = EmployeeWageComponentsService(self.client)  # TO BE implemented
-        self.wage_tax = EmployeeWageTaxService(self.client)  # TO BE implemented
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        """
-        Method to set the authentication.
-
-        Args:
-            auth_header (dict): A dictionary containing authentication details.
-        """
-        self.auth_header = auth_header
-
-        # Micro services
-        self.absence.set_auth_header(auth_header)
-        self.address.set_auth_header(auth_header)
-        self.bank_account.set_auth_header(auth_header)
-        self.child.set_auth_header(auth_header)
-        self.contract.set_auth_header(auth_header)
-        self.cost_center.set_auth_header(auth_header)
-        self.days.set_auth_header(auth_header)
-        self.department.set_auth_header(auth_header)
-        self.document.set_auth_header(auth_header)
-        self.employment.set_auth_header(auth_header)
-        self.function.set_auth_header(auth_header)
-        self.hour_component.set_auth_header(auth_header)
-        self.labour_agreement.set_auth_header(auth_header)
-        self.lease_car.set_auth_header(auth_header)
-        self.leave.set_auth_header(auth_header)
-        self.levensloop.set_auth_header(auth_header)
-        self.manager.set_auth_header(auth_header)
-        self.partner.set_auth_header(auth_header)
-        self.personal_info.set_auth_header(auth_header)
-        self.salary.set_auth_header(auth_header)
-        self.schedule.set_auth_header(auth_header)
-        self.service.set_auth_header(auth_header)
-        self.spaarloon.set_auth_header(auth_header)
-        self.svw.set_auth_header(auth_header)
-        self.time_registration.set_auth_header(auth_header)
-        self.time_schedule.set_auth_header(auth_header)
-        self.wage_component.set_auth_header(auth_header)
-        self.wage_tax.set_auth_header(auth_header)
+        self.absence = EmployeeAbsenceService(self.auth_manager, self.client)
+        self.address = EmployeeAddressService(self.auth_manager, self.client)
+        self.bank_account = EmployeeBankAccountService(self.auth_manager, self.client)
+        self.child = EmployeeChildService(self.auth_manager, self.client)
+        self.contract = EmployeeContractService(self.auth_manager, self.client)
+        self.cost_center = EmployeeCostCenterService(self.auth_manager, self.client)  # TO BE implemented
+        self.days = EmployeeDaysService(self.auth_manager, self.client)  # TO BE implemented
+        self.department = EmployeeDepartmentsService(self.auth_manager, self.client)  # TO BE implemented
+        self.document = EmployeeDocumentService(self.auth_manager, self.client)  # TO BE implemented
+        self.employment = EmployeeEmploymentService(self.auth_manager, self.client)  # TO BE implemented
+        self.function = EmployeeFunctionService(self.auth_manager, self.client)  # TO BE implemented
+        self.hour_component = EmployeeHourComponentFixedService(self.auth_manager, self.client)  # TO BE implemented
+        self.labour_agreement = EmployeeLabourAgreementService(self.auth_manager, self.client)  # TO BE implemented
+        self.lease_car = EmployeeLeaseCarService(self.auth_manager, self.client)  # TO BE implemented
+        self.leave = EmployeeLeaveService(self.auth_manager, self.client)  # TO BE implemented
+        self.levensloop = EmployeeLevensLoopService(self.auth_manager, self.client)  # TO BE implemented
+        self.manager = EmployeeManagerService(self.auth_manager, self.client)
+        self.partner = EmployeePartnerService(self.auth_manager, self.client)  # TO BE implemented
+        self.personal_info = EmployeePersonalInfoService(self.auth_manager, self.client)
+        self.salary = EmployeeSalaryService(self.auth_manager, self.client)  # TO BE implemented
+        self.schedule = EmployeeScheduleService(self.auth_manager, self.client)  # TO BE implemented
+        self.service = EmployeeServiceService(self.auth_manager, self.client)  # TO BE implemented
+        self.spaarloon = EmployeeSpaarloonService(self.auth_manager, self.client)  # TO BE implemented
+        self.svw = EmployeeSvwService(self.auth_manager, self.client)  # TO BE implemented
+        self.time_registration = EmployeeTimeRegistrationService(self.auth_manager, self.client)  # TO BE implemented
+        self.time_schedule = EmployeeTimeScheduleService(self.auth_manager, self.client)  # TO BE implemented
+        self.wage_component = EmployeeWageComponentsService(self.auth_manager, self.client)  # TO BE implemented
+        self.wage_tax = EmployeeWageTaxService(self.auth_manager, self.client)  # TO BE implemented
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:EmployeeType_GetList")
@@ -131,7 +93,7 @@ class EmployeeService(Service):
         Returns:
             list[EmployeeTypes]: A list of employee type objects.
         """
-        employee_types = self.client.service.EmployeeType_GetList(_soapheaders=self.auth_header)
+        employee_types = self.client.service.EmployeeType_GetList(_soapheaders=self.auth_manager.header)
         employee_types = [EmployeeTypes(employee_type) for employee_type in serialize_object(employee_types)]
         return employee_types
 
@@ -149,7 +111,7 @@ class EmployeeService(Service):
         Returns:
             Period: year, period and period type and the company.
         """
-        period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if period is None:
             return None
         return Period(employee_id=employee_id, data=serialize_object(period))
@@ -170,7 +132,9 @@ class EmployeeService(Service):
         Returns:
             list[Employee]: A list of employee objects.
         """
-        employees = self.client.service.List_GetByCompany(CompanyId=company_id, EmployeeType=employee_type, _soapheaders=self.auth_header)
+        employees = self.client.service.List_GetByCompany(
+            CompanyId=company_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
+        )
         employees = [Employee(employee) for employee in serialize_object(employees)]
         return employees
 
@@ -190,7 +154,9 @@ class EmployeeService(Service):
         Returns:
             list[Employee]: A list of employee objects.
         """
-        employees = self.client.service.List_GetByDebtor(DebtorId=debtor_id, EmployeeType=employee_type, _soapheaders=self.auth_header)
+        employees = self.client.service.List_GetByDebtor(
+            DebtorId=debtor_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
+        )
         employees = [Employee(employee) for employee in serialize_object(employees)]
         return employees
 

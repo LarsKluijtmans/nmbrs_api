@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import Address
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..micro_service import MicroService
@@ -11,11 +12,8 @@ from ..micro_service import MicroService
 class CompanyAddressService(MicroService):
     """Microservice responsible for address-related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="CompanyService:Address_GetCurrent")
     def get_current(self, company_id: int) -> Address | None:
@@ -31,7 +29,7 @@ class CompanyAddressService(MicroService):
         Returns:
             Address | None: An Address object if found, otherwise None.
         """
-        address = self.client.service.Address_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        address = self.client.service.Address_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if address is None:
             return None
         return Address(company_id=company_id, data=serialize_object(address))
@@ -85,7 +83,7 @@ class CompanyAddressService(MicroService):
                 "CountryISOCode": country_iso_code,
             },
         }
-        response = self.client.service.Address_Insert(**data, _soapheaders=self.auth_header)
+        response = self.client.service.Address_Insert(**data, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:Address_Update")
@@ -134,4 +132,4 @@ class CompanyAddressService(MicroService):
                 "CountryISOCode": country_iso_code,
             },
         }
-        self.client.service.Address_Update(**data, _soapheaders=self.auth_header)
+        self.client.service.Address_Update(**data, _soapheaders=self.auth_manager.header)

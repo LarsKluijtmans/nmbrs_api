@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import PersonalInfo, PersonalInfoContractSalaryAddress
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeePersonalInfoService(MicroService):
     """Microservice responsible for personal info related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:PersonalInfo_Get")
     def get(self, employee_id: int, period: int, year: int) -> PersonalInfo | None:
@@ -35,7 +33,7 @@ class EmployeePersonalInfoService(MicroService):
             PersonalInfo | None: The personal information of the employee for the specified period, or None if not found.
         """
         personal_info = self.client.service.PersonalInfo_Get(
-            EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header
+            EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         if not personal_info:
             return None
@@ -55,7 +53,7 @@ class EmployeePersonalInfoService(MicroService):
         Returns:
             PersonalInfo | None: The currently active personal information of the employee, or None if not found.
         """
-        personal_info = self.client.service.PersonalInfo_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        personal_info = self.client.service.PersonalInfo_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if not personal_info:
             return None
         return PersonalInfo(employee_id=employee_id, data=serialize_object(personal_info))
@@ -75,7 +73,9 @@ class EmployeePersonalInfoService(MicroService):
         Returns:
             list[PersonalInfo]: A list of personal information objects of all employees within the company.
         """
-        people_info = self.client.service.PersonalInfo_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        people_info = self.client.service.PersonalInfo_GetAll_AllEmployeesByCompany(
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
+        )
 
         _people_info = []
         for person in serialize_object(people_info):
@@ -100,7 +100,7 @@ class EmployeePersonalInfoService(MicroService):
             list[PersonalInfo]: A list of personal information objects of all employees within the company, excluding the BSN.
         """
         people_info = self.client.service.PersonalInfoWithoutBSN_Get_GetAllEmployeesByCompany(
-            CompanyID=company_id, _soapheaders=self.auth_header
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
         )
 
         _people_info = []
@@ -126,7 +126,7 @@ class EmployeePersonalInfoService(MicroService):
             list[PersonalInfoContractSalaryAddress]: A list of personal information objects including contract and salary address of all employees within the company.
         """
         people_info = self.client.service.PersonalInfoContractSalaryAddress_GetAll_AllEmployeesByCompany(
-            CompanyID=company_id, _soapheaders=self.auth_header
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
         )
         return [
             PersonalInfoContractSalaryAddress(employee_id=person["EmployeeID"], data=person) for person in serialize_object(people_info)
@@ -182,7 +182,7 @@ class EmployeePersonalInfoService(MicroService):
             "TitleAfter": personal_info.title_after,
         }
         response = self.client.service.PersonalInfo_Update(
-            EmployeeId=employee_id, PersonalInfo=new_personal_info, Period=period, Year=year, _soapheaders=self.auth_header
+            EmployeeId=employee_id, PersonalInfo=new_personal_info, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         return response
 
@@ -234,6 +234,6 @@ class EmployeePersonalInfoService(MicroService):
             "TitleAfter": personal_info.title_after,
         }
         response = self.client.service.PersonalInfo_UpdateCurrent(
-            EmployeeId=employee_id, PersonalInfo=new_personal_info, _soapheaders=self.auth_header
+            EmployeeId=employee_id, PersonalInfo=new_personal_info, _soapheaders=self.auth_manager.header
         )
         return response

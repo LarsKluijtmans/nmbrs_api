@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Address
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeeAddressService(MicroService):
     """Microservice responsible for address related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Address_GetList")
@@ -35,7 +33,9 @@ class EmployeeAddressService(MicroService):
         Returns:
             list[Address]: A list of Address objects representing the addresses.
         """
-        addresses = self.client.service.Address_GetList(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        addresses = self.client.service.Address_GetList(
+            EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
+        )
         return [Address(employee_id=employee_id, data=address) for address in serialize_object(addresses)]
 
     @return_list
@@ -53,7 +53,7 @@ class EmployeeAddressService(MicroService):
         Returns:
             list[Address]: A list of Address objects representing the addresses.
         """
-        addresses = self.client.service.Address_GetListCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        addresses = self.client.service.Address_GetListCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return [Address(employee_id=employee_id, data=address) for address in serialize_object(addresses)]
 
     @return_list
@@ -71,7 +71,7 @@ class EmployeeAddressService(MicroService):
         Returns:
             list[Address]: A list of Address objects representing the addresses.
         """
-        addresses = self.client.service.Address_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        addresses = self.client.service.Address_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_manager.header)
 
         _addresses = []
         for employee in serialize_object(addresses):
@@ -94,7 +94,7 @@ class EmployeeAddressService(MicroService):
         Returns:
             bool: A boolean indicating the success of the operation.
         """
-        response = self.client.service.Address_Delete(EmployeeId=employee_id, AddressID=address_id, _soapheaders=self.auth_header)
+        response = self.client.service.Address_Delete(EmployeeId=employee_id, AddressID=address_id, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Address_Update")
@@ -124,7 +124,7 @@ class EmployeeAddressService(MicroService):
             "CountryISOCode": address.country_iso_code,
             "Type": address.type,
         }
-        response = self.client.service.Address_Update(EmployeeId=employee_id, Address=_address, _soapheaders=self.auth_header)
+        response = self.client.service.Address_Update(EmployeeId=employee_id, Address=_address, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Address_Insert")
@@ -164,7 +164,7 @@ class EmployeeAddressService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=unprotected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -195,5 +195,7 @@ class EmployeeAddressService(MicroService):
             "CountryISOCode": address.country_iso_code,
             "Type": address.type,
         }
-        response = self.client.service.Address_InsertCurrent(EmployeeId=employee_id, Address=_address, _soapheaders=self.auth_header)
+        response = self.client.service.Address_InsertCurrent(
+            EmployeeId=employee_id, Address=_address, _soapheaders=self.auth_manager.header
+        )
         return response

@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import LabourAgreement, LeaveTypeGroup
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
@@ -14,11 +15,8 @@ class CompanyLabourAgreementService(MicroService):
     Microservice responsible for labour agreement related actions on the company level.
     """
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:LabourAgreements_Get")
@@ -41,7 +39,7 @@ class CompanyLabourAgreementService(MicroService):
             CompanyId=company_id,
             Period=period,
             Year=year,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         labour_agreements = [
             LabourAgreement(company_id=company_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
@@ -63,7 +61,7 @@ class CompanyLabourAgreementService(MicroService):
         Returns:
             list[LabourAgreement]: A list of LabourAgreement objects representing the current labour agreements.
         """
-        labour_agreements = self.client.service.LabourAgreements_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        labour_agreements = self.client.service.LabourAgreements_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         labour_agreements = [
             LabourAgreement(company_id=company_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
         ]
@@ -94,6 +92,6 @@ class CompanyLabourAgreementService(MicroService):
             LabourAgreementSettingsGroupId=labour_agreement_settings_group_id,
             Year=year,
             Period=period,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return [LeaveTypeGroup(company_id=company_id, data=response) for response in serialize_object(responses)]

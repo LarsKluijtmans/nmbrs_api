@@ -2,6 +2,8 @@
 
 import unittest
 from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.wage_cost import CompanyWageCostService, WageCost
 
 
@@ -9,10 +11,17 @@ class TestCompanyWageCostService(unittest.TestCase):
     """Unit tests for the CompanyWageCostService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.wage_cost_service = CompanyWageCostService(self.client)
-        self.mock_auth_header = Mock()
-        self.wage_cost_service.set_auth_header(self.mock_auth_header)
+        self.wage_cost_service = CompanyWageCostService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test retrieving the list of work cost values for a given company and year."""

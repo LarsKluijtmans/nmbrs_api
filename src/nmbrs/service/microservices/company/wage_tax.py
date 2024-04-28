@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import WageTax, WageTaxXML
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyWageTaxService(MicroService):
     """Microservice responsible for managing wage tax-related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageTax_GetList")
@@ -34,7 +32,7 @@ class CompanyWageTaxService(MicroService):
         Returns:
             list[WageTax]: A list of WageTax objects for the specified company and year.
         """
-        wage_taxes = self.client.service.WageTax_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_header)
+        wage_taxes = self.client.service.WageTax_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_manager.header)
         wage_taxes = [WageTax(company_id=company_id, data=wage_tax) for wage_tax in serialize_object(wage_taxes)]
         return wage_taxes
 
@@ -56,7 +54,7 @@ class CompanyWageTaxService(MicroService):
         wage_tax_details = self.client.service.WageTax_GetXML(
             CompanyId=company_id,
             LoonaangifteID=loonaangifte_id,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         wage_tax_details = WageTaxXML(wage_tax_details)
         return wage_tax_details
@@ -79,6 +77,6 @@ class CompanyWageTaxService(MicroService):
         response = self.client.service.WageTax_SetSentExternal(
             CompanyId=company_id,
             LoonaangifteID=loonaangifte_id,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response

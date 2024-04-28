@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import BankAccount
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
@@ -11,11 +12,8 @@ from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 class CompanyBankAccountService(MicroService):
     """Microservice responsible for bank account related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="CompanyService:BankAccount_GetCurrent")
     def get_current(self, company_id: int) -> BankAccount | None:
@@ -31,7 +29,7 @@ class CompanyBankAccountService(MicroService):
         Returns:
             BankAccount: An BankAccount object.
         """
-        bank_account = self.client.service.BankAccount_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        bank_account = self.client.service.BankAccount_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if bank_account is None:
             return None
         return BankAccount(company_id=company_id, data=serialize_object(bank_account))
@@ -80,7 +78,9 @@ class CompanyBankAccountService(MicroService):
             "Name": name,
             "Type": account_type,
         }
-        response = self.client.service.BankAccount_Insert(CompanyId=company_id, BankAccount=bank_account, _soapheaders=self.auth_header)
+        response = self.client.service.BankAccount_Insert(
+            CompanyId=company_id, BankAccount=bank_account, _soapheaders=self.auth_manager.header
+        )
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:BankAccount_Update")
@@ -126,4 +126,4 @@ class CompanyBankAccountService(MicroService):
             "Name": name,
             "Type": account_type,
         }
-        self.client.service.BankAccount_Update(CompanyId=company_id, BankAccount=bank_account, _soapheaders=self.auth_header)
+        self.client.service.BankAccount_Update(CompanyId=company_id, BankAccount=bank_account, _soapheaders=self.auth_manager.header)

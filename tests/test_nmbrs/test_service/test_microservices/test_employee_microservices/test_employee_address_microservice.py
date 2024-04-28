@@ -1,8 +1,9 @@
 """Test cases for the EmployeeAddressService class."""
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.address import EmployeeAddressService, Address
 
 
@@ -10,11 +11,17 @@ class TestEmployeeAddressService(unittest.TestCase):
     """Test cases for the EmployeeAddressService class."""
 
     def setUp(self):
-        """Set up test fixtures."""
-        self.client = MagicMock()
-        self.employee_address_service = EmployeeAddressService(self.client)
-        self.mock_auth_header = MagicMock()
-        self.employee_address_service.set_auth_header(self.mock_auth_header)
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
+        self.client = Mock()
+        self.employee_address_service = EmployeeAddressService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test the get method."""

@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import WageCost
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyWageCostService(MicroService):
     """Microservice responsible for managing wage cost related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WorkCost_GetList")
@@ -34,7 +32,7 @@ class CompanyWageCostService(MicroService):
         Returns:
             list[WageCost]: A list of work cost values.
         """
-        wage_costs = self.client.service.WorkCost_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_header)
+        wage_costs = self.client.service.WorkCost_GetList(CompanyId=company_id, Year=year, _soapheaders=self.auth_manager.header)
         wage_costs = [WageCost(company_id=company_id, data=wage_cost) for wage_cost in serialize_object(wage_costs)]
         return wage_costs
 
@@ -60,6 +58,6 @@ class CompanyWageCostService(MicroService):
             Value=value,
             Period=period,
             Year=year,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response

@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import WageComponent
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyWageComponentService(MicroService):
     """Microservice responsible for wage component related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_Get")
@@ -36,7 +34,7 @@ class CompanyWageComponentService(MicroService):
             list[WageComponent]: A list of fixed wage components.
         """
         wage_components = self.client.service.WageComponentFixed_Get(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         wage_components = [
             WageComponent(company_id=company_id, component_type="fixed", data=wage_component)
@@ -59,7 +57,7 @@ class CompanyWageComponentService(MicroService):
         Returns:
             list[WageComponent]: A list of fixed wage components for the current period.
         """
-        wage_components = self.client.service.WageComponentFixed_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        wage_components = self.client.service.WageComponentFixed_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         wage_components = [
             WageComponent(company_id=company_id, component_type="fixed", data=wage_component)
             for wage_component in serialize_object(wage_components)
@@ -96,7 +94,7 @@ class CompanyWageComponentService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=protected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -116,7 +114,7 @@ class CompanyWageComponentService(MicroService):
         """
         new_wage_component = {"Id": wage_component.id, "Code": wage_component.code, "Value": wage_component.value}
         response = self.client.service.WageComponentFixed_InsertCurrent(
-            CompanyId=wage_component.company_id, WageComponent=new_wage_component, _soapheaders=self.auth_header
+            CompanyId=wage_component.company_id, WageComponent=new_wage_component, _soapheaders=self.auth_manager.header
         )
         return response
 
@@ -155,7 +153,11 @@ class CompanyWageComponentService(MicroService):
                 }
             )
         response = self.client.service.WageComponentFixed_Insert_Batch(
-            WageComponents=new_wage_components, Period=period, Year=year, UnprotectedMode=protected_mode, _soapheaders=self.auth_header
+            WageComponents=new_wage_components,
+            Period=period,
+            Year=year,
+            UnprotectedMode=protected_mode,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -190,7 +192,7 @@ class CompanyWageComponentService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=protected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
 
     @return_list
@@ -211,7 +213,7 @@ class CompanyWageComponentService(MicroService):
             list[WageComponent]: A list of variable wage components.
         """
         wage_components = self.client.service.WageComponentVar_Get(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         wage_components = [
             WageComponent(company_id=company_id, component_type="variable", data=wage_component)
@@ -234,7 +236,7 @@ class CompanyWageComponentService(MicroService):
         Returns:
             list[WageComponent]: A list of variable wage components for the current period.
         """
-        wage_components = self.client.service.WageComponentVar_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        wage_components = self.client.service.WageComponentVar_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         wage_components = [
             WageComponent(company_id=company_id, component_type="variable", data=wage_component)
             for wage_component in serialize_object(wage_components)
@@ -271,7 +273,7 @@ class CompanyWageComponentService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=protected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -291,7 +293,7 @@ class CompanyWageComponentService(MicroService):
         """
         new_wage_component = {"Id": wage_component.id, "Code": wage_component.code, "Value": wage_component.value}
         response = self.client.service.WageComponentVar_InsertCurrent(
-            CompanyId=wage_component.company_id, WageComponent=new_wage_component, _soapheaders=self.auth_header
+            CompanyId=wage_component.company_id, WageComponent=new_wage_component, _soapheaders=self.auth_manager.header
         )
         return response
 
@@ -330,7 +332,11 @@ class CompanyWageComponentService(MicroService):
                 }
             )
         response = self.client.service.WageComponentVar_Insert_Batch(
-            WageComponents=new_wage_components, Period=period, Year=year, UnprotectedMode=protected_mode, _soapheaders=self.auth_header
+            WageComponents=new_wage_components,
+            Period=period,
+            Year=year,
+            UnprotectedMode=protected_mode,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -362,7 +368,7 @@ class CompanyWageComponentService(MicroService):
             Period=period,
             Year=year,
             UnprotectedMode=protected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -382,6 +388,6 @@ class CompanyWageComponentService(MicroService):
         """
         response = self.client.service.WageComponentVar_ClearCurrent(
             CompanyId=company_id,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response

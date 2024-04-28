@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import Mock
 from datetime import datetime
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.employee import DepartmentAll, Department
 from src.nmbrs.service.microservices.employee.department import EmployeeDepartmentsService
 
@@ -12,10 +13,17 @@ class TestEmployeeDepartmentsService(unittest.TestCase):
     """Unit tests for the EmployeeDepartmentsService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.departments_service = EmployeeDepartmentsService(self.client)
-        self.mock_auth_header = Mock()
-        self.departments_service.set_auth_header(self.mock_auth_header)
+        self.departments_service = EmployeeDepartmentsService(self.auth_manager, self.client)
 
     def test_get_all_by_company(self):
         """Test getting all departments for all employees in a company."""

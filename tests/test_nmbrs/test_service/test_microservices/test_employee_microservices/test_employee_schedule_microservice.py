@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import Mock
 from decimal import Decimal
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.schedule import EmployeeScheduleService, Schedule
 
 
@@ -10,10 +12,17 @@ class TestEmployeeScheduleService(unittest.TestCase):
     """Unit tests for the EmployeeScheduleService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.employee_schedule_service = EmployeeScheduleService(self.client)
-        self.mock_auth_header = Mock()
-        self.employee_schedule_service.set_auth_header(self.mock_auth_header)
+        self.employee_schedule_service = EmployeeScheduleService(self.auth_manager, self.client)
 
     def test_get_all_by_company(self):
         """Test retrieving all schedules of all employees by company."""

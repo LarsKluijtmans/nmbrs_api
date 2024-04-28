@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import Mock
 from datetime import datetime
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.run import CompanyRunService, RunRequest, RunInfo, Employee
 
 
@@ -10,10 +12,17 @@ class TestCompanyRunService(unittest.TestCase):
     """Unit tests for the CompanyRunService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.run_service = CompanyRunService(self.client)
-        self.mock_auth_header = Mock()
-        self.run_service.set_auth_header(self.mock_auth_header)
+        self.run_service = CompanyRunService(self.auth_manager, self.client)
 
     def test_get_requests(self):
         """Test retrieving run requests associated with a company."""

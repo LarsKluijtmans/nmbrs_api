@@ -5,6 +5,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Function, FunctionAll
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -13,11 +14,8 @@ from ....utils.return_list import return_list
 class EmployeeFunctionService(MicroService):
     """Microservice responsible for function related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:Function_GetFunction")
     def get_by_id(self):
@@ -43,7 +41,7 @@ class EmployeeFunctionService(MicroService):
         Returns:
             Function: The Function objects representing the function of the employee.
         """
-        function = self.client.service.Function_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        function = self.client.service.Function_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return Function(employee_id=employee_id, data=serialize_object(function))
 
     @return_list
@@ -61,7 +59,9 @@ class EmployeeFunctionService(MicroService):
         Returns:
             list[FunctionAll]: a list of Function objects
         """
-        functions = self.client.service.Function_GetAll_AllEmployeesByCompany_V2(CompanyID=company_id, _soapheaders=self.auth_header)
+        functions = self.client.service.Function_GetAll_AllEmployeesByCompany_V2(
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
+        )
         functions = serialize_object(functions)
 
         _functions = []

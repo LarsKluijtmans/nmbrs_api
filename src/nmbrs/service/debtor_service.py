@@ -8,6 +8,7 @@ from zeep.helpers import serialize_object
 
 from .microservices.debtor import DebtorDepartmentService, DebtorFunctionService, DebtorTitleService, DebtorWebHooksService
 from .service import Service
+from ..auth.token_manager import AuthManager
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
 from ..data_classes.debtor import (
@@ -32,32 +33,17 @@ class DebtorService(Service):
         1 [Converter_GetDebtors_IntToGuid](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Converter_GetDebtors_IntToGuid)
     """
 
-    def __init__(self, sandbox: bool = True) -> None:
-        super().__init__(sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
+        super().__init__(auth_manager, sandbox)
 
         # Initialize nmbrs services
-        self.debtor_service = Client(f"{self.base_uri}{self.debtor_uri}")
+        self.client = Client(f"{self.base_uri}{self.debtor_uri}")
 
         # Micro services
-        self.department = DebtorDepartmentService(self.debtor_service)
-        self.function = DebtorFunctionService(self.debtor_service)
-        self.webhook = DebtorWebHooksService(self.debtor_service)
-        self.title = DebtorTitleService(self.debtor_service)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        """
-        Method to set the authentication.
-
-        Args:
-            auth_header (dict): A dictionary containing authentication details.
-        """
-        self.auth_header = auth_header
-
-        # Micro services
-        self.department.set_auth_header(auth_header)
-        self.function.set_auth_header(auth_header)
-        self.webhook.set_auth_header(auth_header)
-        self.title.set_auth_header(auth_header)
+        self.department = DebtorDepartmentService(self.auth_manager, self.client)
+        self.function = DebtorFunctionService(self.auth_manager, self.client)
+        self.webhook = DebtorWebHooksService(self.auth_manager, self.client)
+        self.title = DebtorTitleService(self.auth_manager, self.client)
 
     @nmbrs_exception_handler(resource="DebtorService:Environment_Get")
     def get_domain(self, username: str, token: str) -> Domain:
@@ -74,7 +60,7 @@ class DebtorService(Service):
         Returns:
             Domain: The domain object associated with the token.
         """
-        env = self.debtor_service.service.Environment_Get(_soapheaders={"AuthHeader": {"Username": username, "Token": token}})
+        env = self.client.service.Environment_Get(_soapheaders={"AuthHeader": {"Username": username, "Token": token}})
         return Domain(data=serialize_object(env))
 
     @return_list
@@ -89,7 +75,7 @@ class DebtorService(Service):
         Returns:
             list[Debtor]: A list of Debtor objects representing all debtors.
         """
-        debtors = self.debtor_service.service.List_GetAll(_soapheaders=self.auth_header)
+        debtors = self.client.service.List_GetAll(_soapheaders=self.auth_manager.header)
         debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
         return debtors
 
@@ -108,7 +94,7 @@ class DebtorService(Service):
         Returns:
             list[Debtor]: A list of Debtor objects representing all debtors.
         """
-        debtors = self.debtor_service.service.List_GetByNumber(Number=number, _soapheaders=self.auth_header)
+        debtors = self.client.service.List_GetByNumber(Number=number, _soapheaders=self.auth_manager.header)
         debtors = [Debtor(debtor) for debtor in serialize_object(debtors)]
         return debtors
 
@@ -126,7 +112,7 @@ class DebtorService(Service):
         Returns:
             Debtor | None: A Debtor object representing the debtor if found, otherwise None.
         """
-        debtor = self.debtor_service.service.Debtor_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        debtor = self.client.service.Debtor_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if debtor is None:
             return None
         return Debtor(serialize_object(debtor))
@@ -148,7 +134,7 @@ class DebtorService(Service):
             int: The ID of the inserted debtor if successful.
         """
         data = {"Debtor": {"Id": debtor_id, "Number": number, "Name": name}}
-        inserted = self.debtor_service.service.Debtor_Insert(**data, _soapheaders=self.auth_header)
+        inserted = self.client.service.Debtor_Insert(**data, _soapheaders=self.auth_manager.header)
         return inserted
 
     @nmbrs_exception_handler(resource="DebtorService:Debtor_Update")
@@ -165,7 +151,7 @@ class DebtorService(Service):
             name (str): The new name of the debtor.
         """
         data = {"Debtor": {"Id": debtor_id, "Number": number, "Name": name}}
-        self.debtor_service.service.Debtor_Update(**data, _soapheaders=self.auth_header)
+        self.client.service.Debtor_Update(**data, _soapheaders=self.auth_manager.header)
 
     @return_list
     @nmbrs_exception_handler(resource="DebtorService:AbsenceXML_Get")
@@ -185,7 +171,7 @@ class DebtorService(Service):
             list[AbsenceVerzuim]: A list of AbsenceVerzuim objects representing the absence data.
         """
         data = {"DebtorId": debtor_id, "from": start_date, "to": end_date}
-        absences = self.debtor_service.service.AbsenceXML_Get(**data, _soapheaders=self.auth_header)
+        absences = self.client.service.AbsenceXML_Get(**data, _soapheaders=self.auth_manager.header)
         absences = [AbsenceVerzuim(absence) for absence in serialize_object(absences)]
         return absences
 
@@ -204,7 +190,7 @@ class DebtorService(Service):
         Returns:
             list[ContactInfo]: A list of ContactInfo objects representing the accountant contact information.
         """
-        accountants = self.debtor_service.service.AccountantContact_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        accountants = self.client.service.AccountantContact_GetList(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         accountants = [ContactInfo(debtor_id=debtor_id, data=accountant) for accountant in serialize_object(accountants)]
         return accountants
 
@@ -222,7 +208,7 @@ class DebtorService(Service):
         Returns:
             Address | None: An Address object representing the address if found, otherwise None.
         """
-        address = self.debtor_service.service.Address_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        address = self.client.service.Address_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if address is None:
             return None
         return Address(debtor_id=debtor_id, data=serialize_object(address))
@@ -241,7 +227,7 @@ class DebtorService(Service):
         Returns:
             BankAccount | None: A BankAccount object representing the bank account if found, otherwise None.
         """
-        bank_account = self.debtor_service.service.BankAccount_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        bank_account = self.client.service.BankAccount_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if bank_account is None:
             return None
         return BankAccount(debtor_id=debtor_id, data=serialize_object(bank_account))
@@ -260,7 +246,7 @@ class DebtorService(Service):
         Returns:
             ContactInfo | None: A ContactInfo object representing the contact person if found, otherwise None.
         """
-        contact_person = self.debtor_service.service.ContactPerson_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        contact_person = self.client.service.ContactPerson_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if contact_person is None:
             return None
         return ContactInfo(debtor_id=debtor_id, data=serialize_object(contact_person))
@@ -276,7 +262,7 @@ class DebtorService(Service):
         Returns:
             bool: True if the current user is the owner of the debtor, otherwise False.
         """
-        is_owner = self.debtor_service.service.Debtor_IsOwner(_soapheaders=self.auth_header)
+        is_owner = self.client.service.Debtor_IsOwner(_soapheaders=self.auth_manager.header)
         return is_owner
 
     @return_list
@@ -297,8 +283,8 @@ class DebtorService(Service):
             list[LabourAgreementSettings]: A list of LabourAgreementSettings objects representing all labour
             agreement settings.
         """
-        labour_agreements = self.debtor_service.service.LabourAgreementSettings_GetList(
-            DebtorId=debtor_id, Year=year, Period=period, _soapheaders=self.auth_header
+        labour_agreements = self.client.service.LabourAgreementSettings_GetList(
+            DebtorId=debtor_id, Year=year, Period=period, _soapheaders=self.auth_manager.header
         )
         labour_agreements = [
             LabourAgreementSettings(debtor_id=debtor_id, data=labour_agreement) for labour_agreement in serialize_object(labour_agreements)
@@ -320,7 +306,7 @@ class DebtorService(Service):
         Returns:
             list[Manager]: A list of Manager objects representing all managers for the debtor.
         """
-        managers = self.debtor_service.service.Manager_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        managers = self.client.service.Manager_GetList(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         managers = [Manager(debtor_id=debtor_id, data=manager) for manager in serialize_object(managers)]
         return managers
 
@@ -339,7 +325,7 @@ class DebtorService(Service):
             ServiceLevel | None: A ServiceLevel object representing the service level information if found, otherwise
             None.
         """
-        service_level = self.debtor_service.service.ServiceLevel_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        service_level = self.client.service.ServiceLevel_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if service_level is None:
             return None
         return ServiceLevel(debtor_id=debtor_id, data=serialize_object(service_level))
@@ -359,6 +345,6 @@ class DebtorService(Service):
         Returns:
             list[Tag]: A list of Tag objects representing all tags associated with the debtor.
         """
-        tags = self.debtor_service.service.Tags_Get(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        tags = self.client.service.Tags_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         tags = [Tag(debtor_id=debtor_id, data=tag) for tag in serialize_object(tags)]
         return tags

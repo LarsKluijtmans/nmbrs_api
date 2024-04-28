@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import Mock
 from datetime import datetime
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.employee import FunctionAll, Function
 from src.nmbrs.service.microservices.employee.function import EmployeeFunctionService
 
@@ -12,10 +13,17 @@ class TestEmployeeFunctionService(unittest.TestCase):
     """Unit tests for the EmployeeFunctionService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.function_service = EmployeeFunctionService(self.client)
-        self.mock_auth_header = Mock()
-        self.function_service.set_auth_header(self.mock_auth_header)
+        self.function_service = EmployeeFunctionService(self.auth_manager, self.client)
 
     def test_get_all_by_company(self):
         """Test getting all function history of all employees in a company."""

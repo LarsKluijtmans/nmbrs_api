@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Manager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
@@ -11,11 +12,8 @@ from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 class EmployeeManagerService(MicroService):
     """Microservice responsible for manager related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:Manager_Get")
     def get(self, employee_id: int, period: int, year: int) -> Manager:
@@ -33,7 +31,7 @@ class EmployeeManagerService(MicroService):
         Returns:
             Manager: The Manager objects representing the manager of the employee.
         """
-        manager = self.client.service.Manager_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        manager = self.client.service.Manager_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_manager.header)
         return Manager(employee_id=employee_id, data=serialize_object(manager))
 
     @nmbrs_exception_handler(resource="EmployeeService:Manager_GetCurrent")
@@ -50,5 +48,5 @@ class EmployeeManagerService(MicroService):
         Returns:
             Manager: The Manager objects representing the manager of the employee.
         """
-        manager = self.client.service.Manager_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        manager = self.client.service.Manager_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return Manager(employee_id=employee_id, data=serialize_object(manager))

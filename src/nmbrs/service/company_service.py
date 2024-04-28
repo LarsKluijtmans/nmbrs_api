@@ -22,6 +22,7 @@ from .microservices.company import (
     CompanyWageTaxService,
 )
 from .service import Service
+from ..auth.token_manager import AuthManager
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
 from ..data_classes.company import (
@@ -38,56 +39,29 @@ from ..data_classes.company import (
 class CompanyService(Service):
     """A class representing Company Service for interacting with Nmbrs company-related functionalities."""
 
-    def __init__(self, sandbox: bool = True) -> None:
-        super().__init__(sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
+        super().__init__(auth_manager, sandbox)
 
         # Initialize nmbrs client
         self.client = Client(f"{self.base_uri}{self.company_uri}")
 
         # Micro services
-        self.address = CompanyAddressService(self.client)
-        self.bank_account = CompanyBankAccountService(self.client)
-        self.cost_center = CompanyCostCenterService(self.client)
-        self.cost_unit = CompanyCostUnitService(self.client)
-        self.hour_model = CompanyHourModelService(self.client)
-        self.journal = CompanyJournalService(self.client)  # TO BE implemented
-        self.labour_agreement = CompanyLabourAgreementService(self.client)
-        self.pension = CompanyPensionService(self.client)
-        self.run = CompanyRunService(self.client)
-        self.salary_documents = CompanySalaryDocumentService(self.client)  # TO BE implemented
-        self.salary_table = CompanySalaryTableService(self.client)
-        self.svw = CompanySvwService(self.client)
-        self.wage_component = CompanyWageComponentService(self.client)
-        self.wage_cost = CompanyWageCostService(self.client)
-        self.wage_model = CompanyWageModelService(self.client)
-        self.wage_tax = CompanyWageTaxService(self.client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        """
-        Method to set the authentication.
-
-        Args:
-            auth_header (dict): A dictionary containing authentication details.
-        """
-        self.auth_header = auth_header
-
-        # Micro services
-        self.address.set_auth_header(auth_header)
-        self.bank_account.set_auth_header(auth_header)
-        self.cost_center.set_auth_header(auth_header)
-        self.cost_unit.set_auth_header(auth_header)
-        self.hour_model.set_auth_header(auth_header)
-        self.journal.set_auth_header(auth_header)
-        self.labour_agreement.set_auth_header(auth_header)
-        self.pension.set_auth_header(auth_header)
-        self.run.set_auth_header(auth_header)
-        self.salary_documents.set_auth_header(auth_header)
-        self.salary_table.set_auth_header(auth_header)
-        self.svw.set_auth_header(auth_header)
-        self.wage_component.set_auth_header(auth_header)
-        self.wage_cost.set_auth_header(auth_header)
-        self.wage_model.set_auth_header(auth_header)
-        self.wage_tax.set_auth_header(auth_header)
+        self.address = CompanyAddressService(self.auth_manager, self.client)
+        self.bank_account = CompanyBankAccountService(self.auth_manager, self.client)
+        self.cost_center = CompanyCostCenterService(self.auth_manager, self.client)
+        self.cost_unit = CompanyCostUnitService(self.auth_manager, self.client)
+        self.hour_model = CompanyHourModelService(self.auth_manager, self.client)
+        self.journal = CompanyJournalService(self.auth_manager, self.client)  # TO BE implemented
+        self.labour_agreement = CompanyLabourAgreementService(self.auth_manager, self.client)
+        self.pension = CompanyPensionService(self.auth_manager, self.client)
+        self.run = CompanyRunService(self.auth_manager, self.client)
+        self.salary_documents = CompanySalaryDocumentService(self.auth_manager, self.client)  # TO BE implemented
+        self.salary_table = CompanySalaryTableService(self.auth_manager, self.client)
+        self.svw = CompanySvwService(self.auth_manager, self.client)
+        self.wage_component = CompanyWageComponentService(self.auth_manager, self.client)
+        self.wage_cost = CompanyWageCostService(self.auth_manager, self.client)
+        self.wage_model = CompanyWageModelService(self.auth_manager, self.client)
+        self.wage_tax = CompanyWageTaxService(self.auth_manager, self.client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:List_GetAll")
@@ -101,7 +75,7 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects.
         """
-        companies = self.client.service.List_GetAll(_soapheaders=self.auth_header)
+        companies = self.client.service.List_GetAll(_soapheaders=self.auth_manager.header)
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
@@ -120,7 +94,7 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects.
         """
-        companies = self.client.service.List_GetByDebtor(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        companies = self.client.service.List_GetByDebtor(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         companies = [Company(company) for company in serialize_object(companies)]
         return companies
 
@@ -138,7 +112,7 @@ class CompanyService(Service):
         Returns:
             Company: A list of Company objects.
         """
-        company = self.client.service.Company_GetCurrentByEmployeeId(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        company = self.client.service.Company_GetCurrentByEmployeeId(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if company is None:
             return None
         return Company(serialize_object(company))
@@ -157,7 +131,7 @@ class CompanyService(Service):
         Returns:
             Period: year, period and period type and the company.
         """
-        period = self.client.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_header)
+        period = self.client.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if period is None:
             return None
         return Period(company_id=company_id, data=serialize_object(period))
@@ -192,7 +166,7 @@ class CompanyService(Service):
             DefaultCompanyId=default_id,
             LabourAgreementSettingsGroupGuid=labour_agreement_group_id,
             PayInAdvance=pay_in_advance,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return inserted
 
@@ -210,7 +184,7 @@ class CompanyService(Service):
         Returns:
             ContactPerson: The contact person details.
         """
-        contact_person = self.client.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_header)
+        contact_person = self.client.service.ContactPerson_Get(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return ContactPerson(company_id=company_id, data=serialize_object(contact_person))
 
     @nmbrs_exception_handler(resource="CompanyService:Converter_GetByCompany_IntToGuid")
@@ -228,7 +202,9 @@ class CompanyService(Service):
         Returns:
             GuidConvertor: The converter mappings response.
         """
-        guids = self.client.service.Converter_GetByCompany_IntToGuid(Entity=entity, CompanyId=company_id, _soapheaders=self.auth_header)
+        guids = self.client.service.Converter_GetByCompany_IntToGuid(
+            Entity=entity, CompanyId=company_id, _soapheaders=self.auth_manager.header
+        )
         return GuidConvertor(company_id=company_id, data=serialize_object(guids))
 
     @return_list
@@ -246,7 +222,9 @@ class CompanyService(Service):
         Returns:
             list[Company]: A list of Company objects.
         """
-        employee_templates = self.client.service.DefaultEmployeeTemplates_GetByCompany(CompanyId=company_id, _soapheaders=self.auth_header)
+        employee_templates = self.client.service.DefaultEmployeeTemplates_GetByCompany(
+            CompanyId=company_id, _soapheaders=self.auth_manager.header
+        )
         employee_templates = [
             DefaultEmployeeTemplate(company_id=company_id, data=employee_template)
             for employee_template in serialize_object(employee_templates)
@@ -277,7 +255,7 @@ class CompanyService(Service):
                 "StrDocumentSubFolder": document_sub_folder,
                 "Body": data,
             },
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
 
     @nmbrs_exception_handler(resource="CompanyService:Schedule_GetCurrent")
@@ -294,7 +272,7 @@ class CompanyService(Service):
         Returns:
             FulltimeSchedules: A FulltimeSchedules object.
         """
-        response = self.client.service.Schedule_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        response = self.client.service.Schedule_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return FulltimeSchedules(company_id=company_id, data=serialize_object(response))
 
     @return_list
@@ -314,6 +292,8 @@ class CompanyService(Service):
         Returns:
             List[PayrollWorkflowTrack]: A list of PayrollWorkflowTrack objects.
         """
-        responses = self.client.service.PayrollWorkflow_Get(CompanyId=company_id, Year=year, Period=period, _soapheaders=self.auth_header)
+        responses = self.client.service.PayrollWorkflow_Get(
+            CompanyId=company_id, Year=year, Period=period, _soapheaders=self.auth_manager.header
+        )
         responses = [PayrollWorkflowTrack(company_id=company_id, data=response) for response in serialize_object(responses)]
         return responses

@@ -2,6 +2,8 @@
 
 import unittest
 from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.hour_model import CompanyHourModelService, HourCode
 
 
@@ -9,10 +11,17 @@ class TestCompanyHourModelService(unittest.TestCase):
     """Unit tests for the CompanyHourModelService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.hour_model_service = CompanyHourModelService(self.client)
-        self.mock_auth_header = Mock()
-        self.hour_model_service.set_auth_header(self.mock_auth_header)
+        self.hour_model_service = CompanyHourModelService(self.auth_manager, self.client)
 
     def test_get_hour_codes(self):
         """Test retrieving hour codes associated with a company's hour model."""

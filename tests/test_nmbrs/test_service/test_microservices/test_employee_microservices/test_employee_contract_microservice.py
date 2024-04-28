@@ -4,6 +4,8 @@ import unittest
 from unittest.mock import Mock
 from datetime import datetime
 from decimal import Decimal
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.contract import EmployeeContractService, Contract
 
 
@@ -11,10 +13,17 @@ class TestEmployeeContractService(unittest.TestCase):
     """Unit tests for the EmployeeContractService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.employee_contract_service = EmployeeContractService(self.client)
-        self.mock_auth_header = Mock()
-        self.employee_contract_service.set_auth_header(self.mock_auth_header)
+        self.employee_contract_service = EmployeeContractService(self.auth_manager, self.client)
 
     def test_get_all(self):
         """Test getting all contracts for a given employee."""

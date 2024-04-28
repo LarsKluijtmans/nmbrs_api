@@ -1,5 +1,6 @@
 """Main class provided by the package."""
 
+from .auth.token_manager import AuthManager
 from .exceptions import ParameterMissingError
 from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService
@@ -26,79 +27,52 @@ class Nmbrs:
         auth_type: str = None,
     ):
         """
-        Constructor method for NmbrsSoapAPI class.
-
-        Initializes NmbrsSoapAPI instance with authentication details and settings.
+        Initializes a Nmbrs SOAP API instance with authentication details and settings.
 
         Args:
-            username (str (optional)): Username for Nmbrs.
-            token (str (optional)): Token for the Nmbrs SOAP API.
-            domain (str (optional)): Nmbrs environment subdomain.
-            sandbox (bool (optional)): A boolean indicating whether to use the sandbox environment (default: True).
-            auth_type (str (optional)): The type of authentication to be used. Options: "token", "domain", None (default: None).
+            username (str, optional): Username for Nmbrs.
+            token (str, optional): Token for the Nmbrs SOAP API.
+            domain (str, optional): Nmbrs environment subdomain.
+            sandbox (bool, optional): A boolean indicating whether to use the sandbox environment. Default is True.
+            auth_type (str, optional): The type of authentication to be used. Options: "token", "domain", None (default).
         """
         self.sandbox = sandbox
-        self.sso = SingleSingOnService(self.sandbox)
-        self.debtor = DebtorService(self.sandbox)
-        self.company = CompanyService(self.sandbox)
-        self.employee = EmployeeService(self.sandbox)
+        self.auth_manager = AuthManager()
+        self.sso = SingleSingOnService(self.auth_manager, self.sandbox)
+        self.debtor = DebtorService(self.auth_manager, self.sandbox)
+        self.company = CompanyService(self.auth_manager, self.sandbox)
+        self.employee = EmployeeService(self.auth_manager, self.sandbox)
 
         if auth_type == "token":
-            params = find_empty_params(**{"username": username, "token": token})
-            if params:
-                raise ParameterMissingError(params=params)
             self.auth_with_token(username, token)
         elif auth_type == "domain":
-            params = find_empty_params(**{"username": username, "token": token, "domain": domain})
-            if params:
-                raise ParameterMissingError(params=params)
             self.auth_with_domain(username, token, domain)
-
-    def _initialize_services(self, auth_header: dict) -> None:
-        """
-        Initialize the services using the provided auth header.
-
-        Args:
-            auth_header (dict): header value used for authentication.
-        """
-        self.sso.set_auth_header(auth_header)
-        self.debtor.set_auth_header(auth_header)
-        self.company.set_auth_header(auth_header)
-        self.employee.set_auth_header(auth_header)
 
     def auth_with_token(self, username: str, token: str) -> None:
         """
-        Perform standard authentication and initialize related services.
+        Perform standard authentication using token and initialize related services.
 
         Args:
             username (str): Username for Nmbrs.
             token (str): Token for the Nmbrs SOAP API.
         """
+        params = find_empty_params(**{"username": username, "token": token})
+        if params:
+            raise ParameterMissingError(params=params)
         domain = self.debtor.get_domain(username, token)
-        auth_header = {
-            "AuthHeaderWithDomain": {
-                "Username": username,
-                "Token": token,
-                "Domain": domain.sub_domain,
-            }
-        }
-        self._initialize_services(auth_header)
+        self.auth_manager.set_auth_header(username, token, domain.sub_domain)
 
     def auth_with_domain(self, username: str, token: str, domain: str) -> None:
         """
         Create the auth header with domain object and initialize related services.
-        Note:: The username, token and domain are never validated in this routine.
+        Note: The username, token, and domain are not validated in this routine.
 
         Args:
             username (str): Username for Nmbrs.
             token (str): Token for the Nmbrs SOAP API.
             domain (str): Nmbrs environment subdomain.
         """
-        auth_header = {
-            "AuthHeaderWithDomain": {
-                "Username": username,
-                "Token": token,
-                "Domain": domain,
-            }
-        }
-        self._initialize_services(auth_header)
+        params = find_empty_params(**{"username": username, "token": token, "domain": domain})
+        if params:
+            raise ParameterMissingError(params=params)
+        self.auth_manager.set_auth_header(username, token, domain)
