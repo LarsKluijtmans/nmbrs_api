@@ -197,7 +197,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_Get")
-    def get_variable(self, company_id: int, year: int, period: int) -> list[WageComponent]:
+    def get_variable(self, company_id: int, period: int, year: int) -> list[WageComponent]:
         """
         Retrieve all variable wage components for a specified company, year, and period.
 
@@ -206,8 +206,8 @@ class CompanyWageComponentService(MicroService):
 
         Args:
             company_id (int): The ID of the company.
-            year (int): The year.
             period (int): The period.
+            year (int): The year.
 
         Returns:
             list[WageComponent]: A list of variable wage components.

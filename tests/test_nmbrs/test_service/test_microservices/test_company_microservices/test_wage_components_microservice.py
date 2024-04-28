@@ -184,7 +184,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         ]
         self.client.service.WageComponentVar_Get.return_value = expected_wage_components
 
-        result = self.company_wage_component_service.get_variable(company_id, year, period)
+        result = self.company_wage_component_service.get_variable(company_id, period, year)
 
         self.assertEqual(len(result), len(expected_wage_components))
         self.assertIsInstance(result[0], WageComponent)

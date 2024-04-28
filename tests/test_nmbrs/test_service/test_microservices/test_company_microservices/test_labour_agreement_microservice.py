@@ -64,7 +64,7 @@ class TestCompanyLabourAgreementService(unittest.TestCase):
         ]
         self.client.service.CompanyLeaveTypeGroups_Get.return_value = expected_responses
 
-        result = self.labour_agreement_service.get_leave_type_groups(company_id, labour_agreement_settings_group_id, year, period)
+        result = self.labour_agreement_service.get_leave_type_groups(company_id, labour_agreement_settings_group_id, period, year)
 
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], LeaveTypeGroup)

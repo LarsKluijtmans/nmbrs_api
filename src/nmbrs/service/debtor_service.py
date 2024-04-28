@@ -267,7 +267,7 @@ class DebtorService(Service):
 
     @return_list
     @nmbrs_exception_handler(resource="DebtorService:LabourAgreementSettings_GetList")
-    def get_all_labour_agreements(self, debtor_id: int, year: int, period: int) -> list[LabourAgreementSettings]:
+    def get_all_labour_agreements(self, debtor_id: int, period: int, year: int) -> list[LabourAgreementSettings]:
         """
         Retrieve all labour agreement settings for a debtor.
 
@@ -276,8 +276,8 @@ class DebtorService(Service):
 
         Args:
             debtor_id (int): The ID of the debtor.
-            year (int): The year for which to retrieve labour agreement settings.
             period (int): The period for which to retrieve labour agreement settings.
+            year (int): The year for which to retrieve labour agreement settings.
 
         Returns:
             list[LabourAgreementSettings]: A list of LabourAgreementSettings objects representing all labour

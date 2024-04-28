@@ -94,7 +94,7 @@ class CompanyRunService(MicroService):
         ]
 
     @nmbrs_exception_handler(resource="CompanyService:HrDocuments_EmployerCostPerHour_Year")
-    def get_hr_documents_cost_per_hour_year(self, company_id: int, run_id: int, year: int, period: int) -> bytes:
+    def get_hr_documents_cost_per_hour_year(self, company_id: int, run_id: int, period: int, year: int) -> bytes:
         """
         Get HR Document: Employer Cost per Hour per company per period.
 
@@ -104,8 +104,8 @@ class CompanyRunService(MicroService):
         Args:
             company_id (int): The ID of the company.
             run_id (int): The ID of the run.
-            year (int): The year.
             period (int): The period.
+            year (int): The year.
 
         Returns:
             bytes: The HR document as base64Binary.

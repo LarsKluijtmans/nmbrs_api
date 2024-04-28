@@ -70,7 +70,7 @@ class CompanyLabourAgreementService(MicroService):
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:CompanyLeaveTypeGroups_Get")
     def get_leave_type_groups(
-        self, company_id: int, labour_agreement_settings_group_id: int, year: int, period: int
+        self, company_id: int, labour_agreement_settings_group_id: int, period: int, year: int
     ) -> list[LeaveTypeGroup]:
         """
         Get the company's leave type groups.
@@ -81,8 +81,8 @@ class CompanyLabourAgreementService(MicroService):
         Args:
             company_id (int): The ID of the company.
             labour_agreement_settings_group_id (int): The ID of the labour agreement settings group.
-            year (int): The year.
             period (int): The period.
+            year (int): The year.
 
         Returns:
             List[LeaveTypeGroup]: A list of LeaveTypeGroup objects.

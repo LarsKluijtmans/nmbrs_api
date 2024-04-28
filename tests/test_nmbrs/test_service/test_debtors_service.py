@@ -181,7 +181,7 @@ class TestDebtorService(unittest.TestCase):
         """Test retrieving all labour agreement settings for a debtor."""
         mock_labour_agreements = [Mock() for _ in range(3)]
         self.mock_client.service.LabourAgreementSettings_GetList.return_value = mock_labour_agreements
-        result = self.debtor_service.get_all_labour_agreements(1, 2024, 3)
+        result = self.debtor_service.get_all_labour_agreements(1, 3, 2024)
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(labour_agreement, LabourAgreementSettings) for labour_agreement in result))
         self.mock_client.service.LabourAgreementSettings_GetList.assert_called_once_with(

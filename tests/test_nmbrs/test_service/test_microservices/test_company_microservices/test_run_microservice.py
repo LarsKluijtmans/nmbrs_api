@@ -78,7 +78,7 @@ class TestCompanyRunService(unittest.TestCase):
         expected_response = b"mocked_hr_document_bytes"
         self.client.service.HrDocuments_EmployerCostPerHour_Year.return_value = expected_response
 
-        result = self.run_service.get_hr_documents_cost_per_hour_year(company_id, run_id, year, period)
+        result = self.run_service.get_hr_documents_cost_per_hour_year(company_id, run_id, period, year)
 
         self.assertEqual(result, expected_response)
         self.client.service.HrDocuments_EmployerCostPerHour_Year.assert_called_once_with(

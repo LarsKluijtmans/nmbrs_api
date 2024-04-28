@@ -244,7 +244,7 @@ class TestCompanyService(unittest.TestCase):
         ]
         self.mock_client.service.PayrollWorkflow_Get.return_value = expected_responses
 
-        result = self.company_service.get_payroll_workflows(company_id, year, period)
+        result = self.company_service.get_payroll_workflows(company_id, period, year)
 
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], PayrollWorkflowTrack)

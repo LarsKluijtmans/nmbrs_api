@@ -277,7 +277,7 @@ class CompanyService(Service):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:PayrollWorkflow_Get")
-    def get_payroll_workflows(self, company_id: int, year: int, period: int) -> list[PayrollWorkflowTrack]:
+    def get_payroll_workflows(self, company_id: int, period: int, year: int) -> list[PayrollWorkflowTrack]:
         """
         Get the company's payroll workflow tracks and actions.
 
@@ -286,8 +286,8 @@ class CompanyService(Service):
 
         Args:
             company_id (int): The ID of the company.
-            year (int): The year.
             period (int): The period.
+            year (int): The year.
 
         Returns:
             List[PayrollWorkflowTrack]: A list of PayrollWorkflowTrack objects.
