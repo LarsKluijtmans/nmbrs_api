@@ -5,10 +5,7 @@ Module for handling Single Sign-On for Nmbrs services.
 from zeep import Client
 
 from .service import Service
-from ..utils.nmbrs_exception_handler import (
-    nmbrs_exception_handler,
-    nmbrs_sso_exception_handler,
-)
+from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class SingleSingOnService(Service):
@@ -43,10 +40,12 @@ class SingleSingOnService(Service):
         return f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken")
-    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetToken")
-    def sso_auth_with_password(self, username: str, password: str) -> str:
+    def get_token_with_password(self, username: str, password: str) -> str:
         """
-        Perform Single Sign-On authentication using username and password.
+        Get token for user. Valid for 30 seconds
+
+        For more information, refer to the official documentation:
+            [GetToken](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetToken)
 
         Args:
             username (str): A string representing the username for authentication.
@@ -59,10 +58,12 @@ class SingleSingOnService(Service):
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken2")
-    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetToken2")
-    def sso_auth_with_token(self, username: str, token: str) -> str:
+    def get_token_with_api_token(self, username: str, token: str) -> str:
         """
-        Perform Single Sign-On authentication using username and token.
+        Get token for user, by API token. Valid for 30 seconds
+
+        For more information, refer to the official documentation:
+            [GetToken2](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetToken2)
 
         Args:
             username (str): A string representing the username for authentication.
@@ -75,10 +76,12 @@ class SingleSingOnService(Service):
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
-    @nmbrs_sso_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
-    def sso_auth_with_domain(self, username: str, password: str, domain: str) -> str:
+    def get_token_with_domain(self, username: str, password: str, domain: str) -> str:
         """
-        Perform Single Sign-On authentication using username, password, and domain.
+        Get token for user of an environment. Valid for 30 seconds.
+
+        For more information, refer to the official documentation:
+            [GetTokenWithDomain](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetTokenWithDomain)
 
         Args:
             username (str): A string representing the username for authentication.

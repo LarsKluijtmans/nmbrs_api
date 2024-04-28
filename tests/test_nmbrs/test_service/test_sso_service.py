@@ -37,7 +37,7 @@ class TestSingleSingOnService(TestCase):
         self.mock_service.GetToken.return_value = "test_token"
         username = "test_user"
         password = "test_password"
-        token = self.service.sso_auth_with_password(username, password)
+        token = self.service.get_token_with_password(username, password)
         self.assertEqual(token, "test_token")
         self.mock_service.GetToken.assert_called_once_with(Username=username, Password=password)
 
@@ -46,7 +46,7 @@ class TestSingleSingOnService(TestCase):
         self.mock_service.GetToken2.return_value = "test_token"
         username = "test_user"
         token = "test_token"
-        result = self.service.sso_auth_with_token(username, token)
+        result = self.service.get_token_with_api_token(username, token)
         self.assertEqual(result, "test_token")
         self.mock_service.GetToken2.assert_called_once_with(Username=username, Token=token)
 
@@ -56,7 +56,7 @@ class TestSingleSingOnService(TestCase):
         username = "test_user"
         password = "test_password"
         domain = "test_domain"
-        token = self.service.sso_auth_with_domain(username, password, domain)
+        token = self.service.get_token_with_domain(username, password, domain)
         self.assertEqual(token, "test_token")
         self.mock_service.GetTokenWithDomain.assert_called_once_with(Username=username, Password=password, Domain=domain)
 
@@ -66,7 +66,7 @@ class TestSingleSingOnService(TestCase):
         username = "test_user"
         password = "test_password"
         with self.assertRaises(Exception):
-            self.service.sso_auth_with_password(username, password)
+            self.service.get_token_with_password(username, password)
         self.mock_service.GetToken.assert_called_once_with(Username=username, Password=password)
 
     def test_sso_auth_with_token_exception(self):
@@ -75,7 +75,7 @@ class TestSingleSingOnService(TestCase):
         username = "test_user"
         token = "test_token"
         with self.assertRaises(Exception):
-            self.service.sso_auth_with_token(username, token)
+            self.service.get_token_with_api_token(username, token)
         self.mock_service.GetToken2.assert_called_once_with(Username=username, Token=token)
 
     def test_sso_auth_with_domain_exception(self):
@@ -85,7 +85,7 @@ class TestSingleSingOnService(TestCase):
         password = "test_password"
         domain = "test_domain"
         with self.assertRaises(Exception):
-            self.service.sso_auth_with_domain(username, password, domain)
+            self.service.get_token_with_domain(username, password, domain)
         self.mock_service.GetTokenWithDomain.assert_called_once_with(
             Username=username,
             Password=password,

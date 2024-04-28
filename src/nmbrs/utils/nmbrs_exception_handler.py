@@ -69,6 +69,7 @@ def nmbrs_exception_handler(resource: str):
                     1002: AuthorizationException,
                     1003: AuthorizationDataException,
                     1004: NoValidSubscriptionException,
+                    1006: LoginSecurityFailureException,
                     2001: InvalidHourComponentException,
                     2002: InvalidWageComponentException,
                     2003: UnauthorizedEmployeeException,
@@ -109,38 +110,14 @@ def nmbrs_exception_handler(resource: str):
                     9999: UnknownNmbrsException,
                 }
                 exception_str = str(e)
+
+                # Exceptions without code
+                if "---> Invalid combination email/password" in exception_str:
+                    raise InvalidCredentialsException(resource=resource) from e
+
                 for error_code, exception_class in error_map.items():
                     if f"---> {error_code}:" in exception_str:
                         raise exception_class(resource=resource) from e
-                raise UnknownException(resource=resource) from e
-
-        return wrapper
-
-    return decorator
-
-
-def nmbrs_sso_exception_handler(resource: str):
-    """
-    Decorator to handle exceptions raised by Nmbrs SOAP API.
-
-    Args:
-        resource (str): Resources being called.
-    """
-
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except zeep.exceptions.Fault as e:
-                e_str = str(e)
-                if "---> 1006:" in e_str:
-                    raise LoginSecurityFailureException(resource=resource) from e
-                if "---> 2042:" in e_str:
-                    raise MultipleEnvironmentAccountsException(resource=resource) from e
-                if "---> 2043" in e_str:
-                    raise DomainNotFoundException(resource=resource) from e
-                if "---> Invalid combination email/password" in e_str:
-                    raise InvalidCredentialsException(resource=resource) from e
                 raise UnknownException(resource=resource) from e
 
         return wrapper
