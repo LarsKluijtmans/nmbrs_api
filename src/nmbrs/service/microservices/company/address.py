@@ -18,7 +18,7 @@ class CompanyAddressService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="CompanyService:Address_GetCurrent")
-    def get(self, company_id: int) -> Address | None:
+    def get_current(self, company_id: int) -> Address | None:
         """
         Get the current address of the company.
 
@@ -37,7 +37,7 @@ class CompanyAddressService(MicroService):
         return Address(company_id=company_id, data=serialize_object(address))
 
     @nmbrs_exception_handler(resource="CompanyService:Address_Insert")
-    def insert(
+    def post(
         self,
         company_id: int,
         address_id: int,

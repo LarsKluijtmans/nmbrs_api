@@ -26,7 +26,7 @@ class EmployeeLevensLoopService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Levensloop_Insert")
-    def insert(self):
+    def post(self):
         """
         Start levensloop for given date and amount.
 

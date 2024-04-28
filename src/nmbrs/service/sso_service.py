@@ -1,5 +1,5 @@
 """
-Module for handling Single Sign-On for Nmbrs services.
+Module for handling Single Sign-On (SSO) for Nmbrs services.
 """
 
 from zeep import Client
@@ -10,33 +10,41 @@ from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 class SingleSingOnService(Service):
     """
-    A class responsible for handling Single Sign-On for Nmbrs services.
+    A class responsible for managing Single Sign-On (SSO) for Nmbrs services.
     """
 
     def __init__(self, sandbox: bool = True) -> None:
-        super().__init__(sandbox)
+        """
+        Initializes the Single Sign-On service.
 
-        # Initialize nmbrs services
+        Args:
+            sandbox (bool, (optional)): A boolean indicating whether to use the sandbox environment. Defaults to True.
+        """
+        super().__init__(sandbox)
         self.sso_service = Client(f"{self.base_uri}{self.sso_uri}")
 
     def set_auth_header(self, auth_header: dict) -> None:
-        """Function inherited from higher level, but in this case not used."""
+        """
+        Set authentication header. Not used in this context.
+
+        Args:
+            auth_header (dict): The authentication header.
+        """
 
     def get_sso_url(self, token: str, nmbrs_env: str, target: str = "nmbrs") -> str:
         """
-        Generate the Single Sign-On URL.
+        Generate the Single Sign-On (SSO) URL.
 
         Args:
-            token (str): A string representing the authentication token.
-            nmbrs_env (str): A string representing the Nmbrs environment subdomain.
-            target (str (optional)): A string representing the target application. (default: nmbrs)
+            token (str): The authentication token.
+            nmbrs_env (str): The Nmbrs environment subdomain.
+            target (str, (optional)): The target application. Defaults to "nmbrs".
 
         Returns:
             str: The generated Single Sign-On URL.
         """
         if self.sso_url not in nmbrs_env:
             nmbrs_env = f"{nmbrs_env}{self.sso_url}"
-
         return f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken")
@@ -48,11 +56,11 @@ class SingleSingOnService(Service):
             [GetToken](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetToken)
 
         Args:
-            username (str): A string representing the username for authentication.
-            password (str): A string representing the password for authentication.
+            username (str): The username for authentication.
+            password (str): The password for authentication.
 
         Returns:
-            str: Single sign-on token, valid for 30 seconds
+            str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken(Username=username, Password=password)
         return token
@@ -66,11 +74,11 @@ class SingleSingOnService(Service):
             [GetToken2](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetToken2)
 
         Args:
-            username (str): A string representing the username for authentication.
-            token (str): A string representing the token for authentication.
+            username (str): The username for authentication.
+            token (str): The token for authentication.
 
         Returns:
-            str: Single sign-on token, valid for 30 seconds
+            str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken2(Username=username, Token=token)
         return token
@@ -84,12 +92,12 @@ class SingleSingOnService(Service):
             [GetTokenWithDomain](https://api.nmbrs.nl/soap/v3/SingleSignOn.asmx?op=GetTokenWithDomain)
 
         Args:
-            username (str): A string representing the username for authentication.
-            password (str): A string representing the password for authentication.
-            domain (str): A string representing the Nmbrs environment subdomain.
+            username (str): The username for authentication.
+            password (str): The password for authentication.
+            domain (str): The Nmbrs environment subdomain.
 
         Returns:
-            str: Single sign-on token, valid for 30 seconds
+            str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetTokenWithDomain(Username=username, Password=password, Domain=domain)
         return token

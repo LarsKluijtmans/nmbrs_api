@@ -163,7 +163,7 @@ class CompanyService(Service):
         return Period(company_id=company_id, data=serialize_object(period))
 
     @nmbrs_exception_handler(resource="CompanyService:Company_Insert")
-    def insert(
+    def post(
         self, debtor_id: int, name: str, period_type: int, default_id: int, labour_agreement_group_id: str, pay_in_advance: bool
     ) -> int:
         """
@@ -299,7 +299,7 @@ class CompanyService(Service):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:PayrollWorkflow_Get")
-    def get_payroll_workflow(self, company_id: int, year: int, period: int) -> list[PayrollWorkflowTrack]:
+    def get_payroll_workflows(self, company_id: int, year: int, period: int) -> list[PayrollWorkflowTrack]:
         """
         Get the company's payroll workflow tracks and actions.
 

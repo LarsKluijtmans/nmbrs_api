@@ -159,7 +159,7 @@ class TestCompanyService(unittest.TestCase):
         """Test inserting a new company."""
         mock_inserted_id = 123
         self.mock_client.service.Company_Insert.return_value = mock_inserted_id
-        result = self.client.insert(1, "Test Company", 1, 1, "labour_agreement_group_id", True)
+        result = self.client.post(1, "Test Company", 1, 1, "labour_agreement_group_id", True)
         self.assertEqual(result, mock_inserted_id)
         self.mock_client.service.Company_Insert.assert_called_once_with(
             DebtorId=1,
@@ -316,7 +316,7 @@ class TestCompanyService(unittest.TestCase):
         ]
         self.mock_client.service.PayrollWorkflow_Get.return_value = expected_responses
 
-        result = self.client.get_payroll_workflow(company_id, year, period)
+        result = self.client.get_payroll_workflows(company_id, year, period)
 
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], PayrollWorkflowTrack)

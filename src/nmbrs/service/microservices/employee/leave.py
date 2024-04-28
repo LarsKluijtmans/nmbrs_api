@@ -16,7 +16,7 @@ class EmployeeLeaveService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="EmployeeService:LeaveBalance_Get")
-    def get(self):
+    def get_current(self):
         """
         Get the Leave Balance for the given employee.
 
@@ -56,7 +56,7 @@ class EmployeeLeaveService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Leave_Insert")
-    def insert(self):
+    def post(self):
         """
         Insert a new leave, starting from a specific date.
 

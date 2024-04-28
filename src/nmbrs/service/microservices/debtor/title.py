@@ -37,7 +37,7 @@ class DebtorTitleService(MicroService):
         return titles
 
     @nmbrs_exception_handler(resource="DebtorService:Title_Insert")
-    def insert(self, debtor_id: int, title: str) -> None:
+    def post(self, debtor_id: int, title: str) -> None:
         """
         Insert a title for a debtor.
 

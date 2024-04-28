@@ -79,7 +79,7 @@ class EmployeeBankAccountService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:BankAccount_Insert")
-    def insert(self, employee_id: int, bank_account: BankAccount, period: int, year: int, unprotected_mode: bool) -> int:
+    def post(self, employee_id: int, bank_account: BankAccount, period: int, year: int, unprotected_mode: bool) -> int:
         """
         Insert given bank account to the given period. Unprotected mode flag is required.
 
@@ -117,7 +117,7 @@ class EmployeeBankAccountService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:BankAccount_InsertCurrent")
-    def insert_current(self, employee_id: int, bank_account: BankAccount) -> int:
+    def post_current(self, employee_id: int, bank_account: BankAccount) -> int:
         """
         Insert given bank account to the current period.
 

@@ -73,7 +73,7 @@ class TestCompanyWageCostService(unittest.TestCase):
         expected_response = 1  # Example response indicating success
         self.client.service.WorkCost_Insert.return_value = expected_response
 
-        result = self.wage_cost_service.insert(company_id, value, period, year)
+        result = self.wage_cost_service.post(company_id, value, period, year)
 
         self.assertEqual(result, expected_response)
         self.client.service.WorkCost_Insert.assert_called_once_with(

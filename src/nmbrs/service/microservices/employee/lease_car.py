@@ -86,7 +86,7 @@ class EmployeeLeaseCarService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Insert")
-    def insert(self):
+    def post(self):
         """
         Insert a new lease car contract, this contract will start from given date within the object.
 
@@ -96,7 +96,7 @@ class EmployeeLeaseCarService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_InsertCurrent")
-    def insert_current(self):
+    def post_current(self):
         """
         Insert a new lease car contract, this contract will start from given date within the object.
 

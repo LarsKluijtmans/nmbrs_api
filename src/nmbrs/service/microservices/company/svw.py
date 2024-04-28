@@ -35,7 +35,7 @@ class CompanySvwService(MicroService):
         return SVW(company_id=company_id, data=serialize_object(svw))
 
     @nmbrs_exception_handler(resource="CompanyService:SVW_UpdateCurrent")
-    def insert_current(self, company_id: int, svw: SVW) -> None:
+    def post_current(self, company_id: int, svw: SVW) -> None:
         """
         Update the current SVW settings.
 

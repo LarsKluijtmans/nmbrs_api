@@ -20,7 +20,7 @@ class CompanyWageModelService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageModel_GetWageCodes")
-    def get(self, company_id: int) -> list[WageModel]:
+    def get_current(self, company_id: int) -> list[WageModel]:
         """
         Retrieve the list of wage codes belonging to a company's wage model.
 
@@ -39,7 +39,7 @@ class CompanyWageModelService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageModel2_GetWageCodes")
-    def get_2(self, company_id: int) -> list[WageModel]:
+    def get_current_2(self, company_id: int) -> list[WageModel]:
         """
         Retrieve the list of wage codes belonging to a company's wage model.
 

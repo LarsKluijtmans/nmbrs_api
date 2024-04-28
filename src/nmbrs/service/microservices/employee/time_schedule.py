@@ -47,7 +47,7 @@ class EmployeeTimeScheduleService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_Insert")
-    def insert(self):
+    def post(self):
         """
         Add a new TimeSchedule.
 

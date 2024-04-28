@@ -20,7 +20,7 @@ class CompanyCostCenterService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:CostCenter_GetList")
-    def get(self, company_id: int) -> list[CostCenter]:
+    def get_current(self, company_id: int) -> list[CostCenter]:
         """
         Retrieve cost centers associated with a company.
 
@@ -37,7 +37,7 @@ class CompanyCostCenterService(MicroService):
         return [CostCenter(company_id=company_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
 
     @nmbrs_exception_handler(resource="CompanyService:CostCenter_Insert")
-    def insert(self, company_id: int, cost_center_id: int, code: str, description: str) -> int:
+    def post(self, company_id: int, cost_center_id: int, code: str, description: str) -> int:
         """
         Insert or update a cost center within a company.
 

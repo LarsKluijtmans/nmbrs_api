@@ -29,7 +29,7 @@ class TestDebtorTitleService(unittest.TestCase):
 
     def test_insert_titles(self):
         """Test inserting a title for a debtor."""
-        self.debtor_title_service.insert(1, "Test Title")
+        self.debtor_title_service.post(1, "Test Title")
         self.mock_client.service.Title_Insert.assert_called_once_with(
             DebtorId=1,
             title={"TitleName": "Test Title"},

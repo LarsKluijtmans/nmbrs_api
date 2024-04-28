@@ -128,7 +128,7 @@ class EmployeeAddressService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Address_Insert")
-    def insert(self, employee_id: int, address: Address, period: int, year: int, unprotected_mode: bool) -> int:
+    def post(self, employee_id: int, address: Address, period: int, year: int, unprotected_mode: bool) -> int:
         """
         Insert given address to the specified period. If the period is before the company's current period,
         unprotected mode flag is required.
@@ -169,7 +169,7 @@ class EmployeeAddressService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Address_InsertCurrent")
-    def insert_current(self, employee_id: int, address: Address) -> int:
+    def post_current(self, employee_id: int, address: Address) -> int:
         """
         Insert given address to the current period.
 

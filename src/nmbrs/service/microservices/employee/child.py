@@ -20,7 +20,7 @@ class EmployeeChildService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Children_Get")
-    def get(self, employee_id: int) -> list[Child]:
+    def get_current(self, employee_id: int) -> list[Child]:
         """
         Get employee childs.
 
@@ -83,7 +83,7 @@ class EmployeeChildService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Children_Insert")
-    def insert(self, employee_id: int, child: Child) -> str:
+    def post(self, employee_id: int, child: Child) -> str:
         """
         Insert an employee child.
 
@@ -113,7 +113,7 @@ class EmployeeChildService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Children_InsertBatch")
-    def insert_batch(self, employee_id: int, children: list[Child]) -> str:
+    def post_batch(self, employee_id: int, children: list[Child]) -> str:
         """
         Insert employee children.
 

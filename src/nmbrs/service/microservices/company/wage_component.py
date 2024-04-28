@@ -20,7 +20,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_Get")
-    def fixed_get(self, company_id: int, year: int, period: int) -> list[WageComponent]:
+    def get_fixed(self, company_id: int, year: int, period: int) -> list[WageComponent]:
         """
         Retrieve all fixed wage components for a specified company, year, and period.
 
@@ -46,7 +46,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_GetCurrent")
-    def fixed_get_current(self, company_id: int):
+    def get_current_fixed(self, company_id: int):
         """
         Retrieve all fixed wage components for the current period of a specified company.
 
@@ -67,7 +67,7 @@ class CompanyWageComponentService(MicroService):
         return wage_components
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_Insert")
-    def fixed_insert(
+    def post_fixed(
         self,
         wage_component: WageComponent,
         period: int,
@@ -101,7 +101,7 @@ class CompanyWageComponentService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_InsertCurrent")
-    def fixed_insert_current(self, wage_component: WageComponent) -> int:
+    def post_current_fixed(self, wage_component: WageComponent) -> int:
         """
         Insert a fixed wage component for the current period of a specified company.
 
@@ -122,7 +122,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_Insert_Batch")
-    def fixed_insert_batch(
+    def post_batch_fixed(
         self,
         wage_components: list[WageComponent],
         period: int,
@@ -160,7 +160,7 @@ class CompanyWageComponentService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentFixed_Stop")
-    def fixed_stop(
+    def stop_fixed(
         self,
         company_id: int,
         component_id: int,
@@ -195,7 +195,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_Get")
-    def variable_get(self, company_id: int, year: int, period: int) -> list[WageComponent]:
+    def get_variable(self, company_id: int, year: int, period: int) -> list[WageComponent]:
         """
         Retrieve all variable wage components for a specified company, year, and period.
 
@@ -221,7 +221,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_GetCurrent")
-    def variable_get_current(self, company_id: int) -> list[WageComponent]:
+    def get_current_variable(self, company_id: int) -> list[WageComponent]:
         """
         Retrieve all variable wage components for the current period of a specified company.
 
@@ -242,7 +242,7 @@ class CompanyWageComponentService(MicroService):
         return wage_components
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_Insert")
-    def variable_insert(
+    def post_variable(
         self,
         wage_component: WageComponent,
         period: int,
@@ -276,7 +276,7 @@ class CompanyWageComponentService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_InsertCurrent")
-    def variable_insert_current(self, wage_component: WageComponent) -> int:
+    def post_current_variable(self, wage_component: WageComponent) -> int:
         """
         Insert a variable wage component for the current period of a specified company.
 
@@ -297,7 +297,7 @@ class CompanyWageComponentService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_Insert_Batch")
-    def variable_insert_batch(
+    def post_batch_variable(
         self,
         wage_components: list[WageComponent],
         period: int,
@@ -335,7 +335,7 @@ class CompanyWageComponentService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_Clear")
-    def variable_clear(
+    def clear_variable(
         self,
         company_id: int,
         period: int,
@@ -367,7 +367,7 @@ class CompanyWageComponentService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="CompanyService:WageComponentVar_ClearCurrent")
-    def variable_clear_current(self, company_id: int) -> list[int]:
+    def clear_current_variable(self, company_id: int) -> list[int]:
         """
         Clear all variable wage components for the current period of a specified company.
 

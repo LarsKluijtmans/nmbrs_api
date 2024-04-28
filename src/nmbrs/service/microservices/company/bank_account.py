@@ -37,7 +37,7 @@ class CompanyBankAccountService(MicroService):
         return BankAccount(company_id=company_id, data=serialize_object(bank_account))
 
     @nmbrs_exception_handler(resource="CompanyService:BankAccount_Insert")
-    def insert(
+    def post(
         self,
         company_id: int,
         account_id: int,

@@ -27,7 +27,7 @@ class EmployeeServiceService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Service_Insert")
-    def insert(self):
+    def post(self):
         """
         Start a new service interval. If the date is before the company's current period, unprotected mode flag is required.
 
@@ -37,7 +37,7 @@ class EmployeeServiceService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Service_Insert2")
-    def insert_2(self):
+    def post_2(self):
         """
         Start a new service interval. If the date is before the company's current period, unprotected mode flag is required.
 

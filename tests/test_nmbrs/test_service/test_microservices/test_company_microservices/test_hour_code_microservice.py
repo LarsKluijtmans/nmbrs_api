@@ -18,7 +18,7 @@ class TestCompanyHourModelService(unittest.TestCase):
         """Test retrieving hour codes associated with a company's hour model."""
         mock_hour_codes = [{"Code": "HC1", "Description": "Hour Code 1"}, {"Code": "HC2", "Description": "Hour Code 2"}]
         self.client.service.HourModel_GetHourCodes.return_value = mock_hour_codes
-        result = self.hour_model_service.get(1)
+        result = self.hour_model_service.get_current(1)
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], HourCode)
         self.assertEqual(result[0].code, "HC1")
@@ -29,7 +29,7 @@ class TestCompanyHourModelService(unittest.TestCase):
         """Test retrieving hour codes associated with a company's hour model 2."""
         mock_hour_codes = [{"Code": "HC3", "Description": "Hour Code 3"}, {"Code": "HC4", "Description": "Hour Code 4"}]
         self.client.service.HourModel2_GetHourCodes.return_value = mock_hour_codes
-        result = self.hour_model_service.get_2(1)
+        result = self.hour_model_service.get_current_2(1)
         self.assertEqual(len(result), 2)
         self.assertIsInstance(result[0], HourCode)
         self.assertEqual(result[0].code, "HC3")

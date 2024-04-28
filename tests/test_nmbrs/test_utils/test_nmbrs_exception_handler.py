@@ -16,6 +16,7 @@ from src.nmbrs.exceptions import (
     InvalidWageComponentException,
     UnknownException,
     NoValidSubscriptionException,
+    InvalidCredentialsException,
 )
 from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
@@ -171,3 +172,15 @@ class TestNmbrsExceptionHandler(TestCase):
             exception_raised()
 
         self.assertEqual(str(context.exception), "custom error message")
+
+    def test_exception_without_code(self):
+        """Test when a nmbrs exception that does not have a code"""
+
+        @nmbrs_exception_handler(resource="resource1")
+        def exception_raised():
+            raise zeep.exceptions.Fault("---> Invalid combination email/password")
+
+        with self.assertRaises(InvalidCredentialsException) as context:
+            exception_raised()
+
+        self.assertEqual(context.exception.resource, "resource1")

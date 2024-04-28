@@ -19,7 +19,7 @@ class EmployeeContractService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_GetAll")
-    def get_all(self, employee_id: int) -> list[Contract]:
+    def get(self, employee_id: int) -> list[Contract]:
         """
         Get all contracts for the specified employee.
 
@@ -131,7 +131,7 @@ class EmployeeContractService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_Insert")
-    def insert(self, employee_id: int, contract: Contract, unprotected_mode: bool) -> int:
+    def post(self, employee_id: int, contract: Contract, unprotected_mode: bool) -> int:
         """
         Insert Contract. If the start date is before the company's current period, unprotected mode flag is required.
 
@@ -168,7 +168,7 @@ class EmployeeContractService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_InsertCurrentPeriod")
-    def insert_current(self, employee_id: int, contract: Contract, unprotected_mode: bool) -> int:
+    def post_current(self, employee_id: int, contract: Contract, unprotected_mode: bool) -> int:
         """
         Insert Contract in current period for specified employee.
 

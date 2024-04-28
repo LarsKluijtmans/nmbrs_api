@@ -52,7 +52,7 @@ class DebtorDepartmentService(MicroService):
         return departments
 
     @nmbrs_exception_handler(resource="DebtorService:Department_Insert")
-    def insert(self, debtor_id: int, department_id: int, code: int, description: str) -> int:
+    def post(self, debtor_id: int, department_id: int, code: int, description: str) -> int:
         """
         Insert a new department for a debtor.
 
