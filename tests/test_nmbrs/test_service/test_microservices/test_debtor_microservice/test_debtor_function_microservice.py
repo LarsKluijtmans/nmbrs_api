@@ -33,7 +33,7 @@ class TestDebtorFunctionService(unittest.TestCase):
     def test_insert_function(self):
         """Test inserting a new function for a debtor."""
         self.mock_client.service.Function_Insert.return_value = 123
-        result = self.debtor_function_service.insert(1, 2, 3, "test_description")
+        result = self.debtor_function_service.post(1, 2, 3, "test_description")
         self.assertEqual(result, 123)
         self.mock_client.service.Function_Insert.assert_called_once_with(
             DebtorId=1,

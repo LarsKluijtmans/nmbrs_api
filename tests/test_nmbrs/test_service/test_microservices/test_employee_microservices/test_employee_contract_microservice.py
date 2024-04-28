@@ -35,7 +35,7 @@ class TestEmployeeContractService(unittest.TestCase):
             }
         ]
 
-        result = self.employee_contract_service.get_all(employee_id)
+        result = self.employee_contract_service.get(employee_id)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].id, 1)
@@ -185,7 +185,7 @@ class TestEmployeeContractService(unittest.TestCase):
         contract = Contract(employee_id=employee_id, data=contract_data)
         self.client.service.Contract_Update.return_value = "Success"
 
-        result = self.employee_contract_service.insert(employee_id, contract, unprotected_mode=True)
+        result = self.employee_contract_service.post(employee_id, contract, unprotected_mode=True)
 
         self.assertEqual(result, "Success")
         self.client.service.Contract_Update.assert_called_once_with(
@@ -211,7 +211,7 @@ class TestEmployeeContractService(unittest.TestCase):
         contract = Contract(employee_id=employee_id, data=contract_data)
         self.client.service.Contract_Update.return_value = "Success"
 
-        result = self.employee_contract_service.insert_current(employee_id, contract, unprotected_mode=True)
+        result = self.employee_contract_service.post_current(employee_id, contract, unprotected_mode=True)
 
         self.assertEqual(result, "Success")
         self.client.service.Contract_Update.assert_called_once_with(

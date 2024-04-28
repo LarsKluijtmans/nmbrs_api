@@ -4,10 +4,6 @@ from unittest import TestCase
 import zeep.exceptions
 
 from src.nmbrs.exceptions import (
-    LoginSecurityFailureException,
-    MultipleEnvironmentAccountsException,
-    DomainNotFoundException,
-    InvalidCredentialsException,
     UnknownNmbrsException,
     AuthorizationDataException,
     AuthorizationException,
@@ -20,95 +16,9 @@ from src.nmbrs.exceptions import (
     InvalidWageComponentException,
     UnknownException,
     NoValidSubscriptionException,
+    InvalidCredentialsException,
 )
-from src.nmbrs.utils.nmbrs_exception_handler import (
-    nmbrs_sso_exception_handler,
-    nmbrs_exception_handler,
-)
-
-
-class TestNmbrsSSOExceptionHandler(TestCase):
-    """Unit tests for the nmbrs_sso_exception_handler decorator."""
-
-    def test_handle_login_security_failure(self):
-        """Test handling of LoginSecurityFailureException exception."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def raise_login_security_failure():
-            raise zeep.exceptions.Fault("---> 1006: Generic Login Security Failure")
-
-        with self.assertRaises(LoginSecurityFailureException) as context:
-            raise_login_security_failure()
-
-        self.assertEqual(context.exception.resource, "resource1")
-
-    def test_handle_multiple_environment_accounts(self):
-        """Test handling of MultipleEnvironmentAccountsException exception."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def raise_multiple_environment_accounts():
-            raise zeep.exceptions.Fault("---> 2042: This username belongs to multiple environments")
-
-        with self.assertRaises(MultipleEnvironmentAccountsException):
-            raise_multiple_environment_accounts()
-
-    def test_handle_domain_not_found_error(self):
-        """Test handling of DomainNotFoundException exception."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def raise_domain_not_found_error():
-            raise zeep.exceptions.Fault("---> 2043: Invalid Domain")
-
-        with self.assertRaises(DomainNotFoundException) as context:
-            raise_domain_not_found_error()
-
-        self.assertEqual(context.exception.resource, "resource1")
-
-    def test_handle_invalid_credentials(self):
-        """Test handling of InvalidCredentialsException exception."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def raise_invalid_credentials():
-            raise zeep.exceptions.Fault("---> Invalid combination email/password")
-
-        with self.assertRaises(InvalidCredentialsException) as context:
-            raise_invalid_credentials()
-
-        self.assertEqual(context.exception.resource, "resource1")
-
-    def test_no_exception(self):
-        """Test when no exception is raised."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def no_exception():
-            return "No exception"
-
-        self.assertEqual(no_exception(), "No exception")
-
-    def test_raise_default_exception(self):
-        """Test when a zeep exception is raised, and the message is not blocked."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def exception_raised():
-            raise zeep.exceptions.Fault("custom error message")
-
-        with self.assertRaises(UnknownException) as context:
-            exception_raised()
-
-        self.assertIsInstance(context.exception, UnknownException)
-        self.assertEqual(context.exception.resource, "resource1")
-
-    def test_raise_exception(self):
-        """Test when an exception is raised."""
-
-        @nmbrs_sso_exception_handler(resource="resource1")
-        def exception_raised():
-            raise TypeError("custom error message")
-
-        with self.assertRaises(Exception) as context:
-            exception_raised()
-
-        self.assertEqual(str(context.exception), "custom error message")
+from src.nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class TestNmbrsExceptionHandler(TestCase):
@@ -262,3 +172,15 @@ class TestNmbrsExceptionHandler(TestCase):
             exception_raised()
 
         self.assertEqual(str(context.exception), "custom error message")
+
+    def test_exception_without_code(self):
+        """Test when a nmbrs exception that does not have a code"""
+
+        @nmbrs_exception_handler(resource="resource1")
+        def exception_raised():
+            raise zeep.exceptions.Fault("---> Invalid combination email/password")
+
+        with self.assertRaises(InvalidCredentialsException) as context:
+            exception_raised()
+
+        self.assertEqual(context.exception.resource, "resource1")

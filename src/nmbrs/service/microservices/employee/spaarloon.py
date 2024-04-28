@@ -37,7 +37,7 @@ class EmployeeSpaarloonService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Spaarloon_Insert")
-    def insert(self):
+    def post(self):
         """
         Start spaarloon for given date and amount. If the startdate is before the company's current period, unprotected mode flag is required.
 

@@ -20,7 +20,7 @@ class CompanyHourModelService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:HourModel_GetHourCodes")
-    def get(self, company_id: int) -> list[HourCode]:
+    def get_current(self, company_id: int) -> list[HourCode]:
         """
         Get hour codes that belong to a company's hour model.
 
@@ -38,7 +38,7 @@ class CompanyHourModelService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:HourModel2_GetHourCodes")
-    def get_2(self, company_id: int) -> list[HourCode]:
+    def get_current_2(self, company_id: int) -> list[HourCode]:
         """
         Get hour codes that belong to a company's hour model 2.
 

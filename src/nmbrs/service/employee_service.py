@@ -195,7 +195,7 @@ class EmployeeService(Service):
         return employees
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_Insert")
-    def insert(self):
+    def post(self):
         """
         Create a new Employee, returns the id of this Employee.
         If the date is before the company's current period, unprotected mode flag is required.
@@ -206,7 +206,7 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertBasedOnDefault")
-    def insert_based_on_default(self):
+    def post_based_on_default(self):
         """
         Insert new employee based on default employee.
         If the date is before the company's current period, unprotected mode flag is required.
@@ -217,7 +217,7 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertByEmployeeType")
-    def insert_with_type(self):
+    def post_with_type(self):
         """
         Create a new employee based on the employee type and returns the Id of this employee.
         If the date is before the company's current period, unprotected mode flag is required.
@@ -278,7 +278,7 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:PerformanceReview_Get")
-    def get_performance(self):
+    def get_performance_reviews(self):
         """
         Get the HR Performance Review for the given Employee ID.
 
@@ -288,7 +288,7 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:PerformanceReview_GetAll_AllEmployeesByCompany")
-    def get_all_performance_by_company(self):
+    def get_all_performance_reviewa_by_company(self):
         """
         Get the HR Performance Reviews for all the employees in the given Company ID.
 

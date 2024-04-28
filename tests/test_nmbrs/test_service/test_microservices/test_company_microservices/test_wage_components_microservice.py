@@ -26,7 +26,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         ]
         self.client.service.WageComponentFixed_Get.return_value = expected_wage_components
 
-        result = self.company_wage_component_service.fixed_get(company_id, year, period)
+        result = self.company_wage_component_service.get_fixed(company_id, year, period)
 
         self.assertEqual(len(result), len(expected_wage_components))
         self.assertIsInstance(result[0], WageComponent)
@@ -49,7 +49,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         ]
         self.client.service.WageComponentFixed_GetCurrent.return_value = expected_wage_components
 
-        result = self.company_wage_component_service.fixed_get_current(company_id)
+        result = self.company_wage_component_service.get_current_fixed(company_id)
 
         self.assertEqual(len(result), len(expected_wage_components))
         self.assertIsInstance(result[0], WageComponent)
@@ -71,7 +71,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = 12345
         self.client.service.WageComponentFixed_Insert.return_value = expected_response
 
-        result = self.company_wage_component_service.fixed_insert(wage_component, period, year, protected_mode)
+        result = self.company_wage_component_service.post_fixed(wage_component, period, year, protected_mode)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentFixed_Insert.assert_called_once_with(
@@ -90,7 +90,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = 12345
         self.client.service.WageComponentFixed_InsertCurrent.return_value = expected_response
 
-        result = self.company_wage_component_service.fixed_insert_current(wage_component)
+        result = self.company_wage_component_service.post_current_fixed(wage_component)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentFixed_InsertCurrent.assert_called_once_with(
@@ -109,7 +109,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = 12345
         self.client.service.WageComponentVar_Insert.return_value = expected_response
 
-        result = self.company_wage_component_service.variable_insert(wage_component, period, year, protected_mode)
+        result = self.company_wage_component_service.post_variable(wage_component, period, year, protected_mode)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentVar_Insert.assert_called_once_with(
@@ -128,7 +128,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = 12345
         self.client.service.WageComponentVar_InsertCurrent.return_value = expected_response
 
-        result = self.company_wage_component_service.variable_insert_current(wage_component)
+        result = self.company_wage_component_service.post_current_variable(wage_component)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentVar_InsertCurrent.assert_called_once_with(
@@ -150,7 +150,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = [12345, 67890]
         self.client.service.WageComponentVar_Insert_Batch.return_value = expected_response
 
-        result = self.company_wage_component_service.variable_insert_batch(wage_components, period, year, protected_mode)
+        result = self.company_wage_component_service.post_batch_variable(wage_components, period, year, protected_mode)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentVar_Insert_Batch.assert_called_once_with(
@@ -175,7 +175,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         ]
         self.client.service.WageComponentVar_Get.return_value = expected_wage_components
 
-        result = self.company_wage_component_service.variable_get(company_id, year, period)
+        result = self.company_wage_component_service.get_variable(company_id, year, period)
 
         self.assertEqual(len(result), len(expected_wage_components))
         self.assertIsInstance(result[0], WageComponent)
@@ -198,7 +198,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         ]
         self.client.service.WageComponentVar_GetCurrent.return_value = mock_response
 
-        result = self.company_wage_component_service.variable_get_current(company_id)
+        result = self.company_wage_component_service.get_current_variable(company_id)
 
         expected_result = [
             WageComponent(company_id, "variable", {"Id": 1, "Code": "Test1", "Value": "100.00"}),
@@ -219,7 +219,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = [1, 2]
         self.client.service.WageComponentFixed_Insert_Batch.return_value = expected_response
 
-        result = self.company_wage_component_service.fixed_insert_batch(wage_components, period, year, protected_mode)
+        result = self.company_wage_component_service.post_batch_fixed(wage_components, period, year, protected_mode)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentFixed_Insert_Batch.assert_called_once_with(
@@ -241,7 +241,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         year = 2024
         protected_mode = False
 
-        self.company_wage_component_service.fixed_stop(company_id, component_id, period, year, protected_mode)
+        self.company_wage_component_service.stop_fixed(company_id, component_id, period, year, protected_mode)
 
         self.client.service.WageComponentFixed_Stop.assert_called_once_with(
             CompanyId=company_id,
@@ -261,7 +261,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = [1, 2, 3]
         self.client.service.WageComponentVar_Clear.return_value = expected_response
 
-        result = self.company_wage_component_service.variable_clear(company_id, period, year, protected_mode)
+        result = self.company_wage_component_service.clear_variable(company_id, period, year, protected_mode)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentVar_Clear.assert_called_once_with(
@@ -278,7 +278,7 @@ class TestCompanyWageComponentService(unittest.TestCase):
         expected_response = [1, 2, 3]
         self.client.service.WageComponentVar_ClearCurrent.return_value = expected_response
 
-        result = self.company_wage_component_service.variable_clear_current(company_id)
+        result = self.company_wage_component_service.clear_current_variable(company_id)
 
         self.assertEqual(result, expected_response)
         self.client.service.WageComponentVar_ClearCurrent.assert_called_once_with(

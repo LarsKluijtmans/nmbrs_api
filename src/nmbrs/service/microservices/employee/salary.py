@@ -93,7 +93,7 @@ class EmployeeSalaryService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:SalaryTable_Insert")
-    def insert(self):
+    def post(self):
         """
         Insert salary table to salary.
 
@@ -103,7 +103,7 @@ class EmployeeSalaryService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:SalaryTable_InsertCurrent")
-    def insert_current(self):
+    def post_current(self):
         """
         Insert salary table to salary of current salary.
 

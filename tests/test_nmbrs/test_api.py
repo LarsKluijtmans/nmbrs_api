@@ -42,7 +42,7 @@ class TestNmbrs(unittest.TestCase):
         # Mocking the DebtorService.get_domain method
         mock_get_domain.return_value = Domain(data={"Domain": domain, "SubDomain": domain})
         nmbrs = Nmbrs()
-        nmbrs.standard_auth(username=username, token=token)
+        nmbrs.auth_with_token(username=username, token=token)
 
         expected_auth_header = {
             "AuthHeaderWithDomain": {
@@ -91,7 +91,7 @@ class TestNmbrs(unittest.TestCase):
         username = "test_user"
         token = "test_token"
         domain = "test_domain"
-        nmbrs.standard_auth_with_domain(username=username, token=token, domain=domain)
+        nmbrs.auth_with_domain(username=username, token=token, domain=domain)
 
         expected_auth_header = {
             "AuthHeaderWithDomain": {

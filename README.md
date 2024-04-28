@@ -170,7 +170,7 @@ from nmbrs import SingleSingOnService
 
 sso_service = SingleSingOnService()
 
-sso_token = sso_service.sso_auth_with_token("__username__", "__token__")
+sso_token = sso_service.get_token_with_api_token("__username__", "__token__")
 
 print(sso_token)
 ```
@@ -182,8 +182,7 @@ from nmbrs import SingleSingOnService
 
 sso_service = SingleSingOnService()
 
-
-sso_token = sso_service.sso_auth_with_password("__username__", "__token__")
+sso_token = sso_service.get_token_with_password("__username__", "__token__")
 
 print(sso_token)
 ```
@@ -197,8 +196,7 @@ from nmbrs import SingleSingOnService
 
 sso_service = SingleSingOnService()
 
-
-sso_token = sso_service.sso_auth_with_domain("__username__", "__password__", "__domain__")
+sso_token = sso_service.get_token_with_domain("__username__", "__password__", "__domain__")
 
 print(sso_token)
 ```
@@ -212,7 +210,7 @@ from nmbrs import SingleSingOnService
 
 sso_service = SingleSingOnService()
 
-sso_token = sso_service.sso_auth_with_password("__username__", "__password__")
+sso_token = sso_service.get_token_with_password("__username__", "__password__")
 sso_url = sso_service.get_sso_url(sso_token, "__domain__")
 
 print(sso_url)

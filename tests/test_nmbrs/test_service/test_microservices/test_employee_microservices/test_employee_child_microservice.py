@@ -27,7 +27,7 @@ class TestEmployeeChildService(unittest.TestCase):
             "EmployeeId": employee_id,
         }
 
-        result = self.child_service.get(employee_id)
+        result = self.child_service.get_current(employee_id)
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].id, 1)
@@ -100,7 +100,7 @@ class TestEmployeeChildService(unittest.TestCase):
         child = Child(employee_id=employee_id, data=child_data)
         self.client.service.Children_Insert.return_value = "Success"
 
-        result = self.child_service.insert(employee_id, child)
+        result = self.child_service.post(employee_id, child)
 
         self.assertEqual(result, "Success")
         _child = {
@@ -125,7 +125,7 @@ class TestEmployeeChildService(unittest.TestCase):
         children = [Child(employee_id=employee_id, data=data) for data in children_data]
         self.client.service.Children_InsertBatch.return_value = "Success"
 
-        result = self.child_service.insert_batch(employee_id, children)
+        result = self.child_service.post_batch(employee_id, children)
 
         self.assertEqual(result, "Success")
         _children = [

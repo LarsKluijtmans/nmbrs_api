@@ -124,7 +124,7 @@ class TestDebtorService(unittest.TestCase):
         """Test inserting a new debtor."""
         mock_inserted_id = 123
         self.mock_debtor_service.service.Debtor_Insert.return_value = mock_inserted_id
-        result = self.debtor_service.insert(1, "test_number", "test_name")
+        result = self.debtor_service.post(1, "test_number", "test_name")
         self.assertEqual(result, mock_inserted_id)
         self.mock_debtor_service.service.Debtor_Insert.assert_called_once_with(
             Debtor={"Id": 1, "Number": "test_number", "Name": "test_name"},

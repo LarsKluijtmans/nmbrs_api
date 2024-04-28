@@ -35,7 +35,7 @@ class TestCompanyBankAccountService(unittest.TestCase):
     def test_insert_bank_account(self):
         """Test inserting a new bank account for the company."""
         self.client.service.BankAccount_Insert.return_value = 123
-        result = self.bank_account_service.insert(
+        result = self.bank_account_service.post(
             company_id=1,
             account_id=456,
             account_number="123456789",

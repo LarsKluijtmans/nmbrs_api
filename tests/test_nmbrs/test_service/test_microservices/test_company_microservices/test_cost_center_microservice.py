@@ -18,7 +18,7 @@ class TestCompanyCostCenterService(unittest.TestCase):
         """Test retrieving cost centers associated with a company."""
         mock_cost_centers = [{"Id": 1, "Code": "CC1", "Description": "Cost Center 1"}]
         self.client.service.CostCenter_GetList.return_value = mock_cost_centers
-        result = self.cost_center_service.get(1)
+        result = self.cost_center_service.get_current(1)
         self.assertEqual(len(result), 1)
         self.assertIsInstance(result[0], CostCenter)
         self.assertEqual(result[0].id, 1)
@@ -29,7 +29,7 @@ class TestCompanyCostCenterService(unittest.TestCase):
     def test_insert_cost_center(self):
         """Test inserting a new cost center for a company."""
         self.client.service.CostCenter_Insert.return_value = 123
-        result = self.cost_center_service.insert(company_id=1, cost_center_id=456, code="CC2", description="Cost Center 2")
+        result = self.cost_center_service.post(company_id=1, cost_center_id=456, code="CC2", description="Cost Center 2")
         self.assertEqual(result, 123)
         self.client.service.CostCenter_Insert.assert_called_once_with(
             CompanyId=1,

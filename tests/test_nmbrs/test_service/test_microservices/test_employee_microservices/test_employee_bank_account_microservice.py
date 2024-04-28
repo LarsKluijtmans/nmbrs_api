@@ -140,7 +140,7 @@ class TestEmployeeBankAccountService(unittest.TestCase):
         bank_account = BankAccount(employee_id=employee_id, data=bank_account_data)
         self.client.service.BankAccount_Insert.return_value = 1
 
-        result = self.bank_account_service.insert(employee_id, bank_account, period, year, unprotected_mode)
+        result = self.bank_account_service.post(employee_id, bank_account, period, year, unprotected_mode)
 
         self.assertEqual(result, 1)
         _bank_account = {
@@ -178,7 +178,7 @@ class TestEmployeeBankAccountService(unittest.TestCase):
         bank_account = BankAccount(employee_id=employee_id, data=bank_account_data)
         self.client.service.BankAccount_InsertCurrent.return_value = 1
 
-        result = self.bank_account_service.insert_current(employee_id, bank_account)
+        result = self.bank_account_service.post_current(employee_id, bank_account)
 
         self.assertEqual(result, 1)
         _bank_account = {

@@ -19,7 +19,7 @@ class EmployeePartnerService(MicroService):
         self.auth_header = auth_header
 
     @nmbrs_exception_handler(resource="EmployeeService:Partner_Get")
-    def get(self):
+    def get_current(self):
         """
         Get employee partner.
 

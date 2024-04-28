@@ -33,7 +33,7 @@ class TestDebtorDepartmentService(unittest.TestCase):
     def test_insert_department(self):
         """Test inserting a new department for a debtor."""
         self.mock_client.service.Department_Insert.return_value = 123
-        result = self.debtor_department_service.insert(1, 2, 3, "test_description")
+        result = self.debtor_department_service.post(1, 2, 3, "test_description")
         self.assertEqual(result, 123)
         self.mock_client.service.Department_Insert.assert_called_once_with(
             DebtorId=1,

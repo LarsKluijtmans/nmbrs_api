@@ -53,7 +53,7 @@ class DebtorFunctionService(MicroService):
         return functions
 
     @nmbrs_exception_handler(resource="DebtorService:Function_Insert")
-    def insert(self, debtor_id: int, function_id: int, code: int, description: str) -> int:
+    def post(self, debtor_id: int, function_id: int, code: int, description: str) -> int:
         """
         Insert a new function for a debtor.
 

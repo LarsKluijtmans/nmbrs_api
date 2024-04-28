@@ -39,7 +39,7 @@ class CompanyWageCostService(MicroService):
         return wage_costs
 
     @nmbrs_exception_handler(resource="CompanyService:WorkCost_Insert")
-    def insert(self, company_id: int, value: float, period: int, year: int):
+    def post(self, company_id: int, value: float, period: int, year: int):
         """
         Insert a work cost value from the financial administration for a specific period.
 

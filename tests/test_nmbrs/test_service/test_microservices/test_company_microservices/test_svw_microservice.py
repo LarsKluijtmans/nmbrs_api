@@ -75,6 +75,6 @@ class TestCompanySvwService(unittest.TestCase):
         svw_obj = SVW(company_id, svw_data)
         expected_dict = svw_obj.insert_dict()
 
-        self.service.insert_current(company_id, svw_obj)
+        self.service.post_current(company_id, svw_obj)
 
         self.client.service.SVW_UpdateCurrent.assert_called_with(CompanyId=company_id, SVW=expected_dict, _soapheaders=self.auth_header)

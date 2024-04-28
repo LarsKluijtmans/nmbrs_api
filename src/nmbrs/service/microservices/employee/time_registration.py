@@ -26,8 +26,18 @@ class EmployeeTimeRegistrationService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_GetAll_AllTimeRegistrationCodes")
+    def get_codes(self):
+        """
+        Get available TimeRegistrationCodes.
+
+        For more information, refer to the official documentation:
+            [TimeRegistration_GetAll_AllTimeRegistrationCodes](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=TimeRegistration_GetAll_AllTimeRegistrationCodes)
+        """
+        raise NotImplementedError()  # pragma: no cover
+
     @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Insert")
-    def insert(self):
+    def post(self):
         """
         Register item into the calendar of an employee.
 
@@ -37,22 +47,12 @@ class EmployeeTimeRegistrationService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_Insert_Batch")
-    def insert_batch(self):
+    def post_batch(self):
         """
         Register items into the calendars.
 
         For more information, refer to the official documentation:
             [TimeRegistration_Insert_Batch](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=TimeRegistration_Insert_Batch)
-        """
-        raise NotImplementedError()  # pragma: no cover
-
-    @nmbrs_exception_handler(resource="EmployeeService:TimeRegistration_GetAll_AllTimeRegistrationCodes")
-    def get_codes(self):
-        """
-        Get available TimeRegistrationCodes.
-
-        For more information, refer to the official documentation:
-            [TimeRegistration_GetAll_AllTimeRegistrationCodes](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=TimeRegistration_GetAll_AllTimeRegistrationCodes)
         """
         raise NotImplementedError()  # pragma: no cover
 

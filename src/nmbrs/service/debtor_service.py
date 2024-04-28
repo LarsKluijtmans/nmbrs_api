@@ -132,7 +132,7 @@ class DebtorService(Service):
         return Debtor(serialize_object(debtor))
 
     @nmbrs_exception_handler(resource="DebtorService:Debtor_Insert")
-    def insert(self, debtor_id: int, number: str, name: str) -> int:
+    def post(self, debtor_id: int, number: str, name: str) -> int:
         """
         Insert a new debtor.
 

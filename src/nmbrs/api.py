@@ -47,12 +47,12 @@ class Nmbrs:
             params = find_empty_params(**{"username": username, "token": token})
             if params:
                 raise ParameterMissingError(params=params)
-            self.standard_auth(username, token)
+            self.auth_with_token(username, token)
         elif auth_type == "domain":
             params = find_empty_params(**{"username": username, "token": token, "domain": domain})
             if params:
                 raise ParameterMissingError(params=params)
-            self.standard_auth_with_domain(username, token, domain)
+            self.auth_with_domain(username, token, domain)
 
     def _initialize_services(self, auth_header: dict) -> None:
         """
@@ -66,7 +66,7 @@ class Nmbrs:
         self.company.set_auth_header(auth_header)
         self.employee.set_auth_header(auth_header)
 
-    def standard_auth(self, username: str, token: str) -> None:
+    def auth_with_token(self, username: str, token: str) -> None:
         """
         Perform standard authentication and initialize related services.
 
@@ -84,7 +84,7 @@ class Nmbrs:
         }
         self._initialize_services(auth_header)
 
-    def standard_auth_with_domain(self, username: str, token: str, domain: str) -> None:
+    def auth_with_domain(self, username: str, token: str, domain: str) -> None:
         """
         Create the auth header with domain object and initialize related services.
         Note:: The username, token and domain are never validated in this routine.

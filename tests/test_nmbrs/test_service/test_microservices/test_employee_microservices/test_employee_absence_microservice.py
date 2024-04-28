@@ -26,7 +26,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
         ]
         self.client.service.Absence_GetList.return_value = expected_absences
 
-        result = self.employee_absence_service.get(employee_id)
+        result = self.employee_absence_service.get_current(employee_id)
 
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -58,7 +58,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
         ]
         self.client.service.Absence2_GetList.return_value = expected_absences
 
-        result = self.employee_absence_service.get_2(employee_id)
+        result = self.employee_absence_service.get_current_2(employee_id)
 
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
@@ -122,7 +122,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
 
         self.client.service.Absence_Insert.return_value = 200
 
-        response = self.employee_absence_service.insert(employee_id, absence)
+        response = self.employee_absence_service.post(employee_id, absence)
 
         self.assertEqual(response, 200)
         self.client.service.Absence_Insert.assert_called_once_with(
@@ -162,7 +162,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
 
         self.client.service.Absence2_Insert.return_value = 200
 
-        response = self.employee_absence_service.insert_2(employee_id, absence)
+        response = self.employee_absence_service.post_2(employee_id, absence)
 
         self.assertEqual(response, 200)
         self.client.service.Absence2_Insert.assert_called_once_with(
@@ -194,7 +194,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
 
         self.client.service.Absence_PartialRecoveryInsert.return_value = response_status_code
 
-        response = self.employee_absence_service.insert_partial_recovery(
+        response = self.employee_absence_service.post_partial_recovery(
             employee_id, absence_id, start_date, report_date, percentage, comment
         )
 
@@ -220,7 +220,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
 
         self.client.service.Absence_RecoveryInsert.return_value = response_status_code
 
-        response = self.employee_absence_service.insert_recovery(employee_id, absence_id, last_day_absence, report_date, comment)
+        response = self.employee_absence_service.post_recovery(employee_id, absence_id, last_day_absence, report_date, comment)
 
         self.assertEqual(response, response_status_code)
         self.client.service.Absence_RecoveryInsert.assert_called_once_with(
@@ -253,7 +253,7 @@ class TestEmployeeAbsenceService(unittest.TestCase):
 
         self.client.service.AbsenceNotification_Insert.return_value = 200
 
-        response = self.employee_absence_service.insert_notification(employee_id, absence)
+        response = self.employee_absence_service.post_notification(employee_id, absence)
 
         self.assertEqual(response, 200)
         self.client.service.AbsenceNotification_Insert.assert_called_once_with(

@@ -22,7 +22,7 @@ class EmployeeAbsenceService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Absence_GetList")
-    def get(self, employee_id: int) -> list[Absence]:
+    def get_current(self, employee_id: int) -> list[Absence]:
         """
         Get a list of all absences.
 
@@ -40,7 +40,7 @@ class EmployeeAbsenceService(MicroService):
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Absence2_GetList")
-    def get_2(self, employee_id: int) -> list[Absence]:
+    def get_current_2(self, employee_id: int) -> list[Absence]:
         """
         Get a list of all absences with their respective cause.
 
@@ -79,7 +79,7 @@ class EmployeeAbsenceService(MicroService):
         return _absences
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence_Insert")
-    def insert(self, employee_id: int, absence: Absence) -> int:
+    def post(self, employee_id: int, absence: Absence) -> int:
         """
         Insert an absence, this item will start from the given date in the object.
 
@@ -108,7 +108,7 @@ class EmployeeAbsenceService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence2_Insert")
-    def insert_2(self, employee_id: int, absence: Absence) -> int:
+    def post_2(self, employee_id: int, absence: Absence) -> int:
         """
         Insert an absence with cause, this item will start from the given date in the object.
 
@@ -138,7 +138,7 @@ class EmployeeAbsenceService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence_PartialRecoveryInsert")
-    def insert_partial_recovery(
+    def post_partial_recovery(
         self, employee_id: int, absence_id: int, start_date: datetime, report_data: datetime, percentage: int, comment: str
     ) -> int:
         """
@@ -170,7 +170,7 @@ class EmployeeAbsenceService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence_RecoveryInsert")
-    def insert_recovery(self, employee_id: int, absence_id: int, last_day_absence: datetime, report_data: datetime, comment: str) -> str:
+    def post_recovery(self, employee_id: int, absence_id: int, last_day_absence: datetime, report_data: datetime, comment: str) -> str:
         """
         Insert an absence recovery message.
 
@@ -198,7 +198,7 @@ class EmployeeAbsenceService(MicroService):
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:AbsenceNotification_Insert")
-    def insert_notification(self, employee_id: int, absence: Absence) -> int:
+    def post_notification(self, employee_id: int, absence: Absence) -> int:
         """
         Insert a new absence date, this item will start from the given date in the object to the requested absence dossier.
 

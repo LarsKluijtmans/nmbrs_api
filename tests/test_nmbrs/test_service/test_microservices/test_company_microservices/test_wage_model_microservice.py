@@ -23,7 +23,7 @@ class TestCompanyWageModelService(unittest.TestCase):
         ]
         self.client.service.WageModel_GetWageCodes.return_value = expected_wage_model_data
 
-        result = self.wage_model_service.get(company_id)
+        result = self.wage_model_service.get_current(company_id)
 
         self.assertEqual(len(result), len(expected_wage_model_data))
         for i, wage_model in enumerate(result):
@@ -42,7 +42,7 @@ class TestCompanyWageModelService(unittest.TestCase):
         ]
         self.client.service.WageModel2_GetWageCodes.return_value = expected_wage_model_data
 
-        result = self.wage_model_service.get_2(company_id)
+        result = self.wage_model_service.get_current_2(company_id)
 
         self.assertEqual(len(result), len(expected_wage_model_data))
         for i, wage_model in enumerate(result):

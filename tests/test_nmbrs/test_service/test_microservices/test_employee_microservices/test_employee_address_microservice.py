@@ -236,7 +236,7 @@ class TestEmployeeAddressService(unittest.TestCase):
         )
         self.client.service.Address_Insert.return_value = 1
 
-        response = self.employee_address_service.insert(employee_id, address, period, year, unprotected_mode)
+        response = self.employee_address_service.post(employee_id, address, period, year, unprotected_mode)
 
         self.assertEqual(response, 1)
         self.client.service.Address_Insert.assert_called_once_with(
@@ -279,7 +279,7 @@ class TestEmployeeAddressService(unittest.TestCase):
         )
         self.client.service.Address_InsertCurrent.return_value = 1
 
-        response = self.employee_address_service.insert_current(employee_id, address)
+        response = self.employee_address_service.post_current(employee_id, address)
 
         self.assertEqual(response, 1)
         self.client.service.Address_InsertCurrent.assert_called_once_with(
