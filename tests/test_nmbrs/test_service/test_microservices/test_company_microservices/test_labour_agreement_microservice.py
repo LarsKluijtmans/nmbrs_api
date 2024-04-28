@@ -5,6 +5,7 @@ from unittest.mock import Mock
 
 from decimal import Decimal
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.company import LabourAgreement, LeaveTypeGroup
 from src.nmbrs.service.microservices.company import CompanyLabourAgreementService
 
@@ -13,10 +14,17 @@ class TestCompanyLabourAgreementService(unittest.TestCase):
     """Unit tests for the CompanyLabourAgreementService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.labour_agreement_service = CompanyLabourAgreementService(self.client)
-        self.mock_auth_header = Mock()
-        self.labour_agreement_service.set_auth_header(self.mock_auth_header)
+        self.labour_agreement_service = CompanyLabourAgreementService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test retrieving labour agreements for a specific company, period, and year."""

@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Child
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeeChildService(MicroService):
     """Microservice responsible for child related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Children_Get")
@@ -33,7 +31,7 @@ class EmployeeChildService(MicroService):
         Returns:
             list[Child]: A list of Child objects representing the children.
         """
-        children = self.client.service.Children_Get(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        children = self.client.service.Children_Get(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         children = serialize_object(children)
 
         _children = []
@@ -56,7 +54,7 @@ class EmployeeChildService(MicroService):
         Returns:
             list[Child]: A list of Child objects representing the children.
         """
-        children = self.client.service.Children_GetAll_Employeesbycompany(CompanyId=company_id, _soapheaders=self.auth_header)
+        children = self.client.service.Children_GetAll_Employeesbycompany(CompanyId=company_id, _soapheaders=self.auth_manager.header)
 
         _children = []
         for employee in serialize_object(children):
@@ -79,7 +77,7 @@ class EmployeeChildService(MicroService):
         Returns:
             str: The response indicating the success of the operation.
         """
-        response = self.client.service.Child_Delete(EmployeeId=employee_id, ChildId=child_id, _soapheaders=self.auth_header)
+        response = self.client.service.Child_Delete(EmployeeId=employee_id, ChildId=child_id, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Children_Insert")
@@ -108,7 +106,7 @@ class EmployeeChildService(MicroService):
         response = self.client.service.Children_Insert(
             EmployeeId=employee_id,
             child=_child,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -142,7 +140,7 @@ class EmployeeChildService(MicroService):
         response = self.client.service.Children_InsertBatch(
             EmployeeId=employee_id,
             children=_children,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -172,6 +170,6 @@ class EmployeeChildService(MicroService):
         response = self.client.service.Children_Update(
             EmployeeId=employee_id,
             child=_child,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response

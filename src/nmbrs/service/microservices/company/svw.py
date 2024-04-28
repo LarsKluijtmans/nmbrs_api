@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import SVW
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
@@ -11,11 +12,8 @@ from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 class CompanySvwService(MicroService):
     """Microservice responsible for svw related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="CompanyService:SVW_GetCurrent")
     def get_current(self, company_id: int) -> SVW:
@@ -31,7 +29,7 @@ class CompanySvwService(MicroService):
         Returns:
             SVW: object representing svw settings
         """
-        svw = self.client.service.SVW_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_header)
+        svw = self.client.service.SVW_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return SVW(company_id=company_id, data=serialize_object(svw))
 
     @nmbrs_exception_handler(resource="CompanyService:SVW_UpdateCurrent")
@@ -49,4 +47,4 @@ class CompanySvwService(MicroService):
         Returns:
             SVW: object representing svw settings
         """
-        self.client.service.SVW_UpdateCurrent(CompanyId=company_id, SVW=svw.insert_dict(), _soapheaders=self.auth_header)
+        self.client.service.SVW_UpdateCurrent(CompanyId=company_id, SVW=svw.insert_dict(), _soapheaders=self.auth_manager.header)

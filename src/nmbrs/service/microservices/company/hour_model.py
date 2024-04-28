@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import HourCode
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyHourModelService(MicroService):
     """Microservice responsible for hour model related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:HourModel_GetHourCodes")
@@ -33,7 +31,7 @@ class CompanyHourModelService(MicroService):
         Returns:
             list[HourCode]: A list of hour code objects.
         """
-        hour_codes = self.client.service.HourModel_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_header)
+        hour_codes = self.client.service.HourModel_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return [HourCode(company_id=company_id, data=hour_code) for hour_code in serialize_object(hour_codes)]
 
     @return_list
@@ -51,5 +49,5 @@ class CompanyHourModelService(MicroService):
         Returns:
             list[HourCode]: A list of hour code objects.
         """
-        hour_codes = self.client.service.HourModel2_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_header)
+        hour_codes = self.client.service.HourModel2_GetHourCodes(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return [HourCode(company_id=company_id, data=hour_code) for hour_code in serialize_object(hour_codes)]

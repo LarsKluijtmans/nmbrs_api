@@ -13,7 +13,8 @@ class TestSingleSingOnService(TestCase):
     def setUp(self):
         self.mock_service = mock.Mock()
         self.mock_client = mock.Mock(service=self.mock_service)
-        self.service = SingleSingOnService(sandbox=False)
+        self.mock_auth_header = mock.Mock()
+        self.service = SingleSingOnService(self.mock_auth_header, sandbox=False)
         self.service.sso_service = self.mock_client
 
     def test_get_sso_url(self):

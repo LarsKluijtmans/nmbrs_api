@@ -6,6 +6,8 @@ from abc import ABC, abstractmethod
 
 from zeep import Client
 
+from src.nmbrs.auth.token_manager import AuthManager
+
 
 class MicroService(ABC):
     """
@@ -15,19 +17,10 @@ class MicroService(ABC):
 
     Attributes:
         client (Client): A Zeep Client object used for communication with the microservice.
-        auth_header (dict | None): The authentication header used by Nmbrs.
+        auth_manager (AuthManager): An instance of the AuthManager class for managing authentication.
     """
 
     @abstractmethod
-    def __init__(self, client: Client) -> None:
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        self.auth_manager = auth_manager
         self.client = client
-        self.auth_header: dict | None = None
-
-    @abstractmethod
-    def set_auth_header(self, auth_header: dict) -> None:
-        """
-        Method to set the authentication header for requests to the microservice.
-
-        Args:
-            auth_header (dict): New authentication header to be set.
-        """

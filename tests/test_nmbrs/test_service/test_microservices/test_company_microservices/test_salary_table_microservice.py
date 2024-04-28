@@ -2,6 +2,8 @@
 
 import unittest
 from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.salary_table import CompanySalaryTableService, SalaryTable, SalaryTableScale, SalaryTableStep
 
 
@@ -9,10 +11,17 @@ class TestCompanySalaryTableService(unittest.TestCase):
     """Unit tests for the CompanySalaryTableService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.salary_table_service = CompanySalaryTableService(self.client)
-        self.mock_auth_header = Mock()
-        self.salary_table_service.set_auth_header(self.mock_auth_header)
+        self.salary_table_service = CompanySalaryTableService(self.auth_manager, self.client)
 
     def test_get_salary_tables(self):
         """Test retrieving salary tables associated with a company."""

@@ -6,6 +6,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Absence
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -14,11 +15,8 @@ from ....utils.return_list import return_list
 class EmployeeAbsenceService(MicroService):
     """Microservice responsible for absence related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Absence_GetList")
@@ -35,7 +33,7 @@ class EmployeeAbsenceService(MicroService):
         Returns:
             list[Absence]: A list of Absence objects representing the absences.
         """
-        absences = self.client.service.Absence_GetList(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        absences = self.client.service.Absence_GetList(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return [Absence(employee_id=employee_id, data=absence) for absence in serialize_object(absences)]
 
     @return_list
@@ -53,7 +51,7 @@ class EmployeeAbsenceService(MicroService):
         Returns:
             list[Absence]: A list of Absence objects representing the absences.
         """
-        absences = self.client.service.Absence2_GetList(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        absences = self.client.service.Absence2_GetList(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return [Absence(employee_id=employee_id, data=absence) for absence in serialize_object(absences)]
 
     @return_list
@@ -71,7 +69,7 @@ class EmployeeAbsenceService(MicroService):
         Returns:
             list[Absence]: A list of Absence objects representing the absences.
         """
-        absences = self.client.service.Absence_GetAll_AllEmployeesByCompany(CompanyId=company_id, _soapheaders=self.auth_header)
+        absences = self.client.service.Absence_GetAll_AllEmployeesByCompany(CompanyId=company_id, _soapheaders=self.auth_manager.header)
 
         _absences = []
         for employee in serialize_object(absences):
@@ -104,7 +102,7 @@ class EmployeeAbsenceService(MicroService):
             "Dossier": absence.dossier,
             "Dossiernr": absence.dossier_number,
         }
-        response = self.client.service.Absence_Insert(EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_header)
+        response = self.client.service.Absence_Insert(EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence2_Insert")
@@ -134,7 +132,7 @@ class EmployeeAbsenceService(MicroService):
             "Dossier": absence.dossier,
             "Dossiernr": absence.dossier_number,
         }
-        response = self.client.service.Absence2_Insert(EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_header)
+        response = self.client.service.Absence2_Insert(EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Absence_PartialRecoveryInsert")
@@ -165,7 +163,7 @@ class EmployeeAbsenceService(MicroService):
             Reportdate=report_data,
             Percent=percentage,
             Comment=comment,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -193,7 +191,7 @@ class EmployeeAbsenceService(MicroService):
             Lastdayabsence=last_day_absence,
             Reportdate=report_data,
             Comment=comment,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -224,5 +222,7 @@ class EmployeeAbsenceService(MicroService):
             "Dossier": absence.dossier,
             "Dossiernr": absence.dossier_number,
         }
-        response = self.client.service.AbsenceNotification_Insert(EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_header)
+        response = self.client.service.AbsenceNotification_Insert(
+            EmployeeId=employee_id, Absence=_absence, _soapheaders=self.auth_manager.header
+        )
         return response

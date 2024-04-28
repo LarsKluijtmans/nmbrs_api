@@ -5,6 +5,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Department, DepartmentAll
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -13,11 +14,8 @@ from ....utils.return_list import return_list
 class EmployeeDepartmentsService(MicroService):
     """Microservice responsible for departments related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:Department_GetCurrent")
     def get_current(self, employee_id: int) -> Department:
@@ -33,7 +31,7 @@ class EmployeeDepartmentsService(MicroService):
         Returns:
             Department: The Department objects representing the department of the employee.
         """
-        department = self.client.service.Department_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        department = self.client.service.Department_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return Department(employee_id=employee_id, data=serialize_object(department))
 
     @return_list
@@ -51,7 +49,9 @@ class EmployeeDepartmentsService(MicroService):
         Returns:
             list[DepartmentAll]: a list of Department objects
         """
-        departments = self.client.service.Department_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        departments = self.client.service.Department_GetAll_AllEmployeesByCompany(
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
+        )
         departments = serialize_object(departments)
         _departments = []
         for employee in departments:

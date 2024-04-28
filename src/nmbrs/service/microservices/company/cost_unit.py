@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import CostUnit
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyCostUnitService(MicroService):
     """Microservice responsible for cost unit related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:CostUnit_GetList")
@@ -33,7 +31,7 @@ class CompanyCostUnitService(MicroService):
         Returns:
             list[CostUnit]: A list of cost unit objects.
         """
-        cost_units = self.client.service.CostUnit_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
+        cost_units = self.client.service.CostUnit_GetList(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return [CostUnit(company_id=company_id, data=cost_unit) for cost_unit in serialize_object(cost_units)]
 
     @nmbrs_exception_handler(resource="CompanyService:CostUnit_Insert")
@@ -54,5 +52,5 @@ class CompanyCostUnitService(MicroService):
             int: The ID of the inserted or updated cost unit.
         """
         cost_unit = {"Id": cost_unit_id, "Code": code, "Description": description}
-        cost_unit_id = self.client.service.CostUnit_Insert(CompanyId=company_id, costunit=cost_unit, _soapheaders=self.auth_header)
+        cost_unit_id = self.client.service.CostUnit_Insert(CompanyId=company_id, costunit=cost_unit, _soapheaders=self.auth_manager.header)
         return cost_unit_id

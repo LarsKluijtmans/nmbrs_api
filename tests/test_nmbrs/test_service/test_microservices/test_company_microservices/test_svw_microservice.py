@@ -1,7 +1,9 @@
 """Unit tests for the CompanySvwService class."""
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.company import SVW
 from src.nmbrs.service.microservices.company.svw import CompanySvwService
 
@@ -10,11 +12,17 @@ class TestCompanySvwService(unittest.TestCase):
     """Unit tests for the CompanySvwService class."""
 
     def setUp(self):
-        """Set up test dependencies."""
-        self.client = MagicMock()
-        self.auth_header = {"Authorization": "Bearer token"}
-        self.service = CompanySvwService(self.client)
-        self.service.set_auth_header(self.auth_header)
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
+        self.client = Mock()
+        self.service = CompanySvwService(self.auth_manager, self.client)
 
     def test_get_current(self):
         """Test retrieving current SVW settings."""
@@ -77,4 +85,6 @@ class TestCompanySvwService(unittest.TestCase):
 
         self.service.post_current(company_id, svw_obj)
 
-        self.client.service.SVW_UpdateCurrent.assert_called_with(CompanyId=company_id, SVW=expected_dict, _soapheaders=self.auth_header)
+        self.client.service.SVW_UpdateCurrent.assert_called_with(
+            CompanyId=company_id, SVW=expected_dict, _soapheaders=self.auth_manager.header
+        )

@@ -10,8 +10,8 @@ class Domain(DataClass):
     """A class representing domain."""
 
     def __init__(self, data: dict) -> None:
-        self.domain: int = data.get("Domain")
-        self.sub_domain: int = data.get("SubDomain")
+        self.domain: str = data.get("Domain")
+        self.sub_domain: str = data.get("SubDomain")
 
 
 class AbsenceVerzuim(DataClass):

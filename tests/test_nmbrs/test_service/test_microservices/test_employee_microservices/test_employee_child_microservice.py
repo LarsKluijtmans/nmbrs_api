@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import Mock
 from datetime import datetime
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.child import EmployeeChildService, Child
 
 
@@ -10,10 +12,17 @@ class TestEmployeeChildService(unittest.TestCase):
     """Unit tests for the EmployeeChildService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.child_service = EmployeeChildService(self.client)
-        self.mock_auth_header = Mock()
-        self.child_service.set_auth_header(self.mock_auth_header)
+        self.child_service = EmployeeChildService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test getting children for a given employee."""

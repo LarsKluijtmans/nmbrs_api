@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import SalaryTable, SalaryTableScale, SalaryTableStep
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanySalaryTableService(MicroService):
     """Microservice responsible for salary table related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:SalaryTable_Get")
@@ -35,7 +33,9 @@ class CompanySalaryTableService(MicroService):
         Returns:
             list[SalaryTable]: A list of salary table objects.
         """
-        salary_tables = self.client.service.SalaryTable_Get(CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        salary_tables = self.client.service.SalaryTable_Get(
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
+        )
         return [SalaryTable(company_id=company_id, data=salary_table) for salary_table in serialize_object(salary_tables)]
 
     @return_list
@@ -55,7 +55,9 @@ class CompanySalaryTableService(MicroService):
         Returns:
             list[str]: A list of salary table guids.
         """
-        salary_tables = self.client.service.SalaryTable2_Get(CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        salary_tables = self.client.service.SalaryTable2_Get(
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
+        )
         return [salary_table.get("GuidSalaryTable") for salary_table in serialize_object(salary_tables)]
 
     @return_list
@@ -75,7 +77,9 @@ class CompanySalaryTableService(MicroService):
         Returns:
             list[SalaryTableScale]: A list of salary table scale objects.
         """
-        scales = self.client.service.SalaryTable_GetScales(CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header)
+        scales = self.client.service.SalaryTable_GetScales(
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
+        )
         return [SalaryTableScale(company_id=company_id, data=scale) for scale in serialize_object(scales)]
 
     @return_list
@@ -96,7 +100,7 @@ class CompanySalaryTableService(MicroService):
             list[str]: A list of salary table scale guids.
         """
         salary_tables = self.client.service.SalaryTable2_GetScales(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         return [salary_table.get("GuidSalaryTableScale") for salary_table in serialize_object(salary_tables)]
 
@@ -126,7 +130,7 @@ class CompanySalaryTableService(MicroService):
             "ScalePercentageMin": scale.percentage_min,
         }
         steps = self.client.service.SalaryTable_GetSteps(
-            CompanyId=company_id, Period=period, Year=year, Scale=_scale, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, Scale=_scale, _soapheaders=self.auth_manager.header
         )
         return [SalaryTableStep(company_id=company_id, data=step) for step in serialize_object(steps)]
 
@@ -148,6 +152,6 @@ class CompanySalaryTableService(MicroService):
             list[str]: A list of salary table step guids.
         """
         salary_tables = self.client.service.SalaryTable2_GetSteps(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         return [salary_table.get("GuidSalaryTableStep") for salary_table in serialize_object(salary_tables)]

@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import LeaseCar
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeeLeaseCarService(MicroService):
     """Microservice responsible for lease car related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:LeaseCar_Get")
     def get(self):
@@ -66,7 +64,7 @@ class EmployeeLeaseCarService(MicroService):
             list[LeaseCar]: a list of LeaseCar objects
         """
         lease_cars = self.client.service.LeaseCar_GetAll_EmployeesByCompany(
-            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_header
+            CompanyId=company_id, Period=period, Year=year, _soapheaders=self.auth_manager.header
         )
         lease_cars = serialize_object(lease_cars)
         _lease_cars = []

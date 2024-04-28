@@ -3,146 +3,27 @@
 import unittest
 from unittest.mock import Mock
 
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.employee import Employee, EmployeeTypes, Period
 from src.nmbrs.service.employee_service import EmployeeService
-from src.nmbrs.service.microservices.employee import (
-    EmployeeServiceService,
-    EmployeeAbsenceService,
-    EmployeeAddressService,
-    EmployeeBankAccountService,
-    EmployeeChildService,
-    EmployeeContractService,
-    EmployeeCostCenterService,
-    EmployeeDaysService,
-    EmployeeDocumentService,
-    EmployeeEmploymentService,
-    EmployeeFunctionService,
-    EmployeeHourComponentFixedService,
-    EmployeeDepartmentsService,
-    EmployeeLabourAgreementService,
-    EmployeeLeaseCarService,
-    EmployeeLeaveService,
-    EmployeeLevensLoopService,
-    EmployeeManagerService,
-    EmployeePartnerService,
-    EmployeePersonalInfoService,
-    EmployeeSalaryService,
-    EmployeeScheduleService,
-    EmployeeSpaarloonService,
-    EmployeeSvwService,
-    EmployeeTimeRegistrationService,
-    EmployeeTimeScheduleService,
-    EmployeeWageComponentsService,
-    EmployeeWageTaxService,
-)
 
 
 class TesteEmployeeService(unittest.TestCase):
     """Unit tests for the EmployeeService class."""
 
     def setUp(self):
-        self.employee_service = EmployeeService()
-        self.mock_auth_header = Mock()
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
+        self.employee_service = EmployeeService(self.auth_manager)
         self.mock_client = Mock()
         self.employee_service.client = self.mock_client
-        self.employee_service.set_auth_header(self.mock_auth_header)
-
-    def test_initiation_of_microservices(self):
-        """Test initialization of all microservices."""
-        self.assertIsInstance(self.employee_service.absence, EmployeeAbsenceService)
-        self.assertIsInstance(self.employee_service.address, EmployeeAddressService)
-        self.assertIsInstance(self.employee_service.bank_account, EmployeeBankAccountService)
-        self.assertIsInstance(self.employee_service.child, EmployeeChildService)
-        self.assertIsInstance(self.employee_service.contract, EmployeeContractService)
-        self.assertIsInstance(self.employee_service.cost_center, EmployeeCostCenterService)
-        self.assertIsInstance(self.employee_service.days, EmployeeDaysService)
-        self.assertIsInstance(self.employee_service.department, EmployeeDepartmentsService)
-        self.assertIsInstance(self.employee_service.document, EmployeeDocumentService)
-        self.assertIsInstance(self.employee_service.employment, EmployeeEmploymentService)
-        self.assertIsInstance(self.employee_service.function, EmployeeFunctionService)
-        self.assertIsInstance(self.employee_service.hour_component, EmployeeHourComponentFixedService)
-        self.assertIsInstance(self.employee_service.labour_agreement, EmployeeLabourAgreementService)
-        self.assertIsInstance(self.employee_service.lease_car, EmployeeLeaseCarService)
-        self.assertIsInstance(self.employee_service.leave, EmployeeLeaveService)
-        self.assertIsInstance(self.employee_service.levensloop, EmployeeLevensLoopService)
-        self.assertIsInstance(self.employee_service.manager, EmployeeManagerService)
-        self.assertIsInstance(self.employee_service.partner, EmployeePartnerService)
-        self.assertIsInstance(self.employee_service.personal_info, EmployeePersonalInfoService)
-        self.assertIsInstance(self.employee_service.salary, EmployeeSalaryService)
-        self.assertIsInstance(self.employee_service.schedule, EmployeeScheduleService)
-        self.assertIsInstance(self.employee_service.service, EmployeeServiceService)
-        self.assertIsInstance(self.employee_service.spaarloon, EmployeeSpaarloonService)
-        self.assertIsInstance(self.employee_service.svw, EmployeeSvwService)
-        self.assertIsInstance(self.employee_service.time_registration, EmployeeTimeRegistrationService)
-        self.assertIsInstance(self.employee_service.time_schedule, EmployeeTimeScheduleService)
-        self.assertIsInstance(self.employee_service.wage_component, EmployeeWageComponentsService)
-        self.assertIsInstance(self.employee_service.wage_tax, EmployeeWageTaxService)
-
-    def test_set_auth_headers(self):
-        """Test setting authentication headers for all microservices."""
-        # Setup mocks
-        self.employee_service.absence = Mock()
-        self.employee_service.address = Mock()
-        self.employee_service.bank_account = Mock()
-        self.employee_service.child = Mock()
-        self.employee_service.contract = Mock()
-        self.employee_service.cost_center = Mock()
-        self.employee_service.days = Mock()
-        self.employee_service.department = Mock()
-        self.employee_service.document = Mock()
-        self.employee_service.employment = Mock()
-        self.employee_service.function = Mock()
-        self.employee_service.hour_component = Mock()
-        self.employee_service.labour_agreement = Mock()
-        self.employee_service.lease_car = Mock()
-        self.employee_service.leave = Mock()
-        self.employee_service.levensloop = Mock()
-        self.employee_service.manager = Mock()
-        self.employee_service.partner = Mock()
-        self.employee_service.personal_info = Mock()
-        self.employee_service.salary = Mock()
-        self.employee_service.schedule = Mock()
-        self.employee_service.service = Mock()
-        self.employee_service.spaarloon = Mock()
-        self.employee_service.svw = Mock()
-        self.employee_service.time_registration = Mock()
-        self.employee_service.time_schedule = Mock()
-        self.employee_service.wage_component = Mock()
-        self.employee_service.wage_tax = Mock()
-
-        auth_header = {"Authorization": "Bearer token"}
-
-        # Call the set_auth_header method on the mocked employeeService
-        self.employee_service.set_auth_header(auth_header)
-
-        self.employee_service.absence.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.address.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.bank_account.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.child.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.contract.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.cost_center.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.days.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.department.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.document.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.employment.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.function.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.hour_component.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.labour_agreement.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.lease_car.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.leave.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.levensloop.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.manager.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.partner.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.personal_info.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.salary.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.schedule.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.service.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.spaarloon.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.svw.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.time_registration.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.time_schedule.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.wage_component.set_auth_header.assert_called_once_with(auth_header)
-        self.employee_service.wage_tax.set_auth_header.assert_called_once_with(auth_header)
 
     def test_get_types(self):
         """Test retrieving all companies."""

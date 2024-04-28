@@ -2,6 +2,8 @@
 
 import unittest
 from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.cost_center import EmployeeCostCenterService, CostCenter
 
 
@@ -9,10 +11,17 @@ class TestEmployeeCostCenterService(unittest.TestCase):
     """Unit tests for the EmployeeCostCenterService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.cost_center_service = EmployeeCostCenterService(self.client)
-        self.mock_auth_header = Mock()
-        self.cost_center_service.set_auth_header(self.mock_auth_header)
+        self.cost_center_service = EmployeeCostCenterService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test getting cost centers for a specific employee."""

@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import Mock
 from datetime import datetime
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.employee.personal_info import (
     EmployeePersonalInfoService,
     PersonalInfo,
@@ -14,10 +16,17 @@ class TestEmployeePersonalInfoService(unittest.TestCase):
     """Unit tests for the EmployeePersonalInfoService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.personal_info_service = EmployeePersonalInfoService(self.client)
-        self.mock_auth_header = Mock()
-        self.personal_info_service.set_auth_header(self.mock_auth_header)
+        self.personal_info_service = EmployeePersonalInfoService(self.auth_manager, self.client)
 
     def test_get(self):
         """Test retrieving personal information for a given employee, period, and year."""

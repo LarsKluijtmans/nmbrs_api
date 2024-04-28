@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import WageModel
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyWageModelService(MicroService):
     """Microservice responsible for managing wage model related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:WageModel_GetWageCodes")
@@ -33,7 +31,7 @@ class CompanyWageModelService(MicroService):
         Returns:
             list[WageModel]: A list of wage codes belonging to the company's wage model.
         """
-        wage_models = self.client.service.WageModel_GetWageCodes(CompanyId=company_id, _soapheaders=self.auth_header)
+        wage_models = self.client.service.WageModel_GetWageCodes(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         wage_models = [WageModel(company_id=company_id, data=wage_model) for wage_model in serialize_object(wage_models)]
         return wage_models
 
@@ -52,6 +50,6 @@ class CompanyWageModelService(MicroService):
         Returns:
             list[WageModel]: A list of wage codes belonging to the company's wage model.
         """
-        wage_models = self.client.service.WageModel2_GetWageCodes(CompanyId=company_id, _soapheaders=self.auth_header)
+        wage_models = self.client.service.WageModel2_GetWageCodes(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         wage_models = [WageModel(company_id=company_id, data=wage_model) for wage_model in serialize_object(wage_models)]
         return wage_models

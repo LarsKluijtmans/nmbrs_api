@@ -4,17 +4,15 @@
 from zeep import Client
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class EmployeeTimeScheduleService(MicroService):
     """Microservice responsible for time schedule related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:TimeSchedule_AllEmployee_GetListByPeriod")
     def get_all_by_company(self):

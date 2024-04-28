@@ -3,6 +3,8 @@
 import unittest
 from unittest.mock import Mock
 from decimal import Decimal
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.wage_component import CompanyWageComponentService, WageComponent
 
 
@@ -10,10 +12,17 @@ class TestCompanyWageComponentService(unittest.TestCase):
     """Unit tests for the CompanyWageComponentService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.company_wage_component_service = CompanyWageComponentService(self.client)
-        self.mock_auth_header = Mock()
-        self.company_wage_component_service.set_auth_header(self.mock_auth_header)
+        self.company_wage_component_service = CompanyWageComponentService(self.auth_manager, self.client)
 
     def test_fixed_get(self):
         """Test retrieving all fixed wage components for a specified company, year, and period."""

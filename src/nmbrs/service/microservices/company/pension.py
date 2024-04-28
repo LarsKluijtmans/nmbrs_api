@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import Pension, PensionXML
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyPensionService(MicroService):
     """Microservice responsible for pension related actions on the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetList")
@@ -34,7 +32,7 @@ class CompanyPensionService(MicroService):
         Returns:
             list[Pension]: A list of pension objects.
         """
-        pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_header)
+        pensions = self.client.service.PensionExport_GetList(CompanyId=company_id, intYear=year, _soapheaders=self.auth_manager.header)
         return [Pension(company_id=company_id, data=pension) for pension in serialize_object(pensions)]
 
     @nmbrs_exception_handler(resource="CompanyService:PensionExport_GetXML")
@@ -53,6 +51,6 @@ class CompanyPensionService(MicroService):
             list[CostCenter]: A list of cost center objects.
         """
         pension_xml = self.client.service.PensionExport_GetXML(
-            CompanyId=company_id, PensionExportID=pension_export_id, _soapheaders=self.auth_header
+            CompanyId=company_id, PensionExportID=pension_export_id, _soapheaders=self.auth_manager.header
         )
         return PensionXML(serialize_object(pension_xml))

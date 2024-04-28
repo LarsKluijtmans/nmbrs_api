@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Contract
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class EmployeeContractService(MicroService):
     """Microservice responsible for contract related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_GetAll")
     def get(self, employee_id: int) -> list[Contract]:
@@ -32,7 +30,7 @@ class EmployeeContractService(MicroService):
         Returns:
             list[Contract]: A list of Contract objects representing the employees contracts.
         """
-        contracts = self.client.service.Contract_GetAll(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        contracts = self.client.service.Contract_GetAll(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         return [Contract(employee_id=employee_id, data=contract) for contract in serialize_object(contracts)]
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_GetCurrentPeriod")
@@ -49,7 +47,7 @@ class EmployeeContractService(MicroService):
         Returns:
             list[Contract]: A list of Contract objects representing the employees contracts.
         """
-        contracts = self.client.service.Contract_GetCurrentPeriod(EmployeeId=employee_id, _soapheaders=self.auth_header)
+        contracts = self.client.service.Contract_GetCurrentPeriod(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         contracts = serialize_object(contracts)
 
         _contracts = []
@@ -73,7 +71,7 @@ class EmployeeContractService(MicroService):
         Returns:
             list[Contract]: a list of contract objects
         """
-        contracts = self.client.service.Contract_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        contracts = self.client.service.Contract_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_manager.header)
         contracts = serialize_object(contracts)
         _contracts = []
         for employee in contracts:
@@ -93,7 +91,7 @@ class EmployeeContractService(MicroService):
             employee_id (int): The ID of the employee.
             contract_id (int): The ID of the contract.
         """
-        response = self.client.service.Contract_Delete(EmployeeId=employee_id, Id=contract_id, _soapheaders=self.auth_header)
+        response = self.client.service.Contract_Delete(EmployeeId=employee_id, Id=contract_id, _soapheaders=self.auth_manager.header)
         return response
 
     @nmbrs_exception_handler(resource="EmployeeService:Contract_Update")
@@ -126,7 +124,7 @@ class EmployeeContractService(MicroService):
             EmployeeId=employee_id,
             EmployeeContract=_contract,
             UnprotectedMode=unprotected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -163,7 +161,7 @@ class EmployeeContractService(MicroService):
             EmployeeId=employee_id,
             EmployeeContract=_contract,
             UnprotectedMode=unprotected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response
 
@@ -200,6 +198,6 @@ class EmployeeContractService(MicroService):
             EmployeeId=employee_id,
             EmployeeContract=_contract,
             UnprotectedMode=unprotected_mode,
-            _soapheaders=self.auth_header,
+            _soapheaders=self.auth_manager.header,
         )
         return response

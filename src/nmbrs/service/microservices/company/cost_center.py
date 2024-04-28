@@ -4,6 +4,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.company import CostCenter
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class CompanyCostCenterService(MicroService):
     """Microservice responsible for managing cost centers at the company level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:CostCenter_GetList")
@@ -33,7 +31,7 @@ class CompanyCostCenterService(MicroService):
         Returns:
             list[CostCenter]: A list of cost center objects.
         """
-        cost_centers = self.client.service.CostCenter_GetList(CompanyId=company_id, _soapheaders=self.auth_header)
+        cost_centers = self.client.service.CostCenter_GetList(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         return [CostCenter(company_id=company_id, data=cost_center) for cost_center in serialize_object(cost_centers)]
 
     @nmbrs_exception_handler(resource="CompanyService:CostCenter_Insert")
@@ -55,6 +53,6 @@ class CompanyCostCenterService(MicroService):
         """
         cost_center = {"Id": cost_center_id, "Code": code, "Description": description}
         cost_center_id = self.client.service.CostCenter_Insert(
-            CompanyId=company_id, kostenplaats=cost_center, _soapheaders=self.auth_header
+            CompanyId=company_id, kostenplaats=cost_center, _soapheaders=self.auth_manager.header
         )
         return cost_center_id

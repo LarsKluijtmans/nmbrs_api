@@ -5,6 +5,7 @@ from zeep import Client
 from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
+from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Employment
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
@@ -13,11 +14,8 @@ from ....utils.return_list import return_list
 class EmployeeEmploymentService(MicroService):
     """Microservice responsible for employment related actions on the employee level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:Employment_GetAll_AllEmployeesByCompany")
@@ -34,7 +32,9 @@ class EmployeeEmploymentService(MicroService):
         Returns:
             list[Employment]: a list of Employment objects
         """
-        employments = self.client.service.Employment_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_header)
+        employments = self.client.service.Employment_GetAll_AllEmployeesByCompany(
+            CompanyID=company_id, _soapheaders=self.auth_manager.header
+        )
         employments = serialize_object(employments)
         _employments = []
         for employee in employments:

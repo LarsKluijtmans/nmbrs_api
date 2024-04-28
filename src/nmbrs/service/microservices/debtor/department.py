@@ -3,6 +3,7 @@
 from zeep import Client
 from zeep.helpers import serialize_object
 
+from ....auth.token_manager import AuthManager
 from ....data_classes.debtor import Department
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
@@ -12,11 +13,8 @@ from ....utils.return_list import return_list
 class DebtorDepartmentService(MicroService):
     """Microservice responsible for department related actions on the debtor level."""
 
-    def __init__(self, client: Client) -> None:
-        super().__init__(client)
-
-    def set_auth_header(self, auth_header: dict) -> None:
-        self.auth_header = auth_header
+    def __init__(self, auth_manager: AuthManager, client: Client):
+        super().__init__(auth_manager, client)
 
     @nmbrs_exception_handler(resource="DebtorService:Department_Delete")
     def delete(self, debtor_id: int, department_id: int) -> None:
@@ -30,7 +28,7 @@ class DebtorDepartmentService(MicroService):
             debtor_id (int): The ID of the debtor.
             department_id (int): The ID of the department to delete.
         """
-        self.client.service.Department_Delete(DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_header)
+        self.client.service.Department_Delete(DebtorId=debtor_id, id=department_id, _soapheaders=self.auth_manager.header)
 
     @return_list
     @nmbrs_exception_handler(resource="DebtorService:Department_GetList")
@@ -47,7 +45,7 @@ class DebtorDepartmentService(MicroService):
         Returns:
             list[Department]: A list of Department objects representing all departments of the debtor.
         """
-        departments = self.client.service.Department_GetList(DebtorId=debtor_id, _soapheaders=self.auth_header)
+        departments = self.client.service.Department_GetList(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         departments = [Department(debtor_id=debtor_id, data=department) for department in serialize_object(departments)]
         return departments
 
@@ -76,7 +74,7 @@ class DebtorDepartmentService(MicroService):
                 "Description": description,
             },
         }
-        inserted = self.client.service.Department_Insert(**data, _soapheaders=self.auth_header)
+        inserted = self.client.service.Department_Insert(**data, _soapheaders=self.auth_manager.header)
         return inserted
 
     @nmbrs_exception_handler(resource="DebtorService:Department_Update")
@@ -101,4 +99,4 @@ class DebtorDepartmentService(MicroService):
                 "Description": description,
             },
         }
-        self.client.service.Department_Update(**data, _soapheaders=self.auth_header)
+        self.client.service.Department_Update(**data, _soapheaders=self.auth_manager.header)

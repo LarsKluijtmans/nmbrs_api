@@ -2,6 +2,8 @@
 
 import unittest
 from unittest.mock import Mock
+
+from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.service.microservices.company.bank_account import (
     CompanyBankAccountService,
     BankAccount,
@@ -12,10 +14,17 @@ class TestCompanyBankAccountService(unittest.TestCase):
     """Unit tests for the CompanyBankAccountService class."""
 
     def setUp(self):
+        self.auth_manager = AuthManager()
+        self.auth_manager.set_auth_header("test_username", "test_token", "test_domain")
+        self.mock_auth_header = {
+            "AuthHeaderWithDomain": {
+                "Username": "test_username",
+                "Token": "test_token",
+                "Domain": "test_domain",
+            }
+        }
         self.client = Mock()
-        self.bank_account_service = CompanyBankAccountService(self.client)
-        self.mock_auth_header = Mock()
-        self.bank_account_service.set_auth_header(self.mock_auth_header)
+        self.bank_account_service = CompanyBankAccountService(self.auth_manager, self.client)
 
     def test_get_current_bank_account(self):
         """Test retrieving the current bank account of the company."""

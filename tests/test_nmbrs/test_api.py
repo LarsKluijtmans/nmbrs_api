@@ -44,7 +44,7 @@ class TestNmbrs(unittest.TestCase):
         nmbrs = Nmbrs()
         nmbrs.auth_with_token(username=username, token=token)
 
-        expected_auth_header = {
+        expected_header = {
             "AuthHeaderWithDomain": {
                 "Username": username,
                 "Token": token,
@@ -52,9 +52,9 @@ class TestNmbrs(unittest.TestCase):
             }
         }
 
-        self.assertEqual(nmbrs.debtor.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.company.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.employee.auth_header, expected_auth_header)
+        self.assertEqual(nmbrs.debtor.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.company.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.employee.auth_manager.header, expected_header)
 
         # Check if DebtorService.get_domain method is called with the correct parameters
         mock_get_domain.assert_called_once_with("test_user", "test_token")
@@ -70,7 +70,7 @@ class TestNmbrs(unittest.TestCase):
 
         nmbrs = Nmbrs(username=username, token=token, auth_type="token")
 
-        expected_auth_header = {
+        expected_header = {
             "AuthHeaderWithDomain": {
                 "Username": username,
                 "Token": token,
@@ -78,9 +78,9 @@ class TestNmbrs(unittest.TestCase):
             }
         }
 
-        self.assertEqual(nmbrs.debtor.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.company.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.employee.auth_header, expected_auth_header)
+        self.assertEqual(nmbrs.debtor.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.company.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.employee.auth_manager.header, expected_header)
 
         # Check if DebtorService.get_domain method is called with the correct parameters
         mock_get_domain.assert_called_once_with("test_user", "test_token")
@@ -93,7 +93,7 @@ class TestNmbrs(unittest.TestCase):
         domain = "test_domain"
         nmbrs.auth_with_domain(username=username, token=token, domain=domain)
 
-        expected_auth_header = {
+        expected_header = {
             "AuthHeaderWithDomain": {
                 "Username": username,
                 "Token": token,
@@ -101,9 +101,9 @@ class TestNmbrs(unittest.TestCase):
             }
         }
 
-        self.assertEqual(nmbrs.debtor.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.company.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.employee.auth_header, expected_auth_header)
+        self.assertEqual(nmbrs.debtor.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.company.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.employee.auth_manager.header, expected_header)
 
     def test_standard_auth_with_domain_constructor(self):
         """Test standard authentication with domain parameter, initialized using the constructor."""
@@ -112,7 +112,7 @@ class TestNmbrs(unittest.TestCase):
         domain = "test_domain"
         nmbrs = Nmbrs(username=username, token=token, domain=domain, auth_type="domain")
 
-        expected_auth_header = {
+        expected_header = {
             "AuthHeaderWithDomain": {
                 "Username": username,
                 "Token": token,
@@ -120,6 +120,6 @@ class TestNmbrs(unittest.TestCase):
             }
         }
 
-        self.assertEqual(nmbrs.debtor.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.company.auth_header, expected_auth_header)
-        self.assertEqual(nmbrs.employee.auth_header, expected_auth_header)
+        self.assertEqual(nmbrs.debtor.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.company.auth_manager.header, expected_header)
+        self.assertEqual(nmbrs.employee.auth_manager.header, expected_header)
