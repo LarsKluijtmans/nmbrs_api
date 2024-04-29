@@ -74,4 +74,4 @@ jobs:
           pip install yamllint
 
       - name: Lint YAML Files
-        run: yamllint $(git ls-files '*.yml')
+        run: yamllint .

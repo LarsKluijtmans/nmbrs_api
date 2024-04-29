@@ -1,4 +1,4 @@
-# Tests
+# Workflows
 
 ## Unit tests
 
@@ -12,7 +12,7 @@ coverage html
 ```commandline
 pylint --rcfile=.pylintrc $(git ls-files '*.py')
 pymarkdown scan $(git ls-files '*.md')
-yamllint $(git ls-files '*.yml')
+yamllint .
 ```
 
 ## Formatting
