@@ -26,15 +26,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: Lint Python Files
-        run: |
-          pylint --rcfile=.pylintrc $(git ls-files '*.py')
+        run: pylint --rcfile=.pylintrc $(git ls-files '*.py')
 
   markdown-linting-check:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.11"]
 
     steps:
       - name: Checkout Repository
@@ -51,14 +50,14 @@ jobs:
           pip install pymarkdownlnt
 
       - name: Lint Markdown Files
-        run: pymarkdown scan "**/*.md"
+        run: pymarkdown scan $(git ls-files '*.md')
 
   yaml-linting-check:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.11"]
 
     steps:
       - name: Checkout Repository
