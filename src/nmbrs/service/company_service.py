@@ -1,5 +1,7 @@
 """Module for handling the Company Nmbrs services."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -35,6 +37,8 @@ from ..data_classes.company import (
     PayrollWorkflowTrack,
 )
 
+logger = logging.getLogger(__name__)
+
 
 class CompanyService(Service):
     """A class representing Company Service for interacting with Nmbrs company-related functionalities."""
@@ -62,6 +66,8 @@ class CompanyService(Service):
         self.wage_cost = CompanyWageCostService(self.auth_manager, self.client)
         self.wage_model = CompanyWageModelService(self.auth_manager, self.client)
         self.wage_tax = CompanyWageTaxService(self.auth_manager, self.client)
+
+        logger.info("CompanyService initialized.")
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:List_GetAll")

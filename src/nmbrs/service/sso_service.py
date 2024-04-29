@@ -2,10 +2,14 @@
 Module for handling Single Sign-On (SSO) for Nmbrs services.
 """
 
+import logging
+
 from zeep import Client
 
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 class SingleSingOnService(Service):
@@ -18,6 +22,7 @@ class SingleSingOnService(Service):
 
         # Initialize nmbrs services
         self.sso_service = Client(f"{self.base_uri}{self.sso_uri}")
+        logger.info("SingleSignOnService initialized.")
 
     def get_sso_url(self, token: str, nmbrs_env: str, target: str = "nmbrs") -> str:
         """
@@ -33,7 +38,10 @@ class SingleSingOnService(Service):
         """
         if self.sso_url not in nmbrs_env:
             nmbrs_env = f"{nmbrs_env}{self.sso_url}"
-        return f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
+        url = f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
+
+        logger.debug("Generated SSO URL: %s", url)
+        return url
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken")
     def get_token_with_password(self, username: str, password: str) -> str:
@@ -51,6 +59,7 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken(Username=username, Password=password)
+        logger.debug("Token retrieved with password for user: %s", username)
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken2")
@@ -69,6 +78,7 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken2(Username=username, Token=token)
+        logger.debug("Token retrieved with API token for user: %s", username)
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
@@ -88,4 +98,5 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetTokenWithDomain(Username=username, Password=password, Domain=domain)
+        logger.debug("Token retrieved with domain for user: %s", username)
         return token

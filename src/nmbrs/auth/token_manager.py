@@ -2,6 +2,10 @@
 A class for managing the Nmbrs authentication header.
 """
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class AuthManager:
     """
@@ -27,6 +31,7 @@ class AuthManager:
                 "Domain": domain,
             }
         }
+        logger.info("Authentication header set successfully.")
 
     def get_username(self) -> str:
         """
@@ -37,6 +42,7 @@ class AuthManager:
         """
         if self.header:
             return self.header["AuthHeaderWithDomain"]["Username"]
+        logger.warning("Authentication header is not set.")
         return ""
 
     def get_token(self) -> str:
@@ -48,6 +54,7 @@ class AuthManager:
         """
         if self.header:
             return self.header["AuthHeaderWithDomain"]["Token"]
+        logger.warning("Authentication header is not set.")
         return ""
 
     def get_domain(self) -> str:
@@ -59,4 +66,5 @@ class AuthManager:
         """
         if self.header:
             return self.header["AuthHeaderWithDomain"]["Domain"]
+        logger.warning("Authentication header is not set.")
         return ""

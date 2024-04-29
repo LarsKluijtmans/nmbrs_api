@@ -1,7 +1,9 @@
-# pylint: disable=line-too-long
 """
 Module for handling the Employee Nmbrs services.
 """
+
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -40,6 +42,9 @@ from ..auth.token_manager import AuthManager
 from ..data_classes.employee import EmployeeTypes, Employee, Period
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..utils.return_list import return_list
+
+
+logger = logging.getLogger(__name__)
 
 
 class EmployeeService(Service):
@@ -81,6 +86,8 @@ class EmployeeService(Service):
         self.wage_component = EmployeeWageComponentsService(self.auth_manager, self.client)  # TO BE implemented
         self.wage_tax = EmployeeWageTaxService(self.auth_manager, self.client)  # TO BE implemented
 
+        logger.info("EmployeeService initialized.")
+
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:EmployeeType_GetList")
     def get_types(self) -> list[EmployeeTypes]:
@@ -95,6 +102,7 @@ class EmployeeService(Service):
         """
         employee_types = self.client.service.EmployeeType_GetList(_soapheaders=self.auth_manager.header)
         employee_types = [EmployeeTypes(employee_type) for employee_type in serialize_object(employee_types)]
+        logger.debug("Employee types retrieved successfully.")
         return employee_types
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_GetCurrent")
@@ -113,7 +121,9 @@ class EmployeeService(Service):
         """
         period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if period is None:
+            logger.debug("No current period found for employee ID: %s.", employee_id)
             return None
+        logger.debug("Retrieved current period for employee ID %s.", employee_id)
         return Period(employee_id=employee_id, data=serialize_object(period))
 
     @return_list
@@ -136,6 +146,7 @@ class EmployeeService(Service):
             CompanyId=company_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
         )
         employees = [Employee(employee) for employee in serialize_object(employees)]
+        logger.debug("Retrieved employees by company ID %s and employee type %s.", company_id, employee_type)
         return employees
 
     @return_list
@@ -158,6 +169,7 @@ class EmployeeService(Service):
             DebtorId=debtor_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
         )
         employees = [Employee(employee) for employee in serialize_object(employees)]
+        logger.debug("Retrieved employees by debtor ID %s and employee type %s.", debtor_id, employee_type)
         return employees
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_Insert")
@@ -254,12 +266,12 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:PerformanceReview_GetAll_AllEmployeesByCompany")
-    def get_all_performance_reviewa_by_company(self):
+    def get_all_performance_review_by_company(self):
         """
         Get the HR Performance Reviews for all the employees in the given Company ID.
 
         For more information, refer to the official documentation:
-            [PerformanceReview_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_GetAll_AllEmployeesByCompany)
+            [PerformanceReview_GetAll_AllEmployeesByCompany](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=PerformanceReview_GetAll_AllEmployeesByCompany)  # pylint: disable=line-too-long
         """
         raise NotImplementedError()  # pragma: no cover
 

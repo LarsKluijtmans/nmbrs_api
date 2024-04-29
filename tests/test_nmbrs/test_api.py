@@ -13,7 +13,7 @@ class TestNmbrs(unittest.TestCase):
 
     def test_empty_initializer(self):
         """Test initialization of Nmbrs class with default parameters."""
-        nmbrs = Nmbrs()
+        nmbrs = Nmbrs(username="", token="", auth_type="None")
 
         self.assertIsNotNone(nmbrs.sso)
         self.assertIsNotNone(nmbrs.debtor)
@@ -23,13 +23,13 @@ class TestNmbrs(unittest.TestCase):
     def test_standard_auth_with_missing_params(self):
         """Test standard authentication with missing parameters."""
         with self.assertRaises(ParameterMissingError) as e:
-            Nmbrs(username="test_user", auth_type="token")
+            Nmbrs(username="test_user", token="")
         self.assertEqual(e.exception.params, ["token"])
 
     def test_standard_auth_with_domain_with_missing_params(self):
         """Test standard authentication with domain with missing parameters."""
         with self.assertRaises(ParameterMissingError) as e:
-            Nmbrs(username="test_user", auth_type="domain")
+            Nmbrs(username="test_user", token="", auth_type="domain")
         self.assertEqual(e.exception.params, ["token", "domain"])
 
     @patch("src.nmbrs.service.debtor_service.DebtorService.get_domain")
@@ -41,7 +41,7 @@ class TestNmbrs(unittest.TestCase):
 
         # Mocking the DebtorService.get_domain method
         mock_get_domain.return_value = Domain(data={"Domain": domain, "SubDomain": domain})
-        nmbrs = Nmbrs()
+        nmbrs = Nmbrs("", "", auth_type="None")
         nmbrs.auth_with_token(username=username, token=token)
 
         expected_header = {
@@ -87,7 +87,7 @@ class TestNmbrs(unittest.TestCase):
 
     def test_standard_auth_with_domain(self):
         """Test standard authentication with domain parameter."""
-        nmbrs = Nmbrs()
+        nmbrs = Nmbrs("", "", auth_type="None")
         username = "test_user"
         token = "test_token"
         domain = "test_domain"

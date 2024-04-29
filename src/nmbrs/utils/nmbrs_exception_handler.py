@@ -1,5 +1,6 @@
 """Exception Handling Decorators for Nmbrs SOAP API"""
 
+import logging
 import zeep.exceptions
 
 from ..exceptions import (
@@ -49,6 +50,9 @@ from ..exceptions import (
     NotFoundException,
     InvalidDocumentTypeException,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 def nmbrs_exception_handler(resource: str):
@@ -110,6 +114,9 @@ def nmbrs_exception_handler(resource: str):
                     9999: UnknownNmbrsException,
                 }
                 exception_str = str(e)
+
+                # Log the exception
+                logger.error("Exception occurred in %s: %s", func.__name__, exception_str)
 
                 # Exceptions without code
                 if "---> Invalid combination email/password" in exception_str:
