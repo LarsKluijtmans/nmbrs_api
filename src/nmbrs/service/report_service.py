@@ -62,7 +62,6 @@ class ReportService(Service):
                 elif result["Status"] == "Success":
                     logger.info("Background task completed successfully.")
                     return xmltodict.parse(result["Content"])
-            logger.warning("Background task did not complete within the specified time limit.")
             return None
 
     @nmbrs_exception_handler(resource="ReportService")
@@ -82,7 +81,6 @@ class ReportService(Service):
                 **task_args,
                 _soapheaders=self.auth_manager.header,
             )
-            logger.debug("Task ID retrieved for task: %s", task_name)
             return response
         except AttributeError as e:
             logger.error("Unknown call made to the ReportService %s", task_name)

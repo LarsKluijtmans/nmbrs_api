@@ -1,8 +1,9 @@
 """Exception Handling Decorators for Nmbrs SOAP API"""
-
 import logging
+
 import zeep.exceptions
 
+from .get_module_path import get_module_path
 from ..exceptions import (
     AuthenticationException,
     AuthorizationException,
@@ -51,7 +52,6 @@ from ..exceptions import (
     InvalidDocumentTypeException,
 )
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -66,7 +66,17 @@ def nmbrs_exception_handler(resource: str):
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
-                return func(*args, **kwargs)
+                response = func(*args, **kwargs)
+                logger.name = get_module_path(func)
+
+                if response is None:
+                    logger.debug("Used resource: %s, was not able to retrieve anything.", resource)
+                elif isinstance(response, list):
+                    logger.debug("Used resource: %s, retrieved %s entries.", resource, len(response))
+                else:
+                    logger.debug("Used resource: %s, retrieved %s entries.", resource, 1)
+
+                return response
             except zeep.exceptions.Fault as e:
                 error_map = {
                     1001: AuthenticationException,
@@ -116,7 +126,7 @@ def nmbrs_exception_handler(resource: str):
                 exception_str = str(e)
 
                 # Log the exception
-                logger.error("Exception occurred in %s: %s", func.__name__, exception_str)
+                logger.error("Exception occurred in %s from file %s: %s", func.__name__, calling_file, exception_str)
 
                 # Exceptions without code
                 if "---> Invalid combination email/password" in exception_str:

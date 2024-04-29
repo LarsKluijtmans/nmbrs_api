@@ -1,5 +1,7 @@
 """Microservice responsible for run related actions on the company level."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -9,6 +11,8 @@ from ....data_classes.company import RunRequest, RunInfo
 from ....data_classes.employee import Employee
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
+
+logger = logging.getLogger(__name__)
 
 
 class CompanyRunService(MicroService):

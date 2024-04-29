@@ -1,5 +1,7 @@
 """Microservice responsible for function related actions on the debtor level."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -8,6 +10,8 @@ from ....data_classes.debtor import Function
 from ..micro_service import MicroService
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
+
+logger = logging.getLogger(__name__)
 
 
 class DebtorFunctionService(MicroService):

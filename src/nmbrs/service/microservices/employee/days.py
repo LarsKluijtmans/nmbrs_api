@@ -1,5 +1,7 @@
 """Microservice responsible for days related actions on the employee level."""
 
+import logging
+
 from zeep import Client
 
 from ..micro_service import MicroService
@@ -7,6 +9,8 @@ from ....data_classes.serialize import serialize
 from ....auth.token_manager import AuthManager
 from ....data_classes.employee import DaysWorked, VariableDaysWorked
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 class EmployeeDaysService(MicroService):

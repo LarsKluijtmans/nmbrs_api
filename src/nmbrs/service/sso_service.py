@@ -39,7 +39,6 @@ class SingleSingOnService(Service):
         if self.sso_url not in nmbrs_env:
             nmbrs_env = f"{nmbrs_env}{self.sso_url}"
         url = f"https://{nmbrs_env}/applications/common/externalactions.aspx?login={target}&ID={token}"
-
         logger.debug("Generated SSO URL: %s", url)
         return url
 
@@ -59,7 +58,6 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken(Username=username, Password=password)
-        logger.debug("Token retrieved with password for user: %s", username)
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetToken2")
@@ -78,7 +76,6 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetToken2(Username=username, Token=token)
-        logger.debug("Token retrieved with API token for user: %s", username)
         return token
 
     @nmbrs_exception_handler(resource="SingleSignOn:GetTokenWithDomain")
@@ -98,5 +95,4 @@ class SingleSingOnService(Service):
             str: Single sign-on token (valid for 30 seconds).
         """
         token = self.sso_service.service.GetTokenWithDomain(Username=username, Password=password, Domain=domain)
-        logger.debug("Token retrieved with domain for user: %s", username)
         return token

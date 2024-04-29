@@ -102,7 +102,6 @@ class EmployeeService(Service):
         """
         employee_types = self.client.service.EmployeeType_GetList(_soapheaders=self.auth_manager.header)
         employee_types = [EmployeeTypes(employee_type) for employee_type in serialize_object(employee_types)]
-        logger.debug("Employee types retrieved successfully.")
         return employee_types
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_GetCurrent")
@@ -121,9 +120,8 @@ class EmployeeService(Service):
         """
         period = self.client.service.Employee_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if period is None:
-            logger.debug("No current period found for employee ID: %s.", employee_id)
+            logger.debug("No current period found for employee, ID: %s.", employee_id)
             return None
-        logger.debug("Retrieved current period for employee ID %s.", employee_id)
         return Period(employee_id=employee_id, data=serialize_object(period))
 
     @return_list
@@ -146,7 +144,6 @@ class EmployeeService(Service):
             CompanyId=company_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
         )
         employees = [Employee(employee) for employee in serialize_object(employees)]
-        logger.debug("Retrieved employees by company ID %s and employee type %s.", company_id, employee_type)
         return employees
 
     @return_list
@@ -169,7 +166,6 @@ class EmployeeService(Service):
             DebtorId=debtor_id, EmployeeType=employee_type, _soapheaders=self.auth_manager.header
         )
         employees = [Employee(employee) for employee in serialize_object(employees)]
-        logger.debug("Retrieved employees by debtor ID %s and employee type %s.", debtor_id, employee_type)
         return employees
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_Insert")
@@ -198,7 +194,8 @@ class EmployeeService(Service):
     def post_with_type(self):
         """
         Create a new employee based on the employee type and returns the Id of this employee.
-        If the date is before the company's current period, unprotected mode flag is required.
+        If the date is before th
+        e company's current period, unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [Employee_InsertByEmployeeType](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertByEmployeeType)
