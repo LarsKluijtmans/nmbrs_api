@@ -53,12 +53,12 @@ class ReportService(Service):
                 )
                 if result["Status"] in ("Executing", "Enqueued"):
                     sleep(1)
-                elif result["Status"] == "Error":
-                    logger.error("Background task encountered an error.")
-                    raise BackgroundTaskException()
                 elif result["Status"] == "Unknown":
                     logger.error("Unknown status received for background task.")
                     raise UnknownBackgroundTaskException()
+                elif result["Status"] == "Error":
+                    logger.error("Background task encountered an error.")
+                    raise BackgroundTaskException()
                 elif result["Status"] == "Success":
                     logger.info("Background task completed successfully.")
                     return xmltodict.parse(result["Content"])

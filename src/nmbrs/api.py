@@ -40,8 +40,8 @@ class Nmbrs:
             domain (str, optional): Nmbrs environment subdomain (used when the auth_type paramater is set to "domain").
             sandbox (bool, optional): A boolean indicating whether to use the sandbox environment. Default is True.
         """
-        if sandbox:
-            logger.warning("Live environment is activated")
+        if not sandbox:
+            logger.warning("Live environment is activated")  # pragma: no cover
 
         self.sandbox = sandbox
         self.auth_manager = AuthManager()

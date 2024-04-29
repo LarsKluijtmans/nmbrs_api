@@ -4,7 +4,7 @@ import logging
 from logging.config import dictConfig
 
 
-def logger_config(logging_level=logging.INFO):
+def logger_config(logging_level=logging.WARNING):
     """
     Initialize logging configuration.
 
@@ -35,4 +35,4 @@ def logger_config(logging_level=logging.INFO):
     dictConfig(logging_config)
 
 
-logger_config(logging.INFO)
+logger_config()
