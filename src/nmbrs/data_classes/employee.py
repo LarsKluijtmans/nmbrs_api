@@ -408,3 +408,22 @@ class SVW(DataClass):
         self.wage_cost_benefit_code = wage_cost_benefit.get("WageCostBenefitCode")
         self.wage_cost_benefit_end_period = wage_cost_benefit.get("EndPeriod")
         self.wage_cost_benefit_end_year = wage_cost_benefit.get("EndYear")
+
+
+class VariableDaysWorked:
+    """A class used to insert days worked to a employee."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.days: int = data.get("Days")
+        self.plus_min_days_for_wage_comp: int = data.get("PlusMinusDaysForWageComp")
+
+
+class DaysWorked:
+    """A class used to insert days worked to a employee."""
+
+    def __init__(self, employee_id: int, days: int, period: int, year: int):
+        self.employee_id = employee_id
+        self.days = days
+        self.period = period
+        self.year = year
