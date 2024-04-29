@@ -1,12 +1,12 @@
 # Nmbrs SDK
 
-***
+---
 
 Python SDK for the Visma Nmbrs SOAP API. Simplifying integration and enhancing developer productivity.
 
 ## Installation
 
-***
+---
 
 To install this package, run:
 
@@ -16,11 +16,11 @@ pip install nmbrs
 
 ## Getting started
 
-***
+---
 
 This Software Development Kit (SDK) facilitates interaction with the Nmbrs SOAP API.
 
-Please note that this SDK specifically targets the Nmbrs SOAP API. 
+Please note that this SDK specifically targets the Nmbrs SOAP API.
 
 Although there is also a Rest API available, it is not covered in this SDK.
 
@@ -38,30 +38,29 @@ These contacts can provide assistance and support for your Nmbrs-related develop
 
 ## Authentication
 
-***
+---
 
 There are two authentication options built into the SDK:
 
-1. Using the username and token 
+1. Using the username and token
 2. Using the username, token, and domain
 
-When using only the username and token, the call  [**DebtorService:Environment_Get**](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get) will be made to retrieve the domain from Nmbrs.
+When using only the username and token, the call [**DebtorService:Environment_Get**](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get) will be made to retrieve the domain from Nmbrs.
 
 In the second option, you specify the domain yourself, but the validity of your credentials (username, token, and domain) is not verified.
 
 ## Getting the Nmbrs Token
 
+---
 
-***
-
-You can retrieve a Nmbrs API token through the Nmbrs website. 
+You can retrieve a Nmbrs API token through the Nmbrs website.
 For detailed instructions, refer to [How to get an API token](https://support.nmbrs.com/hc/en-us/articles/360013305712-How-to-get-an-API-token).
 
 API access management can be handled using User Templates. Learn more about this feature [here](https://support.nmbrs.com/hc/en-us/articles/360013527371-API-User-Template).
 
 ## Initialize SDK Using Username and Token
 
-***
+---
 
 ```python
 from nmbrs import Nmbrs
@@ -71,12 +70,12 @@ api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 print(api.debtor.auth_manager.get_username())
 ```
 
-The provided credentials are saved in the SDK for later use. 
+The provided credentials are saved in the SDK for later use.
 If not all required parameters are specified, a MissingParams exception will be thrown.
 
 ## Initialize SDK Using Username, Token, and Domain
 
-***
+---
 
 ```python
 from nmbrs import Nmbrs
@@ -86,13 +85,13 @@ api = Nmbrs(username="__username__", token="__token__", domain="__domain__", aut
 print(api.debtor.auth_manager.get_username())
 ```
 
-The provided credentials are saved in the SDK for later use. 
+The provided credentials are saved in the SDK for later use.
 
 Please note that these credentials are not authenticated and may not be valid.
 
 ## Testing Environment: Sandbox
 
-***
+---
 
 For testing purposes, Nmbrs provides a Sandbox feature. To learn more about the sandbox, its usage, and limitations, refer to the [Sandbox documentation](https://support.nmbrs.nl/hc/nl/articles/204054506-Sandbox).
 
@@ -110,7 +109,7 @@ Please note that the usage of the sandbox is set when the SDK is initialized and
 
 # Retrieving Data
 
-***
+---
 
 Now that you have set up the necessary authentication, it's possible to retrieve data from Nmbrs.
 
@@ -157,32 +156,32 @@ This allows for easy manipulation and transformation of data returned from the N
 
 ## Error Handling
 
-***
+---
 
-The Nmbrs SDK provides robust error handling mechanisms to assist developers in diagnosing and resolving issues encountered during API interaction. 
+The Nmbrs SDK provides robust error handling mechanisms to assist developers in diagnosing and resolving issues encountered during API interaction.
 This section outlines the various types of exceptions that may be raised and how to handle them effectively.
 
 ### Nmbrs Base Exception
 
-The base Nmbrs exception, NmbrsBaseException, serves as the foundation for specific error types within the SDK. 
+The base Nmbrs exception, NmbrsBaseException, serves as the foundation for specific error types within the SDK.
 
 It contains the following attributes:
 
-- error_code: The error code associated with the exception. 
-- resource: The name of the endpoint associated that caused the error. 
-- title: A title summarizing the error. 
-- cause: Describes the cause of the error. 
+- error_code: The error code associated with the exception.
+- resource: The name of the endpoint associated that caused the error.
+- title: A title summarizing the error.
+- cause: Describes the cause of the error.
 - solution: Provides a suggested solution or action to resolve the error.
 
 ### Handling Exceptions
 
-To handle exceptions gracefully, use Python's try-except block. 
+To handle exceptions gracefully, use Python's try-except block.
 
-You can catch specific exceptions and handle them accordingly based on the error scenario. 
+You can catch specific exceptions and handle them accordingly based on the error scenario.
 
 Here's an example:
 
-````python
+```python
 from nmbrs.exceptions import AuthenticationException, AuthorizationException
 
 try:
@@ -191,16 +190,16 @@ except AuthenticationException as e:
     print(f"Authentication error: {e.resource}")
 except AuthorizationException as e:
     print(f"Authorization error: {e.resource}")
-````
+```
 
 By catching and handling exceptions, you can provide meaningful feedback to users and take appropriate actions to address errors encountered during API interactions.
 
 # Report service
 
-The Report service allows you to interact with report-related functionality provided by Nmbrs SOAP API. 
-Please note that not all specific calls in the report service are implemented in this SDK. 
+The Report service allows you to interact with report-related functionality provided by Nmbrs SOAP API.
+Please note that not all specific calls in the report service are implemented in this SDK.
 
-To utilize the available functionality, you need to consult the [Nmbrs documentation](https://api.nmbrs.nl/soap/v3/ReportService.asmx)  and provide the necessary parameters.
+To utilize the available functionality, you need to consult the [Nmbrs documentation](https://api.nmbrs.nl/soap/v3/ReportService.asmx) and provide the necessary parameters.
 
 ## Getting Started
 
@@ -261,9 +260,6 @@ except BackgroundTaskException as e:
 
 Ensure to handle these exceptions to provide appropriate error handling in your application.
 
-
-
-
 # Single Sign-on (SSO)
 
 When it comes to the Nmbrs Single Sign-On service, authentication can be achieved through various methods:
@@ -274,15 +270,15 @@ When it comes to the Nmbrs Single Sign-On service, authentication can be achieve
 
 When it comes to Nmbrs Single Sign-On service:
 
- - Username and Token
- - Username and Password
- - Username, Password and Domain
+- Username and Token
+- Username and Password
+- Username, Password and Domain
 
 ## SSO Flow:
 
 The Single Sign-On (SSO) flow involves the following steps:
 
-1. Obtain an SSO token, which is valid for 30 seconds. 
+1. Obtain an SSO token, which is valid for 30 seconds.
 2. Use this token to generate a URL that automatically signs the user into Nmbrs.
 
 For detailed implementation instructions on the entire SSO flow, refer to the [Single Sign-On Service Flow (SSO) documentation](https://support.nmbrs.com/hc/en-us/articles/360013311952-Single-Sign-On-Service-Flow-SSO).
