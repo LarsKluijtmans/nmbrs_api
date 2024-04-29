@@ -8,10 +8,9 @@ from .__version__ import (
     __author__,
     __author_email__,
 )
-
+from .__logging__ import logger_config
 from .service.debtor_service import DebtorService
 from .service.company_service import CompanyService
 from .service.employee_service import EmployeeService
 from .service.sso_service import SingleSingOnService
-
-from .data_classes.data_class import serialize
+from .data_classes.serialize import serialize

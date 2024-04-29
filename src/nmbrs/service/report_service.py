@@ -1,5 +1,8 @@
-"""Service class for managing reports in Nmbrs."""
+"""
+Service class for managing reports in Nmbrs.
+"""
 
+import logging
 from time import sleep
 
 import xmltodict
@@ -14,6 +17,8 @@ from ..exceptions.nmbrs_exceptions.background_task import (
 from .service import Service
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
+logger = logging.getLogger(__name__)
+
 
 class ReportService(Service):
     """Service class for managing reports in Nmbrs."""
@@ -23,6 +28,7 @@ class ReportService(Service):
 
         # Initialize nmbrs services
         self.client = Client(f"{self.base_uri}{self.report_uri}")
+        logger.info("ReportService initialized.")
 
     @nmbrs_exception_handler(resource="ReportService:Reports_BackgroundTask_Result")
     def background_task_result(self, task_id: str, wait_limit: int = 60) -> dict | None:
@@ -48,11 +54,15 @@ class ReportService(Service):
                 if result["Status"] in ("Executing", "Enqueued"):
                     sleep(1)
                 elif result["Status"] == "Error":
+                    logger.error("Background task encountered an error.")
                     raise BackgroundTaskException()
                 elif result["Status"] == "Unknown":
+                    logger.error("Unknown status received for background task.")
                     raise UnknownBackgroundTaskException()
                 elif result["Status"] == "Success":
+                    logger.info("Background task completed successfully.")
                     return xmltodict.parse(result["Content"])
+            logger.warning("Background task did not complete within the specified time limit.")
             return None
 
     @nmbrs_exception_handler(resource="ReportService")
@@ -72,6 +82,8 @@ class ReportService(Service):
                 **task_args,
                 _soapheaders=self.auth_manager.header,
             )
+            logger.debug("Task ID retrieved for task: %s", task_name)
             return response
         except AttributeError as e:
+            logger.error("Unknown call made to the ReportService %s", task_name)
             raise UnknownCall(task_name) from e

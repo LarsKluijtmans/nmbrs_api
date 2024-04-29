@@ -2,7 +2,9 @@
 Module for handling the Debtor Nmbrs services.
 """
 
+import logging
 from datetime import datetime
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -24,6 +26,8 @@ from ..data_classes.debtor import (
     Domain,
 )
 
+logger = logging.getLogger(__name__)
+
 
 class DebtorService(Service):
     """
@@ -44,6 +48,8 @@ class DebtorService(Service):
         self.function = DebtorFunctionService(self.auth_manager, self.client)
         self.webhook = DebtorWebHooksService(self.auth_manager, self.client)
         self.title = DebtorTitleService(self.auth_manager, self.client)
+
+        logger.info("DebtorService initialized.")
 
     @nmbrs_exception_handler(resource="DebtorService:Environment_Get")
     def get_domain(self, username: str, token: str) -> Domain:

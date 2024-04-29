@@ -5,23 +5,6 @@ from abc import ABC, abstractmethod
 from decimal import Decimal
 
 
-def serialize(obj: any, target_cls=dict) -> float | dict | list[dict]:
-    """Serialize DataClass objects to native python data structures"""
-    if isinstance(obj, list):
-        return [serialize(sub, target_cls) for sub in obj]
-
-    if isinstance(obj, Decimal):
-        return float(obj)
-
-    if isinstance(obj, (dict, DataClass)):
-        obj = obj.__dict__
-        result = target_cls()
-        for key in obj:
-            result[key] = serialize(obj[key], target_cls)
-        return result
-    return obj
-
-
 class DataClass(ABC):
     """A base class for data classes that automatically initializes instance variables from a dictionary."""
 
@@ -31,11 +14,34 @@ class DataClass(ABC):
 
     def to_dict(self) -> dict:
         """Convert the instance to a dictionary."""
-        return serialize(self)
+        return self._serialize_str(self)
+
+    def _serialize_str(self, obj, decimal=False):
+        """
+        Serialize DataClass objects be suitable to format to string
+
+        Args:
+            obj (any): The object to be converted into a dict.
+            decimal (bool, optional): When true all the decimals will be changed to floats.
+        """
+        if isinstance(obj, list):
+            return [self._serialize_str(sub) for sub in obj]
+
+        if decimal:
+            if isinstance(obj, Decimal):
+                return float(obj)  # pragma: no cover
+
+        if isinstance(obj, (dict, DataClass)):
+            obj = obj.__dict__
+            result = {}
+            for key in obj:
+                result[key] = self._serialize_str(obj[key])
+            return result
+        return obj
 
     def __str__(self):
         """Returns a JSON representation of the instance."""
-        obj = self.to_dict()
+        obj = self._serialize_str(self, True)
         return json.dumps(obj)
 
     def __getattr__(self, name):

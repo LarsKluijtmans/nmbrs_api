@@ -62,10 +62,12 @@ API access management can be handled using User Templates. Learn more about this
 
 ---
 
+Default authentication flow, using the username and token to retrieve the domain name, this automatically validates the credentails.
+
 ```python
 from nmbrs import Nmbrs
 
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+api = Nmbrs(username="__username__", token="__token__")
 
 print(api.debtor.auth_manager.get_username())
 ```
@@ -77,10 +79,12 @@ If not all required parameters are specified, a MissingParams exception will be 
 
 ---
 
+In the following authentication methode all needed authentication credentials are passed in, but these will not be validated.
+
 ```python
 from nmbrs import Nmbrs
 
-api = Nmbrs(username="__username__", token="__token__", domain="__domain__", auth_type="with domain")
+api = Nmbrs(username="__username__", token="__token__", domain="__domain__", auth_type="domain")
 
 print(api.debtor.auth_manager.get_username())
 ```
@@ -126,7 +130,7 @@ You can access data from Nmbrs using the various services available. For example
 ```python
 from nmbrs import Nmbrs
 
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+api = Nmbrs(username="__username__", token="__token__")
 
 # Retrieve all debtors
 debtors = api.debtor.get_all()
@@ -145,7 +149,7 @@ Additionally, you can use the serialize function to convert objects, lists of ob
 ```python
 from nmbrs import Nmbrs, serialize
 
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+api = Nmbrs(username="__username__", token="__token__")
 
 debtors = api.debtor.get_all()
 
@@ -208,7 +212,7 @@ To begin using the Report service, you first need to initialize an instance of t
 ```python
 from nmbrs import Nmbrs
 
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+api = Nmbrs(username="__username__", token="__token__")
 ```
 
 ## Example Usage
