@@ -52,4 +52,4 @@ jobs:
         run: npm install -g prettier
 
       - name: Format Check YAML Files
-        run: prettier --check '**/*.yaml'
+        run: prettier --check '**/*.yml'
