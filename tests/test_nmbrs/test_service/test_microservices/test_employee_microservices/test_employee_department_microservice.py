@@ -99,3 +99,16 @@ class TestEmployeeDepartmentsService(unittest.TestCase):
         self.assertEqual(result.description, "Human Resources")
 
         self.client.service.Department_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
+
+    def test_update_current(self):
+        """Test updating the department starting the current period."""
+        employee_id = 123
+        department_id = 456
+
+        self.client.service.Department_UpdateCurrent.return_value = None
+
+        self.departments_service.update_current(employee_id, department_id)
+
+        self.client.service.Department_UpdateCurrent.assert_called_once_with(
+            EmployeeId=employee_id, DepartmentId=department_id, _soapheaders=self.mock_auth_header
+        )

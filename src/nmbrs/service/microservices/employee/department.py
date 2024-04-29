@@ -60,11 +60,17 @@ class EmployeeDepartmentsService(MicroService):
         return _departments
 
     @nmbrs_exception_handler(resource="EmployeeService:Department_UpdateCurrent")
-    def update_current(self):
+    def update_current(self, employee_id: int, department_id: int):
         """
         Update the department starting the current period.
 
         For more information, refer to the official documentation:
             [Department_UpdateCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Department_UpdateCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            department_id (int): The ID of the employees new department.
         """
-        raise NotImplementedError()  # pragma: no cover
+        self.client.service.Department_UpdateCurrent(
+            EmployeeId=employee_id, DepartmentId=department_id, _soapheaders=self.auth_manager.header
+        )
