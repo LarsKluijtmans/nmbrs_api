@@ -1,10 +1,11 @@
+---
 name: Deploy to PyPI
 
 on:
   workflow_dispatch:
     inputs:
       version_input:
-        description: 'Version number to be deployed'
+        description: "Version number to be deployed"
         required: true
 
 jobs:
@@ -25,7 +26,7 @@ jobs:
           pip install --upgrade build twine
 
       - name: Increase version number
-        run:  python set_version.py --version=${{ github.event.inputs.version_input }}
+        run: python set_version.py --version=${{ github.event.inputs.version_input }}
 
       - name: Build package
         run: python -m build

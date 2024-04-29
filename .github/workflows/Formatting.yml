@@ -1,3 +1,4 @@
+---
 name: Formatting Check
 
 on: [push]
@@ -25,8 +26,7 @@ jobs:
           pip install black
 
       - name: Format Check Python Files
-        run: |
-          black --check .
+        run: black --check .
 
   markdown-formating-check:
     runs-on: ubuntu-latest
@@ -40,3 +40,16 @@ jobs:
 
       - name: Format Check Markdown Files
         run: prettier --check '**/*.md'
+
+  yaml-formating-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Prettier
+        run: npm install -g prettier
+
+      - name: Format Check YAML Files
+        run: prettier --check '**/*.yaml'
