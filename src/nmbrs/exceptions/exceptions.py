@@ -10,5 +10,5 @@ class ParameterMissingError(Exception):
         params: list[str] = None,
     ) -> None:
         self.params = params
-        self.message = f"{message}{', '.join(params)}"
-        super().__init__(message)
+        self.message = f"{message} {', '.join(params)}"
+        super().__init__(self.message)

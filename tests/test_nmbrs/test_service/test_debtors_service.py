@@ -4,7 +4,7 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock
 
-from src.nmbrs import DebtorService
+from src.nmbrs.service import DebtorService
 from src.nmbrs.auth.token_manager import AuthManager
 from src.nmbrs.data_classes.debtor import (
     Debtor,

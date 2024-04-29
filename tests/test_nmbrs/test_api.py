@@ -15,7 +15,6 @@ class TestNmbrs(unittest.TestCase):
         """Test initialization of Nmbrs class with default parameters."""
         nmbrs = Nmbrs(username="", token="", auth_type="None")
 
-        self.assertIsNotNone(nmbrs.sso)
         self.assertIsNotNone(nmbrs.debtor)
         self.assertIsNotNone(nmbrs.company)
         self.assertIsNotNone(nmbrs.employee)

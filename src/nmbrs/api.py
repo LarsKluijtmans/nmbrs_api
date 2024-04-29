@@ -7,7 +7,6 @@ from .service.company_service import CompanyService
 from .service.debtor_service import DebtorService
 from .service.employee_service import EmployeeService
 from .service.report_service import ReportService
-from .service.sso_service import SingleSingOnService
 from .utils.find_empty_params import find_empty_params
 
 logger = logging.getLogger(__name__)
@@ -45,7 +44,6 @@ class Nmbrs:
 
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
-        self.sso = SingleSingOnService(self.sandbox)
         self.debtor = DebtorService(self.auth_manager, self.sandbox)
         self.company = CompanyService(self.auth_manager, self.sandbox)
         self.employee = EmployeeService(self.auth_manager, self.sandbox)
