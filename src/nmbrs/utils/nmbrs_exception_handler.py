@@ -116,7 +116,7 @@ def nmbrs_exception_handler(resource: str):
                 exception_str = str(e)
 
                 # Log the exception
-                logger.error(f"Exception occurred in {func.__name__}: {exception_str}")
+                logger.error("Exception occurred in %s: %s", func.__name__, exception_str)
 
                 # Exceptions without code
                 if "---> Invalid combination email/password" in exception_str:

@@ -30,7 +30,7 @@ def parse_xml_to_dict(xml: str) -> dict | str:
     try:
         return xmltodict.parse(xml)
     except Exception as e:
-        logger.error(f"Error parsing XML: {e}")
+        logger.error("Error parsing XML: %s", e)
         return xml
 
 
