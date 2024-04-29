@@ -1,5 +1,6 @@
 """Microservice responsible for address-related actions on the company level."""
 
+import logging
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -7,6 +8,8 @@ from ....auth.token_manager import AuthManager
 from ....data_classes.company import Address
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ..micro_service import MicroService
+
+logger = logging.getLogger(__name__)
 
 
 class CompanyAddressService(MicroService):
@@ -31,6 +34,7 @@ class CompanyAddressService(MicroService):
         """
         address = self.client.service.Address_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if address is None:
+            logger.debug("No address found, for company, ID: %s.", company_id)
             return None
         return Address(company_id=company_id, data=serialize_object(address))
 

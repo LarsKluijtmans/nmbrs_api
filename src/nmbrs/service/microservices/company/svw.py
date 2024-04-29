@@ -1,5 +1,7 @@
 """Microservice responsible for svw related actions on the company level."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -7,6 +9,8 @@ from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
 from ....data_classes.company import SVW
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 class CompanySvwService(MicroService):

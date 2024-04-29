@@ -1,5 +1,6 @@
 """Microservice responsible for absence related actions on the employee level."""
 
+import logging
 from datetime import datetime
 
 from zeep import Client
@@ -10,6 +11,8 @@ from ....auth.token_manager import AuthManager
 from ....data_classes.employee import Absence
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
+
+logger = logging.getLogger(__name__)
 
 
 class EmployeeAbsenceService(MicroService):

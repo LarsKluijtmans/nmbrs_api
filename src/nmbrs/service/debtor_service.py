@@ -120,6 +120,7 @@ class DebtorService(Service):
         """
         debtor = self.client.service.Debtor_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if debtor is None:
+            logger.debug("No debtor found, ID: %s.", debtor_id)
             return None
         return Debtor(serialize_object(debtor))
 
@@ -216,6 +217,7 @@ class DebtorService(Service):
         """
         address = self.client.service.Address_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if address is None:
+            logger.debug("No address found for debtor, ID: %s.", debtor_id)
             return None
         return Address(debtor_id=debtor_id, data=serialize_object(address))
 
@@ -235,6 +237,7 @@ class DebtorService(Service):
         """
         bank_account = self.client.service.BankAccount_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if bank_account is None:
+            logger.debug("No bank account found for debtor, ID: %s.", debtor_id)
             return None
         return BankAccount(debtor_id=debtor_id, data=serialize_object(bank_account))
 
@@ -254,6 +257,7 @@ class DebtorService(Service):
         """
         contact_person = self.client.service.ContactPerson_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if contact_person is None:
+            logger.debug("No contact person found for debtor, ID: %s.", debtor_id)
             return None
         return ContactInfo(debtor_id=debtor_id, data=serialize_object(contact_person))
 
@@ -333,6 +337,7 @@ class DebtorService(Service):
         """
         service_level = self.client.service.ServiceLevel_Get(DebtorId=debtor_id, _soapheaders=self.auth_manager.header)
         if service_level is None:
+            logger.debug("No service level found for debtor, ID: %s.", debtor_id)
             return None
         return ServiceLevel(debtor_id=debtor_id, data=serialize_object(service_level))
 

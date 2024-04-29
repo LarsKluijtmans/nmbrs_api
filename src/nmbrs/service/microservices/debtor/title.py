@@ -1,5 +1,7 @@
 """Microservice responsible for title related actions on the debtor level."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -7,6 +9,8 @@ from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
+
+logger = logging.getLogger(__name__)
 
 
 class DebtorTitleService(MicroService):

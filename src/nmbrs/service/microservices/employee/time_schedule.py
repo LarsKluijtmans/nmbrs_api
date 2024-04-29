@@ -1,11 +1,15 @@
 # pylint: disable=line-too-long
 """Microservice responsible for time schedule related actions on the employee level."""
 
+import logging
+
 from zeep import Client
 
 from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 class EmployeeTimeScheduleService(MicroService):

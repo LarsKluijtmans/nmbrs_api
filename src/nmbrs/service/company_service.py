@@ -120,6 +120,7 @@ class CompanyService(Service):
         """
         company = self.client.service.Company_GetCurrentByEmployeeId(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
         if company is None:
+            logger.debug("No company found, for employee, ID: %s.", employee_id)
             return None
         return Company(serialize_object(company))
 
@@ -139,6 +140,7 @@ class CompanyService(Service):
         """
         period = self.client.service.Company_GetCurrentPeriod(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if period is None:
+            logger.debug("No current period found, for company, ID: %s.", company_id)
             return None
         return Period(company_id=company_id, data=serialize_object(period))
 

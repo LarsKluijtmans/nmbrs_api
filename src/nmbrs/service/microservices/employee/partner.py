@@ -1,5 +1,7 @@
 # pylint: disable=line-too-long
 """Microservice responsible for partner related actions on the employee level."""
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -8,6 +10,8 @@ from ....auth.token_manager import AuthManager
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 from ....utils.return_list import return_list
 from ....data_classes.employee import Partner
+
+logger = logging.getLogger(__name__)
 
 
 class EmployeePartnerService(MicroService):

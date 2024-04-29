@@ -1,5 +1,7 @@
 """Microservice responsible for bank account related actions on the company level."""
 
+import logging
+
 from zeep import Client
 from zeep.helpers import serialize_object
 
@@ -7,6 +9,8 @@ from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
 from ....data_classes.company import BankAccount
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
+
+logger = logging.getLogger(__name__)
 
 
 class CompanyBankAccountService(MicroService):
@@ -31,6 +35,7 @@ class CompanyBankAccountService(MicroService):
         """
         bank_account = self.client.service.BankAccount_GetCurrent(CompanyId=company_id, _soapheaders=self.auth_manager.header)
         if bank_account is None:
+            logger.debug("No bank account found, for company, ID: %s.", company_id)
             return None
         return BankAccount(company_id=company_id, data=serialize_object(bank_account))
 
