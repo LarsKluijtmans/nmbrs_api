@@ -1,0 +1,10 @@
+---
+extends: default
+
+rules:
+  truthy: disable
+  line-length:
+    max: 200
+
+ignore:
+  - venv/
