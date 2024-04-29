@@ -5,7 +5,6 @@ Module for handling Single Sign-On (SSO) for Nmbrs services.
 from zeep import Client
 
 from .service import Service
-from ..auth.token_manager import AuthManager
 from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
@@ -14,8 +13,8 @@ class SingleSingOnService(Service):
     A class responsible for managing Single Sign-On (SSO) for Nmbrs services.
     """
 
-    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
-        super().__init__(auth_manager, sandbox)
+    def __init__(self, sandbox: bool = True):
+        super().__init__(None, sandbox)
 
         # Initialize nmbrs services
         self.sso_service = Client(f"{self.base_uri}{self.sso_uri}")

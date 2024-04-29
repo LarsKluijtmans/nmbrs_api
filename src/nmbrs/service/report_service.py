@@ -5,13 +5,14 @@ from time import sleep
 import xmltodict
 from zeep import Client
 
-from nmbrs.auth.token_manager import AuthManager
-from nmbrs.exceptions.nmbrs_exceptions.background_task import (
+from ..auth.token_manager import AuthManager
+from ..exceptions.nmbrs_exceptions.background_task import (
     BackgroundTaskException,
-    UnknownBackgroundTaskException, UnknownCall,
+    UnknownBackgroundTaskException,
+    UnknownCall,
 )
-from nmbrs.service.service import Service
-from nmbrs.utils.nmbrs_exception_handler import nmbrs_exception_handler
+from .service import Service
+from ..utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 
 class ReportService(Service):
@@ -39,7 +40,7 @@ class ReportService(Service):
             dict | None: The result of the background task, or None if the task did not complete within the specified time limit.
         """
         with self.client.settings(xml_huge_tree=True):
-            for time in range(wait_limit):
+            for _ in range(wait_limit):
                 result = self.client.service.Reports_BackgroundTask_Result(
                     TaskId=task_id,
                     _soapheaders=self.auth_manager.header,

@@ -39,7 +39,7 @@ class Nmbrs:
         """
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
-        self.sso = SingleSingOnService(self.auth_manager, self.sandbox)
+        self.sso = SingleSingOnService(self.sandbox)
         self.debtor = DebtorService(self.auth_manager, self.sandbox)
         self.company = CompanyService(self.auth_manager, self.sandbox)
         self.employee = EmployeeService(self.auth_manager, self.sandbox)
