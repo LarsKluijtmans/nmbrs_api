@@ -217,7 +217,18 @@ class NmbrsBaseException(Exception):
             case 9999:
                 self.unknown_error()
                 self.title = "Unkown"  # Actual title returned by nmbrs
+            case 10001:
+                # Special errors for background tasks
+                self.title = "Error Retrieving Background Report"
+                self.cause = "The 'Error' was returned when retrieving the background report from the Nmbrs API."
+                self.solution = "Please check your network connection and try again. If the issue persists, contact nmbrs support"
+            case 10002:
+                # Special errors for background tasks
+                self.title = "Unknown Error Retrieving Background Report"
+                self.cause = "The 'Unknown' was returned when retrieving the background report from the Nmbrs API."
+                self.solution = "¯_(ツ)_/¯"
             case _:
+                # Exception for unknown nmbrs errors
                 self.unknown_error()
 
     def unknown_error(self):

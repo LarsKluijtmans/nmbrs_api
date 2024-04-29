@@ -42,7 +42,7 @@ There are two authentication options build into the SDk:
 1. Using the username and token
 2. Using the username, token and domain
 
-When only using the username and token the call [**DebtorService:Environment_Get**](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get) will be used to retrieve the domain from nmbrs. Seeing as this call is only available on the debtor level, you might not want to activate it for your users or cant at all.
+When only using the username and token the call [**DebtorService:Environment_Get**](https://api.nmbrs.nl/soap/v3/DebtorService.asmx?op=Environment_Get) will be used to retrieve the domain from nmbrs.
 
 In this case use option 2, here you specify the domain yourself, but this way the validity of your credentials(username, token and domain) is never verified.
 
@@ -61,7 +61,7 @@ from nmbrs import Nmbrs
 
 api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 
-print(api.debtor_service.auth_header)
+print(api.debtor.auth_header)
 ```
 
 The created credentials are saved in the SDK for later use.
@@ -77,7 +77,7 @@ from nmbrs import Nmbrs
 
 api = Nmbrs(username="__username__", token="__token__", domain="__domain__", auth_type="with domain")
 
-print(api.debtor_service.auth_header)
+print(api.debtor.auth_header)
 ```
 
 The created credentials are saved in the SDK for later use.
@@ -117,10 +117,6 @@ The nmbrs Soap API, and by extension this SDK, are split into 5 services:
 **Note:** the **Report service** is not yet included into this SDK.
 
 ```python
-from nmbrs import Nmbrs
-
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
-
 debtors = api.debtor.get_all()
 
 print(len(debtors.to_dict()))
@@ -135,16 +131,79 @@ In case a user does not have access to the needed endpoints an AuthorizationErro
 To handle these Exceptions you can take inspiration from the following code.
 
 ```python
-from nmbrs import Nmbrs
 from nmbrs.exceptions import AuthenticationException
-
-api = Nmbrs(username="__username__", token="__token__", auth_type="token")
 
 try:
     debtors = api.debtor.get_all()
 except AuthenticationException as e:
     print(f"User does not have access to: {e.resource}")
 ```
+
+## Report service
+
+The Report service allows you to interact with report-related functionality provided by Nmbrs SOAP API. 
+Please note that not all specific calls in the report service are implemented in this SDK. 
+
+To utilize the available functionality, you need to consult the [Nmbrs documentation](https://api.nmbrs.nl/soap/v3/ReportService.asmx)  and provide the necessary parameters.
+
+### Getting Started
+
+To begin using the Report service, you first need to initialize an instance of the Nmbrs SDK with your authentication details:
+
+```python
+from nmbrs import Nmbrs
+
+api = Nmbrs(username="__username__", token="__token__", auth_type="token")
+```
+
+### Example Usage
+
+#### Retrieving Report Task ID
+
+You can retrieve the task ID (GUID) for a specific report task by providing the task name and parameters:
+
+```python
+task_name = "Reports_Accountant_CompanyContactPerson_Background"
+task_parameters = {}
+
+report_guid = api.report.get_task_id(task_name, task_parameters)
+```
+
+Once you have the GUID, Nmbrs will start generating the report in the background.
+
+#### Requesting Report
+
+You can request the generated report using the background_task_result call. Specify the maximum amount of time you are willing to wait for the report to be generated (in seconds):
+
+```python
+report_guid = "__your_guid__"
+
+report = api.report.background_task_result(report_guid, 360)
+```
+
+### Error Handling
+
+When requesting the report, Nmbrs may return errors. In such cases, the following exceptions can be raised:
+
+- **UnknownBackgroundTaskException**: Raised when the background task is unknown.
+- **BackgroundTaskException**: Raised for general background task errors.
+
+You can handle these exceptions as follows:
+
+```python
+from nmbrs.exceptions import UnknownBackgroundTaskException, BackgroundTaskException
+
+report_guid = "__your_guid__"
+
+try:
+   report = api.report.background_task_result(report_guid, 360)
+except UnknownBackgroundTaskException as e:
+    print(e)
+except BackgroundTaskException as e:
+    print(e)
+```
+
+Ensure to handle these exceptions to provide appropriate error handling in your application.
 
 ## Single Sign-on(SSO)
 
@@ -178,10 +237,6 @@ print(sso_token)
 #### Username and Password
 
 ```python
-from nmbrs import SingleSingOnService
-
-sso_service = SingleSingOnService()
-
 sso_token = sso_service.get_token_with_password("__username__", "__token__")
 
 print(sso_token)
@@ -192,10 +247,6 @@ print(sso_token)
 #### Username, password, and domain
 
 ```python
-from nmbrs import SingleSingOnService
-
-sso_service = SingleSingOnService()
-
 sso_token = sso_service.get_token_with_domain("__username__", "__password__", "__domain__")
 
 print(sso_token)
@@ -206,10 +257,6 @@ print(sso_token)
 Using the token reverence from the aforementioned functions we can create an url that automatically refers the user to nmbrs.
 
 ```python
-from nmbrs import SingleSingOnService
-
-sso_service = SingleSingOnService()
-
 sso_token = sso_service.get_token_with_password("__username__", "__password__")
 sso_url = sso_service.get_sso_url(sso_token, "__domain__")
 
