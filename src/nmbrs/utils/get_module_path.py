@@ -24,7 +24,7 @@ def get_module_path(func) -> str:
 
     directory = os.path.dirname(file_path)
 
-    module_path = directory.replace(os.sep, '.')
+    module_path = directory.replace(os.sep, ".")
 
     module_name = os.path.splitext(os.path.basename(file_path))[0]
 
