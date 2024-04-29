@@ -40,6 +40,9 @@ class Nmbrs:
             domain (str, optional): Nmbrs environment subdomain (used when the auth_type paramater is set to "domain").
             sandbox (bool, optional): A boolean indicating whether to use the sandbox environment. Default is True.
         """
+        if sandbox:
+            logger.warning("Live environment is activated")
+
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
         self.sso = SingleSingOnService(self.sandbox)
@@ -53,7 +56,7 @@ class Nmbrs:
         elif auth_type == "domain":
             self.auth_with_domain(username, token, domain)
 
-    def auth_with_token(self, username: str, token: str) -> None:
+    def auth_with_token(self, username: str, token: str):
         """
         Perform standard authentication using token and initialize related services.
 
@@ -69,7 +72,7 @@ class Nmbrs:
         self.auth_manager.set_auth_header(username, token, domain.sub_domain)
         logger.info("Authentication with token successful")
 
-    def auth_with_domain(self, username: str, token: str, domain: str) -> None:
+    def auth_with_domain(self, username: str, token: str, domain: str):
         """
         Create the auth header with domain object and initialize related services.
         Note: The username, token, and domain are not validated in this routine.

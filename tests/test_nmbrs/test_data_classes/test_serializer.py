@@ -16,8 +16,10 @@ class TestSerialize(unittest.TestCase):
 
     def test_serialize_data_class(self):
         """Test serializing a DataClass instance."""
+
         class ExampleDataClass(DataClass):
             """DataClass for testing purposes."""
+
             def __init__(self, key1, key2):
                 self.key1 = key1
                 self.key2 = key2

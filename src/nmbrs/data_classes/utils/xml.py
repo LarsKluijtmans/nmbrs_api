@@ -10,7 +10,10 @@ Dependencies:
     xmltodict: A library for parsing XML into Python dictionaries.
 """
 
+import logging
 import xmltodict
+
+logger = logging.getLogger(__name__)
 
 
 def parse_xml_to_dict(xml: str) -> dict | str:
@@ -26,7 +29,8 @@ def parse_xml_to_dict(xml: str) -> dict | str:
     """
     try:
         return xmltodict.parse(xml)
-    except Exception:
+    except Exception as e:
+        logger.error(f"Error parsing XML: {e}")
         return xml
 
 
@@ -42,5 +46,6 @@ def get_xml(xml: str) -> dict | None:
     """
     xml = parse_xml_to_dict(xml)
     if not isinstance(xml, dict):
+        logger.warning("Failed to parse XML into dictionary.")
         return None
     return xml
