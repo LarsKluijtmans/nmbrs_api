@@ -41,7 +41,7 @@ class Nmbrs:
             sandbox (bool, optional): A boolean indicating whether to use the sandbox environment. Default is True.
         """
         if not sandbox:
-            logger.warning("Live environment is activated")
+            logger.warning("Live environment is activated")  # pragma: no cover
 
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
