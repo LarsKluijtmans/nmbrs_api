@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 from zeep import Client
 
-from src.nmbrs.auth.token_manager import AuthManager
+from ...auth.token_manager import AuthManager
 
 
 class MicroService(ABC):
