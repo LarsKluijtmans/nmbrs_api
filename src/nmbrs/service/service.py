@@ -1,7 +1,7 @@
 """Abstract base class for defining service interfaces."""
 
 from abc import ABC, abstractmethod
-from src.nmbrs.auth.token_manager import AuthManager
+from ..auth.token_manager import AuthManager
 
 
 class Service(ABC):
