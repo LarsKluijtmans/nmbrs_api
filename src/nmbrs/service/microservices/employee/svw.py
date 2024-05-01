@@ -31,14 +31,21 @@ class EmployeeSvwService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:SVW_GetCurrent")
-    def get_current(self):
+    def get_current(self, employee_id: int) -> SVW:
         """
         Get the currently active SVW settings.
 
         For more information, refer to the official documentation:
             [SVW_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=SVW_GetCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            SVW: The current SVW settings of the employee.
         """
-        raise NotImplementedError()  # pragma: no cover
+        svw_settings = self.client.service.SVW_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
+        return SVW(employee_id=employee_id, data=serialize_object(svw_settings))
 
     @nmbrs_exception_handler(resource="EmployeeService:SVW_GetList")
     def get_all(self):

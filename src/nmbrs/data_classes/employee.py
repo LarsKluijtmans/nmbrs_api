@@ -427,3 +427,13 @@ class DaysWorked:
         self.days = days
         self.period = period
         self.year = year
+
+
+class HourComponent(DataClass):
+    """A class representing an hour component."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.id: int = data.get("Id")
+        self.hour_code: int = data.get("HourCode")
+        self.hours: Decimal = data.get("Hours")

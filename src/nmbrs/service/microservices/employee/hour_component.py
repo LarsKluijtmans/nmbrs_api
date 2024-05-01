@@ -1,11 +1,14 @@
-# pylint: disable=line-too-long
 """Microservice responsible for hour component related actions on the employee level."""
+
 import logging
 
 from zeep import Client
+from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
+from ....data_classes.employee import HourComponent
+from ....utils import return_list
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 logger = logging.getLogger(__name__)
@@ -17,15 +20,27 @@ class EmployeeHourComponentFixedService(MicroService):
     def __init__(self, auth_manager: AuthManager, client: Client):
         super().__init__(auth_manager, client)
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Get")
-    def get_fixed(self):
+    def get_fixed(self, employee_id: int, period: int, year: int) -> list[HourComponent]:
         """
         Get all extra hour components for given period.
 
         For more information, refer to the official documentation:
             [HourComponentFixed_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentFixed_Get)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            list[HourComponent]: The employees variable hour components for the given period.
         """
-        raise NotImplementedError()  # pragma: no cover
+        hour_components = self.client.service.HourComponentFixed_Get(
+            EmployeeId=employee_id, Year=year, Period=period, _soapheaders=self.auth_manager.header
+        )
+        return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_GetCurrent")
     def get_current_fixed(self):
@@ -40,7 +55,8 @@ class EmployeeHourComponentFixedService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert")
     def post_fixed(self):
         """
-        Insert an extra hour component to given period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert an extra hour component to given period. If the period is before the company's current period
+         ,unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [HourComponentFixed_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentFixed_Insert)
@@ -60,7 +76,8 @@ class EmployeeHourComponentFixedService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert_Batch")
     def post_batch_fixed(self):
         """
-        Insert a batch of extra hour components to given period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert a batch of extra hour components to given period. If the period is before the company's current period
+         ,unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [HourComponentFixed_Insert_Batch](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentFixed_Insert_Batch)
@@ -70,7 +87,8 @@ class EmployeeHourComponentFixedService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert_With_End")
     def post_fixed_with_end(self):
         """
-        Insert an extra hour component with end to given period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert an extra hour component with end to given period. If the period is before the company's current period
+         ,unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [HourComponentFixed_Insert_With_End](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentFixed_Insert_With_End)
@@ -87,15 +105,27 @@ class EmployeeHourComponentFixedService(MicroService):
         """
         raise NotImplementedError()  # pragma: no cover
 
+    @return_list
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Get")
-    def get_variable(self):
+    def get_variable(self, employee_id: int, period: int, year: int) -> list[HourComponent]:
         """
         Get all extra hour components for given period.
 
         For more information, refer to the official documentation:
             [HourComponentVar_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentVar_Get)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            list[HourComponent]: The employees variable hour components for the given period.
         """
-        raise NotImplementedError()  # pragma: no cover
+        hour_components = self.client.service.HourComponentVar_Get(
+            EmployeeId=employee_id, Year=year, Period=period, _soapheaders=self.auth_manager.header
+        )
+        return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_GetCurrent")
     def get_current_variable(self):
@@ -110,7 +140,8 @@ class EmployeeHourComponentFixedService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Insert")
     def post_variable(self):
         """
-        Insert an extra hour component to given period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert an extra hour component to given period. If the period is before the company's current period
+         ,unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [HourComponentVar_Insert](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentVar_Insert)
@@ -130,7 +161,8 @@ class EmployeeHourComponentFixedService(MicroService):
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Insert_Batch")
     def post_batch_variable(self):
         """
-        Insert a batch of extra hour components to given period. If the period is before the company's current period, unprotected mode flag is required.
+        Insert a batch of extra hour components to given period. If the period is before the company's current period
+         ,unprotected mode flag is required.
 
         For more information, refer to the official documentation:
             [HourComponentVar_Insert_Batch](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentVar_Insert_Batch)

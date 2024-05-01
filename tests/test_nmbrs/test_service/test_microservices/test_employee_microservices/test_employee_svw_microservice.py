@@ -93,3 +93,62 @@ class TestEmployeeSvwService(unittest.TestCase):
         self.client.service.SVW_GetAll_AllEmployeesByCompany.assert_called_once_with(
             CompanyID=company_id, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_current(self):
+        """Test the get_current method of EmployeeSvwService."""
+        employee_id = 123
+        expected_svw_settings = {
+            "Id": 1,
+            "CreateDate": "2023-01-01",
+            "StartYear": 2023,
+            "StartPeriod": 1,
+            "InfluenceObligedInsuranced": True,
+            "Wao_Wia": True,
+            "Ww": True,
+            "Zw": True,
+            "IncomeRelatedContributionZvw": True,
+            "CodeZvw": "CODE123",
+            "EmploymentType": "Full-time",
+            "PhaseClassification": "Phase 1",
+            "EmploymentSequenceTaxId": 123,
+            "CAO": {"CAOId": 1, "CAOCode": "CAO123", "CAODescription": "Description 1"},
+            "RiskGroup": {"RiskGroupId": 2, "RiskGroupCode": "RG123", "RiskGroupDescription": "Description 2"},
+            "Sector": {"SectorId": 3, "SectorCode": "SEC123", "SectorDescription": "Description 3"},
+            "WageCostBenefit": {"WageCostBenefitCode": "WCB123", "EndPeriod": 6, "EndYear": 2024},
+        }
+
+        self.client.service.SVW_GetCurrent.return_value = expected_svw_settings
+
+        result = self.svw_service.get_current(employee_id)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, SVW)
+        self.assertEqual(result.employee_id, employee_id)
+
+        self.assertEqual(result.id, 1)
+        self.assertEqual(result.create_date, "2023-01-01")
+        self.assertEqual(result.start_year, 2023)
+        self.assertEqual(result.start_period, 1)
+        self.assertTrue(result.influence_obliged_insurance)
+        self.assertTrue(result.wao_wia)
+        self.assertTrue(result.ww)
+        self.assertTrue(result.zw)
+        self.assertTrue(result.income_related_contribution_zvw)
+        self.assertEqual(result.code_zvw, "CODE123")
+        self.assertEqual(result.employment_type, "Full-time")
+        self.assertEqual(result.phase_classification, "Phase 1")
+        self.assertEqual(result.employment_sequence_tax_id, 123)
+        self.assertEqual(result.cao_id, 1)
+        self.assertEqual(result.cao_code, "CAO123")
+        self.assertEqual(result.cao_description, "Description 1")
+        self.assertEqual(result.risk_group_id, 2)
+        self.assertEqual(result.risk_group_code, "RG123")
+        self.assertEqual(result.risk_group_description, "Description 2")
+        self.assertEqual(result.sector_id, 3)
+        self.assertEqual(result.sector_code, "SEC123")
+        self.assertEqual(result.sector_description, "Description 3")
+        self.assertEqual(result.wage_cost_benefit_code, "WCB123")
+        self.assertEqual(result.wage_cost_benefit_end_period, 6)
+        self.assertEqual(result.wage_cost_benefit_end_year, 2024)
+
+        self.client.service.SVW_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
