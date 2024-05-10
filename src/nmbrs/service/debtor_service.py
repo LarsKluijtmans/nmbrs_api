@@ -44,12 +44,48 @@ class DebtorService(Service):
         self.client = Client(f"{self.base_uri}{self.debtor_uri}")
 
         # Micro services
-        self.department = DebtorDepartmentService(self.auth_manager, self.client)
-        self.function = DebtorFunctionService(self.auth_manager, self.client)
-        self.webhook = DebtorWebHooksService(self.auth_manager, self.client)
-        self.title = DebtorTitleService(self.auth_manager, self.client)
+        self._department = None
+        self._function = None
+        self._webhook = None
+        self._title = None
 
         logger.info("DebtorService initialized.")
+
+    @property
+    def department(self):
+        """
+        Lazily initializes and returns the DebtorDepartmentService instance.
+        """
+        if self._department is None:
+            self._department = DebtorDepartmentService(self.auth_manager, self.client)
+        return self._department
+
+    @property
+    def function(self):
+        """
+        Lazily initializes and returns the DebtorFunctionService instance.
+        """
+        if self._function is None:
+            self._function = DebtorFunctionService(self.auth_manager, self.client)
+        return self._function
+
+    @property
+    def webhook(self):
+        """
+        Lazily initializes and returns the DebtorWebHooksService instance.
+        """
+        if self._webhook is None:
+            self._webhook = DebtorWebHooksService(self.auth_manager, self.client)
+        return self._webhook
+
+    @property
+    def title(self):
+        """
+        Lazily initializes and returns the DebtorTitleService instance.
+        """
+        if self._title is None:
+            self._title = DebtorTitleService(self.auth_manager, self.client)
+        return self._title
 
     @nmbrs_exception_handler(resource="DebtorService:Environment_Get")
     def get_domain(self, username: str, token: str) -> Domain:

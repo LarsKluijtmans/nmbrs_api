@@ -57,36 +57,288 @@ class EmployeeService(Service):
         self.client = Client(f"{self.base_uri}{self.employee_uri}")
 
         # Micro services
-        self.absence = EmployeeAbsenceService(self.auth_manager, self.client)
-        self.address = EmployeeAddressService(self.auth_manager, self.client)
-        self.bank_account = EmployeeBankAccountService(self.auth_manager, self.client)
-        self.child = EmployeeChildService(self.auth_manager, self.client)
-        self.contract = EmployeeContractService(self.auth_manager, self.client)
-        self.cost_center = EmployeeCostCenterService(self.auth_manager, self.client)  # TO BE implemented
-        self.days = EmployeeDaysService(self.auth_manager, self.client)  # TO BE implemented
-        self.department = EmployeeDepartmentsService(self.auth_manager, self.client)  # TO BE implemented
-        self.document = EmployeeDocumentService(self.auth_manager, self.client)  # TO BE implemented
-        self.employment = EmployeeEmploymentService(self.auth_manager, self.client)  # TO BE implemented
-        self.function = EmployeeFunctionService(self.auth_manager, self.client)  # TO BE implemented
-        self.hour_component = EmployeeHourComponentFixedService(self.auth_manager, self.client)  # TO BE implemented
-        self.labour_agreement = EmployeeLabourAgreementService(self.auth_manager, self.client)  # TO BE implemented
-        self.lease_car = EmployeeLeaseCarService(self.auth_manager, self.client)  # TO BE implemented
-        self.leave = EmployeeLeaveService(self.auth_manager, self.client)  # TO BE implemented
-        self.levensloop = EmployeeLevensLoopService(self.auth_manager, self.client)  # TO BE implemented
-        self.manager = EmployeeManagerService(self.auth_manager, self.client)
-        self.partner = EmployeePartnerService(self.auth_manager, self.client)  # TO BE implemented
-        self.personal_info = EmployeePersonalInfoService(self.auth_manager, self.client)
-        self.salary = EmployeeSalaryService(self.auth_manager, self.client)  # TO BE implemented
-        self.schedule = EmployeeScheduleService(self.auth_manager, self.client)  # TO BE implemented
-        self.service = EmployeeServiceService(self.auth_manager, self.client)  # TO BE implemented
-        self.spaarloon = EmployeeSpaarloonService(self.auth_manager, self.client)  # TO BE implemented
-        self.svw = EmployeeSvwService(self.auth_manager, self.client)  # TO BE implemented
-        self.time_registration = EmployeeTimeRegistrationService(self.auth_manager, self.client)  # TO BE implemented
-        self.time_schedule = EmployeeTimeScheduleService(self.auth_manager, self.client)  # TO BE implemented
-        self.wage_component = EmployeeWageComponentsService(self.auth_manager, self.client)  # TO BE implemented
-        self.wage_tax = EmployeeWageTaxService(self.auth_manager, self.client)  # TO BE implemented
+        self._absence = None
+        self._address = None
+        self._bank_account = None
+        self._child = None
+        self._contract = None
+        self._cost_center = None
+        self._days = None
+        self._department = None
+        self._document = None
+        self._employment = None
+        self._function = None
+        self._hour_component = None
+        self._labour_agreement = None
+        self._lease_car = None
+        self._leave = None
+        self._levensloop = None
+        self._manager = None
+        self._partner = None
+        self._personal_info = None
+        self._salary = None
+        self._schedule = None
+        self._service = None
+        self._spaarloon = None
+        self._svw = None
+        self._time_registration = None
+        self._time_schedule = None
+        self._wage_component = None
+        self._wage_tax = None
 
         logger.info("EmployeeService initialized.")
+
+    @property
+    def absence(self):
+        """
+        Lazily initializes and returns the EmployeeAbsenceService instance.
+        """
+        if self._absence is None:
+            self._absence = EmployeeAbsenceService(self.auth_manager, self.client)
+        return self._absence
+
+    @property
+    def address(self):
+        """
+        Lazily initializes and returns the EmployeeAddressService instance.
+        """
+        if self._address is None:
+            self._address = EmployeeAddressService(self.auth_manager, self.client)
+        return self._address
+
+    @property
+    def bank_account(self):
+        """
+        Lazily initializes and returns the EmployeeBankAccountService instance.
+        """
+        if self._bank_account is None:
+            self._bank_account = EmployeeBankAccountService(self.auth_manager, self.client)
+        return self._bank_account
+
+    @property
+    def child(self):
+        """
+        Lazily initializes and returns the EmployeeChildService instance.
+        """
+        if self._child is None:
+            self._child = EmployeeChildService(self.auth_manager, self.client)
+        return self._child
+
+    @property
+    def contract(self):
+        """
+        Lazily initializes and returns the EmployeeContractService instance.
+        """
+        if self._contract is None:
+            self._contract = EmployeeContractService(self.auth_manager, self.client)
+        return self._contract
+
+    @property
+    def cost_center(self):
+        """
+        Lazily initializes and returns the EmployeeCostCenterService instance.
+        """
+        if self._cost_center is None:
+            self._cost_center = EmployeeCostCenterService(self.auth_manager, self.client)
+        return self._cost_center
+
+    @property
+    def days(self):
+        """
+        Lazily initializes and returns the EmployeeDaysService instance.
+        """
+        if self._days is None:
+            self._days = EmployeeDaysService(self.auth_manager, self.client)
+        return self._days
+
+    @property
+    def department(self):
+        """
+        Lazily initializes and returns the EmployeeDepartmentsService instance.
+        """
+        if self._department is None:
+            self._department = EmployeeDepartmentsService(self.auth_manager, self.client)
+        return self._department
+
+    @property
+    def document(self):
+        """
+        Lazily initializes and returns the EmployeeDocumentService instance.
+        """
+        if self._document is None:
+            self._document = EmployeeDocumentService(self.auth_manager, self.client)
+        return self._document
+
+    @property
+    def employment(self):
+        """
+        Lazily initializes and returns the EmployeeEmploymentService instance.
+        """
+        if self._employment is None:
+            self._employment = EmployeeEmploymentService(self.auth_manager, self.client)
+        return self._employment
+
+    @property
+    def function(self):
+        """
+        Lazily initializes and returns the EmployeeFunctionService instance.
+        """
+        if self._function is None:
+            self._function = EmployeeFunctionService(self.auth_manager, self.client)
+        return self._function
+
+    @property
+    def hour_component(self):
+        """
+        Lazily initializes and returns the EmployeeHourComponentFixedService instance.
+        """
+        if self._hour_component is None:
+            self._hour_component = EmployeeHourComponentFixedService(self.auth_manager, self.client)
+        return self._hour_component
+
+    @property
+    def labour_agreement(self):
+        """
+        Lazily initializes and returns the EmployeeLabourAgreementService instance.
+        """
+        if self._labour_agreement is None:
+            self._labour_agreement = EmployeeLabourAgreementService(self.auth_manager, self.client)
+        return self._labour_agreement
+
+    @property
+    def lease_car(self):
+        """
+        Lazily initializes and returns the EmployeeLeaseCarService instance.
+        """
+        if self._lease_car is None:
+            self._lease_car = EmployeeLeaseCarService(self.auth_manager, self.client)
+        return self._lease_car
+
+    @property
+    def leave(self):
+        """
+        Lazily initializes and returns the EmployeeLeaveService instance.
+        """
+        if self._leave is None:
+            self._leave = EmployeeLeaveService(self.auth_manager, self.client)
+        return self._leave
+
+    @property
+    def levensloop(self):
+        """
+        Lazily initializes and returns the EmployeeLevensLoopService instance.
+        """
+        if self._levensloop is None:
+            self._levensloop = EmployeeLevensLoopService(self.auth_manager, self.client)
+        return self._levensloop
+
+    @property
+    def manager(self):
+        """
+        Lazily initializes and returns the EmployeeManagerService instance.
+        """
+        if self._manager is None:
+            self._manager = EmployeeManagerService(self.auth_manager, self.client)
+        return self._manager
+
+    @property
+    def partner(self):
+        """
+        Lazily initializes and returns the EmployeePartnerService instance.
+        """
+        if self._partner is None:
+            self._partner = EmployeePartnerService(self.auth_manager, self.client)
+        return self._partner
+
+    @property
+    def personal_info(self):
+        """
+        Lazily initializes and returns the EmployeePersonalInfoService instance.
+        """
+        if self._personal_info is None:
+            self._personal_info = EmployeePersonalInfoService(self.auth_manager, self.client)
+        return self._personal_info
+
+    @property
+    def salary(self):
+        """
+        Lazily initializes and returns the EmployeeSalaryService instance.
+        """
+        if self._salary is None:
+            self._salary = EmployeeSalaryService(self.auth_manager, self.client)
+        return self._salary
+
+    @property
+    def schedule(self):
+        """
+        Lazily initializes and returns the EmployeeScheduleService instance.
+        """
+        if self._schedule is None:
+            self._schedule = EmployeeScheduleService(self.auth_manager, self.client)
+        return self._schedule
+
+    @property
+    def service(self):
+        """
+        Lazily initializes and returns the EmployeeServiceService instance.
+        """
+        if self._service is None:
+            self._service = EmployeeServiceService(self.auth_manager, self.client)
+        return self._service
+
+    @property
+    def spaarloon(self):
+        """
+        Lazily initializes and returns the EmployeeSpaarloonService instance.
+        """
+        if self._spaarloon is None:
+            self._spaarloon = EmployeeSpaarloonService(self.auth_manager, self.client)
+        return self._spaarloon
+
+    @property
+    def svw(self):
+        """
+        Lazily initializes and returns the EmployeePartnerService instance.
+        """
+        if self._svw is None:
+            self._svw = EmployeeSvwService(self.auth_manager, self.client)
+        return self._svw
+
+    @property
+    def time_registration(self):
+        """
+        Lazily initializes and returns the EmployeeTimeRegistrationService instance.
+        """
+        if self._time_registration is None:
+            self._time_registration = EmployeeTimeRegistrationService(self.auth_manager, self.client)
+        return self._time_registration
+
+    @property
+    def time_schedule(self):
+        """
+        Lazily initializes and returns the EmployeeTimeScheduleService instance.
+        """
+        if self._time_schedule is None:
+            self._time_schedule = EmployeeTimeScheduleService(self.auth_manager, self.client)
+        return self._time_schedule
+
+    @property
+    def wage_component(self):
+        """
+        Lazily initializes and returns the EmployeeWageComponentsService instance.
+        """
+        if self._wage_component is None:
+            self._wage_component = EmployeeWageComponentsService(self.auth_manager, self.client)
+        return self._wage_component
+
+    @property
+    def wage_tax(self):
+        """
+        Lazily initializes and returns the EmployeeWageTaxService instance.
+        """
+        if self._wage_tax is None:
+            self._wage_tax = EmployeeWageTaxService(self.auth_manager, self.client)
+        return self._wage_tax
 
     @return_list
     @nmbrs_exception_handler(resource="EmployeeService:EmployeeType_GetList")

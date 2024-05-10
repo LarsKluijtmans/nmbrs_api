@@ -4,7 +4,7 @@ name: Formatting Check
 on: [push]
 
 jobs:
-  python-formating-check:
+  python-formatting-check:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,7 +28,7 @@ jobs:
       - name: Format Check Python Files
         run: black --check $(git ls-files '*.py')
 
-  markdown-formating-check:
+  markdown-formatting-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +41,7 @@ jobs:
       - name: Format Check Markdown Files
         run: prettier --check '**/*.md'
 
-  yaml-formating-check:
+  yaml-formatting-check:
     runs-on: ubuntu-latest
 
     steps:

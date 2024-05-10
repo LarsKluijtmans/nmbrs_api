@@ -1,6 +1,7 @@
 """Exception Handling Decorators for Nmbrs SOAP API"""
 
 import logging
+import time
 
 import zeep.exceptions
 
@@ -67,8 +68,12 @@ def nmbrs_exception_handler(resource: str):
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
+                start_time = time.time()
                 response = func(*args, **kwargs)
+                end_time = time.time()
+
                 logger.name = get_module_path(func)
+                logger.debug("%s execution time: %s seconds", resource, end_time - start_time)
 
                 if response is None:
                     logger.debug("Used resource: %s, was not able to retrieve anything.", resource)

@@ -1,6 +1,7 @@
 """Main class provided by the package."""
 
 import logging
+import time
 from .auth.token_manager import AuthManager
 from .exceptions import ParameterMissingError
 from .service.company_service import CompanyService
@@ -44,15 +45,66 @@ class Nmbrs:
 
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
-        self.debtor = DebtorService(self.auth_manager, self.sandbox)
-        self.company = CompanyService(self.auth_manager, self.sandbox)
-        self.employee = EmployeeService(self.auth_manager, self.sandbox)
-        self.report = ReportService(self.auth_manager, self.sandbox)
 
+        # Initialize service attributes to None
+        self._debtor_service = None
+        self._company_service = None
+        self._employee_service = None
+        self._report_service = None
+
+        # Handle auth
         if auth_type == "token":
             self.auth_with_token(username, token)
         elif auth_type == "domain":
             self.auth_with_domain(username, token, domain)
+
+    @property
+    def debtor(self):
+        """
+        Lazily initializes and returns the DebtorService instance.
+        """
+        if self._debtor_service is None:
+            start_time = time.time()
+            self._debtor_service = DebtorService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("DebtorService initialization time: %s seconds", end_time - start_time)
+        return self._debtor_service
+
+    @property
+    def company(self):
+        """
+        Lazily initializes and returns the CompanyService instance.
+        """
+        if self._company_service is None:
+            start_time = time.time()
+            self._company_service = CompanyService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("CompanyService initialization time: %s seconds", end_time - start_time)
+        return self._company_service
+
+    @property
+    def employee(self):
+        """
+        Lazily initializes and returns the EmployeeService instance.
+        """
+        if self._employee_service is None:
+            start_time = time.time()
+            self._employee_service = EmployeeService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("EmployeeService initialization time: %s seconds", end_time - start_time)
+        return self._employee_service
+
+    @property
+    def report(self):
+        """
+        Lazily initializes and returns the ReportService instance.
+        """
+        if self._report_service is None:
+            start_time = time.time()
+            self._report_service = ReportService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("ReportService initialization time: %s seconds", end_time - start_time)
+        return self._report_service
 
     def auth_with_token(self, username: str, token: str):
         """
