@@ -1,6 +1,7 @@
 """Main class provided by the package."""
 
 import logging
+import time
 from .auth.token_manager import AuthManager
 from .exceptions import ParameterMissingError
 from .service.company_service import CompanyService
@@ -63,7 +64,10 @@ class Nmbrs:
         Lazily initializes and returns the DebtorService instance.
         """
         if self._debtor_service is None:
+            start_time = time.time()
             self._debtor_service = DebtorService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("DebtorService initialization time: %s seconds", end_time - start_time)
         return self._debtor_service
 
     @property
@@ -72,7 +76,10 @@ class Nmbrs:
         Lazily initializes and returns the CompanyService instance.
         """
         if self._company_service is None:
+            start_time = time.time()
             self._company_service = CompanyService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("CompanyService initialization time: %s seconds", end_time - start_time)
         return self._company_service
 
     @property
@@ -81,7 +88,10 @@ class Nmbrs:
         Lazily initializes and returns the EmployeeService instance.
         """
         if self._employee_service is None:
+            start_time = time.time()
             self._employee_service = EmployeeService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("EmployeeService initialization time: %s seconds", end_time - start_time)
         return self._employee_service
 
     @property
@@ -90,7 +100,10 @@ class Nmbrs:
         Lazily initializes and returns the ReportService instance.
         """
         if self._report_service is None:
+            start_time = time.time()
             self._report_service = ReportService(self.auth_manager, self.sandbox)
+            end_time = time.time()
+            logger.debug("ReportService initialization time: %s seconds", end_time - start_time)
         return self._report_service
 
     def auth_with_token(self, username: str, token: str):

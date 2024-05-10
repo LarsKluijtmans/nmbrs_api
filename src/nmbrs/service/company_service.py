@@ -50,24 +50,168 @@ class CompanyService(Service):
         self.client = Client(f"{self.base_uri}{self.company_uri}")
 
         # Micro services
-        self.address = CompanyAddressService(self.auth_manager, self.client)
-        self.bank_account = CompanyBankAccountService(self.auth_manager, self.client)
-        self.cost_center = CompanyCostCenterService(self.auth_manager, self.client)
-        self.cost_unit = CompanyCostUnitService(self.auth_manager, self.client)
-        self.hour_model = CompanyHourModelService(self.auth_manager, self.client)
-        self.journal = CompanyJournalService(self.auth_manager, self.client)  # TO BE implemented
-        self.labour_agreement = CompanyLabourAgreementService(self.auth_manager, self.client)
-        self.pension = CompanyPensionService(self.auth_manager, self.client)
-        self.run = CompanyRunService(self.auth_manager, self.client)
-        self.salary_documents = CompanySalaryDocumentService(self.auth_manager, self.client)  # TO BE implemented
-        self.salary_table = CompanySalaryTableService(self.auth_manager, self.client)
-        self.svw = CompanySvwService(self.auth_manager, self.client)
-        self.wage_component = CompanyWageComponentService(self.auth_manager, self.client)
-        self.wage_cost = CompanyWageCostService(self.auth_manager, self.client)
-        self.wage_model = CompanyWageModelService(self.auth_manager, self.client)
-        self.wage_tax = CompanyWageTaxService(self.auth_manager, self.client)
+        self._address = None
+        self._bank_account = None
+        self._cost_center = None
+        self._cost_unit = None
+        self._hour_model = None
+        self._journal = None
+        self._labour_agreement = None
+        self._pension = None
+        self._run = None
+        self._salary_documents = None
+        self._salary_table = None
+        self._svw = None
+        self._wage_component = None
+        self._wage_cost = None
+        self._wage_model = None
+        self._wage_tax = None
 
         logger.info("CompanyService initialized.")
+
+    @property
+    def address(self):
+        """
+        Lazily initializes and returns the CompanyAddressService instance.
+        """
+        if self._address is None:
+            self._address = CompanyAddressService(self.auth_manager, self.client)
+        return self._address
+
+    @property
+    def bank_account(self):
+        """
+        Lazily initializes and returns the CompanyBankAccountService instance.
+        """
+        if self._bank_account is None:
+            self._bank_account = CompanyBankAccountService(self.auth_manager, self.client)
+        return self._bank_account
+
+    @property
+    def cost_center(self):
+        """
+        Lazily initializes and returns the CompanyCostCenterService instance.
+        """
+        if self._cost_center is None:
+            self._cost_center = CompanyCostCenterService(self.auth_manager, self.client)
+        return self._cost_center
+
+    @property
+    def cost_unit(self):
+        """
+        Lazily initializes and returns the CompanyCostUnitService instance.
+        """
+        if self._cost_unit is None:
+            self._cost_unit = CompanyCostUnitService(self.auth_manager, self.client)
+        return self._cost_unit
+
+    @property
+    def hour_model(self):
+        """
+        Lazily initializes and returns the CompanyHourModelService instance.
+        """
+        if self._hour_model is None:
+            self._hour_model = CompanyHourModelService(self.auth_manager, self.client)
+        return self._hour_model
+
+    @property
+    def journal(self):
+        """
+        Lazily initializes and returns the CompanyJournalService instance.
+        """
+        if self._journal is None:
+            self._journal = CompanyJournalService(self.auth_manager, self.client)
+        return self._journal
+
+    @property
+    def labour_agreement(self):
+        """
+        Lazily initializes and returns the CompanyLabourAgreementService instance.
+        """
+        if self._labour_agreement is None:
+            self._labour_agreement = CompanyLabourAgreementService(self.auth_manager, self.client)
+        return self._labour_agreement
+
+    @property
+    def pension(self):
+        """
+        Lazily initializes and returns the CompanyPensionService instance.
+        """
+        if self._pension is None:
+            self._pension = CompanyPensionService(self.auth_manager, self.client)
+        return self._pension
+
+    @property
+    def run(self):
+        """
+        Lazily initializes and returns the CompanyRunService instance.
+        """
+        if self._run is None:
+            self._run = CompanyRunService(self.auth_manager, self.client)
+        return self._run
+
+    @property
+    def salary_documents(self):
+        """
+        Lazily initializes and returns the CompanySalaryDocumentService instance.
+        """
+        if self._salary_documents is None:
+            self._salary_documents = CompanySalaryDocumentService(self.auth_manager, self.client)
+        return self._salary_documents
+
+    @property
+    def salary_table(self):
+        """
+        Lazily initializes and returns the CompanySalaryTableService instance.
+        """
+        if self._salary_table is None:
+            self._salary_table = CompanySalaryTableService(self.auth_manager, self.client)
+        return self._salary_table
+
+    @property
+    def svw(self):
+        """
+        Lazily initializes and returns the CompanySvwService instance.
+        """
+        if self._svw is None:
+            self._svw = CompanySvwService(self.auth_manager, self.client)
+        return self._svw
+
+    @property
+    def wage_component(self):
+        """
+        Lazily initializes and returns the CompanyWageComponentService instance.
+        """
+        if self._wage_component is None:
+            self._wage_component = CompanyWageComponentService(self.auth_manager, self.client)
+        return self._wage_component
+
+    @property
+    def wage_cost(self):
+        """
+        Lazily initializes and returns the CompanyWageCostService instance.
+        """
+        if self._wage_cost is None:
+            self._wage_cost = CompanyWageCostService(self.auth_manager, self.client)
+        return self._wage_cost
+
+    @property
+    def wage_model(self):
+        """
+        Lazily initializes and returns the CompanyWageModelService instance.
+        """
+        if self._wage_model is None:
+            self._wage_model = CompanyWageModelService(self.auth_manager, self.client)
+        return self._wage_model
+
+    @property
+    def wage_tax(self):
+        """
+        Lazily initializes and returns the CompanyWageTaxService instance.
+        """
+        if self._wage_tax is None:
+            self._wage_tax = CompanyWageTaxService(self.auth_manager, self.client)
+        return self._wage_tax
 
     @return_list
     @nmbrs_exception_handler(resource="CompanyService:List_GetAll")

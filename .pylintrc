@@ -14,7 +14,9 @@
 # W0201: Attribute 'auth_header' defined outside __init__ (attribute-defined-outside-init)
 # W0406: Module import itself (import-self)
 # R0915: Too many statements (59/50) (too-many-statements)
-disable = R0913, E0402, R0902, R0903, R0904, R0801, W0718, W0122, C0103, W0246, W0201, W0406, R0915
+# W0212: Access to a protected member _svw of a client class (protected-access)
+
+disable = R0913, E0402, R0902, R0903, R0904, R0801, W0718, W0122, C0103, W0246, W0201, W0406, R0915, W0212
 
 # Set the maximum line length to 140 characters
 max-line-length=140
