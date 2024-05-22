@@ -121,7 +121,7 @@ To access the live environment, use the following code:
 ```python
 from nmbrs import Nmbrs
 
-api = Nmbrs(sandbox=False)
+api = Nmbrs(username="__username__", token="__token__", sandbox=False)
 ```
 
 Please note that the usage of the sandbox is set when the SDK is initialized
@@ -204,16 +204,41 @@ It contains the following attributes:
 
 To handle exceptions gracefully, use Python's try-except block.
 
+Nmbrs exceptions consist of:
+
+- error_code: The error code of the specified error returned.
+- resource: The endpoint that caused the exception to occur.
+- title: Short description of the error.
+- cause: Possible cause as indicated by Nmbrs.
+- solution: Recommended solution from nmbrs.
+
+#### Nmbrs base exception
+
+If you want to handle all the Nmbrs exceptions the same way use the NmbrsBaseException:
+
+```python
+from nmbrs import Nmbrs
+from nmbrs.exceptions import NmbrsBaseException
+
+try:
+    api = Nmbrs(username="__username__", token="__token__")
+except NmbrsBaseException as e:
+    print(f"Nmbrs error: {e.resource}")
+```
+
+#### Specific Nmbrs exceptions
+
 You can catch specific exceptions and handle them accordingly based on the error
 scenario.
 
 Here's an example:
 
 ```python
+from nmbrs import Nmbrs
 from nmbrs.exceptions import AuthenticationException, AuthorizationException
 
 try:
-    # Perform API operation
+    api = Nmbrs(username="__username__", token="__token__")
 except AuthenticationException as e:
     print(f"Authentication error: {e.resource}")
 except AuthorizationException as e:
