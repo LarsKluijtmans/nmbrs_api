@@ -146,7 +146,7 @@ class NmbrsBaseException(Exception):
                 self.solution = "Make sure the end time is not before the start time"
             case 2029:
                 self.title = "Time Slots Cannot Overlap"
-                self.cause = "Time Schedule in SE cannot have overlapping slots"
+                self.cause = "Time ScheduleAll in SE cannot have overlapping slots"
                 self.solution = "Check what are the current time slots and make sure what you are trying to add is not overlapping"
             case 2030:
                 self.title = "Invalid Set of Values"

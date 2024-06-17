@@ -52,7 +52,7 @@ class Contract(DataClass):
         self.hours_per_week: Decimal = data.get("HoursPerWeek")
 
 
-class Schedule(DataClass):
+class ScheduleAll(DataClass):
     """A class representing a schedule."""
 
     def __init__(self, employee_id: int, data: dict):
@@ -72,6 +72,29 @@ class Schedule(DataClass):
         self.hours_friday2: Decimal = data.get("HoursFriday2")
         self.hours_saturday2: Decimal = data.get("HoursSaturday2")
         self.hours_sunday2: Decimal = data.get("HoursSunday2")
+
+
+class Schedule(DataClass):
+    """A class representing a schedule."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.hours_monday: Decimal = data.get("HoursMonday")
+        self.hours_tuesday: Decimal = data.get("HoursTuesday")
+        self.hours_wednesday: Decimal = data.get("HoursWednesday")
+        self.hours_thursday: Decimal = data.get("HoursThursday")
+        self.hours_friday: Decimal = data.get("HoursFriday")
+        self.hours_saturday: Decimal = data.get("HoursSaturday")
+        self.hours_sunday: Decimal = data.get("HoursSunday")
+        self.hours_monday2: Decimal = data.get("HoursMonday2")
+        self.hours_tuesday2: Decimal = data.get("HoursTuesday2")
+        self.hours_wednesday2: Decimal = data.get("HoursWednesday2")
+        self.hours_thursday2: Decimal = data.get("HoursThursday2")
+        self.hours_friday2: Decimal = data.get("HoursFriday2")
+        self.hours_saturday2: Decimal = data.get("HoursSaturday2")
+        self.hours_sunday2: Decimal = data.get("HoursSunday2")
+        self.part_time_percentage: Decimal = data.get("ParttimePercentage")
+        self.start_date: datetime = data.get("StartDate")
 
 
 class PersonalInfo(DataClass):
