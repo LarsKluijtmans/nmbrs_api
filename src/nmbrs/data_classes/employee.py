@@ -350,7 +350,7 @@ class Salary(DataClass):
         self.id: int = data.get("ID")
         self.value: Decimal = data.get("Value")
         self.type: int = data.get("Type")
-        self.star_date: datetime = data.get("StartDate")
+        self.start_date: datetime = data.get("StartDate")
         self.creation_date: datetime = data.get("CreationDate")
 
         table = {} if not data.get("SalaryTable") else data.get("SalaryTable")
