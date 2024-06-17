@@ -7,7 +7,7 @@ from zeep.helpers import serialize_object
 
 from ..micro_service import MicroService
 from ....auth.token_manager import AuthManager
-from ....data_classes.employee import Schedule
+from ....data_classes.employee import ScheduleAll, Schedule
 from ....utils.nmbrs_exception_handler import nmbrs_exception_handler
 
 logger = logging.getLogger(__name__)
@@ -30,14 +30,23 @@ class EmployeeScheduleService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_Get")
-    def get(self):
+    def get(self, employee_id: int, period: int, year: int) -> Schedule:
         """
         Get schedule the active schedule for given period.
 
         For more information, refer to the official documentation:
             [Schedule_Get](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Schedule_Get)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            period (int): The period.
+            year (int): The year.
+
+        Returns:
+            Schedule: Employees schedule for the given period
         """
-        raise NotImplementedError()  # pragma: no cover
+        schedule = self.client.service.Schedule_Get(EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.auth_manager.header)
+        return Schedule(employee_id=employee_id, data=serialize_object(schedule))
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetCurrent")
     def get_current(self):
@@ -50,7 +59,7 @@ class EmployeeScheduleService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetAll_AllEmployeesByCompany")
-    def get_all_by_company(self, company_id: int) -> list[Schedule]:
+    def get_all_by_company(self, company_id: int) -> list[ScheduleAll]:
         """
         Get all schedules of all employees from company.
 
@@ -61,14 +70,14 @@ class EmployeeScheduleService(MicroService):
             company_id (int): The ID of the company.
 
         Returns:
-            list[Contract]: a list of contract objects
+            list[ScheduleAll]: a list of contract objects
         """
         schedules = self.client.service.Schedule_GetAll_AllEmployeesByCompany(CompanyID=company_id, _soapheaders=self.auth_manager.header)
         schedules = serialize_object(schedules)
         _schedules = []
         for employee in schedules:
             for schedule in employee["EmployeeSchedules"]["Schedule_V2"]:
-                _schedules.append(Schedule(employee_id=employee["EmployeeId"], data=schedule))
+                _schedules.append(ScheduleAll(employee_id=employee["EmployeeId"], data=schedule))
         return _schedules
 
     @nmbrs_exception_handler(resource="EmployeeService:ScheduleCalendar_Get")
