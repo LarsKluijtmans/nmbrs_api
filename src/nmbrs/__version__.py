@@ -1,7 +1,7 @@
 """Versioning details."""
 
 __title__ = "nmbrs"
-__version__ = "0.0.400"
+__version__ = "1.0.7"
 __author__ = "Lars Kluijtmans"
 __author_email__ = "info@lk-software.com"
 __maintainer__ = "Lars Kluijtmans"

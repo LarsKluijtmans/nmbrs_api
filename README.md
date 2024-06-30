@@ -5,6 +5,8 @@
 Python SDK for the Visma Nmbrs SOAP API. Simplifying integration and enhancing
 developer productivity.
 
+Created by [lk-software](lk-software.com)
+
 ## Installation
 
 ---
@@ -19,8 +21,7 @@ pip install nmbrs
 
 ---
 
-This Software Development Kit (SDK) facilitates interaction with the Nmbrs SOAP
-API.
+This Software Development Kit (SDK) facilitates interaction with the Nmbrs.
 
 Please note that this SDK specifically targets the Nmbrs SOAP API.
 
@@ -33,14 +34,10 @@ To explore the Rest API, you can refer to the
 [NMBRS REST API documentation](https://developer.nmbrs.com/docs).
 
 If you encounter any difficulties or have questions related to development with
-Nmbrs, feel free to reach out to:
+Nmbrs, feel free to reach out through:
 
-- [Lars Kluijtmans](https://www.linkedin.com/in/lars-kluijtmans-aa4a10243/)
-- [Rene Dijkgraaf](https://www.linkedin.com/in/ren%C3%A9-dijkgraaf-226b9b2a/)
-- [Wilko Kluijtmans](https://www.linkedin.com/in/wilko-kluijtmans-5437b3122/)
-
-These contacts can provide assistance and support for your Nmbrs-related
-development endeavors.
+- Email: info@lk-software.com
+- Linkedin: [Lars Kluijtmans](https://www.linkedin.com/in/lars-kluijtmans-aa4a10243/)
 
 ## Authentication
 
