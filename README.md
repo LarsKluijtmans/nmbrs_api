@@ -5,7 +5,7 @@
 Python SDK for the Visma Nmbrs SOAP API. Simplifying integration and enhancing
 developer productivity.
 
-Created by [lk-software](lk-software.com)
+Created by [lk-software](https://lk-software.com)
 
 ## Installation
 
