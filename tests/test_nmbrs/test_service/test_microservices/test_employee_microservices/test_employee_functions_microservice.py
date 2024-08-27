@@ -104,3 +104,18 @@ class TestEmployeeFunctionService(unittest.TestCase):
         # Assert other fields as needed
 
         self.client.service.Function_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
+
+    def test_update_current(self):
+        """Test updating the current function of an employee."""
+        employee_id = 123
+        function_id = 456
+
+        # Call the update_current method
+        self.function_service.update_current(employee_id, function_id)
+
+        # Assert that the SOAP service method was called with the correct parameters
+        self.client.service.Function_UpdateCurrent.assert_called_once_with(
+            EmployeeId=employee_id,
+            FunctionId=function_id,
+            _soapheaders=self.mock_auth_header,
+        )

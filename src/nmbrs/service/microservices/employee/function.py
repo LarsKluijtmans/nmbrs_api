@@ -84,11 +84,25 @@ class EmployeeFunctionService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Function_UpdateCurrent")
-    def update_current(self):
+    def update_current(self, employee_id: int, function_id: int) -> None:
         """
-        Update the function starting from current period.
+        Update the function of an employee starting from the current period.
+
+        This method updates the function of the specified employee to a new function ID,
+        effective from the current period.
 
         For more information, refer to the official documentation:
             [Function_UpdateCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Function_UpdateCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee whose function is to be updated.
+            function_id (int): The ID of the new function to be assigned to the employee.
+
+        Returns:
+            None
         """
-        raise NotImplementedError()  # pragma: no cover
+        self.client.service.Function_UpdateCurrent(
+            EmployeeId=employee_id,
+            FunctionId=function_id,
+            _soapheaders=self.auth_manager.header,
+        )
