@@ -3,6 +3,7 @@ Module for handling the Employee Nmbrs services.
 """
 
 import logging
+from datetime import datetime
 
 from zeep import Client
 from zeep.helpers import serialize_object
@@ -432,15 +433,59 @@ class EmployeeService(Service):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertBasedOnDefault")
-    def post_based_on_default(self):
+    def post_based_on_default(
+        self,
+        company_id: int,
+        template_id: int,
+        first_name: str,
+        last_name: str,
+        employment_id: int,
+        create_date: datetime,
+        start_date: datetime,
+        unprotected_mode: bool,
+        end_date: datetime | None = None,
+        initial_start_date: datetime | None = None,
+    ) -> int:
         """
-        Insert new employee based on default employee.
-        If the date is before the company's current period, unprotected mode flag is required.
+        Insert a new employee based on a default employee template.
+
+        This function creates a new employee using a predefined template. If the start date is before the company's
+        current period, an unprotected mode flag might be required.
 
         For more information, refer to the official documentation:
             [Employee_InsertBasedOnDefault](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Employee_InsertBasedOnDefault)
+
+        Args:
+            company_id (int): The ID of the company.
+            template_id (int): The ID of the default employee template.
+            first_name (str): The first name of the new employee.
+            last_name (str): The last name of the new employee.
+            employment_id (int): The ID of the employment record.
+            create_date (str): The creation date of the employment.
+            start_date (str): The start date of the employment.
+            end_date (str, optional): The end date of the employment. Defaults to None.
+            initial_start_date (str, optional): The initial start date of the employment. Defaults to None.
+            unprotected_mode (bool):
+
+        Returns:
+            int: The employee ID of the created employee.
         """
-        raise NotImplementedError()  # pragma: no cover
+        employee = self.client.service.Employee_InsertBasedOnDefault(
+            CompanyId=company_id,
+            DefaultEmployeeTemplate=template_id,
+            FirstName=first_name,
+            LastName=last_name,
+            employment={
+                "EmploymentId": employment_id,
+                "CreationDate": create_date,
+                "StartDate": start_date,
+                "EndDate": end_date,
+                "InitialStartDate": initial_start_date,
+            },
+            UnprotectedMode=unprotected_mode,
+            _soapheaders=self.auth_manager.header,
+        )
+        return employee
 
     @nmbrs_exception_handler(resource="EmployeeService:Employee_InsertByEmployeeType")
     def post_with_type(self):
