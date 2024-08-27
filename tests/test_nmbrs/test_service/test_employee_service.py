@@ -1,6 +1,7 @@
 """Unit tests for the EmployeeService class."""
 
 import unittest
+from datetime import datetime
 from unittest.mock import Mock
 
 from src.nmbrs.auth.token_manager import AuthManager
@@ -69,3 +70,53 @@ class TesteEmployeeService(unittest.TestCase):
         for employee in employees:
             self.assertIsInstance(employee, Employee)
         self.mock_client.service.List_GetByDebtor.assert_called_once_with(DebtorId=1, EmployeeType=1, _soapheaders=self.mock_auth_header)
+
+    def test_post_based_on_default(self):
+        """Test inserting a new employee based on a default template."""
+        # Setup mock data
+        company_id = 1
+        template_id = 2
+        first_name = "John"
+        last_name = "Doe"
+        employment_id = 123
+        create_date = datetime(2024, 1, 1)
+        start_date = datetime(2024, 1, 10)
+        end_date = datetime(2025, 1, 10)
+        initial_start_date = datetime(2023, 12, 25)
+        unprotected_mode = True
+        expected_employee_id = 456
+
+        # Configure the mock to return the expected employee ID
+        self.mock_client.service.Employee_InsertBasedOnDefault.return_value = expected_employee_id
+
+        # Call the method
+        result = self.employee_service.post_based_on_default(
+            company_id=company_id,
+            template_id=template_id,
+            first_name=first_name,
+            last_name=last_name,
+            employment_id=employment_id,
+            create_date=create_date,
+            start_date=start_date,
+            unprotected_mode=unprotected_mode,
+            end_date=end_date,
+            initial_start_date=initial_start_date,
+        )
+
+        # Assertions
+        self.assertEqual(result, expected_employee_id)
+        self.mock_client.service.Employee_InsertBasedOnDefault.assert_called_once_with(
+            CompanyId=company_id,
+            DefaultEmployeeTemplate=template_id,
+            FirstName=first_name,
+            LastName=last_name,
+            employment={
+                "EmploymentId": employment_id,
+                "CreationDate": create_date,
+                "StartDate": start_date,
+                "EndDate": end_date,
+                "InitialStartDate": initial_start_date,
+            },
+            UnprotectedMode=unprotected_mode,
+            _soapheaders=self.mock_auth_header,
+        )
