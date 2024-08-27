@@ -56,11 +56,9 @@ class EmployeeContractService(MicroService):
 
         _contracts = []
         employee_contracts = contracts["EmployeeContracts"]
-        if employee_contracts is None:
-            return []
-        for contract in employee_contracts["EmployeeContract"]:
-            _contracts.append(Contract(employee_id=employee_id, data=contract))
-
+        if employee_contracts:
+            for contract in employee_contracts["EmployeeContract"]:
+                _contracts.append(Contract(employee_id=employee_id, data=contract))
         return _contracts
 
     @return_list
