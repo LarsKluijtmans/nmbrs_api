@@ -55,7 +55,10 @@ class EmployeeContractService(MicroService):
         contracts = serialize_object(contracts)
 
         _contracts = []
-        for contract in contracts["EmployeeContracts"]["EmployeeContract"]:
+        employee_contracts = contracts["EmployeeContracts"]
+        if employee_contracts is None:
+            return []
+        for contract in employee_contracts["EmployeeContract"]:
             _contracts.append(Contract(employee_id=employee_id, data=contract))
 
         return _contracts
