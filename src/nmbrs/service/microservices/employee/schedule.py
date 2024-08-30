@@ -49,14 +49,21 @@ class EmployeeScheduleService(MicroService):
         return Schedule(employee_id=employee_id, data=serialize_object(schedule))
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetCurrent")
-    def get_current(self):
+    def get_current(self, employee_id: int) -> Schedule:
         """
         Get currently active schedule.
 
         For more information, refer to the official documentation:
             [Schedule_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Schedule_GetCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+
+        Returns:
+            Schedule: Employees schedule for the given period
         """
-        raise NotImplementedError()  # pragma: no cover
+        schedule = self.client.service.Schedule_GetCurrent(EmployeeId=employee_id, _soapheaders=self.auth_manager.header)
+        return Schedule(employee_id=employee_id, data=serialize_object(schedule))
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_GetAll_AllEmployeesByCompany")
     def get_all_by_company(self, company_id: int) -> list[ScheduleAll]:
@@ -101,11 +108,35 @@ class EmployeeScheduleService(MicroService):
         raise NotImplementedError()  # pragma: no cover
 
     @nmbrs_exception_handler(resource="EmployeeService:Schedule_UpdateCurrent")
-    def update_current(self):
+    def update_current(self, employee_id: int, schedule: Schedule) -> None:
         """
         Update schedule starting from the current period. The company default rooster number can be specified.
 
         For more information, refer to the official documentation:
             [Schedule_UpdateCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=Schedule_UpdateCurrent)
+
+        Args:
+            employee_id (int): The ID of the employee.
+            schedule (Schedule): The users new schedule.
         """
-        raise NotImplementedError()  # pragma: no cover
+        schedule_dict = {
+            "HoursMonday": schedule.hours_monday,
+            "HoursTuesday": schedule.hours_tuesday,
+            "HoursWednesday": schedule.hours_wednesday,
+            "HoursThursday": schedule.hours_thursday,
+            "HoursFriday": schedule.hours_friday,
+            "HoursSaturday": schedule.hours_saturday,
+            "HoursSunday": schedule.hours_sunday,
+            "HoursMonday2": schedule.hours_monday2,
+            "HoursTuesday2": schedule.hours_tuesday2,
+            "HoursWednesday2": schedule.hours_wednesday2,
+            "HoursThursday2": schedule.hours_thursday2,
+            "HoursFriday2": schedule.hours_friday2,
+            "HoursSaturday2": schedule.hours_saturday2,
+            "HoursSunday2": schedule.hours_sunday2,
+            "ParttimePercentage": schedule.part_time_percentage,
+            "StartDate": schedule.start_date,
+        }
+        self.client.service.Schedule_UpdateCurrent(
+            EmployeeId=employee_id, Schedule=schedule_dict, CompanyRoosterNr=1, _soapheaders=self.auth_manager.header
+        )

@@ -124,3 +124,81 @@ class TestEmployeeScheduleService(unittest.TestCase):
         self.client.service.Schedule_Get.assert_called_once_with(
             EmployeeId=employee_id, Period=period, Year=year, _soapheaders=self.mock_auth_header
         )
+
+    def test_get_current(self):
+        """Test retrieving the currently active schedule for a specific employee."""
+        employee_id = 789
+        expected_schedule = {
+            "HoursMonday": Decimal("9.0"),
+            "HoursTuesday": Decimal("9.0"),
+            "HoursWednesday": Decimal("9.0"),
+            "HoursThursday": Decimal("9.0"),
+            "HoursFriday": Decimal("9.0"),
+            "HoursSaturday": Decimal("0.0"),
+            "HoursSunday": Decimal("0.0"),
+            "HoursMonday2": Decimal("0.0"),
+            "HoursTuesday2": Decimal("0.0"),
+            "HoursWednesday2": Decimal("0.0"),
+            "HoursThursday2": Decimal("0.0"),
+            "HoursFriday2": Decimal("0.0"),
+            "HoursSaturday2": Decimal("0.0"),
+            "HoursSunday2": Decimal("0.0"),
+            "ParttimePercentage": Decimal("90.0"),
+            "StartDate": datetime(2024, 1, 1),
+        }
+        self.client.service.Schedule_GetCurrent.return_value = expected_schedule
+
+        result = self.employee_schedule_service.get_current(employee_id)
+
+        self.assertIsInstance(result, Schedule)
+        self.assertEqual(result.employee_id, employee_id)
+        self.assertEqual(result.hours_monday, Decimal("9.0"))
+        self.assertEqual(result.hours_tuesday, Decimal("9.0"))
+        self.assertEqual(result.hours_wednesday, Decimal("9.0"))
+        self.assertEqual(result.hours_thursday, Decimal("9.0"))
+        self.assertEqual(result.hours_friday, Decimal("9.0"))
+        self.assertEqual(result.hours_saturday, Decimal("0.0"))
+        self.assertEqual(result.hours_sunday, Decimal("0.0"))
+        self.assertEqual(result.hours_monday2, Decimal("0.0"))
+        self.assertEqual(result.hours_tuesday2, Decimal("0.0"))
+        self.assertEqual(result.hours_wednesday2, Decimal("0.0"))
+        self.assertEqual(result.hours_thursday2, Decimal("0.0"))
+        self.assertEqual(result.hours_friday2, Decimal("0.0"))
+        self.assertEqual(result.hours_saturday2, Decimal("0.0"))
+        self.assertEqual(result.hours_sunday2, Decimal("0.0"))
+        self.assertEqual(result.part_time_percentage, Decimal("90.0"))
+        self.assertEqual(result.start_date, datetime(2024, 1, 1))
+
+        self.client.service.Schedule_GetCurrent.assert_called_once_with(EmployeeId=employee_id, _soapheaders=self.mock_auth_header)
+
+    def test_update_current(self):
+        """Test updating the schedule for a specific employee for the current period."""
+        employee_id = 123
+        schedule_data = {
+            "HoursMonday": Decimal("7.5"),
+            "HoursTuesday": Decimal("7.5"),
+            "HoursWednesday": Decimal("7.5"),
+            "HoursThursday": Decimal("7.5"),
+            "HoursFriday": Decimal("7.5"),
+            "HoursSaturday": Decimal("0.0"),
+            "HoursSunday": Decimal("0.0"),
+            "HoursMonday2": Decimal("0.0"),
+            "HoursTuesday2": Decimal("0.0"),
+            "HoursWednesday2": Decimal("0.0"),
+            "HoursThursday2": Decimal("0.0"),
+            "HoursFriday2": Decimal("0.0"),
+            "HoursSaturday2": Decimal("0.0"),
+            "HoursSunday2": Decimal("0.0"),
+            "ParttimePercentage": Decimal("75.0"),
+            "StartDate": datetime(2024, 2, 1),
+        }
+        schedule = Schedule(employee_id=employee_id, data=schedule_data)
+
+        self.employee_schedule_service.update_current(employee_id, schedule)
+
+        self.client.service.Schedule_UpdateCurrent.assert_called_once_with(
+            EmployeeId=employee_id,
+            Schedule=schedule_data,
+            CompanyRoosterNr=1,
+            _soapheaders=self.mock_auth_header,
+        )
