@@ -388,7 +388,7 @@ class LeaveTypeGroup(DataClass):
         self.type: str = data.get("Type")
         self.description: str = data.get("Description")
         self.company_leave_balance: list[CompanyLeaveType] = [
-            CompanyLeaveType(leave_type) for leave_type in data.get("CompanyLeaveBalance", [])
+            CompanyLeaveType(leave_type) for leave_type in data.get("CompanyLeaveBalance", {}).get("CompanyLeaveType", [])
         ]
 
 

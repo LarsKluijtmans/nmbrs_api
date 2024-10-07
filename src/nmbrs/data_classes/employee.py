@@ -460,3 +460,14 @@ class HourComponent(DataClass):
         self.id: int = data.get("Id")
         self.hour_code: int = data.get("HourCode")
         self.hours: Decimal = data.get("Hours")
+
+
+class Service:
+    """A class representing the service data of an employee."""
+
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.start: datetime = data.get("Start")
+        self.end: datetime = data.get("End")
+        self.seniority_date: datetime = data.get("SeniorityDate")
+        self.end_service_reason: str = data.get("EndServiceReason")
