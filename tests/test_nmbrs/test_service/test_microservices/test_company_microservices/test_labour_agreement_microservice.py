@@ -56,9 +56,15 @@ class TestCompanyLabourAgreementService(unittest.TestCase):
             {
                 "Type": "1",
                 "Description": "Group 1",
-                "CompanyLeaveBalance": [
-                    {"DescriptionLeaveBalance": "leave balance", "FullTimeBalance": Decimal(10.1), "LeaveRoundingMethod": "Rounding Model"}
-                ],
+                "CompanyLeaveBalance": {
+                    "CompanyLeaveType": [
+                        {
+                            "DescriptionLeaveBalance": "leave balance",
+                            "FullTimeBalance": Decimal(10.1),
+                            "LeaveRoundingMethod": "Rounding Model",
+                        }
+                    ],
+                },
             },
             {"Type": "2", "Description": "Group 2"},
         ]
