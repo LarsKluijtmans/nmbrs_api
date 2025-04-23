@@ -133,6 +133,7 @@ class PersonalInfo(DataClass):
         self.in_case_of_emergency_phone: str = data.get("InCaseOfEmergencyPhone")
         self.in_case_of_emergency_relation: str = data.get("InCaseOfEmergencyRelation")
         self.title_after: str = data.get("TitleAfter")
+        self.creation_date: datetime = data.get("CreationDate")
 
 
 class PersonalInfoContractSalaryAddress(DataClass):
