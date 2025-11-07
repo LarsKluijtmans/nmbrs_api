@@ -4,9 +4,11 @@ Module for handling the Employee Nmbrs services.
 
 import logging
 from datetime import datetime
+from typing import Optional
 
-from zeep import Client
+from zeep import Client, Settings
 from zeep.helpers import serialize_object
+from zeep.transports import Transport
 
 from .microservices.employee import (
     EmployeeWageTaxService,
@@ -51,11 +53,16 @@ logger = logging.getLogger(__name__)
 class EmployeeService(Service):
     """A class representing Employee Service for interacting with Nmbrs employee-related functionalities."""
 
-    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
-        super().__init__(auth_manager, sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True, transport: Optional[Transport] = None, settings: Optional[Settings] = None):
+        super().__init__(auth_manager, sandbox, transport=transport, settings=settings)
 
         # Initialize nmbrs services
-        self.client = Client(f"{self.base_uri}{self.employee_uri}")
+        client_kwargs = {}
+        if self.transport:
+            client_kwargs['transport'] = self.transport
+        if self.settings:
+            client_kwargs['settings'] = self.settings
+        self.client = Client(f"{self.base_uri}{self.employee_uri}", **client_kwargs)
 
         # Micro services
         self._absence = None

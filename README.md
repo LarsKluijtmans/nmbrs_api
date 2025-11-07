@@ -124,6 +124,116 @@ api = Nmbrs(username="__username__", token="__token__", sandbox=False)
 Please note that the usage of the sandbox is set when the SDK is initialized
 and cannot be modified afterward.
 
+## Advanced Configuration: Transport and Settings
+
+---
+
+The SDK supports advanced configuration of the underlying Zeep SOAP client through
+optional `transport` and `settings` parameters. This allows you to customize
+connection behavior, enable session sharing, configure timeouts, and more.
+
+### Using a Shared Transport (Session Sharing)
+
+When you need to share HTTP sessions across multiple service calls (useful for
+connection pooling and performance), you can create a shared Transport:
+
+```python
+from nmbrs import Nmbrs
+from zeep.transports import Transport
+from requests import Session
+
+# Create a shared session
+session = Session()
+transport = Transport(session=session)
+
+# Initialize SDK with shared transport
+api = Nmbrs(
+    username="__username__",
+    token="__token__",
+    transport=transport
+)
+
+# All services (debtor, company, employee, report) will share the same session
+debtors = api.debtor.get_all()
+companies = api.company.get_all()
+```
+
+### Custom Transport Configuration
+
+You can configure the transport with custom settings such as timeouts, TLS
+verification, or proxy settings:
+
+```python
+from nmbrs import Nmbrs
+from zeep.transports import Transport
+from requests import Session
+
+# Create a session with custom configuration
+session = Session()
+session.timeout = 30  # Set timeout to 30 seconds
+# session.verify = '/path/to/certificate.pem'  # For custom TLS certificates
+# session.proxies = {'http': 'http://proxy.example.com:8080'}  # For proxy
+
+transport = Transport(session=session)
+
+api = Nmbrs(
+    username="__username__",
+    token="__token__",
+    transport=transport
+)
+```
+
+### Custom Settings Configuration
+
+You can configure Zeep settings to control XML parsing behavior, strict mode,
+and other client options:
+
+```python
+from nmbrs import Nmbrs
+from zeep import Settings
+
+# Create custom settings
+settings = Settings(
+    strict=False,           # Disable strict mode for non-standard SOAP servers
+    xml_huge_tree=True     # Enable parsing of large XML documents
+)
+
+api = Nmbrs(
+    username="__username__",
+    token="__token__",
+    settings=settings
+)
+```
+
+### Combining Transport and Settings
+
+You can use both transport and settings together:
+
+```python
+from nmbrs import Nmbrs
+from zeep import Settings
+from zeep.transports import Transport
+from requests import Session
+
+session = Session()
+transport = Transport(session=session)
+settings = Settings(strict=False, xml_huge_tree=True)
+
+api = Nmbrs(
+    username="__username__",
+    token="__token__",
+    transport=transport,
+    settings=settings
+)
+```
+
+**Note**: When transport and settings are provided, they are automatically
+applied to all services (debtor, company, employee, and report), ensuring
+consistent behavior across all API calls.
+
+For more information on Transport and Settings options, refer to the
+[Zeep documentation](https://docs.python-zeep.org/en/master/).
+
 ## Retrieving Data
 
 ---

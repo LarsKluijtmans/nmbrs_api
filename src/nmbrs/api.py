@@ -2,6 +2,11 @@
 
 import logging
 import time
+from typing import Optional
+
+from zeep import Settings
+from zeep.transports import Transport
+
 from .auth.token_manager import AuthManager
 from .exceptions import ParameterMissingError
 from .service.company_service import CompanyService
@@ -29,6 +34,8 @@ class Nmbrs:
         auth_type: str = "token",
         domain: str = None,
         sandbox: bool = True,
+        transport: Optional[Transport] = None,
+        settings: Optional[Settings] = None,
     ):
         """
         Initializes a Nmbrs SOAP API instance with authentication details and settings.
@@ -39,12 +46,16 @@ class Nmbrs:
             auth_type (str): The type of authentication to be used. Options: "token", "domain". Default "token"
             domain (str, optional): Nmbrs environment subdomain (used when the auth_type paramater is set to "domain").
             sandbox (bool, optional): A boolean indicating whether to use the sandbox environment. Default is True.
+            transport (Transport, optional): Zeep Transport object for custom transport configuration (e.g., session sharing, timeouts, TLS).
+            settings (Settings, optional): Zeep Settings object for custom client configuration (e.g., strict mode, XML parsing).
         """
         if not sandbox:
             logger.warning("Live environment is activated")  # pragma: no cover
 
         self.sandbox = sandbox
         self.auth_manager = AuthManager()
+        self.transport = transport
+        self.settings = settings
 
         # Initialize service attributes to None
         self._debtor_service = None
@@ -65,7 +76,7 @@ class Nmbrs:
         """
         if self._debtor_service is None:
             start_time = time.time()
-            self._debtor_service = DebtorService(self.auth_manager, self.sandbox)
+            self._debtor_service = DebtorService(self.auth_manager, self.sandbox, transport=self.transport, settings=self.settings)
             end_time = time.time()
             logger.debug("DebtorService initialization time: %s seconds", end_time - start_time)
         return self._debtor_service
@@ -77,7 +88,7 @@ class Nmbrs:
         """
         if self._company_service is None:
             start_time = time.time()
-            self._company_service = CompanyService(self.auth_manager, self.sandbox)
+            self._company_service = CompanyService(self.auth_manager, self.sandbox, transport=self.transport, settings=self.settings)
             end_time = time.time()
             logger.debug("CompanyService initialization time: %s seconds", end_time - start_time)
         return self._company_service
@@ -89,7 +100,7 @@ class Nmbrs:
         """
         if self._employee_service is None:
             start_time = time.time()
-            self._employee_service = EmployeeService(self.auth_manager, self.sandbox)
+            self._employee_service = EmployeeService(self.auth_manager, self.sandbox, transport=self.transport, settings=self.settings)
             end_time = time.time()
             logger.debug("EmployeeService initialization time: %s seconds", end_time - start_time)
         return self._employee_service
@@ -101,7 +112,7 @@ class Nmbrs:
         """
         if self._report_service is None:
             start_time = time.time()
-            self._report_service = ReportService(self.auth_manager, self.sandbox)
+            self._report_service = ReportService(self.auth_manager, self.sandbox, transport=self.transport, settings=self.settings)
             end_time = time.time()
             logger.debug("ReportService initialization time: %s seconds", end_time - start_time)
         return self._report_service

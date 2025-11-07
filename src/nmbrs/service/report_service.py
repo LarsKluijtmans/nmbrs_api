@@ -4,9 +4,11 @@ Service class for managing reports in Nmbrs.
 
 import logging
 from time import sleep
+from typing import Optional
 
 import xmltodict
-from zeep import Client
+from zeep import Client, Settings
+from zeep.transports import Transport
 
 from ..auth.token_manager import AuthManager
 from ..exceptions.nmbrs_exceptions.background_task import (
@@ -23,11 +25,16 @@ logger = logging.getLogger(__name__)
 class ReportService(Service):
     """Service class for managing reports in Nmbrs."""
 
-    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
-        super().__init__(auth_manager, sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True, transport: Optional[Transport] = None, settings: Optional[Settings] = None):
+        super().__init__(auth_manager, sandbox, transport=transport, settings=settings)
 
         # Initialize nmbrs services
-        self.client = Client(f"{self.base_uri}{self.report_uri}")
+        client_kwargs = {}
+        if self.transport:
+            client_kwargs['transport'] = self.transport
+        if self.settings:
+            client_kwargs['settings'] = self.settings
+        self.client = Client(f"{self.base_uri}{self.report_uri}", **client_kwargs)
         logger.info("ReportService initialized.")
 
     @nmbrs_exception_handler(resource="ReportService:Reports_BackgroundTask_Result")
