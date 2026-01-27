@@ -1,9 +1,11 @@
 """Module for handling the Company Nmbrs services."""
 
 import logging
+from typing import Optional
 
-from zeep import Client
+from zeep import Client, Settings
 from zeep.helpers import serialize_object
+from zeep.transports import Transport
 
 from .microservices.company import (
     CompanyAddressService,
@@ -43,11 +45,16 @@ logger = logging.getLogger(__name__)
 class CompanyService(Service):
     """A class representing Company Service for interacting with Nmbrs company-related functionalities."""
 
-    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
-        super().__init__(auth_manager, sandbox)
+    def __init__(self, auth_manager: AuthManager, sandbox: bool = True, transport: Optional[Transport] = None, settings: Optional[Settings] = None):
+        super().__init__(auth_manager, sandbox, transport=transport, settings=settings)
 
         # Initialize nmbrs client
-        self.client = Client(f"{self.base_uri}{self.company_uri}")
+        client_kwargs = {}
+        if self.transport:
+            client_kwargs['transport'] = self.transport
+        if self.settings:
+            client_kwargs['settings'] = self.settings
+        self.client = Client(f"{self.base_uri}{self.company_uri}", **client_kwargs)
 
         # Micro services
         self._address = None

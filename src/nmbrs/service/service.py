@@ -1,6 +1,11 @@
 """Abstract base class for defining service interfaces."""
 
 from abc import ABC, abstractmethod
+from typing import Optional
+
+from zeep import Settings
+from zeep.transports import Transport
+
 from ..auth.token_manager import AuthManager
 
 
@@ -26,9 +31,13 @@ class Service(ABC):
     """
 
     @abstractmethod
-    def __init__(self, auth_manager: AuthManager, sandbox: bool = True):
+    def __init__(
+        self, auth_manager: AuthManager, sandbox: bool = True, transport: Optional[Transport] = None, settings: Optional[Settings] = None
+    ):
         self.auth_manager = auth_manager
         self.sandbox = sandbox
+        self.transport = transport
+        self.settings = settings
 
         self.nmbrs_base_uri = "https://api.nmbrs.nl/soap/v3/"
         self.nmbrs_sandbox_base_uri = "https://api-sandbox.nmbrs.nl/soap/v3/"
