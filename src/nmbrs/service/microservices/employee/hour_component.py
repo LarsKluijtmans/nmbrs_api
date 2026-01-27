@@ -43,14 +43,21 @@ class EmployeeHourComponentFixedService(MicroService):
         return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_GetCurrent")
-    def get_current_fixed(self):
+    def get_current_fixed(self, employee_id: int) -> list[HourComponent]:
         """
         Get all extra hour components for the current period.
 
         For more information, refer to the official documentation:
             [HourComponentFixed_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentFixed_GetCurrent)
         """
-        raise NotImplementedError()  # pragma: no cover
+        hour_components = self.client.service.HourComponentFixed_GetCurrent(
+            EmployeeId=employee_id, _soapheaders=self.auth_manager.header
+        )
+
+        if hour_components is None:
+            return []
+
+        return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentFixed_Insert")
     def post_fixed(self):
@@ -128,14 +135,21 @@ class EmployeeHourComponentFixedService(MicroService):
         return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_GetCurrent")
-    def get_current_variable(self):
+    def get_current_variable(self, employee_id: int) -> list[HourComponent]:
         """
         Get all extra hour components for the current period.
 
         For more information, refer to the official documentation:
             [HourComponentVar_GetCurrent](https://api.nmbrs.nl/soap/v3/EmployeeService.asmx?op=HourComponentVar_GetCurrent)
         """
-        raise NotImplementedError()  # pragma: no cover
+        hour_components = self.client.service.HourComponentVar_GetCurrent(
+            EmployeeId=employee_id, _soapheaders=self.auth_manager.header
+        )
+
+        if hour_components is None:
+            return []
+
+        return [HourComponent(employee_id=employee_id, data=hour_component) for hour_component in serialize_object(hour_components)]
 
     @nmbrs_exception_handler(resource="EmployeeService:HourComponentVar_Insert")
     def post_variable(self):

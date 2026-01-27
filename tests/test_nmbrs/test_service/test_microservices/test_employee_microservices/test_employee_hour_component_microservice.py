@@ -47,6 +47,26 @@ class TestEmployeeHourComponentFixedService(unittest.TestCase):
             EmployeeId=employee_id, Year=year, Period=period, _soapheaders=self.mock_auth_header
         )
 
+    def test_get_current_fixed(self):
+        """Test the get_current_fixed method of EmployeeHourComponentFixedService."""
+        employee_id = 123
+        expected_hour_components = [
+            {"Id": 1, "HourCode": 3756, "Hours": -32.00},
+            {"Id": 2, "HourCode": 3757, "Hours": 32.00},    
+        ]
+        self.client.service.HourComponentFixed_GetCurrent.return_value = expected_hour_components
+
+        result = self.hour_component_service.get_current_fixed(employee_id)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), len(expected_hour_components))
+        for item in result:
+            self.assertIsInstance(item, HourComponent)
+        self.client.service.HourComponentFixed_GetCurrent.assert_called_once_with(
+            EmployeeId=employee_id, _soapheaders=self.mock_auth_header
+        )
+
     def test_get_variable(self):
         """Test the get_variable method of EmployeeHourComponentFixedService."""
         employee_id = 123
@@ -67,4 +87,24 @@ class TestEmployeeHourComponentFixedService(unittest.TestCase):
             self.assertIsInstance(item, HourComponent)
         self.client.service.HourComponentVar_Get.assert_called_once_with(
             EmployeeId=employee_id, Year=year, Period=period, _soapheaders=self.mock_auth_header
+        )
+
+    def test_get_current_variable(self):
+        """Test the get_current_variable method of EmployeeHourComponentFixedService."""
+        employee_id = 123
+        expected_hour_components = [
+            {"Id": 1, "HourCode": 3756, "Hours": -32.00},
+            {"Id": 2, "HourCode": 3757, "Hours": 32.00},    
+        ]
+        self.client.service.HourComponentVar_GetCurrent.return_value = expected_hour_components
+
+        result = self.hour_component_service.get_current_variable(employee_id)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), len(expected_hour_components))
+        for item in result:
+            self.assertIsInstance(item, HourComponent)
+        self.client.service.HourComponentVar_GetCurrent.assert_called_once_with(
+            EmployeeId=employee_id, _soapheaders=self.mock_auth_header
         )
