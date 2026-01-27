@@ -57,7 +57,10 @@ class ScheduleAll(DataClass):
 
     def __init__(self, employee_id: int, data: dict):
         self.employee_id = employee_id
-        self.schedule_calc_method: str = data.get("ScheduleCalcMethod")
+        self.id: int = data.get("Id")
+        self.StartDate: datetime = data.get("StartDate")
+        self.CreationDate: datetime = data.get("CreationDate")
+        self.ParttimePercentage: Decimal = data.get("ParttimePercentage")
         self.hours_monday: Decimal = data.get("HoursMonday")
         self.hours_tuesday: Decimal = data.get("HoursTuesday")
         self.hours_wednesday: Decimal = data.get("HoursWednesday")
@@ -133,7 +136,6 @@ class PersonalInfo(DataClass):
         self.in_case_of_emergency_phone: str = data.get("InCaseOfEmergencyPhone")
         self.in_case_of_emergency_relation: str = data.get("InCaseOfEmergencyRelation")
         self.title_after: str = data.get("TitleAfter")
-        self.creation_date: datetime = data.get("CreationDate")
 
 
 class PersonalInfoContractSalaryAddress(DataClass):
@@ -433,7 +435,27 @@ class SVW(DataClass):
         self.wage_cost_benefit_end_period = wage_cost_benefit.get("EndPeriod")
         self.wage_cost_benefit_end_year = wage_cost_benefit.get("EndYear")
 
+class WageTax(DataClass):
+    """A class representing a wagetax."""
 
+    def __init__(self, employee_id: int, data: dict):
+        self.employee_id = employee_id
+        self.id = data.get("Id")
+
+        self.jaarloonbt: Decimal = data.get("JaarloonBT")
+        self.afwijkendbijzondertarief: Decimal = data.get("AfwBijzTariefLH")
+        self.autokleinebanenregeling: bool = data.get("AutoKleineBanenRegeling")
+        self.loonheffingkorting: bool = data.get("Loonheffingkorting")
+        self.voordeelregeling: bool = data.get("Voordeelreg")
+        self.loonheffing: bool = data.get("Loonheffing")
+        self.codeafdrachtvermindering: int = data.get("CodeAfdrachtvermindering")
+        self.kleurtabel: int = data.get("KleurTabel")
+        self.soortinkomen: str = data.get("SoortInkomen")
+        self.specialetabel: int = data.get("SpecialeTabel")
+        self.tijdvaktabel: int = data.get("TijdvakTabel")
+        self.vakantiebonnen: int = data.get("VakantieBonnen")
+        self.codecalc30percrule: int = data.get("CodeCalc30PercRule")
+        
 class VariableDaysWorked:
     """A class used to insert days worked to a employee."""
 
